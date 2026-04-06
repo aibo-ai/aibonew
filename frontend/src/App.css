@@ -1,34 +1,161 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* ── ANIMATIONS ── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+.pulse-dot {
+  animation: pulse 2s infinite;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+/* ── HEADLINE EMPHASIS ── */
+.headline-light em {
+  font-style: italic;
+  color: var(--purple-dark);
+  font-weight: 300;
 }
 
-.App-link {
-    color: #61dafb;
+.headline-dark em {
+  font-style: italic;
+  color: #C4A4F8;
+  font-weight: 300;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* ── CARD EFFECTS ── */
+.card-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 59, 237, 0.08);
+}
+
+.dark-card-hover {
+  transition: background-color 0.2s ease;
+}
+.dark-card-hover:hover {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+/* ── SCROLL OFFSET ── */
+section {
+  scroll-margin-top: 80px;
+}
+
+/* ── NAV LINK HOVER ── */
+.nav-link {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+.nav-link:hover {
+  color: #fff;
+}
+
+/* ── BUTTON STYLES ── */
+.btn-purple {
+  background: var(--purple);
+  color: #fff;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-purple:hover {
+  background: var(--purple-dark);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+}
+.btn-outline-light:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── FOOTER LINK ── */
+.footer-link {
+  color: rgba(255, 255, 255, 0.52);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 300;
+  transition: color 0.2s ease;
+  display: block;
+  padding: 3px 0;
+}
+.footer-link:hover {
+  color: #fff;
+}
+
+/* ── SELECTION BUTTON ── */
+.selection-btn {
+  background: var(--off-white);
+  border: 1px solid var(--border-clr);
+  color: var(--text-primary);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  font-family: 'DM Sans', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.selection-btn:hover {
+  border-color: var(--purple);
+  color: var(--purple-dark);
+}
+
+/* ── FILTER PILL ── */
+.filter-pill {
+  background: transparent;
+  border: 1px solid var(--border-clr);
+  color: var(--text-secondary);
+  border-radius: 20px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+.filter-pill:hover,
+.filter-pill.active {
+  background: var(--dark);
+  color: #fff;
+  border-color: var(--dark);
+}
+
+/* ── DROPDOWN OVERRIDE ── */
+[data-radix-popper-content-wrapper] [role="menu"] {
+  background: var(--dark-mid) !important;
+  border: 1px solid rgba(124, 59, 237, 0.2) !important;
+}
+[data-radix-popper-content-wrapper] [role="menuitem"] {
+  color: rgba(255, 255, 255, 0.72) !important;
+  font-size: 13px !important;
+}
+[data-radix-popper-content-wrapper] [role="menuitem"]:hover,
+[data-radix-popper-content-wrapper] [role="menuitem"][data-highlighted] {
+  background: rgba(124, 59, 237, 0.15) !important;
+  color: #fff !important;
 }
