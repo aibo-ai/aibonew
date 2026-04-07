@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Briefcase, Eye, Plus } from 'lucide-react';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3002';
+const BACKEND_URL = 'http://localhost:3002';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ blogs: 0, caseStudies: 0, views: 0 });
@@ -29,10 +29,10 @@ export default function AdminDashboard() {
   const fetchStats = async (token) => {
     try {
       const [blogsRes, casesRes] = await Promise.all([
-        fetch(`${BACKEND_URL}:3002/api/blog`, {
+        fetch(`${BACKEND_URL}/api/blog`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch(`${BACKEND_URL}:3002/api/case-studies`, {
+        fetch(`${BACKEND_URL}/api/case-studies`, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ]);
@@ -207,7 +207,7 @@ export default function AdminDashboard() {
               </Link>
             </div>
             <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-muted)', fontSize: 14 }}>
-              No blog posts yet
+              {stats.blogs > 0 ? `${stats.blogs} blog posts` : 'No blog posts yet'}
             </div>
           </div>
 
@@ -222,7 +222,7 @@ export default function AdminDashboard() {
               </Link>
             </div>
             <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-muted)', fontSize: 14 }}>
-              No case studies yet
+              {stats.caseStudies > 0 ? `${stats.caseStudies} case studies` : 'No case studies yet'}
             </div>
           </div>
         </div>

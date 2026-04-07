@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3002';
+const BACKEND_URL = 'http://localhost:3002';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await fetch(`${BACKEND_URL}:3002/api/auth/login`, {
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
