@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Briefcase, Eye, Plus } from 'lucide-react';
 
-const BACKEND_URL = 'http://localhost:3002';
+// Use the FastAPI proxy to access CMS backend
+const CMS_API_BASE = '/api/cms/api';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ blogs: 0, caseStudies: 0, views: 0 });
@@ -29,10 +30,10 @@ export default function AdminDashboard() {
   const fetchStats = async (token) => {
     try {
       const [blogsRes, casesRes] = await Promise.all([
-        fetch(`${BACKEND_URL}/api/blog`, {
+        fetch(`${CMS_API_BASE}/blog`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch(`${BACKEND_URL}/api/case-studies`, {
+        fetch(`${CMS_API_BASE}/case-studies`, {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ]);

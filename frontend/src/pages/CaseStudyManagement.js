@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2 } from 'lucide-react';
 
-const BACKEND_URL = 'http://localhost:3002';
+// Use the FastAPI proxy to access CMS backend
+const CMS_API_BASE = '/api/cms/api';
 
 export default function CaseStudyManagement() {
   const [caseStudies, setCaseStudies] = useState([]);
@@ -20,7 +21,7 @@ export default function CaseStudyManagement() {
 
   const fetchCaseStudies = async (token) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/case-studies`, {
+      const response = await fetch(`${CMS_API_BASE}/case-studies`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -37,7 +38,7 @@ export default function CaseStudyManagement() {
 
     const token = localStorage.getItem('admin_token');
     try {
-      await fetch(`${BACKEND_URL}/api/case-studies/${id}`, {
+      await fetch(`${CMS_API_BASE}/case-studies/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

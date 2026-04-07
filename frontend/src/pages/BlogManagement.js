@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, Eye } from 'lucide-react';
 
-const BACKEND_URL = 'http://localhost:3002';
+// Use the FastAPI proxy to access CMS backend
+const CMS_API_BASE = '/api/cms/api';
 
 export default function BlogManagement() {
   const [blogs, setBlogs] = useState([]);
@@ -21,7 +22,7 @@ export default function BlogManagement() {
 
   const fetchBlogs = async (token) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/blog`, {
+      const response = await fetch(`${CMS_API_BASE}/blog`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -38,7 +39,7 @@ export default function BlogManagement() {
 
     const token = localStorage.getItem('admin_token');
     try {
-      await fetch(`${BACKEND_URL}/api/blog/${id}`, {
+      await fetch(`${CMS_API_BASE}/blog/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

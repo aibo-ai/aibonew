@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const BACKEND_URL = 'http://localhost:3002';
+// Use the FastAPI proxy to access CMS backend
+const CMS_API_BASE = '/api/cms/api';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+      const response = await fetch(`${CMS_API_BASE}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
