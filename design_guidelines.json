@@ -1,0 +1,149 @@
+{
+  "theme": "dark",
+  "archetype": "5 (Jewel & Luxury) mixed with Tech Premium",
+  "brand_identity": {
+    "name": "MyAibo",
+    "domain": "myaibo.in",
+    "vibe": "Boutique AI + Marketing Agency. Expensive, cinematic, moody, and highly technical yet elegant."
+  },
+  "colors": {
+    "background": "#0F0A1E",
+    "background_alt": "#080510",
+    "surface": "#1A1333",
+    "surface_glass": "rgba(15, 10, 30, 0.6)",
+    "primary": "#7C3BED",
+    "primary_hover": "#9A64F0",
+    "primary_glow": "rgba(124, 59, 237, 0.4)",
+    "text_main": "#FFFFFF",
+    "text_muted": "#A19DB3",
+    "border": "rgba(255, 255, 255, 0.1)",
+    "border_highlight": "rgba(255, 255, 255, 0.2)"
+  },
+  "typography": {
+    "fonts": {
+      "heading": "'Fraunces', serif",
+      "body": "'DM Sans', sans-serif"
+    },
+    "scale": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl font-light tracking-tighter",
+      "h2": "text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight",
+      "h3": "text-2xl sm:text-3xl font-normal",
+      "h4": "text-xl font-medium",
+      "body": "text-base sm:text-lg leading-relaxed text-[#A19DB3]",
+      "overline": "text-xs font-bold uppercase tracking-[0.2em] text-[#7C3BED]"
+    },
+    "imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');"
+    ]
+  },
+  "spacing_and_layout": {
+    "section_padding": "py-24 sm:py-32",
+    "container": "max-w-7xl mx-auto px-6 sm:px-8",
+    "grid_gap": "gap-8 lg:gap-12",
+    "border_radius": {
+      "sm": "rounded-md",
+      "md": "rounded-xl",
+      "lg": "rounded-2xl",
+      "full": "rounded-full"
+    }
+  },
+  "surface_strategies": {
+    "glass_header": "bg-[#0F0A1E]/70 backdrop-blur-xl border-b border-white/10",
+    "glass_card": "bg-white/[0.02] backdrop-blur-md border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
+    "glow_card_hover": "hover:bg-white/[0.04] hover:border-[#7C3BED]/50 hover:shadow-[0_0_30px_rgba(124,59,237,0.15)] transition-all duration-300"
+  },
+  "media_urls": {
+    "hero_background": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/1e456718-3f1b-48c2-b03a-4c4ce5778a0a/images/1e6457d9dee029d752b793bcd3f73b57d0d5ca6406fba49bf178eb3bbe993e38.png",
+      "description": "Cinematic server room/art gallery fusion. Use in the Hero section as an absolute background layer with a heavy overlay (e.g., bg-[#0F0A1E]/80 or radial gradient) so text remains ultra-legible."
+    },
+    "tech_services_background": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/1e456718-3f1b-48c2-b03a-4c4ce5778a0a/images/23492a3d9db9bf97fc10daea1c1249ace173262618256736de064b7622798ab3.png",
+      "description": "Abstract glowing neural network. Use in the Technology Services section behind the stats strip. Blend mode 'screen' or opacity 20%."
+    },
+    "process_background": {
+      "url": "https://static.prod-images.emergentagent.com/jobs/1e456718-3f1b-48c2-b03a-4c4ce5778a0a/images/6a9e5df646d50e950500d17e6f07ee8141c68a68974922b877ba0d2a063192a8.png",
+      "description": "Moody luxury workspace. Good for the Process section or Testimonials background to give depth."
+    },
+    "texture_overlay": {
+      "url": "https://images.unsplash.com/photo-1754738381772-897447d10eb6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzd8MHwxfHNlYXJjaHw0fHxhYnN0cmFjdCUyMGRhcmslMjBwdXJwbGUlMjB0ZWNobm9sb2d5JTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzU0OTE3NjB8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Abstract fluid purple texture. Can be used as a subtle noise/gradient mix inside cards or footer."
+    }
+  },
+  "sections_architecture": [
+    {
+      "name": "Navigation Bar",
+      "type": "Sticky Header",
+      "rules": "Fixed top, z-50. Glassmorphism surface. Left: Logo. Center/Right: Links. Includes a 'Solutions' dropdown using Shadcn NavigationMenu or DropdownMenu with 7 requested sub-items. Must be fully responsive with a hamburger menu for mobile."
+    },
+    {
+      "name": "Hero Section",
+      "type": "Cinematic Cover",
+      "rules": "Full height (min-h-screen). Background: 'hero_background' with heavy gradient overlay to ensure text contrast. Top: Pulsing badge (border border-[#7C3BED] with inner glow). Headline: Massive Fraunces H1. Dual CTAs (Primary solid #7C3BED, Secondary outlined)."
+    },
+    {
+      "name": "Dual Pillar Positioning",
+      "type": "Split Screen / Grid",
+      "rules": "grid-cols-1 md:grid-cols-2. Left: Marketing (warm/human emphasis). Right: Technology (cold/precision emphasis). High contrast between the two halves. Use border-r border-white/10 on desktop to split them."
+    },
+    {
+      "name": "Marketing Services",
+      "type": "Bento Grid",
+      "rules": "4-card grid (grid-cols-1 sm:grid-cols-2). Cards must use 'glass_card' surface and 'glow_card_hover' effects. Include Phosphor or Lucide icons for each service."
+    },
+    {
+      "name": "Technology Services",
+      "type": "Stats Strip / Feature Strip",
+      "rules": "Full width. Background color #080510 with 'tech_services_background' overlay at low opacity. Highlight massive numbers using Fraunces, emphasizing engineering scale."
+    },
+    {
+      "name": "Why MyAibo",
+      "type": "Grid Borders",
+      "rules": "3x2 grid. Container has border-collapse look. Items have border-r and border-b in rgba(255,255,255,0.1). Minimal padding, stark 'Swiss' high-contrast layout applied to dark mode."
+    },
+    {
+      "name": "Results / Proof Numbers",
+      "type": "Dual Panels",
+      "rules": "Two massive panels side by side. Huge typography. One panel accented with primary #7C3BED background and white text, the other dark #1A1333 with purple text."
+    },
+    {
+      "name": "Case Studies",
+      "type": "Filterable Grid",
+      "rules": "Top: Filter pills (using Shadcn Tabs or custom horizontal scrolling pills). Bottom: Grid of work. Since images are placeholders, use dark colored blocks with the 'texture_overlay' as a placeholder graphic."
+    },
+    {
+      "name": "Process",
+      "type": "Horizontal Timeline",
+      "rules": "Horizontal scrolling or flex-row setup. Use 'process_background' at 10% opacity. A connecting thin line (border-t border-white/20) with glowing nodes for each step."
+    },
+    {
+      "name": "Testimonials",
+      "type": "3-Column Grid",
+      "rules": "Neumorphic tactile variant adapted for dark mode. Cards with subtle light top inner border, deep ambient shadow. Quote marks in huge Fraunces typography."
+    },
+    {
+      "name": "Final CTA",
+      "type": "Self-Selection Block",
+      "rules": "Centered. 'Ready to scale?' H2. Links to Outlook booking url. Use a glowing primary button for the main action."
+    },
+    {
+      "name": "Footer",
+      "type": "Massive Footer",
+      "rules": "py-24. Background #080510. Top section: Newsletter subscribe (Static UI - Input + Button). Bottom: Links and huge 'MyAibo' watermark logo."
+    }
+  ],
+  "components_instructions": {
+    "dropdown": "Use Shadcn UI DropdownMenu or NavigationMenu for the Solutions dropdown.",
+    "buttons": "Standardize on an elegant pill shape (rounded-full) or sharp rectangle (rounded-md) depending on the 'Jewel' vs 'Tech' balance. Let's go with rounded-full for a boutique feel. Primary button: bg-[#7C3BED] hover:bg-[#9A64F0] text-white. Secondary: bg-white/5 hover:bg-white/10 border border-white/10.",
+    "icons": "Use lucide-react. Ensure stroke-width is 1.5 for a premium, delicate look.",
+    "testing": "All interactive elements MUST have data-testid attributes (e.g., data-testid='nav-solutions-dropdown', data-testid='hero-cta-button')."
+  },
+  "critical_rules": [
+    "NEVER use pure black #000000. Use #0F0A1E or #080510.",
+    "NEVER use Inter. Use Fraunces for headings and DM Sans for body.",
+    "Do NOT use transparent backgrounds for the sticky header; apply backdrop-blur and a semi-transparent color.",
+    "Always check contrast ratios. The dark theme requires white or very light gray text for body copy.",
+    "No placeholder URLs for images. Use the media_urls provided in this JSON.",
+    "Provide a smooth scrolling experience (can simulate with CSS scroll-behavior: smooth)."
+  ]
+}
