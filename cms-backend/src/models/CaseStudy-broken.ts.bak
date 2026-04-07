@@ -1,0 +1,273 @@
+import { DataTypes, Model, Optional, UUIDV4 } from 'sequelize';
+import sequelize from '../config/database';
+import User from './User';
+
+export interface CaseStudyAttributes {
+  id: string;
+  title: string;
+  slug: string;
+  clientName: string;
+  clientLogo?: string;
+  challenge: string;
+  solution: string;
+  objectives?: string;
+  results: Array<{
+    metric: string;
+    value: string;
+    unit: string;
+    description?: string;
+  }>;
+  content: string;
+  featuredImage?: string;
+  authorId: string;
+  status: 'draft' | 'published' | 'archived';
+  publishedAt?: Date;
+  industries: string[];
+  tags: string[];
+  testimonial?: {
+    quote: string;
+    author: string;
+    position: string;
+    company: string;
+  };
+  metaTitle?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
+  viewCount: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CaseStudyCreationAttributes extends Optional<CaseStudyAttributes, 'id' | 'clientLogo' | 'featuredImage' | 'publishedAt' | 'testimonial' | 'metaTitle' | 'metaDescription' | 'canonicalUrl' | 'viewCount' | 'createdAt' | 'updatedAt'> {}
+
+class CaseStudy extends Model<CaseStudyAttributes, CaseStudyCreationAttributes> implements CaseStudyAttributes {
+  public id!: string;
+  public title!: string;
+  public slug!: string;
+  public clientName!: string;
+  public clientLogo?: string;
+  public challenge!: string;
+  public solution!: string;
+  public objectives?: string;
+  public results!: Array<{
+    metric: string;
+    value: string;
+    unit: string;
+    description?: string;
+  }>;
+  public content!: string;
+  public featuredImage?: string;
+  public authorId!: string;
+  public status!: 'draft' | 'published' | 'archived';
+  public publishedAt?: Date;
+  public industries!: string[];
+  public tags!: string[];
+  public testimonial?: {
+    quote: string;
+    author: string;
+    position: string;
+    company: string;
+  };
+  public metaTitle?: string;
+  public metaDescription?: string;
+  public canonicalUrl?: string;
+  public viewCount!: number;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+
+  // Associations
+  public author?: User;
+
+  // Instance methods
+  public incrementViewCount(): Promise<void> {
+    this.viewCount += 1;
+    return this.save() as unknown as Promise<void>;
+  }
+
+  public isPublished(): boolean {
+    return this.status === 'published' && this.publishedAt !== null;
+  }
+
+  public getKeyMetrics(): Array<{ metric: string; value: string; unit: string; description?: string }> {
+    // In the database, `results` is stored as TEXT containing JSON. At runtime this
+    // may be a string (raw JSON) or an already-parsed array, depending on context.
+    const raw = this.results as unknown as any;
+
+    const resultsArray: Array<{ metric: string; value: string; unit: string; description?: string }> =
+      Array.isArray(raw)
+        ? raw
+        : typeof raw === 'string'
+          ? (() => {
+              try {
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+              } catch {
+                return [];
+              }
+            })()
+          : [];
+
+    return resultsArray.filter(result =>
+      result.metric.toLowerCase().includes('key') ||
+      ['conversion', 'revenue', 'efficiency', 'growth'].some(keyword =>
+        result.metric.toLowerCase().includes(keyword)
+      )
+    );
+  }
+}
+
+CaseStudy.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1, 255],
+      },
+    },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        len: [1, 255],
+        is: /^[a-z0-9-]+$/,
+      },
+    },
+    clientName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [1, 100],
+      },
+    },
+    clientLogo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    challenge: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    solution: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    objectives: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    results: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      defaultValue: '[]',
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    featuredImage: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    authorId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+    },
+    status: {
+      type: DataTypes.ENUM('draft', 'published', 'archived'),
+      allowNull: false,
+      defaultValue: 'draft',
+    },
+publishedAt: {
+      type
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    metaTitle: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        // allow empty/null but enforce maximum length
+        len: [0, 60],
+      },
+    },
+    metaDescription: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        // allow empty/null but enforce maximum length
+        len: [0, 160],
+      },
+    },
+
+    canonicalUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
+    viewCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'case_studies',
+    timestamps: true,
+    underscored: true,
+    indexes: [
+      {
+        fields: ['slug'],
+        unique: true,
+      },
+      {
+        fields: ['status', 'published_at'],
+      },
+      {
+        fields: ['industries'],
+        using: 'gin',
+      },
+      {
+        fields: ['tags'],
+        using: 'gin',
+      },
+      {
+        fields: ['client_name'],
+      },
+    ],
+  }
+);
+
+// Define associations
+CaseStudy.belongsTo(User, {
+  foreignKey: 'authorId',
+  as: 'author',
+});
+
+User.hasMany(CaseStudy, {
+  foreignKey: 'authorId',
+  as: 'caseStudies',
+});
+
+export default CaseStudy;
