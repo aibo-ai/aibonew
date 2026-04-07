@@ -11,7 +11,7 @@ import FinalCTA from "@/components/sections/FinalCTA";
 
 export default function HomePage() {
   return (
-    <main>
+    <main style={{ paddingTop: 64 }}>
       <Hero />
       <Positioning />
       <MarketingServices />
