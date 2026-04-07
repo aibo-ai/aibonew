@@ -7,17 +7,26 @@ import { geoData } from "@/data/geoData";
 import { aeoData } from "@/data/aeoData";
 import { seoData } from "@/data/seoData";
 import { contentMarketingData } from "@/data/contentMarketingData";
+import { aiAutomationsData } from "@/data/aiAutomationsData";
+import { whiteLabelData } from "@/data/whiteLabelData";
+import { fullStackData } from "@/data/fullStackData";
 
 const dataMap = {
   geo: geoData,
   aeo: aeoData,
   seo: seoData,
   'content-marketing': contentMarketingData,
+  'ai-automations': aiAutomationsData,
+  'white-label': whiteLabelData,
+  'full-stack': fullStackData,
 };
 
 export default function ServicePage() {
   const { slug } = useParams();
   const data = dataMap[slug];
+  const isTech = data?.type === 'technology';
+  const accentColor = isTech ? 'var(--amber)' : 'var(--purple)';
+  const accentDark = isTech ? '#B45309' : 'var(--purple-dark)';
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -85,7 +94,7 @@ export default function ServicePage() {
           ))}
           {/* Callout */}
           <div className="mt-8 flex gap-5 items-start" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 12, padding: '24px 28px' }}>
-            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 42, fontWeight: 600, color: 'var(--purple)', lineHeight: 1, flexShrink: 0 }}>
+            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 42, fontWeight: 600, color: accentColor, lineHeight: 1, flexShrink: 0 }}>
               {data.intro.calloutStat}
             </span>
             <p style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
@@ -191,7 +200,7 @@ export default function ServicePage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-1 mb-12" style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, overflow: 'hidden' }}>
             {data.whyNow.stats.map((s, i) => (
               <div key={i} className="text-center" style={{ background: 'rgba(255,255,255,0.025)', padding: '24px 16px' }}>
-                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: 'var(--purple)', display: 'block', lineHeight: 1.1 }}>{s.num}</span>
+                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: accentColor, display: 'block', lineHeight: 1.1 }}>{s.num}</span>
                 <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', lineHeight: 1.4, display: 'block', marginTop: 6 }}>{s.label}</span>
               </div>
             ))}
@@ -226,7 +235,7 @@ export default function ServicePage() {
             {data.results.metrics.map((m, i) => (
               <div key={i} className="grid grid-cols-2" style={{ padding: '14px 28px', borderBottom: i < data.results.metrics.length - 1 ? '1px solid var(--border-clr)' : 'none' }}>
                 <span style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)' }}>{m.metric}</span>
-                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: 'var(--purple-dark)' }}>{m.result}</span>
+                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: accentDark }}>{m.result}</span>
               </div>
             ))}
           </div>

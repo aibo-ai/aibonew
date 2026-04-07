@@ -20,9 +20,9 @@ const marketingSolutions = [
 ];
 
 const techSolutions = [
-  { label: "AI Automations", href: "/#technology-services" },
-  { label: "White Labeled Solutions", href: "/#technology-services" },
-  { label: "Full Stack Development", href: "/#technology-services" },
+  { label: "AI Automations", slug: "ai-automations" },
+  { label: "White Labeled Solutions", slug: "white-label" },
+  { label: "Full Stack Development", slug: "full-stack" },
 ];
 
 const navLinks = [
@@ -92,9 +92,9 @@ export default function Navigation() {
               </DropdownMenuLabel>
               {techSolutions.map((s) => (
                 <DropdownMenuItem key={s.label} asChild>
-                  <a href={s.href} className="cursor-pointer" style={{ textDecoration: 'none', paddingLeft: 20 }}>
+                  <Link to={`/solutions/${s.slug}`} className="cursor-pointer" style={{ textDecoration: 'none', paddingLeft: 20 }}>
                     {s.label}
-                  </a>
+                  </Link>
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>
@@ -178,15 +178,15 @@ export default function Navigation() {
                     </span>
                   </div>
                   {techSolutions.map((s) => (
-                    <a
+                    <Link
                       key={s.label}
-                      href={s.href}
+                      to={`/solutions/${s.slug}`}
                       onClick={() => setMobileOpen(false)}
                       className="block py-2 pl-5"
                       style={{ color: 'rgba(255,255,255,0.72)', fontSize: 14, textDecoration: 'none' }}
                     >
                       {s.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
 

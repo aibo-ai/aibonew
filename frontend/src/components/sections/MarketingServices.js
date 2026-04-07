@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SectionLabel from "./SectionLabel";
 
 const cards = [
@@ -6,24 +7,28 @@ const cards = [
     title: 'Generative Engine Optimisation',
     tagline: 'Be the answer AI cites',
     body: "Optimise your brand for ChatGPT, Perplexity, Gemini, and every LLM-powered surface. Own the AI answer layer before your competitors discover it exists.",
+    slug: 'geo',
   },
   {
     num: '02',
     title: 'Answer Engine Optimisation',
     tagline: 'Win voice & featured snippets',
     body: "Structure your content so it's chosen by answer engines and voice assistants. Position your brand at zero-click moments of high intent.",
+    slug: 'aeo',
   },
   {
     num: '03',
     title: 'Search Engine Optimisation',
     tagline: 'Rank. Convert. Repeat.',
     body: "Technical excellence + conversion-focused copy. We build the SEO foundation that feeds every other channel — from organic to paid.",
+    slug: 'seo',
   },
   {
     num: '04',
     title: 'Content Marketing',
     tagline: 'Authority that compounds',
     body: "Multi-format content mapped to buyer intent and business outcomes. Costs less than paid ads, builds lasting brand equity, and feeds your GEO + AEO presence.",
+    slug: 'content-marketing',
   },
 ];
 
@@ -137,8 +142,8 @@ export default function MarketingServices() {
               >
                 {c.body}
               </p>
-              <a
-                href="#"
+              <Link
+                to={`/solutions/${c.slug}`}
                 style={{
                   color: 'var(--purple-dark)',
                   fontSize: 12,
@@ -147,7 +152,7 @@ export default function MarketingServices() {
                 }}
               >
                 Learn more &rarr;
-              </a>
+              </Link>
             </div>
           ))}
         </div>

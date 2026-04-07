@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SectionLabel from "./SectionLabel";
 
 const stats = [
@@ -187,12 +188,12 @@ export default function TechnologyServices() {
               >
                 {c.body}
               </p>
-              <a
-                href="#"
+              <Link
+                to={`/solutions/${c.slug}`}
                 style={{ color: '#A07AF0', fontSize: 12, fontWeight: 600, textDecoration: 'none' }}
               >
                 Learn more &rarr;
-              </a>
+              </Link>
             </div>
           ))}
         </div>
