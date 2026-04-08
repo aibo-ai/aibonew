@@ -1,105 +1,182 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ChevronDown, Menu, Megaphone, Settings } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { BOOKING_URL } from "@/lib/constants";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronDown, Menu, X } from 'lucide-react';
 
-const marketingSolutions = [
-  { label: "Generative Engine Optimization", slug: "geo" },
-  { label: "Answer Engine Optimization", slug: "aeo" },
-  { label: "Search Engine Optimization", slug: "seo" },
-  { label: "Content Marketing", slug: "content-marketing" },
+const marketingServices = [
+  { name: 'Generative Engine Optimization', slug: 'geo' },
+  { name: 'Answer Engine Optimization', slug: 'aeo' },
+  { name: 'Search Engine Optimization', slug: 'seo' },
+  { name: 'Content Marketing', slug: 'content-marketing' },
 ];
 
-const techSolutions = [
-  { label: "AI Automations", slug: "ai-automations" },
-  { label: "White Labeled Solutions", slug: "white-label" },
-  { label: "Full Stack Development", slug: "full-stack" },
+const technicalServices = [
+  { name: 'AI Automation', slug: 'ai-automation' },
+  { name: 'White Label Solutions', slug: 'white-label' },
+  { name: 'Full Stack Development', slug: 'full-stack' },
 ];
 
 const navLinks = [
-  { label: "Case Studies", href: "/#case-studies" },
-  { label: "About Us", href: "/about", isRoute: true },
+  { label: 'Case Studies', href: '/#case-studies' },
+  { label: 'About Us', href: '/about', isRoute: true },
 ];
 
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
 
   return (
     <nav
-      data-testid="navigation-bar"
-      className="fixed top-0 left-0 right-0 z-50"
+      className="nav-bar"
       style={{
-        height: 64,
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
         background: 'var(--dark)',
-        borderBottom: '1px solid rgba(124,59,237,0.15)',
+        borderBottom: '1px solid rgba(124,59,237,0.2)',
       }}
     >
       <div
-        className="mx-auto h-full flex items-center justify-between px-6 lg:px-10"
-        style={{ maxWidth: 1180 }}
+        className="nav-container"
+        style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '16px 32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
       >
         {/* Logo */}
-        <Link
-          to="/"
-          data-testid="nav-logo"
-          style={{
-            fontFamily: "'Fraunces', serif",
-            fontSize: 22,
-            fontWeight: 600,
-            letterSpacing: '-0.5px',
-            textDecoration: 'none',
-          }}
-        >
-          <span style={{ color: '#fff' }}>My</span>
-          <span style={{ color: '#A07AF0' }}>Aibo</span>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img 
+            src="/myaibo-logo.png" 
+            alt="MyAibo" 
+            style={{ height: 32, width: 'auto' }}
+          />
         </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-7">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                data-testid="nav-solutions-dropdown"
-                className="nav-link flex items-center gap-1"
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'DM Sans', sans-serif" }}
-              >
-                Solutions <ChevronDown size={14} />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-72">
-              <DropdownMenuLabel className="flex items-center gap-2" style={{ color: '#A07AF0', fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                <Megaphone size={13} /> Marketing
-              </DropdownMenuLabel>
-              {marketingSolutions.map((s) => (
-                <DropdownMenuItem key={s.slug} asChild>
-                  <Link to={`/solutions/${s.slug}`} className="cursor-pointer" style={{ textDecoration: 'none', paddingLeft: 20 }}>
-                    {s.label}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel className="flex items-center gap-2" style={{ color: 'var(--amber)', fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                <Settings size={13} /> Technology
-              </DropdownMenuLabel>
-              {techSolutions.map((s) => (
-                <DropdownMenuItem key={s.label} asChild>
-                  <Link to={`/solutions/${s.slug}`} className="cursor-pointer" style={{ textDecoration: 'none', paddingLeft: 20 }}>
-                    {s.label}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-8">
+          {/* Solutions Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setSolutionsOpen(true)}
+            onMouseLeave={() => setSolutionsOpen(false)}
+          >
+            <button
+              className="nav-link inline-flex items-center gap-1"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                color: 'rgba(255,255,255,0.9)',
+                fontSize: 15,
+                fontWeight: 500,
+              }}
+            >
+              Solutions
+              <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+            </button>
 
+            {/* Dropdown Menu */}
+            {solutionsOpen && (
+              <div
+                className="absolute top-full left-0 mt-2"
+                style={{
+                  background: 'var(--white)',
+                  borderRadius: 12,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                  minWidth: 520,
+                  border: '1px solid var(--border-clr)',
+                  padding: '20px',
+                }}
+              >
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Marketing Services Column */}
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        color: 'var(--purple-dark)',
+                        marginBottom: 12,
+                        paddingBottom: 8,
+                        borderBottom: '1px solid var(--border-clr)',
+                      }}
+                    >
+                      Marketing Services
+                    </div>
+                    {marketingServices.map((service) => (
+                      <Link
+                        key={service.slug}
+                        to={`/solutions/${service.slug}`}
+                        style={{
+                          display: 'block',
+                          padding: '10px 12px',
+                          fontSize: 14,
+                          fontWeight: 400,
+                          color: 'var(--text-primary)',
+                          textDecoration: 'none',
+                          borderRadius: 6,
+                          transition: 'background 0.2s',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        {service.name}
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Technical Services Column */}
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        color: 'var(--purple-dark)',
+                        marginBottom: 12,
+                        paddingBottom: 8,
+                        borderBottom: '1px solid var(--border-clr)',
+                      }}
+                    >
+                      Technical Services
+                    </div>
+                    {technicalServices.map((service) => (
+                      <Link
+                        key={service.slug}
+                        to={`/solutions/${service.slug}`}
+                        style={{
+                          display: 'block',
+                          padding: '10px 12px',
+                          fontSize: 14,
+                          fontWeight: 400,
+                          color: 'var(--text-primary)',
+                          textDecoration: 'none',
+                          borderRadius: 6,
+                          transition: 'background 0.2s',
+                        }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                      >
+                        {service.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Other Nav Links */}
           {navLinks.map((l) => (
             l.isRoute ? (
               <Link key={l.label} to={l.href} className="nav-link">
@@ -113,134 +190,146 @@ export default function Navigation() {
           ))}
         </div>
 
-        {/* Desktop CTA */}
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-testid="nav-cta-button"
-          className="hidden lg:inline-flex btn-purple"
-          style={{ padding: '9px 20px', fontSize: 13, fontWeight: 500 }}
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: '#fff',
+            cursor: 'pointer',
+            padding: 8,
+          }}
         >
-          Book Free Strategy Session
-        </a>
-
-        {/* Mobile Menu */}
-        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-          <SheetTrigger asChild>
-            <button
-              data-testid="nav-mobile-menu"
-              className="lg:hidden"
-              style={{ background: 'none', border: 'none', color: '#fff', cursor: 'pointer' }}
-            >
-              <Menu size={24} />
-            </button>
-          </SheetTrigger>
-          <SheetContent
-            side="right"
-            className="w-80 p-0"
-            style={{ background: 'var(--dark)', borderLeft: '1px solid rgba(124,59,237,0.2)' }}
-          >
-            <div className="flex flex-col h-full">
-              {/* Mobile Logo */}
-              <div className="px-6 pt-6 pb-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                <Link to="/" onClick={() => setMobileOpen(false)} style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, textDecoration: 'none' }}>
-                  <span style={{ color: '#fff' }}>My</span>
-                  <span style={{ color: '#A07AF0' }}>Aibo</span>
-                </Link>
-              </div>
-
-              <div className="flex-1 overflow-y-auto px-6 py-5">
-                {/* Marketing Section */}
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Megaphone size={14} style={{ color: '#A07AF0' }} />
-                    <span style={{ color: '#A07AF0', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                      Marketing
-                    </span>
-                  </div>
-                  {marketingSolutions.map((s) => (
-                    <Link
-                      key={s.slug}
-                      to={`/solutions/${s.slug}`}
-                      onClick={() => setMobileOpen(false)}
-                      data-testid={`mobile-link-${s.slug}`}
-                      className="block py-2 pl-5"
-                      style={{ color: 'rgba(255,255,255,0.72)', fontSize: 14, textDecoration: 'none', transition: 'color 0.2s' }}
-                    >
-                      {s.label}
-                    </Link>
-                  ))}
-                </div>
-
-                <div style={{ height: 1, background: 'rgba(124,59,237,0.12)', marginBottom: 20 }} />
-
-                {/* Technology Section */}
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Settings size={14} style={{ color: 'var(--amber)' }} />
-                    <span style={{ color: 'var(--amber)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                      Technology
-                    </span>
-                  </div>
-                  {techSolutions.map((s) => (
-                    <Link
-                      key={s.label}
-                      to={`/solutions/${s.slug}`}
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-2 pl-5"
-                      style={{ color: 'rgba(255,255,255,0.72)', fontSize: 14, textDecoration: 'none' }}
-                    >
-                      {s.label}
-                    </Link>
-                  ))}
-                </div>
-
-                <div style={{ height: 1, background: 'rgba(124,59,237,0.12)', marginBottom: 20 }} />
-
-                {/* Standard Links */}
-                {navLinks.map((l) => (
-                  l.isRoute ? (
-                    <Link
-                      key={l.label}
-                      to={l.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-2.5"
-                      style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
-                    >
-                      {l.label}
-                    </Link>
-                  ) : (
-                    <a
-                      key={l.label}
-                      href={l.href}
-                      onClick={() => setMobileOpen(false)}
-                      className="block py-2.5"
-                      style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
-                    >
-                      {l.label}
-                    </a>
-                  )
-                ))}
-              </div>
-
-              {/* CTA at bottom */}
-              <div className="px-6 py-5" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="mobile-cta-button"
-                  className="btn-purple w-full justify-center"
-                  style={{ padding: '13px 20px', fontSize: 14, fontWeight: 500 }}
-                >
-                  Book Free Strategy Session
-                </a>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div
+          className="md:hidden"
+          style={{
+            background: 'var(--dark)',
+            borderTop: '1px solid rgba(124,59,237,0.2)',
+            padding: '24px 32px',
+          }}
+        >
+          {/* Solutions Accordion */}
+          <div style={{ marginBottom: 16 }}>
+            <button
+              onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
+              className="flex items-center justify-between w-full py-2.5"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'rgba(255,255,255,0.85)',
+                fontSize: 15,
+                fontWeight: 500,
+                cursor: 'pointer',
+                textAlign: 'left',
+              }}
+            >
+              Solutions
+              <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: mobileSolutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+            </button>
+
+            {mobileSolutionsOpen && (
+              <div style={{ paddingLeft: 16, marginTop: 8 }}>
+                {/* Marketing Services */}
+                <div style={{ marginBottom: 16 }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      color: 'var(--purple)',
+                      marginBottom: 8,
+                    }}
+                  >
+                    Marketing Services
+                  </div>
+                  {marketingServices.map((service) => (
+                    <Link
+                      key={service.slug}
+                      to={`/solutions/${service.slug}`}
+                      onClick={() => setMobileOpen(false)}
+                      className="block py-2"
+                      style={{
+                        color: 'rgba(255,255,255,0.75)',
+                        fontSize: 14,
+                        textDecoration: 'none',
+                        fontWeight: 400,
+                      }}
+                    >
+                      {service.name}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Technical Services */}
+                <div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      fontWeight: 600,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      color: 'var(--purple)',
+                      marginBottom: 8,
+                    }}
+                  >
+                    Technical Services
+                  </div>
+                  {technicalServices.map((service) => (
+                    <Link
+                      key={service.slug}
+                      to={`/solutions/${service.slug}`}
+                      onClick={() => setMobileOpen(false)}
+                      className="block py-2"
+                      style={{
+                        color: 'rgba(255,255,255,0.75)',
+                        fontSize: 14,
+                        textDecoration: 'none',
+                        fontWeight: 400,
+                      }}
+                    >
+                      {service.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Standard Links */}
+          {navLinks.map((l) => (
+            l.isRoute ? (
+              <Link
+                key={l.label}
+                to={l.href}
+                onClick={() => setMobileOpen(false)}
+                className="block py-2.5"
+                style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={() => setMobileOpen(false)}
+                className="block py-2.5"
+                style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
+              >
+                {l.label}
+              </a>
+            )
+          ))}
+        </div>
+      )}
     </nav>
   );
 }

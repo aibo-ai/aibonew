@@ -35,16 +35,16 @@ export default function Footer() {
             <a
               href="#"
               style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 20,
-                fontWeight: 600,
                 textDecoration: 'none',
                 display: 'block',
                 marginBottom: 10,
               }}
             >
-              <span style={{ color: '#fff' }}>My</span>
-              <span style={{ color: '#A07AF0' }}>Aibo</span>
+              <img 
+                src="/myaibo-logo.png" 
+                alt="MyAibo" 
+                style={{ height: 28, width: 'auto' }}
+              />
             </a>
             <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.65 }}>
               A boutique agency building custom AI workforces and comprehensive marketing
