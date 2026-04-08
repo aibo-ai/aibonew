@@ -40,25 +40,25 @@ export default function Navigation() {
       <div
         className="nav-container"
         style={{
-          maxWidth: 1200,
+          maxWidth: 1400,
           margin: '0 auto',
-          padding: '12px 32px',
+          padding: '16px 40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
         {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', marginRight: 60 }}>
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 42, width: 'auto' }}
+            style={{ height: 52, width: 'auto' }}
           />
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6">
           {/* Solutions Dropdown */}
           <div
             className="relative"

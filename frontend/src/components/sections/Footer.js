@@ -1,168 +1,172 @@
-import { useState } from "react";
-
-const mktLinks = ['GEO Services', 'AEO Services', 'SEO Services', 'Content Marketing'];
-const techLinks = ['AI Automation', 'White Label Solutions', 'Full Stack Development'];
-const companyLinks = ['About Us', 'Case Studies', 'Blog / Insights', 'Contact'];
-const contactLinks = [
-  { label: 'info@myaibo.in', href: 'mailto:info@myaibo.in' },
-  { label: 'myaibo.in', href: 'https://myaibo.in' },
-  { label: 'LinkedIn', href: '#' },
-];
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-
   return (
-    <footer
-      id="footer"
-      data-testid="footer-section"
-      style={{
-        background: 'var(--dark)',
-        borderTop: '1px solid rgba(124,59,237,0.2)',
-        padding: '60px 40px 40px',
-      }}
-    >
-      <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Top grid */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 mb-12"
-          style={{
-            borderBottom: '1px solid rgba(255,255,255,0.07)',
-          }}
-        >
-          {/* Column 1: Logo + tagline */}
-          <div className="lg:col-span-1" style={{ maxWidth: 220 }}>
+    <footer style={{ background: 'var(--dark)', padding: '64px 40px 32px', borderTop: '1px solid rgba(124,59,237,0.2)' }}>
+      <div className="mx-auto" style={{ maxWidth: 1200 }}>
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
+          {/* Company Info */}
+          <div className="md:col-span-1">
             <a
-              href="#"
+              href="/"
               style={{
                 textDecoration: 'none',
                 display: 'block',
-                marginBottom: 10,
+                marginBottom: 16,
               }}
             >
               <img 
                 src="/myaibo-logo.png" 
                 alt="MyAibo" 
-                style={{ height: 38, width: 'auto' }}
+                style={{ height: 48, width: 'auto' }}
               />
             </a>
-            <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.65 }}>
+            <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.65, marginTop: 16 }}>
               A boutique agency building custom AI workforces and comprehensive marketing
               solutions. Engineered for growth.
             </p>
           </div>
 
-          {/* Column 2: Marketing */}
+          {/* Marketing Services */}
           <div>
-            <p
-              style={{
-                color: 'rgba(255,255,255,0.32)',
-                fontSize: 11,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 14,
-                fontWeight: 500,
-              }}
-            >
-              Marketing
-            </p>
-            {mktLinks.map((l) => (
-              <a key={l} href="#marketing-services" className="footer-link">{l}</a>
-            ))}
+            <h4 style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 20 }}>
+              MARKETING
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/geo" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  GEO Services
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/aeo" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  AEO Services
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/seo" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  SEO Services
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/content-marketing" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  Content Marketing
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          {/* Column 3: Technology */}
+          {/* Technology Services */}
           <div>
-            <p
-              style={{
-                color: 'rgba(255,255,255,0.32)',
-                fontSize: 11,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 14,
-                fontWeight: 500,
-              }}
-            >
-              Technology
-            </p>
-            {techLinks.map((l) => (
-              <a key={l} href="#technology-services" className="footer-link">{l}</a>
-            ))}
+            <h4 style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 20 }}>
+              TECHNOLOGY
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/ai-automation" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  AI Automation
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/white-label" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  White Label Solutions
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/solutions/full-stack" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  Full Stack Development
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          {/* Column 4: Company */}
+          {/* Company Links */}
           <div>
-            <p
-              style={{
-                color: 'rgba(255,255,255,0.32)',
-                fontSize: 11,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 14,
-                fontWeight: 500,
-              }}
-            >
-              Company
-            </p>
-            {companyLinks.map((l) => (
-              <a key={l} href="#" className="footer-link">{l}</a>
-            ))}
+            <h4 style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 20 }}>
+              COMPANY
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/about" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  About Us
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/case-studies" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  Case Studies
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/blogs" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  Blog / Insights
+                </Link>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <Link to="/contact" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  Contact
+                </Link>
+              </li>
+            </ul>
           </div>
 
-          {/* Column 5: Contact */}
+          {/* Contact */}
           <div>
-            <p
-              style={{
-                color: 'rgba(255,255,255,0.32)',
-                fontSize: 11,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: 14,
-                fontWeight: 500,
-              }}
-            >
-              Contact
-            </p>
-            {contactLinks.map((l) => (
-              <a key={l.label} href={l.href} className="footer-link" target={l.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
-                {l.label}
-              </a>
-            ))}
+            <h4 style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 20 }}>
+              CONTACT
+            </h4>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: 12 }}>
+                <a href="mailto:info@myaibo.in" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  info@myaibo.in
+                </a>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <a href="https://myaibo.in" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  myaibo.in
+                </a>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <a href="https://www.linkedin.com/company/myaibo" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  LinkedIn
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', margin: 0 }}>
-            &copy; 2025, Hillsa Ventures Pvt Ltd. All rights reserved.
-          </p>
-          <div className="flex gap-2">
+        {/* Divider */}
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.1)', margin: '40px 0' }} />
+
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+            © 2025 Hilisa Ventures Pvt Ltd. All rights reserved.
+          </div>
+
+          {/* Newsletter Signup */}
+          <div className="flex items-center gap-2">
             <input
-              data-testid="footer-email-input"
               type="email"
-              placeholder="Stay ahead with AI + marketing insights \u2192"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Get the latest insights"
               style={{
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: 6,
-                padding: '7px 14px',
+                padding: '10px 16px',
                 fontSize: 13,
-                color: '#fff',
-                width: 260,
+                background: 'rgba(255,255,255,0.05)',
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: 8,
+                color: 'rgba(255,255,255,0.7)',
                 outline: 'none',
-                fontFamily: "'DM Sans', sans-serif",
+                width: 240,
               }}
             />
             <button
-              data-testid="footer-subscribe-button"
               className="btn-purple"
               style={{
-                padding: '8px 16px',
+                padding: '10px 20px',
                 fontSize: 13,
                 fontWeight: 500,
-                borderRadius: 6,
+                borderRadius: 8,
               }}
             >
               Subscribe
