@@ -5,6 +5,9 @@ import Footer from "@/components/sections/Footer";
 import HomePage from "@/pages/HomePage";
 import ServicePage from "@/pages/ServicePage";
 import AboutPage from "@/pages/AboutPage";
+import BlogsPage from "@/pages/BlogsPage";
+import CaseStudiesPage from "@/pages/CaseStudiesPage";
+import ContactPage from "@/pages/ContactPage";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import BlogManagement from "@/pages/BlogManagement";
@@ -27,6 +30,27 @@ function App() {
             <>
               <Navigation />
               <AboutPage />
+              <Footer />
+            </>
+          } />
+          <Route path="/blogs" element={
+            <>
+              <Navigation />
+              <BlogsPage />
+              <Footer />
+            </>
+          } />
+          <Route path="/case-studies" element={
+            <>
+              <Navigation />
+              <CaseStudiesPage />
+              <Footer />
+            </>
+          } />
+          <Route path="/contact" element={
+            <>
+              <Navigation />
+              <ContactPage />
               <Footer />
             </>
           } />

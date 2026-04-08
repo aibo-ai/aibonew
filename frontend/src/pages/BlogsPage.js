@@ -1,0 +1,201 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Calendar, Clock, ArrowRight } from 'lucide-react';
+
+const CMS_API_BASE = '/api/cms/api';
+
+export default function BlogsPage() {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = async () => {
+    try {
+      const response = await fetch(`${CMS_API_BASE}/blog/published`);
+      const data = await response.json();
+      setBlogs(data.data || []);
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <main style={{ paddingTop: 64 }}>
+      {/* Hero Section */}
+      <section
+        style={{
+          background: 'var(--dark)',
+          padding: '100px 40px 60px',
+        }}
+      >
+        <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>
+          <h1
+            style={{
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 300,
+              fontSize: 'clamp(36px, 4.5vw, 56px)',
+              letterSpacing: '-1.5px',
+              color: '#fff',
+              margin: '0 0 16px',
+              lineHeight: 1.15,
+            }}
+          >
+            Blog & Insights
+          </h1>
+          <p
+            style={{
+              fontSize: 18,
+              fontWeight: 300,
+              color: 'rgba(255,255,255,0.85)',
+              margin: 0,
+              maxWidth: 600,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          >
+            Insights on marketing, technology, and AI innovation
+          </p>
+        </div>
+      </section>
+
+      {/* Blog Posts */}
+      <section
+        style={{
+          background: 'var(--off-white)',
+          padding: '80px 40px',
+        }}
+      >
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+              Loading blogs...
+            </div>
+          ) : blogs.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+              No blog posts available yet
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogs.map((blog) => (
+                <article
+                  key={blog.id}
+                  style={{
+                    background: 'var(--white)',
+                    borderRadius: 12,
+                    border: '1px solid var(--border-clr)',
+                    overflow: 'hidden',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  {blog.featuredImage && (
+                    <img
+                      src={blog.featuredImage}
+                      alt={blog.title}
+                      style={{ width: '100%', height: 200, objectFit: 'cover' }}
+                    />
+                  )}
+                  <div style={{ padding: 24 }}>
+                    {/* Categories */}
+                    {blog.categories && Array.isArray(blog.categories) && blog.categories.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {blog.categories.slice(0, 2).map((cat, idx) => (
+                          <span
+                            key={idx}
+                            style={{
+                              padding: '4px 10px',
+                              fontSize: 11,
+                              fontWeight: 600,
+                              background: 'var(--purple-light)',
+                              color: 'var(--purple-dark)',
+                              borderRadius: 6,
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.05em',
+                            }}
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Title */}
+                    <h3
+                      style={{
+                        fontFamily: "'Fraunces', serif",
+                        fontSize: 20,
+                        fontWeight: 600,
+                        color: 'var(--text-primary)',
+                        margin: '0 0 12px',
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {blog.title}
+                    </h3>
+
+                    {/* Excerpt */}
+                    <p
+                      style={{
+                        fontSize: 14,
+                        color: 'var(--text-secondary)',
+                        margin: '0 0 16px',
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {blog.excerpt}
+                    </p>
+
+                    {/* Meta */}
+                    <div className="flex items-center gap-4 mb-4 text-xs text-gray-500">
+                      {blog.publishedAt && (
+                        <div className="flex items-center gap-1">
+                          <Calendar size={14} />
+                          <span>{new Date(blog.publishedAt).toLocaleDateString()}</span>
+                        </div>
+                      )}
+                      {blog.readTime && (
+                        <div className="flex items-center gap-1">
+                          <Clock size={14} />
+                          <span>{blog.readTime} min read</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Read More Link */}
+                    <Link
+                      to={`/blog/${blog.slug}`}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 6,
+                        fontSize: 14,
+                        fontWeight: 500,
+                        color: 'var(--purple-dark)',
+                        textDecoration: 'none',
+                      }}
+                    >
+                      Read More
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+}

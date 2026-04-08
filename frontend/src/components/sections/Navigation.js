@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X, Calendar } from 'lucide-react';
+
+const BOOKING_URL = 'https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/?ismsaljsauthenabled=true';
 
 const marketingServices = [
   { name: 'Generative Engine Optimization', slug: 'geo' },
@@ -15,15 +17,12 @@ const technicalServices = [
   { name: 'Full Stack Development', slug: 'full-stack' },
 ];
 
-const navLinks = [
-  { label: 'Case Studies', href: '/#case-studies' },
-  { label: 'About Us', href: '/about', isRoute: true },
-];
-
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
 
   return (
     <nav
@@ -43,7 +42,7 @@ export default function Navigation() {
         style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '16px 32px',
+          padding: '12px 32px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -54,7 +53,7 @@ export default function Navigation() {
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 32, width: 'auto' }}
+            style={{ height: 42, width: 'auto' }}
           />
         </Link>
 
@@ -176,18 +175,100 @@ export default function Navigation() {
             )}
           </div>
 
-          {/* Other Nav Links */}
-          {navLinks.map((l) => (
-            l.isRoute ? (
-              <Link key={l.label} to={l.href} className="nav-link">
-                {l.label}
-              </Link>
-            ) : (
-              <a key={l.label} href={l.href} className="nav-link">
-                {l.label}
-              </a>
-            )
-          ))}
+          {/* Resources Dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setResourcesOpen(true)}
+            onMouseLeave={() => setResourcesOpen(false)}
+          >
+            <button
+              className="nav-link inline-flex items-center gap-1"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                color: 'rgba(255,255,255,0.9)',
+                fontSize: 15,
+                fontWeight: 500,
+              }}
+            >
+              Resources
+              <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {resourcesOpen && (
+              <div
+                className="absolute top-full left-0 mt-2"
+                style={{
+                  background: 'var(--white)',
+                  borderRadius: 12,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                  minWidth: 200,
+                  border: '1px solid var(--border-clr)',
+                  padding: '12px',
+                }}
+              >
+                <Link
+                  to="/blogs"
+                  style={{
+                    display: 'block',
+                    padding: '10px 12px',
+                    fontSize: 14,
+                    fontWeight: 400,
+                    color: 'var(--text-primary)',
+                    textDecoration: 'none',
+                    borderRadius: 6,
+                    transition: 'background 0.2s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                >
+                  Blogs
+                </Link>
+                <Link
+                  to="/case-studies"
+                  style={{
+                    display: 'block',
+                    padding: '10px 12px',
+                    fontSize: 14,
+                    fontWeight: 400,
+                    color: 'var(--text-primary)',
+                    textDecoration: 'none',
+                    borderRadius: 6,
+                    transition: 'background 0.2s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                >
+                  Case Studies
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* About Us */}
+          <Link to="/about" className="nav-link">
+            About Us
+          </Link>
+
+          {/* Contact Us */}
+          <Link to="/contact" className="nav-link">
+            Contact Us
+          </Link>
+
+          {/* Book Free Strategy Session Button */}
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-purple inline-flex items-center gap-2"
+            style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, borderRadius: 8 }}
+          >
+            <Calendar size={16} />
+            Book Free Strategy Session
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -304,30 +385,88 @@ export default function Navigation() {
             )}
           </div>
 
-          {/* Standard Links */}
-          {navLinks.map((l) => (
-            l.isRoute ? (
-              <Link
-                key={l.label}
-                to={l.href}
-                onClick={() => setMobileOpen(false)}
-                className="block py-2.5"
-                style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
-              >
-                {l.label}
-              </Link>
-            ) : (
-              <a
-                key={l.label}
-                href={l.href}
-                onClick={() => setMobileOpen(false)}
-                className="block py-2.5"
-                style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
-              >
-                {l.label}
-              </a>
-            )
-          ))}
+          {/* Resources Accordion */}
+          <div style={{ marginBottom: 16 }}>
+            <button
+              onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+              className="flex items-center justify-between w-full py-2.5"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'rgba(255,255,255,0.85)',
+                fontSize: 15,
+                fontWeight: 500,
+                cursor: 'pointer',
+                textAlign: 'left',
+              }}
+            >
+              Resources
+              <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: mobileResourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+            </button>
+
+            {mobileResourcesOpen && (
+              <div style={{ paddingLeft: 16, marginTop: 8 }}>
+                <Link
+                  to="/blogs"
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2"
+                  style={{
+                    color: 'rgba(255,255,255,0.75)',
+                    fontSize: 14,
+                    textDecoration: 'none',
+                    fontWeight: 400,
+                  }}
+                >
+                  Blogs
+                </Link>
+                <Link
+                  to="/case-studies"
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2"
+                  style={{
+                    color: 'rgba(255,255,255,0.75)',
+                    fontSize: 14,
+                    textDecoration: 'none',
+                    fontWeight: 400,
+                  }}
+                >
+                  Case Studies
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* About Us */}
+          <Link
+            to="/about"
+            onClick={() => setMobileOpen(false)}
+            className="block py-2.5"
+            style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
+          >
+            About Us
+          </Link>
+
+          {/* Contact Us */}
+          <Link
+            to="/contact"
+            onClick={() => setMobileOpen(false)}
+            className="block py-2.5"
+            style={{ color: 'rgba(255,255,255,0.85)', fontSize: 15, textDecoration: 'none', fontWeight: 500 }}
+          >
+            Contact Us
+          </Link>
+
+          {/* Book Button */}
+          <a
+            href={BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-purple inline-flex items-center gap-2 mt-4"
+            style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, borderRadius: 8 }}
+          >
+            <Calendar size={16} />
+            Book Free Strategy Session
+          </a>
         </div>
       )}
     </nav>
