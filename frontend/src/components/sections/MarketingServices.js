@@ -1,34 +1,27 @@
-import { Link } from "react-router-dom";
-import SectionLabel from "./SectionLabel";
-
-const cards = [
+const marketingServices = [
   {
-    num: '01',
-    title: 'Generative Engine Optimisation',
-    tagline: 'Be the answer AI cites',
-    body: "Optimise your brand for ChatGPT, Perplexity, Gemini, and every LLM-powered surface. Own the AI answer layer before your competitors discover it exists.",
-    slug: 'geo',
+    number: '01',
+    title: 'GEO',
+    tagline: 'Generative Engine Optimisation',
+    description: 'Be the brand AI recommends. We structure your digital presence so ChatGPT, Perplexity, Google SGE and Bing Copilot cite, quote and recommend you. Entity optimisation, schema markup, E-E-A-T signals, third-party platform seeding.',
   },
   {
-    num: '02',
-    title: 'Answer Engine Optimisation',
-    tagline: 'Win voice & featured snippets',
-    body: "Structure your content so it's chosen by answer engines and voice assistants. Position your brand at zero-click moments of high intent.",
-    slug: 'aeo',
+    number: '02',
+    title: 'AEO',
+    tagline: 'Answer Engine Optimisation',
+    description: '68% of queries expect a direct answer with no click. We structure your content to win featured snippets, People Also Ask boxes, and voice answers — capturing position zero before your competition.',
   },
   {
-    num: '03',
-    title: 'Search Engine Optimisation',
-    tagline: 'Rank. Convert. Repeat.',
-    body: "Technical excellence + conversion-focused copy. We build the SEO foundation that feeds every other channel — from organic to paid.",
-    slug: 'seo',
+    number: '03',
+    title: 'SEO',
+    tagline: 'Search Engine Optimisation',
+    description: 'The organic foundation everything builds on. Technical authority, keyword architecture, backlink equity: The infrastructure that AI engines are trained on and Google rewards long-term.',
   },
   {
-    num: '04',
+    number: '04',
     title: 'Content Marketing',
-    tagline: 'Authority that compounds',
-    body: "Multi-format content mapped to buyer intent and business outcomes. Costs less than paid ads, builds lasting brand equity, and feeds your GEO + AEO presence.",
-    slug: 'content-marketing',
+    tagline: 'Content that ranks, converts, and compounds.',
+    description: 'Long-form articles, thought leadership, case studies, FAQs, and video scripts: Built equally for humans and AI engines. Every GEO citation, AEO answer and SEO ranking is powered by content.',
   },
 ];
 
@@ -37,155 +30,157 @@ export default function MarketingServices() {
     <section
       id="marketing-services"
       data-testid="marketing-services-section"
-      style={{ background: 'var(--off-white)', padding: '80px 40px' }}
+      style={{
+        background: 'var(--white)',
+        padding: '80px 40px',
+      }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Header — asymmetric 2-col */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-          <div style={{ maxWidth: 560 }}>
-            <SectionLabel text="Marketing Services" />
-            <h2
-              className="headline-light"
-              style={{
-                fontFamily: "'Fraunces', serif",
-                fontWeight: 300,
-                fontSize: 'clamp(28px, 3.5vw, 42px)',
-                letterSpacing: '-1px',
-                color: 'var(--text-primary)',
-                margin: '0 0 10px',
-                lineHeight: 1.15,
-              }}
-            >
-              Rank everywhere your customers <em>search</em> and <em>ask.</em>
-            </h2>
-            <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-              We combine GEO, AEO, SEO, and content to build authority that compounds —
-              across Google, ChatGPT, Perplexity, and voice interfaces.
-            </p>
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: 'var(--purple-dark)',
+              marginBottom: 16,
+            }}
+          >
+            Marketing Services
           </div>
-          <div className="text-right flex-shrink-0">
-            <span
-              style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 48,
-                fontWeight: 600,
-                letterSpacing: '-2px',
-                color: 'var(--purple)',
-                display: 'block',
-                lineHeight: 1,
-              }}
-            >
-              156%
-            </span>
-            <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-              Avg. conversion rate increase across clients
-            </span>
-          </div>
+
+          <h2
+            data-testid="marketing-headline"
+            className="headline-light"
+            style={{
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 300,
+              fontSize: 'clamp(32px, 4vw, 48px)',
+              letterSpacing: '-1.5px',
+              lineHeight: 1.15,
+              color: 'var(--text-primary)',
+              margin: '0 0 20px',
+            }}
+          >
+            Be the answer on every surface, in every engine.
+          </h2>
+
+          <p
+            data-testid="marketing-description"
+            style={{
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              fontWeight: 300,
+              lineHeight: 1.65,
+              color: 'var(--text-secondary)',
+              maxWidth: 780,
+              margin: '0 auto 12px',
+            }}
+          >
+            Search has fundamentally changed. Nearly 62% of Indian users now trust AI answers over page-1 links.
+          </p>
+
+          <p
+            style={{
+              fontSize: 16,
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+              maxWidth: 780,
+              margin: '0 auto',
+            }}
+          >
+            We're built for where search is going — and where it already is.
+          </p>
         </div>
 
-        {/* 4-column card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          {cards.map((c) => (
+        {/* Services Grid */}
+        <div className="space-y-6 mb-12">
+          {marketingServices.map((service) => (
             <div
-              key={c.num}
-              data-testid={`marketing-card-${c.num}`}
-              className="card-lift"
+              key={service.number}
+              data-testid={`marketing-service-${service.title.toLowerCase()}`}
               style={{
-                background: 'var(--white)',
+                background: 'var(--off-white)',
                 border: '1px solid var(--border-clr)',
                 borderRadius: 12,
-                padding: 28,
+                padding: '32px',
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                gap: 24,
+                alignItems: 'start',
               }}
             >
-              <span
+              <div
                 style={{
                   fontFamily: "'Fraunces', serif",
-                  fontSize: 11,
+                  fontSize: 20,
                   fontWeight: 600,
                   color: 'var(--purple)',
-                  letterSpacing: '0.1em',
-                  display: 'block',
-                  marginBottom: 12,
+                  minWidth: 40,
                 }}
               >
-                {c.num}
-              </span>
-              <h3
-                style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 17,
-                  fontWeight: 600,
-                  color: 'var(--text-primary)',
-                  margin: '0 0 4px',
-                }}
-              >
-                {c.title}
-              </h3>
-              <p
-                style={{
-                  fontStyle: 'italic',
-                  fontSize: 12,
-                  color: 'var(--purple-dark)',
-                  margin: '0 0 10px',
-                }}
-              >
-                {c.tagline}
-              </p>
-              <p
-                style={{
-                  fontSize: 13,
-                  fontWeight: 300,
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.65,
-                  margin: '0 0 14px',
-                }}
-              >
-                {c.body}
-              </p>
-              <Link
-                to={`/solutions/${c.slug}`}
-                style={{
-                  color: 'var(--purple-dark)',
-                  fontSize: 12,
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                }}
-              >
-                Learn more &rarr;
-              </Link>
+                {service.number}
+              </div>
+              <div>
+                <h3
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 24,
+                    fontWeight: 600,
+                    color: 'var(--text-primary)',
+                    margin: '0 0 6px',
+                  }}
+                >
+                  {service.title}
+                </h3>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--purple-dark)',
+                    margin: '0 0 12px',
+                  }}
+                >
+                  {service.tagline}
+                </div>
+                <p
+                  style={{
+                    fontSize: 15,
+                    lineHeight: 1.7,
+                    color: 'var(--text-secondary)',
+                    margin: 0,
+                  }}
+                >
+                  {service.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Compound strip */}
+        {/* Bottom CTA */}
         <div
-          data-testid="marketing-compound-strip"
-          className="flex items-center gap-4"
           style={{
-            background: 'var(--dark)',
-            borderRadius: 8,
-            padding: '16px 28px',
+            background: 'linear-gradient(135deg, var(--purple-light) 0%, rgba(237,229,252,0.5) 100%)',
+            border: '1px solid var(--purple)',
+            borderRadius: 12,
+            padding: '28px 32px',
+            textAlign: 'center',
           }}
         >
-          <span
+          <p
             style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: 'var(--purple)',
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              color: 'rgba(255,255,255,0.68)',
-              fontSize: 13,
-              fontStyle: 'italic',
+              fontSize: 16,
+              fontWeight: 500,
+              color: 'var(--text-primary)',
+              margin: 0,
             }}
           >
-            GEO + AEO + SEO + Content work together — each amplifies the others,
-            creating a compounding growth loop.
-          </span>
+            <strong>GEO + AEO + SEO + Content</strong> run as one integrated system.
+            <br />
+            Clients running all four see <strong>3–5× the return</strong> of single-service engagements.
+          </p>
         </div>
       </div>
     </section>

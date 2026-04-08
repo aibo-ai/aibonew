@@ -1,32 +1,30 @@
-import { Link } from "react-router-dom";
-import SectionLabel from "./SectionLabel";
-
-const stats = [
-  { num: '<10w', label: 'Launch to market' },
-  { num: '-70%', label: 'Manual effort eliminated' },
-  { num: '3\u00d7', label: 'Sales capacity multiplied' },
-  { num: '96%', label: 'Lead scoring accuracy' },
+const technologyServices = [
+  {
+    number: '01',
+    title: 'AI Automation',
+    tagline: 'Turn your biggest workflows into your biggest advantage.',
+    description: 'Production-grade agentic systems, multi-step LLM workflows, RAG pipelines, intelligent automation: Built to run at enterprise scale from day one.',
+  },
+  {
+    number: '02',
+    title: 'White Label Solutions',
+    tagline: 'Launch a proprietary product without building from scratch.',
+    description: 'Fully branded, API-first platforms in 4–8 weeks. Multi-tenant architecture, NDA-secured IP ownership, custom feature roadmaps.',
+  },
+  {
+    number: '03',
+    title: 'Full Stack Development',
+    tagline: 'Complete products, built to last.',
+    description: 'From pixel-perfect frontends to high-throughput backend engines. You own 100% of the IP.',
+  },
 ];
 
-const cards = [
-  {
-    num: '01',
-    title: 'AI Automation',
-    tagline: 'Custom AI agents that work',
-    body: "Custom AI agents that handle lead nurturing, customer support, content production, and internal ops — reducing manual effort by up to 70%.",
-  },
-  {
-    num: '02',
-    title: 'White Label',
-    tagline: 'Your brand, our engineering',
-    body: "Launch your own AI-powered SaaS in under 10 weeks. Full reseller infrastructure, multi-tenant architecture, and infinite seat scalability.",
-  },
-  {
-    num: '03',
-    title: 'Full Stack Development',
-    tagline: 'From idea to production',
-    body: "Cloud-native platforms with embedded AI — custom ERP, inventory management, e-commerce, or marketplace products designed to scale.",
-  },
+const stats = [
+  { value: '4–8 weeks', label: 'to production-ready MVP' },
+  { value: '80%', label: 'process automation rate' },
+  { value: '10×', label: 'operational velocity' },
+  { value: '5×', label: 'efficiency gains' },
+  { value: '100%', label: 'IP ownership to client' },
 ];
 
 export default function TechnologyServices() {
@@ -34,194 +32,192 @@ export default function TechnologyServices() {
     <section
       id="technology-services"
       data-testid="technology-services-section"
-      className="relative"
       style={{
         background: 'var(--dark)',
         padding: '80px 40px',
-        overflow: 'hidden',
       }}
     >
-      {/* Ambient glow */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: 560,
-          height: 560,
-          top: -200,
-          left: -200,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,59,237,0.16) 0%, transparent 65%)',
-        }}
-      />
-
-      <div className="relative z-10 mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Stats strip */}
-        <div
-          data-testid="tech-stats-strip"
-          className="grid grid-cols-2 md:grid-cols-4 mb-12"
-          style={{
-            background: 'rgba(255,255,255,0.04)',
-            borderRadius: 8,
-            overflow: 'hidden',
-            gap: 1,
-          }}
-        >
-          {stats.map((s, i) => (
-            <div
-              key={i}
-              className="text-center"
-              style={{
-                background: 'rgba(255,255,255,0.025)',
-                padding: '24px 20px',
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 36,
-                  fontWeight: 600,
-                  color: 'var(--amber)',
-                  display: 'block',
-                  lineHeight: 1.1,
-                }}
-              >
-                {s.num}
-              </span>
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.42)' }}>
-                {s.label}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* 2-column header */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-          <div style={{ maxWidth: 560 }}>
-            <SectionLabel text="Technology Services" dark />
-            <h2
-              className="headline-dark"
-              style={{
-                fontFamily: "'Fraunces', serif",
-                fontWeight: 300,
-                fontSize: 'clamp(28px, 3.5vw, 42px)',
-                letterSpacing: '-1px',
-                color: '#fff',
-                margin: '0 0 10px',
-                lineHeight: 1.15,
-              }}
-            >
-              Build the <em>intelligent</em> infrastructure your business runs on.
-            </h2>
-            <p style={{ fontSize: 16, fontWeight: 300, color: 'rgba(255,255,255,0.55)', lineHeight: 1.6 }}>
-              We engineer AI agents, white-label platforms, and full-stack products.
-              Production-grade from sprint one.
-            </p>
-          </div>
-          <div className="text-right flex-shrink-0">
-            <span
-              style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 48,
-                fontWeight: 600,
-                color: 'var(--amber)',
-                display: 'block',
-                lineHeight: 1,
-              }}
-            >
-              8&times;
-            </span>
-            <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>
-              Average inventory speed improvement
-            </span>
-          </div>
-        </div>
-
-        {/* 3-column card grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-          {cards.map((c) => (
-            <div
-              key={c.num}
-              data-testid={`tech-card-${c.num}`}
-              className="dark-card-hover"
-              style={{
-                background: 'rgba(255,255,255,0.045)',
-                border: '1px solid rgba(255,255,255,0.075)',
-                borderRadius: 12,
-                padding: 28,
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 11,
-                  fontWeight: 600,
-                  color: 'rgba(124,59,237,0.65)',
-                  letterSpacing: '0.1em',
-                  display: 'block',
-                  marginBottom: 12,
-                }}
-              >
-                {c.num}
-              </span>
-              <h3
-                style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 17,
-                  fontWeight: 600,
-                  color: '#fff',
-                  margin: '0 0 4px',
-                }}
-              >
-                {c.title}
-              </h3>
-              <p style={{ fontStyle: 'italic', fontSize: 12, color: '#A07AF0', margin: '0 0 10px' }}>
-                {c.tagline}
-              </p>
-              <p
-                style={{
-                  fontSize: 13,
-                  fontWeight: 300,
-                  color: 'rgba(255,255,255,0.55)',
-                  lineHeight: 1.65,
-                  margin: '0 0 14px',
-                }}
-              >
-                {c.body}
-              </p>
-              <Link
-                to={`/solutions/${c.slug}`}
-                style={{ color: '#A07AF0', fontSize: 12, fontWeight: 600, textDecoration: 'none' }}
-              >
-                Learn more &rarr;
-              </Link>
-            </div>
-          ))}
-        </div>
-
-        {/* Compound strip */}
-        <div
-          data-testid="tech-compound-strip"
-          className="flex items-center gap-4"
-          style={{
-            background: 'rgba(124,59,237,0.12)',
-            border: '1px solid rgba(124,59,237,0.22)',
-            borderRadius: 8,
-            padding: '16px 28px',
-          }}
-        >
-          <span
+      <div className="mx-auto" style={{ maxWidth: 1100 }}>
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <div
             style={{
-              width: 8,
-              height: 8,
-              borderRadius: '50%',
-              background: 'var(--purple)',
-              flexShrink: 0,
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: 'var(--purple)',
+              marginBottom: 16,
             }}
-          />
-          <span style={{ color: 'rgba(255,255,255,0.68)', fontSize: 13, fontStyle: 'italic' }}>
-            Combine AI Automation + White Label + Full Stack for a complete technology
-            transformation — from ops efficiency to new revenue lines.
-          </span>
+          >
+            Technical Services
+          </div>
+
+          <h2
+            data-testid="technology-headline"
+            className="headline-dark"
+            style={{
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 300,
+              fontSize: 'clamp(32px, 4vw, 48px)',
+              letterSpacing: '-1.5px',
+              lineHeight: 1.15,
+              color: '#fff',
+              margin: '0 0 20px',
+            }}
+          >
+            From AI pilots to production systems, engineered to scale.
+          </h2>
+
+          <p
+            data-testid="technology-description"
+            style={{
+              fontSize: 'clamp(16px, 2vw, 19px)',
+              fontWeight: 300,
+              lineHeight: 1.65,
+              color: 'rgba(255,255,255,0.85)',
+              maxWidth: 780,
+              margin: '0 auto 12px',
+            }}
+          >
+            Most AI projects never reach production. Most dev partners hand over code and disappear.
+          </p>
+
+          <p
+            style={{
+              fontSize: 16,
+              fontWeight: 500,
+              color: 'rgba(255,255,255,0.95)',
+              maxWidth: 780,
+              margin: '0 auto',
+            }}
+          >
+            We build production-grade systems and stay accountable to outcomes — not billable hours.
+          </p>
+        </div>
+
+        {/* Stats Grid */}
+        <div
+          className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12"
+          style={{
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 12,
+            padding: '32px 24px',
+          }}
+        >
+          {stats.map((stat, idx) => (
+            <div key={idx} className="text-center">
+              <div
+                style={{
+                  fontFamily: "'Fraunces', serif",
+                  fontSize: 'clamp(24px, 3vw, 32px)',
+                  fontWeight: 600,
+                  color: 'var(--purple)',
+                  marginBottom: 6,
+                }}
+              >
+                {stat.value}
+              </div>
+              <div
+                style={{
+                  fontSize: 12,
+                  fontWeight: 400,
+                  color: 'rgba(255,255,255,0.7)',
+                  lineHeight: 1.4,
+                }}
+              >
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Services Grid */}
+        <div className="space-y-6 mb-12">
+          {technologyServices.map((service) => (
+            <div
+              key={service.number}
+              data-testid={`technology-service-${service.title.toLowerCase().replace(/\s+/g, '-')}`}
+              style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: 12,
+                padding: '32px',
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                gap: 24,
+                alignItems: 'start',
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Fraunces', serif",
+                  fontSize: 20,
+                  fontWeight: 600,
+                  color: 'var(--purple)',
+                  minWidth: 40,
+                }}
+              >
+                {service.number}
+              </div>
+              <div>
+                <h3
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 24,
+                    fontWeight: 600,
+                    color: '#fff',
+                    margin: '0 0 6px',
+                  }}
+                >
+                  {service.title}
+                </h3>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--purple)',
+                    margin: '0 0 12px',
+                  }}
+                >
+                  {service.tagline}
+                </div>
+                <p
+                  style={{
+                    fontSize: 15,
+                    lineHeight: 1.7,
+                    color: 'rgba(255,255,255,0.75)',
+                    margin: 0,
+                  }}
+                >
+                  {service.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div
+          style={{
+            background: 'linear-gradient(135deg, rgba(124,59,237,0.15) 0%, rgba(124,59,237,0.05) 100%)',
+            border: '1px solid var(--purple)',
+            borderRadius: 12,
+            padding: '28px 32px',
+            textAlign: 'center',
+          }}
+        >
+          <p
+            style={{
+              fontSize: 16,
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.9)',
+              margin: 0,
+            }}
+          >
+            Our modular architecture approach makes it easy to <strong>start with one and expand into others</strong>.
+          </p>
         </div>
       </div>
     </section>

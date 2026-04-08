@@ -1,13 +1,36 @@
-import { Building2, Lightbulb, Infinity, Search, TrendingUp, Zap } from "lucide-react";
-import SectionLabel from "./SectionLabel";
+import { Sparkles, Zap, Layers, Target, Eye, Briefcase } from "lucide-react";
 
 const reasons = [
-  { icon: Building2, title: 'Built for You', body: "Tailored AI solutions that adapt to your unique world — not templates, not off-the-shelf tools, not generic playbooks." },
-  { icon: Lightbulb, title: 'Inventive Architecture', body: "Our solutioning is complex, robust, and modular. Best-in-class across marketing intelligence and AI engineering." },
-  { icon: Infinity, title: 'Infinite Scale', body: "Multiply capabilities, not headcount or budget. Every solution is built to scale with you without rebuilding from scratch." },
-  { icon: Search, title: 'Full Transparency', body: "No hidden costs, no surprises. You always know what we're building, why we're building it, and what it costs." },
-  { icon: TrendingUp, title: 'Dual Practice Advantage', body: "Marketing and technology under one roof means less friction, faster execution, and strategies that reinforce each other." },
-  { icon: Zap, title: 'Speed to Impact', body: "Two-week tech sprints. Monthly content cycles. We move fast without sacrificing quality or stability." },
+  {
+    icon: Sparkles,
+    title: 'Boutique by Design',
+    description: 'Every engagement gets experienced hands, not a hand-off to someone who wasn\'t in the briefing.',
+  },
+  {
+    icon: Zap,
+    title: 'AI-Native Across Both Practices',
+    description: 'Our marketing team uses AI to build organic authority. Our tech team builds the AI systems themselves. No other agency bridges both practices at depth.',
+  },
+  {
+    icon: Layers,
+    title: 'Modular & Scalable',
+    description: 'Every service is designed to compound. Start with one, add others as you grow. The architecture supports it from day one, not retrofitted later.',
+  },
+  {
+    icon: Target,
+    title: 'Outcome-Driven, Not Hours-Driven',
+    description: 'Engagements are structured around measurable KPIs — not retainer hours. We own the outcome. No black-box metrics. No hidden costs.',
+  },
+  {
+    icon: Eye,
+    title: 'Complete Transparency',
+    description: 'Every deliverable ties to a result you can verify independently. No surprises during development. We work by our ethos of complete clarity with clients.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Deep Market Expertise',
+    description: 'Specialist knowledge in FMCG, D2C, Logistics, Healthcare, FinTech, SaaS and more.',
+  },
 ];
 
 export default function WhyMyAibo() {
@@ -15,73 +38,93 @@ export default function WhyMyAibo() {
     <section
       id="why-myaibo"
       data-testid="why-myaibo-section"
-      style={{ background: 'var(--white)', padding: '80px 40px' }}
+      style={{
+        background: 'var(--off-white)',
+        padding: '80px 40px',
+      }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Intro */}
-        <div className="text-center mx-auto mb-12" style={{ maxWidth: 560 }}>
-          <SectionLabel text="Why MyAibo" centered />
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: 'var(--purple-dark)',
+              marginBottom: 16,
+            }}
+          >
+            Why MyAibo
+          </div>
+
           <h2
+            data-testid="why-myaibo-headline"
             className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
               fontWeight: 300,
-              fontSize: 'clamp(28px, 3.5vw, 42px)',
-              letterSpacing: '-1px',
+              fontSize: 'clamp(32px, 4vw, 48px)',
+              letterSpacing: '-1.5px',
+              lineHeight: 1.15,
               color: 'var(--text-primary)',
               margin: 0,
-              lineHeight: 1.15,
             }}
           >
-            Six reasons the best brands <em>choose us.</em>
+            Six reasons the best brands choose us.
           </h2>
         </div>
 
-        {/* 3x2 card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {reasons.map((r) => (
+        {/* Reasons Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {reasons.map((reason, idx) => (
             <div
-              key={r.title}
-              data-testid={`why-card-${r.title.toLowerCase().replace(/\s+/g, '-')}`}
+              key={idx}
+              data-testid={`why-reason-${idx + 1}`}
               style={{
-                background: 'var(--off-white)',
+                background: 'var(--white)',
                 border: '1px solid var(--border-clr)',
                 borderRadius: 12,
-                padding: 28,
+                padding: '32px 28px',
               }}
             >
               <div
-                className="flex items-center justify-center mb-4"
+                className="flex items-center justify-center mx-auto mb-5"
                 style={{
-                  width: 36,
-                  height: 36,
+                  width: 48,
+                  height: 48,
                   background: 'var(--purple-light)',
-                  borderRadius: 8,
+                  borderRadius: 12,
                 }}
               >
-                <r.icon size={18} style={{ color: 'var(--purple-dark)' }} />
+                <reason.icon size={24} style={{ color: 'var(--purple-dark)' }} />
               </div>
+
               <h3
                 style={{
                   fontFamily: "'Fraunces', serif",
-                  fontSize: 17,
+                  fontSize: 19,
                   fontWeight: 600,
                   color: 'var(--text-primary)',
-                  margin: '0 0 8px',
+                  margin: '0 0 12px',
+                  textAlign: 'center',
                 }}
               >
-                {r.title}
+                {reason.title}
               </h3>
+
               <p
                 style={{
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: 300,
+                  lineHeight: 1.7,
                   color: 'var(--text-secondary)',
-                  lineHeight: 1.65,
                   margin: 0,
+                  textAlign: 'center',
                 }}
               >
-                {r.body}
+                {reason.description}
               </p>
             </div>
           ))}

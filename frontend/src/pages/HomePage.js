@@ -5,7 +5,6 @@ import TechnologyServices from "@/components/sections/TechnologyServices";
 import WhyMyAibo from "@/components/sections/WhyMyAibo";
 import Results from "@/components/sections/Results";
 import CaseStudies from "@/components/sections/CaseStudies";
-import Process from "@/components/sections/Process";
 import Testimonials from "@/components/sections/Testimonials";
 import FinalCTA from "@/components/sections/FinalCTA";
 
@@ -19,7 +18,6 @@ export default function HomePage() {
       <WhyMyAibo />
       <Results />
       <CaseStudies />
-      <Process />
       <Testimonials />
       <FinalCTA />
     </main>

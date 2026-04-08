@@ -1,133 +1,231 @@
-import SectionLabel from "./SectionLabel";
+import { TrendingUp, Target, DollarSign, Repeat } from "lucide-react";
 
-const mktRows = [
-  { num: '156%', label: 'Avg. conversion rate improvement' },
-  { num: '\u221251%', label: 'Customer acquisition cost reduction' },
-  { num: '63%', label: 'Amazon + Nykaa ranking improvement' },
-  { num: '92%', label: 'Growth in repeat purchase rate' },
-  { num: '78%', label: 'Customer lifetime value improvement' },
+const marketingResults = [
+  {
+    icon: TrendingUp,
+    value: '+180%',
+    label: 'AI citation rate',
+    sublabel: 'GEO, 6 months',
+  },
+  {
+    icon: Target,
+    value: '156%',
+    label: 'website conversion rate increase',
+    sublabel: '',
+  },
+  {
+    icon: DollarSign,
+    value: '−63%',
+    label: 'reduction in customer acquisition cost',
+    sublabel: '',
+  },
+  {
+    icon: Repeat,
+    value: '92%',
+    label: 'growth in repeat purchase rate',
+    sublabel: '',
+  },
 ];
 
-const techRows = [
-  { num: '<10w', label: 'Time from brief to production launch' },
-  { num: '\u221270%', label: 'Reduction in manual operational effort' },
-  { num: '3\u00d7', label: 'Increase in sales team capacity' },
-  { num: '96%', label: 'Lead scoring accuracy' },
-  { num: '8\u00d7', label: 'Inventory management speed improvement' },
+const technicalResults = [
+  {
+    value: '80%',
+    label: 'data workflows automated',
+  },
+  {
+    value: '5×',
+    label: 'efficiency gains from automation',
+  },
+  {
+    value: '4–8 weeks',
+    label: 'to production-ready MVP',
+  },
+  {
+    value: '100%',
+    label: 'IP ownership transferred to client',
+  },
 ];
-
-function ResultPanel({ title, rows, dotColor, numColor }) {
-  return (
-    <div
-      style={{
-        background: 'var(--white)',
-        border: '1px solid var(--border-clr)',
-        borderRadius: 12,
-        overflow: 'hidden',
-      }}
-    >
-      <div
-        className="flex items-center gap-2.5"
-        style={{
-          padding: '20px 28px',
-          borderBottom: '1px solid var(--border-clr)',
-        }}
-      >
-        <span
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            background: dotColor,
-            flexShrink: 0,
-          }}
-        />
-        <span
-          style={{
-            fontSize: 13,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          {title}
-        </span>
-      </div>
-      {rows.map((r, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-5"
-          style={{
-            padding: '14px 28px',
-            borderBottom: i < rows.length - 1 ? '1px solid var(--off-white)' : 'none',
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: 28,
-              fontWeight: 600,
-              color: numColor,
-              minWidth: 80,
-              flexShrink: 0,
-            }}
-          >
-            {r.num}
-          </span>
-          <span style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)' }}>
-            {r.label}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 export default function Results() {
   return (
     <section
       id="results"
       data-testid="results-section"
-      style={{ background: 'var(--off-white)', padding: '80px 40px' }}
+      style={{
+        background: 'var(--white)',
+        padding: '80px 40px',
+      }}
     >
-      <div className="mx-auto" style={{ maxWidth: 1000 }}>
-        {/* Intro */}
-        <div className="text-center mx-auto mb-10" style={{ maxWidth: 500 }}>
-          <SectionLabel text="Proven Results" centered />
+      <div className="mx-auto" style={{ maxWidth: 1100 }}>
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: 'var(--purple-dark)',
+              marginBottom: 16,
+            }}
+          >
+            Proven Results
+          </div>
+
           <h2
+            data-testid="results-headline"
             className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
               fontWeight: 300,
-              fontSize: 'clamp(28px, 3.5vw, 42px)',
-              letterSpacing: '-1px',
-              color: 'var(--text-primary)',
-              margin: '0 0 10px',
+              fontSize: 'clamp(32px, 4vw, 48px)',
+              letterSpacing: '-1.5px',
               lineHeight: 1.15,
+              color: 'var(--text-primary)',
+              margin: 0,
             }}
           >
-            Numbers that speak <em>louder</em> than promises.
+            Results that speak for themselves.
           </h2>
-          <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            Across marketing and technology engagements, MyAibo delivers measurable outcomes.
-          </p>
         </div>
 
-        {/* Dual panels */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <ResultPanel
-            title="Marketing Outcomes"
-            rows={mktRows}
-            dotColor="var(--purple)"
-            numColor="var(--purple-dark)"
-          />
-          <ResultPanel
-            title="Technology Outcomes"
-            rows={techRows}
-            dotColor="var(--amber)"
-            numColor="var(--amber)"
-          />
+        {/* Marketing Results */}
+        <div className="mb-12">
+          <h3
+            style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: 22,
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              margin: '0 0 24px',
+              textAlign: 'center',
+            }}
+          >
+            Marketing Results
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {marketingResults.map((result, idx) => (
+              <div
+                key={idx}
+                data-testid={`marketing-result-${idx + 1}`}
+                style={{
+                  background: 'var(--off-white)',
+                  border: '1px solid var(--border-clr)',
+                  borderRadius: 12,
+                  padding: '28px 24px',
+                  textAlign: 'center',
+                }}
+              >
+                <div
+                  className="flex items-center justify-center mx-auto mb-4"
+                  style={{
+                    width: 48,
+                    height: 48,
+                    background: 'var(--purple-light)',
+                    borderRadius: 12,
+                  }}
+                >
+                  <result.icon size={24} style={{ color: 'var(--purple-dark)' }} />
+                </div>
+
+                <div
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 'clamp(28px, 3.5vw, 36px)',
+                    fontWeight: 600,
+                    color: 'var(--purple-dark)',
+                    margin: '0 0 8px',
+                    lineHeight: 1,
+                  }}
+                >
+                  {result.value}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--text-primary)',
+                    margin: '0 0 4px',
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {result.label}
+                </div>
+
+                {result.sublabel && (
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 400,
+                      color: 'var(--text-muted)',
+                      margin: 0,
+                    }}
+                  >
+                    {result.sublabel}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Technical Results */}
+        <div>
+          <h3
+            style={{
+              fontFamily: "'Fraunces', serif",
+              fontSize: 22,
+              fontWeight: 600,
+              color: 'var(--text-primary)',
+              margin: '0 0 24px',
+              textAlign: 'center',
+            }}
+          >
+            Technical Results
+          </h3>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {technicalResults.map((result, idx) => (
+              <div
+                key={idx}
+                data-testid={`technical-result-${idx + 1}`}
+                style={{
+                  background: 'var(--off-white)',
+                  border: '1px solid var(--border-clr)',
+                  borderRadius: 12,
+                  padding: '28px 20px',
+                  textAlign: 'center',
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "'Fraunces', serif",
+                    fontSize: 'clamp(24px, 3vw, 32px)',
+                    fontWeight: 600,
+                    color: 'var(--purple-dark)',
+                    margin: '0 0 8px',
+                    lineHeight: 1,
+                  }}
+                >
+                  {result.value}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: 'var(--text-secondary)',
+                    margin: 0,
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {result.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

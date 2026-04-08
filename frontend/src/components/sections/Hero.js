@@ -1,7 +1,7 @@
 import { Calendar, ArrowRight } from "lucide-react";
 import { BOOKING_URL } from "@/lib/constants";
 
-const clients = ['Iluvia', 'Trudiance Beauty', 'vPersonalize', 'Fego', 'OptimHire', 'Brokenatom'];
+const clients = ['Iluvia', 'Trudiance', 'Fego', 'Optimhire', 'vPersonalize', 'Brokenatom'];
 
 export default function Hero() {
   return (
@@ -48,88 +48,87 @@ export default function Hero() {
               borderRadius: '50%',
               background: 'var(--purple)',
               display: 'block',
-              flexShrink: 0,
             }}
           />
-          <span style={{ color: '#A07AF0', fontSize: 12, fontWeight: 500 }}>
-            AI-Native &middot; Marketing + Technology
+          <span style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.95)' }}>
+            Boutique Agency · Marketing + Technology
           </span>
         </div>
 
-        {/* Headline */}
+        {/* Main headline */}
         <h1
           data-testid="hero-headline"
+          className="headline-dark"
           style={{
             fontFamily: "'Fraunces', serif",
             fontWeight: 300,
-            fontSize: 'clamp(40px, 5.5vw, 72px)',
-            letterSpacing: '-1.5px',
+            fontSize: 'clamp(42px, 5.5vw, 72px)',
+            letterSpacing: '-2px',
+            lineHeight: 1.1,
             color: '#fff',
-            maxWidth: 680,
-            lineHeight: 1.08,
-            margin: '0 0 20px',
+            margin: '0 0 24px',
+            maxWidth: 900,
           }}
         >
-          Where intelligent marketing meets engineered technology.
+          Where great marketing meets serious engineering.
         </h1>
 
-        {/* Subheadline */}
+        {/* Supporting text */}
         <p
+          data-testid="hero-description"
           style={{
-            fontSize: 17,
+            fontSize: 'clamp(17px, 2vw, 20px)',
             fontWeight: 300,
-            color: 'rgba(255,255,255,0.62)',
-            maxWidth: 520,
             lineHeight: 1.6,
-            margin: '0 0 32px',
+            color: 'rgba(255,255,255,0.85)',
+            maxWidth: 680,
+            margin: '0 0 40px',
           }}
         >
-          MyAibo is a boutique agency that builds custom AI workforces and delivers
-          full-spectrum marketing — GEO, AEO, SEO, and content — that compounds over time.
+          We help brands grow on two fronts: building the marketing systems that generate demand and the technical products that deliver efficiency.
+          <br />
+          <br />
+          No generalist fluff. Just deep expertise in both.
         </p>
 
-        {/* CTAs */}
-        <div className="flex flex-wrap gap-3 mb-12">
+        {/* CTA Buttons */}
+        <div className="flex flex-wrap gap-4 mb-16">
           <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
-            data-testid="hero-cta-primary"
-            className="btn-purple"
-            style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
+            className="btn-purple inline-flex items-center gap-2"
+            style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
           >
-            <Calendar size={16} />
+            <Calendar size={18} />
             Book Free Strategy Session
           </a>
           <a
             href="#case-studies"
-            data-testid="hero-cta-secondary"
-            className="btn-outline-light"
-            style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500 }}
+            className="btn-outline inline-flex items-center gap-2"
+            style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
           >
-            See Our Work <ArrowRight size={15} />
+            View Case Studies
+            <ArrowRight size={18} />
           </a>
         </div>
 
-        {/* Trust strip */}
-        <div>
-          <p style={{ color: 'rgba(255,255,255,0.32)', fontSize: 12, marginBottom: 12 }}>
+        {/* Trusted by */}
+        <div data-testid="hero-clients">
+          <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>
             Trusted by
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {clients.map((name) => (
+          </div>
+          <div className="flex flex-wrap gap-x-8 gap-y-3 items-center">
+            {clients.map((client) => (
               <span
-                key={name}
-                data-testid={`trust-badge-${name.toLowerCase().replace(/\s+/g, '-')}`}
+                key={client}
                 style={{
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: 4,
-                  padding: '4px 12px',
-                  fontSize: 12,
-                  color: 'rgba(255,255,255,0.42)',
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: 'rgba(255,255,255,0.7)',
                 }}
               >
-                {name}
+                {client}
               </span>
             ))}
           </div>

@@ -1,235 +1,201 @@
-import { useState } from "react";
-import SectionLabel from "./SectionLabel";
-
-const filters = [
-  { key: 'all', label: 'All' },
-  { key: 'marketing', label: 'Marketing' },
-  { key: 'technology', label: 'Technology' },
-  { key: 'combined', label: 'Combined' },
-];
-
-const studies = [
+const caseStudies = [
   {
-    type: 'marketing',
-    badge: 'Marketing \u00b7 GEO + SEO',
-    client: 'Iluvia',
-    subtitle: 'Premium Haircare \u00b7 Beauty & Wellness',
-    metrics: [
-      { num: '156%', label: 'Conv. rate' },
-      { num: '\u221251%', label: 'CAC reduction' },
-      { num: '63%', label: 'Amazon ranking' },
-    ],
+    type: 'Marketing',
+    services: 'GEO + SEO + Content',
+    client: 'Beauty & Wellness Company',
+    industry: 'Premium Haircare',
+    results: ['156% AI citation uplift', '−51% CAC', '14% Organic traffic increase'],
   },
   {
-    type: 'marketing',
-    badge: 'Marketing \u00b7 Content + GEO',
-    client: 'Trudiance Beauty',
-    subtitle: 'Skincare + Makeup \u00b7 D2C',
-    metrics: [
-      { num: '67%', label: 'Conv. rate' },
-      { num: '\u221243%', label: 'CAC' },
-      { num: '78%', label: 'LTV' },
-    ],
+    type: 'Marketing',
+    services: 'Content + GEO',
+    client: 'Biscuit Brand',
+    industry: 'Consumer Packaged Foods',
+    results: ['2.8x LLM share of voice in snacking category', '190% citation increase'],
   },
   {
-    type: 'marketing',
-    badge: 'Marketing \u00b7 GEO + AEO',
-    client: 'vPersonalize',
-    subtitle: 'Enterprise SaaS \u00b7 Fashion Tech',
-    metrics: [
-      { num: '63%', label: 'Conv. rate' },
-      { num: '\u221241%', label: 'CAC' },
-      { num: '47%', label: 'Email engagement' },
-    ],
+    type: 'Marketing',
+    services: 'GEO + AEO',
+    client: 'Enterprise SaaS',
+    industry: 'Fashion Tech',
+    results: ['220% organic sessions increase from GEO clusters', '2x Brand queries improvement'],
   },
   {
-    type: 'technology',
-    badge: 'Technology \u00b7 White Label',
+    type: 'Technology',
+    services: 'White Label',
     client: 'FinTech Platform',
-    subtitle: 'Financial Technology',
-    metrics: [
-      { num: '<10w', label: 'Launch to market' },
-      { num: '\u221270%', label: 'Manual effort' },
-      { num: '\u221e', label: 'Reseller seats' },
-    ],
+    industry: 'Financial Technology',
+    results: ['<10w launch to market', '−70% manual effort', '∞ reseller seats'],
   },
   {
-    type: 'technology',
-    badge: 'Technology \u00b7 AI Automation',
-    client: 'Logistics Leader',
-    subtitle: 'Last-Mile Delivery',
-    metrics: [
-      { num: '8 min', label: 'Lead response (was 4hr)' },
-      { num: '3\u00d7', label: 'Sales capacity' },
-      { num: '96%', label: 'Lead scoring accuracy' },
-    ],
+    type: 'Technology',
+    services: 'AI Automation',
+    client: 'Fleet Provider',
+    industry: 'Logistics',
+    results: ['8 min lead response (was 4hr)', '3× sales capacity', '96% lead scoring accuracy'],
   },
   {
-    type: 'technology',
-    badge: 'Technology \u00b7 Full Stack',
+    type: 'Technology',
+    services: 'Full Stack',
     client: 'Apparel Brand',
-    subtitle: 'Retail \u00b7 Ethnic Wear',
-    metrics: [
-      { num: '8\u00d7', label: 'Inventory speed' },
-      { num: '4 hrs', label: 'Design-to-publish (was 3d)' },
-      { num: '+2', label: 'Additional licensees' },
-    ],
+    industry: 'Retail, Ethnic Wear',
+    results: ['8× inventory speed', '4 hrs design-to-publish (was 3 days)'],
   },
 ];
 
 export default function CaseStudies() {
-  const [activeFilter, setActiveFilter] = useState('all');
-
-  const filtered =
-    activeFilter === 'all'
-      ? studies
-      : studies.filter((s) => s.type === activeFilter);
-
   return (
     <section
       id="case-studies"
       data-testid="case-studies-section"
-      style={{ background: 'var(--white)', padding: '80px 40px' }}
+      style={{
+        background: 'var(--off-white)',
+        padding: '80px 40px',
+      }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Intro */}
-        <div className="text-center mx-auto mb-8" style={{ maxWidth: 540 }}>
-          <SectionLabel text="Case Studies" centered />
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: 'var(--purple-dark)',
+              marginBottom: 16,
+            }}
+          >
+            Case Studies
+          </div>
+
           <h2
+            data-testid="case-studies-headline"
             className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
               fontWeight: 300,
-              fontSize: 'clamp(28px, 3.5vw, 42px)',
-              letterSpacing: '-1px',
-              color: 'var(--text-primary)',
-              margin: '0 0 10px',
+              fontSize: 'clamp(32px, 4vw, 48px)',
+              letterSpacing: '-1.5px',
               lineHeight: 1.15,
+              color: 'var(--text-primary)',
+              margin: 0,
             }}
           >
-            Real transformations, <em>real</em> numbers.
+            Real challenges. Measurable outcomes.
           </h2>
-          <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-            Six clients across marketing and technology. Filter by practice area.
-          </p>
         </div>
 
-        {/* Filter pills */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {filters.map((f) => (
-            <button
-              key={f.key}
-              data-testid={`filter-${f.key}`}
-              className={`filter-pill ${activeFilter === f.key ? 'active' : ''}`}
-              onClick={() => setActiveFilter(f.key)}
+        {/* Case Studies Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {caseStudies.map((study, idx) => (
+            <div
+              key={idx}
+              data-testid={`case-study-${idx + 1}`}
+              style={{
+                background: 'var(--white)',
+                border: '1px solid var(--border-clr)',
+                borderRadius: 12,
+                padding: '28px',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
             >
-              {f.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filtered.map((s, i) => {
-            const isTech = s.type === 'technology';
-            const accentColor = isTech ? 'var(--amber)' : 'var(--purple)';
-            const numColor = isTech ? 'var(--amber)' : 'var(--purple-dark)';
-            const badgeBg = isTech ? 'var(--amber-light)' : 'var(--purple-light)';
-            const badgeColor = isTech ? '#92400E' : 'var(--purple-dark)';
-
-            return (
-              <div
-                key={`${s.client}-${i}`}
-                data-testid={`case-study-card-${i}`}
-                className="relative overflow-hidden"
-                style={{
-                  background: 'var(--off-white)',
-                  border: '1px solid var(--border-clr)',
-                  borderRadius: 12,
-                  padding: 28,
-                }}
-              >
-                {/* Top accent bar */}
-                <div
-                  className="absolute top-0 left-0 right-0"
-                  style={{ height: 3, background: accentColor }}
-                />
-
-                {/* Badge */}
+              {/* Type Badge */}
+              <div className="flex gap-2 mb-4">
                 <span
                   style={{
-                    display: 'inline-block',
-                    background: badgeBg,
-                    color: badgeColor,
-                    fontSize: 10,
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    borderRadius: 4,
-                    padding: '3px 8px',
-                    marginBottom: 12,
-                  }}
-                >
-                  {s.badge}
-                </span>
-
-                {/* Client */}
-                <h3
-                  style={{
-                    fontFamily: "'Fraunces', serif",
-                    fontSize: 18,
+                    padding: '4px 10px',
+                    fontSize: 11,
                     fontWeight: 600,
-                    color: 'var(--text-primary)',
-                    margin: '0 0 2px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    background: study.type === 'Marketing' ? 'var(--purple-light)' : 'var(--amber-light)',
+                    color: study.type === 'Marketing' ? 'var(--purple-dark)' : '#92400E',
+                    borderRadius: 6,
                   }}
                 >
-                  {s.client}
-                </h3>
-                <p
-                  style={{
-                    fontSize: 13,
-                    color: 'var(--text-muted)',
-                    margin: '0 0 16px',
-                  }}
-                >
-                  {s.subtitle}
-                </p>
-
-                {/* Metrics */}
-                <div className="flex flex-wrap gap-x-5 gap-y-2">
-                  {s.metrics.map((m, j) => (
-                    <div key={j}>
-                      <span
-                        style={{
-                          fontFamily: "'Fraunces', serif",
-                          fontSize: 24,
-                          fontWeight: 600,
-                          color: numColor,
-                          display: 'block',
-                          lineHeight: 1.2,
-                        }}
-                      >
-                        {m.num}
-                      </span>
-                      <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                        {m.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                  {study.type}
+                </span>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Empty state for combined */}
-        {filtered.length === 0 && (
-          <p
-            className="text-center py-12"
-            style={{ color: 'var(--text-muted)', fontSize: 14, fontStyle: 'italic' }}
-          >
-            Combined case studies coming soon.
-          </p>
-        )}
+              {/* Services */}
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: 'var(--purple-dark)',
+                  margin: '0 0 12px',
+                }}
+              >
+                {study.services}
+              </div>
+
+              {/* Client & Industry */}
+              <h3
+                style={{
+                  fontFamily: "'Fraunces', serif",
+                  fontSize: 20,
+                  fontWeight: 600,
+                  color: 'var(--text-primary)',
+                  margin: '0 0 6px',
+                  lineHeight: 1.3,
+                }}
+              >
+                {study.client}
+              </h3>
+
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 400,
+                  color: 'var(--text-secondary)',
+                  margin: '0 0 20px',
+                }}
+              >
+                {study.industry}
+              </div>
+
+              {/* Results */}
+              <div
+                style={{
+                  marginTop: 'auto',
+                  paddingTop: 20,
+                  borderTop: '1px solid var(--border-clr)',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    color: 'var(--text-muted)',
+                    marginBottom: 10,
+                  }}
+                >
+                  Key Results
+                </div>
+                <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc' }}>
+                  {study.results.map((result, ridx) => (
+                    <li
+                      key={ridx}
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 500,
+                        color: 'var(--text-primary)',
+                        marginBottom: 6,
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {result}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
