@@ -3,10 +3,12 @@ from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import asyncio
 import logging
+import resend
 from pathlib import Path
-from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 from routes.cms_proxy import router as cms_proxy_router
@@ -19,6 +21,11 @@ load_dotenv(ROOT_DIR / '.env')
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
+
+# Resend configuration
+resend.api_key = os.environ.get('RESEND_API_KEY', '')
+SENDER_EMAIL = os.environ.get('SENDER_EMAIL', 'noreply@myaibo.in')
+NOTIFICATION_EMAIL = os.environ.get('NOTIFICATION_EMAIL', 'info@myaibo.in')
 
 # Create the main app without a prefix
 app = FastAPI()
@@ -37,6 +44,26 @@ class StatusCheck(BaseModel):
 
 class StatusCheckCreate(BaseModel):
     client_name: str
+
+# ── Contact Form Models ──────────────────────────────────────────────────────
+
+class ContactSubmission(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: EmailStr
+    company: Optional[str] = None
+    service_interest: Optional[str] = None
+    message: str
+    submitted_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class ContactSubmissionCreate(BaseModel):
+    name: str
+    email: EmailStr
+    company: Optional[str] = None
+    service_interest: Optional[str] = None
+    message: str
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
@@ -66,6 +93,71 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     
     return status_checks
+
+# ── Contact Form Endpoint ────────────────────────────────────────────────────
+
+@api_router.post("/contact")
+async def submit_contact(input: ContactSubmissionCreate):
+    # Build submission object
+    submission = ContactSubmission(**input.model_dump())
+    doc = submission.model_dump()
+    doc['submitted_at'] = doc['submitted_at'].isoformat()
+
+    # Persist to MongoDB
+    await db.contact_submissions.insert_one(doc)
+
+    # Build notification email HTML
+    service_line = f"<tr><td style='padding:8px 0;color:#666;'>Service Interest</td><td style='padding:8px 0;font-weight:600;color:#1a1a1a;'>{submission.service_interest or 'Not specified'}</td></tr>" if submission.service_interest else ""
+    company_line = f"<tr><td style='padding:8px 0;color:#666;'>Company</td><td style='padding:8px 0;font-weight:600;color:#1a1a1a;'>{submission.company}</td></tr>" if submission.company else ""
+
+    notification_html = f"""
+    <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;">
+      <div style="background:#7c3bed;padding:24px 32px;">
+        <h1 style="margin:0;color:#fff;font-size:20px;font-weight:600;">New Contact Form Submission</h1>
+        <p style="margin:6px 0 0;color:rgba(255,255,255,0.8);font-size:14px;">myaibo.in — {submission.submitted_at.strftime('%d %b %Y, %H:%M UTC') if hasattr(submission.submitted_at, 'strftime') else doc['submitted_at']}</p>
+      </div>
+      <div style="padding:32px;">
+        <table style="width:100%;border-collapse:collapse;">
+          <tr><td style="padding:8px 0;color:#666;width:160px;">Name</td><td style="padding:8px 0;font-weight:600;color:#1a1a1a;">{submission.name}</td></tr>
+          <tr><td style="padding:8px 0;color:#666;">Email</td><td style="padding:8px 0;font-weight:600;color:#1a1a1a;"><a href="mailto:{submission.email}" style="color:#7c3bed;">{submission.email}</a></td></tr>
+          {company_line}
+          {service_line}
+        </table>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #e5e5e5;">
+          <p style="margin:0 0 8px;color:#666;font-size:13px;text-transform:uppercase;letter-spacing:0.5px;">Message</p>
+          <p style="margin:0;color:#1a1a1a;line-height:1.7;white-space:pre-line;">{submission.message}</p>
+        </div>
+        <div style="margin-top:24px;">
+          <a href="mailto:{submission.email}" style="display:inline-block;background:#7c3bed;color:#fff;text-decoration:none;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;">Reply to {submission.name}</a>
+        </div>
+      </div>
+    </div>
+    """
+
+    # Send notification email via Resend (non-blocking)
+    try:
+        params = {
+            "from": SENDER_EMAIL,
+            "to": [NOTIFICATION_EMAIL],
+            "reply_to": submission.email,
+            "subject": f"New enquiry from {submission.name} — MyAibo",
+            "html": notification_html,
+        }
+        await asyncio.to_thread(resend.Emails.send, params)
+        logger.info(f"Contact notification sent for {submission.email}")
+    except Exception as e:
+        # Log but don't fail the request — form submission still saved
+        logger.error(f"Resend error: {str(e)}")
+
+    return {"status": "success", "id": submission.id}
+
+@api_router.get("/contact", response_model=List[ContactSubmission])
+async def get_contact_submissions():
+    submissions = await db.contact_submissions.find({}, {"_id": 0}).to_list(1000)
+    for s in submissions:
+        if isinstance(s.get('submitted_at'), str):
+            s['submitted_at'] = datetime.fromisoformat(s['submitted_at'])
+    return submissions
 
 # Include the router in the main app
 app.include_router(api_router)
