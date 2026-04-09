@@ -40,25 +40,26 @@ export default function Navigation() {
       <div
         className="nav-container"
         style={{
-          maxWidth: 1400,
+          maxWidth: 1600,
           margin: '0 auto',
-          padding: '16px 40px',
+          padding: '20px 40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          gap: 40,
         }}
       >
         {/* Logo */}
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', marginRight: 60 }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 52, width: 'auto' }}
+            style={{ height: 100, width: 'auto' }}
           />
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-6">
+        {/* Desktop Navigation - All items visible on desktop */}
+        <div className="hidden lg:flex items-center gap-8" style={{ flex: 1, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
           {/* Solutions Dropdown */}
           <div
             className="relative"
@@ -81,7 +82,6 @@ export default function Navigation() {
               <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
             </button>
 
-            {/* Dropdown Menu */}
             {solutionsOpen && (
               <div
                 className="absolute top-full left-0 mt-2"
@@ -95,7 +95,6 @@ export default function Navigation() {
                 }}
               >
                 <div className="grid grid-cols-2 gap-6">
-                  {/* Marketing Services Column */}
                   <div>
                     <div
                       style={{
@@ -133,7 +132,6 @@ export default function Navigation() {
                     ))}
                   </div>
 
-                  {/* Technical Services Column */}
                   <div>
                     <div
                       style={{
@@ -197,7 +195,6 @@ export default function Navigation() {
               <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
             </button>
 
-            {/* Dropdown Menu */}
             {resourcesOpen && (
               <div
                 className="absolute top-full left-0 mt-2"
@@ -249,12 +246,30 @@ export default function Navigation() {
           </div>
 
           {/* About Us */}
-          <Link to="/about" className="nav-link">
+          <Link 
+            to="/about" 
+            className="nav-link"
+            style={{
+              color: 'rgba(255,255,255,0.9)',
+              fontSize: 15,
+              fontWeight: 500,
+              textDecoration: 'none',
+            }}
+          >
             About Us
           </Link>
 
           {/* Contact Us */}
-          <Link to="/contact" className="nav-link">
+          <Link 
+            to="/contact" 
+            className="nav-link"
+            style={{
+              color: 'rgba(255,255,255,0.9)',
+              fontSize: 15,
+              fontWeight: 500,
+              textDecoration: 'none',
+            }}
+          >
             Contact Us
           </Link>
 
@@ -264,16 +279,23 @@ export default function Navigation() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-purple inline-flex items-center gap-2"
-            style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, borderRadius: 8 }}
+            style={{ 
+              padding: '12px 24px', 
+              fontSize: 15, 
+              fontWeight: 500, 
+              borderRadius: 8,
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+            }}
           >
-            <Calendar size={16} />
+            <Calendar size={18} />
             Book Free Strategy Session
           </a>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           style={{
             background: 'transparent',
@@ -290,7 +312,7 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div
-          className="md:hidden"
+          className="lg:hidden"
           style={{
             background: 'var(--dark)',
             borderTop: '1px solid rgba(124,59,237,0.2)',
@@ -318,7 +340,6 @@ export default function Navigation() {
 
             {mobileSolutionsOpen && (
               <div style={{ paddingLeft: 16, marginTop: 8 }}>
-                {/* Marketing Services */}
                 <div style={{ marginBottom: 16 }}>
                   <div
                     style={{
@@ -350,7 +371,6 @@ export default function Navigation() {
                   ))}
                 </div>
 
-                {/* Technical Services */}
                 <div>
                   <div
                     style={{
@@ -436,7 +456,6 @@ export default function Navigation() {
             )}
           </div>
 
-          {/* About Us */}
           <Link
             to="/about"
             onClick={() => setMobileOpen(false)}
@@ -446,7 +465,6 @@ export default function Navigation() {
             About Us
           </Link>
 
-          {/* Contact Us */}
           <Link
             to="/contact"
             onClick={() => setMobileOpen(false)}
@@ -456,15 +474,14 @@ export default function Navigation() {
             Contact Us
           </Link>
 
-          {/* Book Button */}
           <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-purple inline-flex items-center gap-2 mt-4"
-            style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, borderRadius: 8 }}
+            style={{ padding: '12px 24px', fontSize: 15, fontWeight: 500, borderRadius: 8, textDecoration: 'none' }}
           >
-            <Calendar size={16} />
+            <Calendar size={18} />
             Book Free Strategy Session
           </a>
         </div>

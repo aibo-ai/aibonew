@@ -19,7 +19,7 @@ export default function Footer() {
               <img 
                 src="/myaibo-logo.png" 
                 alt="MyAibo" 
-                style={{ height: 48, width: 'auto' }}
+                style={{ height: 100, width: 'auto' }}
               />
             </a>
             <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.65, marginTop: 16 }}>

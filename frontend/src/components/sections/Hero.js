@@ -98,15 +98,15 @@ export default function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-purple inline-flex items-center gap-2"
-            style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
+            style={{ padding: '16px 32px', fontSize: 16, fontWeight: 600 }}
           >
-            <Calendar size={18} />
+            <Calendar size={20} />
             Book Free Strategy Session
           </a>
           <a
             href="#case-studies"
             className="btn-outline inline-flex items-center gap-2"
-            style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
+            style={{ padding: '16px 32px', fontSize: 16, fontWeight: 600 }}
           >
             View Case Studies
             <ArrowRight size={18} />
