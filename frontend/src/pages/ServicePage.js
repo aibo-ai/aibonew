@@ -53,7 +53,7 @@ export default function ServicePage() {
         style={{ background: 'var(--dark)', padding: '140px 40px 72px', overflow: 'hidden' }}
       >
         <div className="absolute pointer-events-none" style={{ width: 560, height: 560, top: -100, right: -100, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,59,237,0.18) 0%, transparent 68%)' }} />
-        <div className="relative z-10 mx-auto" style={{ maxWidth: 720 }}>
+        <div className="relative z-10 mx-auto" style={{ maxWidth: 800 }}>
           {/* Breadcrumb */}
           <div className="mb-5" style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
             <Link to="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Home</Link>

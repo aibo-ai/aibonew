@@ -12,7 +12,7 @@ const marketingServices = [
 ];
 
 const technicalServices = [
-  { name: 'AI Automation', slug: 'ai-automation' },
+  { name: 'AI Automation', slug: 'ai-automations' },
   { name: 'White Label Solutions', slug: 'white-label' },
   { name: 'Full Stack Development', slug: 'full-stack' },
 ];
@@ -54,7 +54,7 @@ export default function Navigation() {
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 100, width: 'auto' }}
+            style={{ height: 140, width: 'auto' }}
           />
         </Link>
 

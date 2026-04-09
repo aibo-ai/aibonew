@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+import { Mail, Linkedin } from 'lucide-react';
 
 export default function ContactPage() {
   return (
@@ -104,47 +104,6 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* Website */}
-                <div className="flex items-start gap-4">
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      background: 'var(--purple-light)',
-                      borderRadius: 12,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <MapPin size={22} style={{ color: 'var(--purple-dark)' }} />
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: 'var(--text-primary)',
-                        marginBottom: 4,
-                      }}
-                    >
-                      Website
-                    </div>
-                    <a
-                      href="https://myaibo.in"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        fontSize: 16,
-                        color: 'var(--purple-dark)',
-                        textDecoration: 'none',
-                      }}
-                    >
-                      myaibo.in
-                    </a>
-                  </div>
-                </div>
 
                 {/* LinkedIn */}
                 <div className="flex items-start gap-4">
@@ -174,7 +133,7 @@ export default function ContactPage() {
                       LinkedIn
                     </div>
                     <a
-                      href="https://www.linkedin.com/company/myaibo"
+                      href="https://in.linkedin.com/company/myaibo"
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{

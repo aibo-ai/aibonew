@@ -64,7 +64,7 @@ export default function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               <li style={{ marginBottom: 12 }}>
-                <Link to="/solutions/ai-automation" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                <Link to="/solutions/ai-automations" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
                   AI Automation
                 </Link>
               </li>
@@ -127,7 +127,7 @@ export default function Footer() {
                 </a>
               </li>
               <li style={{ marginBottom: 12 }}>
-                <a href="https://www.linkedin.com/company/myaibo" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                <a href="https://in.linkedin.com/company/myaibo" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
                   LinkedIn
                 </a>
               </li>
