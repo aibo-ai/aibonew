@@ -80,7 +80,7 @@ export default function TechnologyServices() {
               margin: '0 auto 12px',
             }}
           >
-            Most AI projects never reach production. Most dev partners hand over code and disappear.
+            Most AI projects never reach production and most dev partners vanish after handover
           </p>
 
           <p

@@ -78,7 +78,7 @@ export default function MarketingServices() {
               margin: '0 auto 12px',
             }}
           >
-            Search has fundamentally changed. Nearly 62% of Indian users now trust AI answers over page-1 links.
+            Search has changed: 62% of users now trust AI answers over page-1 links.
           </p>
 
           <p

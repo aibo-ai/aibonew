@@ -43,21 +43,6 @@ export default function FinalCTA() {
           Ready to grow on <em>both fronts?</em>
         </h2>
 
-        {/* Sub */}
-        <p
-          style={{
-            fontSize: 16,
-            fontWeight: 300,
-            color: 'var(--text-secondary)',
-            lineHeight: 1.6,
-            maxWidth: 460,
-            margin: '0 auto 28px',
-          }}
-        >
-          Whether you need to dominate search and AI results, build a production-grade
-          platform, or both &mdash; start with a free strategy session.
-        </p>
-
         {/* Primary CTA */}
         <a
           href={BOOKING_URL}
@@ -65,7 +50,7 @@ export default function FinalCTA() {
           rel="noopener noreferrer"
           data-testid="cta-book-session"
           className="btn-purple inline-flex"
-          style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500, marginTop: 8 }}
+          style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
         >
           Book Free Strategy Session
         </a>
