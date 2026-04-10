@@ -54,7 +54,7 @@ export default function Navigation() {
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 100, width: 'auto' }}
+            style={{ height: 130, width: 'auto' }}
           />
         </Link>
 
