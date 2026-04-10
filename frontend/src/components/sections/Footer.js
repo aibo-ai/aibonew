@@ -126,6 +126,21 @@ export default function Footer() {
                   LinkedIn
                 </a>
               </li>
+              <li style={{ marginBottom: 12 }}>
+                <a href="https://www.youtube.com/@my-aibo" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  YouTube
+                </a>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <a href="https://www.instagram.com/my_aibo/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  Instagram
+                </a>
+              </li>
+              <li style={{ marginBottom: 12 }}>
+                <a href="https://x.com/my_aibo2" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
+                  X
+                </a>
+              </li>
             </ul>
           </div>
         </div>

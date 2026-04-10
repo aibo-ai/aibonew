@@ -59,30 +59,6 @@ export default function FinalCTA() {
           platform, or both &mdash; start with a free strategy session.
         </p>
 
-        {/* Self-selection row */}
-        <div className="flex flex-wrap justify-center gap-3 mb-5">
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-testid="cta-marketing-help"
-            className="selection-btn"
-          >
-            <Megaphone size={16} />
-            I need marketing help &rarr;
-          </a>
-          <a
-            href={BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            data-testid="cta-build-something"
-            className="selection-btn"
-          >
-            <Settings size={16} />
-            I need to build something &rarr;
-          </a>
-        </div>
-
         {/* Primary CTA */}
         <a
           href={BOOKING_URL}
@@ -90,7 +66,7 @@ export default function FinalCTA() {
           rel="noopener noreferrer"
           data-testid="cta-book-session"
           className="btn-purple inline-flex"
-          style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
+          style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500, marginTop: 8 }}
         >
           Book Free Strategy Session
         </a>
