@@ -42,7 +42,7 @@ export default function Navigation() {
         style={{
           maxWidth: 1180,
           margin: '0 auto',
-          padding: '12px 40px',
+          padding: '8px 40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -54,7 +54,7 @@ export default function Navigation() {
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 200, width: 'auto' }}
+            style={{ height: 100, width: 'auto' }}
           />
         </Link>
 
