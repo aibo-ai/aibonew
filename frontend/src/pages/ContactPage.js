@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Mail, Linkedin, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)',
@@ -83,7 +84,12 @@ export default function ContactPage() {
   };
 
   return (
-    <main style={{ paddingTop: 64 }}>
+    <>
+      <SEO 
+        title="Contact MyAibo — Book a Free Strategy Session"
+        description="Ready to grow? Book a free 30-minute strategy session. No commitment — just clarity on your highest-impact marketing or technology move."
+      />
+      <main style={{ paddingTop: 64 }}>
       {/* Hero */}
       <section style={{ background: 'var(--dark)', padding: '100px 40px 60px' }}>
         <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>
@@ -448,5 +454,6 @@ export default function ContactPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

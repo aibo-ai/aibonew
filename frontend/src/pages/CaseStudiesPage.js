@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Building2, TrendingUp, ArrowRight } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const CMS_API_BASE = '/api/cms/api';
 
@@ -25,7 +26,12 @@ export default function CaseStudiesPage() {
   };
 
   return (
-    <main style={{ paddingTop: 64 }}>
+    <>
+      <SEO 
+        title="Client Case Studies & Results | MyAibo"
+        description="Real outcomes across marketing and technology — +156% conversions, 8x faster inventory, and sales capacity tripled. See the full results."
+      />
+      <main style={{ paddingTop: 64 }}>
       {/* Hero Section */}
       <section
         style={{
@@ -227,5 +233,6 @@ export default function CaseStudiesPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { Building2, Heart, Clock } from "lucide-react";
 import { Linkedin } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const stats = [
   { icon: Building2, value: "50+", label: "Projects Delivered" },
@@ -26,7 +27,12 @@ const founders = [
 
 export default function AboutPage() {
   return (
-    <main>
+    <>
+      <SEO 
+        title="About MyAibo — Marketing & AI Technology Agency"
+        description="Founded by veterans from Flipkart, InMobi, Zomato, and Leena.ai. MyAibo combines deep marketing and AI engineering expertise under one roof."
+      />
+      <main>
       {/* Vision Section */}
       <section
         data-testid="about-vision-section"
@@ -269,5 +275,6 @@ export default function AboutPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

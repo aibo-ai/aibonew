@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import SEO from '@/components/SEO';
 
 const CMS_API_BASE = '/api/cms/api';
 
@@ -25,7 +26,12 @@ export default function BlogsPage() {
   };
 
   return (
-    <main style={{ paddingTop: 64 }}>
+    <>
+      <SEO 
+        title="Blog — AI, Marketing & Technology Insights | MyAibo"
+        description="Expert perspectives on GEO, AEO, SEO, AI automation, and full-stack development from the team building systems that actually compound."
+      />
+      <main style={{ paddingTop: 64 }}>
       {/* Hero Section */}
       <section
         style={{
@@ -197,5 +203,6 @@ export default function BlogsPage() {
         </div>
       </section>
     </main>
+    </>
   );
 }

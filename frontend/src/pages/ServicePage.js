@@ -10,6 +10,38 @@ import { contentMarketingData } from "@/data/contentMarketingData";
 import { aiAutomationsData } from "@/data/aiAutomationsData";
 import { whiteLabelData } from "@/data/whiteLabelData";
 import { fullStackData } from "@/data/fullStackData";
+import SEO from "@/components/SEO";
+
+const seoMetaData = {
+  geo: {
+    title: "GEO Services — Be the Brand AI Recommends | MyAibo",
+    description: "Structure your presence so ChatGPT, Perplexity, and Google SGE cite your brand by name. MyAibo GEO clients see +340% AI citation growth."
+  },
+  aeo: {
+    title: "AEO Services — Own Position Zero | MyAibo",
+    description: "Win featured snippets, PAA boxes, and voice answers before competitors. MyAibo AEO drives +280% PAA ownership and +47 new snippets per client."
+  },
+  seo: {
+    title: "SEO Services — Organic Authority That Lasts | MyAibo",
+    description: "Technical SEO, keyword architecture, and link equity built to compound. MyAibo SEO clients see +280% organic growth and 11x ROI over paid search."
+  },
+  'content-marketing': {
+    title: "Content Marketing Services | MyAibo",
+    description: "Long-form guides, case studies, FAQs, and nurture sequences built for Google, AI engines, and humans equally. +220% organic traffic on average."
+  },
+  'ai-automations': {
+    title: "AI Automation Services — Custom AI Agents | MyAibo",
+    description: "Production-grade AI agents for lead capture, support, outreach, and ops workflows. Cut manual effort by 70% without adding headcount."
+  },
+  'white-label': {
+    title: "White Label AI Platform Development | MyAibo",
+    description: "Launch a fully branded AI product in under 10 weeks. NDA-secured, multi-tenant, reseller-ready — 100% your IP, zero vendor attribution."
+  },
+  'full-stack': {
+    title: "Full Stack Development — Built to Last | MyAibo",
+    description: "Web apps, AI-integrated products, e-commerce platforms, and APIs built front to back. Modern stacks, zero technical debt, 100% IP ownership."
+  },
+};
 
 const dataMap = {
   geo: geoData,
@@ -24,6 +56,7 @@ const dataMap = {
 export default function ServicePage() {
   const { slug } = useParams();
   const data = dataMap[slug];
+  const seoMeta = seoMetaData[slug];
   const isTech = data?.type === 'technology';
   const accentColor = isTech ? 'var(--amber)' : 'var(--purple)';
   const accentDark = isTech ? '#B45309' : 'var(--purple-dark)';
@@ -46,7 +79,9 @@ export default function ServicePage() {
   }
 
   return (
-    <main>
+    <>
+      {seoMeta && <SEO title={seoMeta.title} description={seoMeta.description} />}
+      <main>
       {/* ─── HERO ─── */}
       <section
         className="relative"
@@ -294,5 +329,6 @@ export default function ServicePage() {
         </div>
       </section>
     </main>
+    </>
   );
 }
