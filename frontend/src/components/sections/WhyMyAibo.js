@@ -19,7 +19,7 @@ const reasons = [
   {
     icon: Target,
     title: 'Outcome-Driven, Not Hours-Driven',
-    description: 'Engagements are structured around measurable KPIs — not retainer hours. We own the outcome. No black-box metrics. No hidden costs.',
+    description: 'Engagements are structured around measurable KPIs not retainer hours. We own the outcome. No black-box metrics. No hidden costs.',
   },
   {
     icon: Eye,

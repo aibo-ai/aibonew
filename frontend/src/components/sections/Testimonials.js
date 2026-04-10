@@ -1,24 +1,24 @@
 const testimonials = [
   {
-    quote: "MyAibo's platform transformed our customer acquisition from a cost center into a profit engine. 52% conversion increase in three months? That's not just growth — that's exponential success.",
-    author: 'VP',
+    quote: "MyAibo's platform transformed our customer acquisition from a cost center into a profit engine. 52% conversion increase in three months? That's not just growth, that's exponential success.",
+    author: 'Bala S',
     role: 'CEO, vPersonalize',
     company: 'Enterprise SaaS',
-    initials: 'VP',
+    initials: 'BS',
   },
   {
-    quote: "After trying countless solutions, MyAibo finally cracked the code. Their approach doesn't just target customers — it finds the exact people who will love our brand and buy repeatedly.",
-    author: 'IL',
-    role: 'CEO, Iluvia',
-    company: 'Premium Haircare',
-    initials: 'IL',
+    quote: "After trying countless solutions, MyAibo finally cracked the code. Their approach doesn't just target customers, they finds the exact people who will love our brand and buy repeatedly.",
+    author: 'Nishant Gupta',
+    role: 'Iluvia Premium Haircare',
+    company: '',
+    initials: 'NG',
   },
   {
     quote: "MyAibo allowed us to communicate our unique value proposition with clarity while personalising customer experiences at scale. Higher conversions, lower acquisition costs, genuine brand understanding.",
-    author: 'TB',
+    author: 'Jigeesha',
     role: 'Founder, Trudiance',
     company: 'Beauty & Skincare',
-    initials: 'TB',
+    initials: 'JG',
   },
 ];
 

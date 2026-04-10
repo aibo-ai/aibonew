@@ -15,7 +15,7 @@ const technologyServices = [
     number: '03',
     title: 'Full Stack Development',
     tagline: 'Complete products, built to last.',
-    description: 'From pixel-perfect frontends to high-throughput backend engines. You own 100% of the IP.',
+    description: 'From pixel perfect frontends to high-throughput backend engines. You own 100% of the IP.',
   },
 ];
 
@@ -92,7 +92,7 @@ export default function TechnologyServices() {
               margin: '0 auto',
             }}
           >
-            We build production-grade systems and stay accountable to outcomes — not billable hours.
+            We build production-grade systems and stay accountable to outcomes not billable hours.
           </p>
         </div>
 
