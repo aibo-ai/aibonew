@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Calendar, ArrowDown, ArrowRight, Check, X } from "lucide-react";
+import { ArrowDown, ArrowRight, Check, X } from "lucide-react";
 import SectionLabel from "@/components/sections/SectionLabel";
 import { BOOKING_URL } from "@/lib/constants";
 import { geoData } from "@/data/geoData";

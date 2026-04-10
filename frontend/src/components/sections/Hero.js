@@ -1,4 +1,4 @@
-import { Calendar, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { BOOKING_URL } from "@/lib/constants";
 
 const clients = ['Iluvia', 'Trudiance', 'Fego', 'Optimhire', 'vPersonalize', 'Brokenatom'];

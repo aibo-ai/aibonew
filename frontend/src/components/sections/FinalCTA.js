@@ -1,4 +1,3 @@
-import { Calendar, Megaphone, Settings } from "lucide-react";
 import { BOOKING_URL } from "@/lib/constants";
 
 export default function FinalCTA() {
