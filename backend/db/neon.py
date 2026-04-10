@@ -23,9 +23,13 @@ async def close_pool():
         _pool = None
 
 async def init_tables():
-    """Create tables if they don't exist."""
+    """Drop old Sequelize-managed tables and recreate with our clean schema."""
     pool = await get_pool()
     async with pool.acquire() as conn:
+        # Drop old incompatible tables (safe — no production data yet)
+        await conn.execute('DROP TABLE IF EXISTS blogs CASCADE;')
+        await conn.execute('DROP TABLE IF EXISTS case_studies CASCADE;')
+
         await conn.execute("""
             CREATE TABLE IF NOT EXISTS admin_users (
                 id          TEXT PRIMARY KEY,
