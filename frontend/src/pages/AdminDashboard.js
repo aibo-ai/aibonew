@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Briefcase, Eye, Plus } from 'lucide-react';
 
-// Use the FastAPI proxy to access CMS backend
-const CMS_API_BASE = '/api/cms/api';
+// Use the FastAPI backend admin API
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ blogs: 0, caseStudies: 0, views: 0 });
@@ -29,21 +29,18 @@ export default function AdminDashboard() {
 
   const fetchStats = async (token) => {
     try {
+      const headers = { 'Authorization': `Bearer ${token}` };
       const [blogsRes, casesRes] = await Promise.all([
-        fetch(`${CMS_API_BASE}/blog`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }),
-        fetch(`${CMS_API_BASE}/case-studies`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        })
+        fetch(`${BACKEND_URL}/api/admin/blogs`, { headers }),
+        fetch(`${BACKEND_URL}/api/admin/case-studies`, { headers }),
       ]);
 
       const blogsData = await blogsRes.json();
       const casesData = await casesRes.json();
 
       setStats({
-        blogs: blogsData.data?.length || 0,
-        caseStudies: casesData.data?.length || 0,
+        blogs: Array.isArray(blogsData) ? blogsData.length : 0,
+        caseStudies: Array.isArray(casesData) ? casesData.length : 0,
         views: 0
       });
     } catch (error) {

@@ -165,6 +165,78 @@ backend:
         agent: "testing"
         comment: "✅ Root endpoint working correctly. Returns {message: 'Hello World'} as expected."
 
+  - task: "Admin Login API - POST /api/admin/login"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin login successful with credentials admin@myaibo.in/admin123. Returns {token, email, id} as expected. JWT authentication working correctly."
+
+  - task: "Admin Get Blogs API - GET /api/admin/blogs"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin get blogs successful with Bearer token authentication. Returns array of existing blogs with full metadata. Authorization middleware working correctly."
+
+  - task: "Admin Get Case Studies API - GET /api/admin/case-studies"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin get case studies successful with Bearer token authentication. Returns empty array as expected (no case studies in database)."
+
+  - task: "Admin Create Blog API - POST /api/admin/blogs"
+    implemented: true
+    working: false
+    file: "backend/routes/admin_api.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ Admin create blog fails with 500 Internal Server Error. Database schema mismatch: API code expects 'published' column but database has 'status' column. This is a critical architectural issue."
+
+  - task: "Admin Public Blogs API - GET /api/admin/public/blogs"
+    implemented: true
+    working: false
+    file: "backend/routes/admin_api.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ Admin public blogs fails with 500 Internal Server Error. Database schema mismatch: Query uses 'published=TRUE' but database has 'status' column instead. Same root cause as create blog issue."
+
+  - task: "Admin Delete Blog API - DELETE /api/admin/blogs/{id}"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Cannot test delete functionality due to create blog failure. Delete endpoint exists but requires successful blog creation first."
+
 frontend:
   - task: "Contact Form Frontend Integration"
     implemented: false
@@ -180,24 +252,26 @@ frontend:
 
 metadata:
   created_by: "testing_agent"
-  version: "1.0"
-  test_sequence: 1
+  version: "1.1"
+  test_sequence: 2
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Contact Form API - POST /api/contact with all fields"
-    - "Contact Form API - POST /api/contact with required fields only"
-    - "Contact Form API - POST /api/contact email validation"
-    - "Contact Form API - GET /api/contact submissions list"
-    - "Root API endpoint - GET /api/"
-  stuck_tasks: []
+    - "Admin Create Blog API - POST /api/admin/blogs"
+    - "Admin Public Blogs API - GET /api/admin/public/blogs"
+    - "Admin Delete Blog API - DELETE /api/admin/blogs/{id}"
+  stuck_tasks:
+    - "Admin Create Blog API - POST /api/admin/blogs"
+    - "Admin Public Blogs API - GET /api/admin/public/blogs"
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "testing"
     message: "Completed comprehensive testing of contact form API endpoints. All 5 tests passed successfully. Backend is fully functional. Minor issue: Resend email service shows domain verification error but doesn't affect core functionality - contact submissions are saved correctly to MongoDB. Email notifications are attempted but fail due to unverified domain (myaibo.in)."
+  - agent: "testing"
+    message: "Completed admin API testing. CRITICAL ISSUE FOUND: Database schema mismatch between admin API code and actual database. Admin login and read operations work, but create/update operations fail due to schema incompatibility. Admin API expects 'published' column but database has 'status' column. This is a major architectural issue requiring immediate attention."
 
 # Previous Implementation Status (Historical)
 

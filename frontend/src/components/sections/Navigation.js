@@ -40,9 +40,9 @@ export default function Navigation() {
       <div
         className="nav-container"
         style={{
-          maxWidth: 1600,
+          maxWidth: 1180,
           margin: '0 auto',
-          padding: '20px 40px',
+          padding: '12px 40px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -54,7 +54,7 @@ export default function Navigation() {
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 140, width: 'auto' }}
+            style={{ height: 50, width: 'auto' }}
           />
         </Link>
 

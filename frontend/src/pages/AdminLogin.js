@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Use the FastAPI proxy to access CMS backend
-const CMS_API_BASE = '/api/cms/api';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -17,26 +16,23 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await fetch(`${CMS_API_BASE}/auth/login`, {
+      const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
-      if (response.ok && data.success) {
+      if (response.ok && data.token) {
         localStorage.setItem('admin_token', data.token);
-        localStorage.setItem('admin_user', JSON.stringify(data.user));
+        localStorage.setItem('admin_user', JSON.stringify({ email: data.email, id: data.id }));
         navigate('/admin/dashboard');
       } else {
-        setError(data.error || 'Login failed. Please check your credentials.');
+        setError(data.detail || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       setError('Network error. Please try again.');
-      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing Script for Contact Form
-Tests the FastAPI backend contact form endpoints
+Backend API Testing Script for Contact Form and Admin APIs
+Tests the FastAPI backend contact form and admin endpoints
 """
 
 import requests
@@ -13,6 +13,10 @@ import uuid
 # Backend URL from frontend/.env
 BACKEND_URL = "https://myaibo-redesign.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
+
+# Global variable to store admin token
+admin_token = None
+created_blog_id = None
 
 def test_root_endpoint():
     """Test GET /api/ - Root endpoint"""
@@ -147,6 +151,189 @@ def test_get_contact_submissions():
         print(f"❌ Contact submissions retrieval failed with error: {str(e)}")
         return False
 
+def test_admin_login():
+    """Test POST /api/admin/login with admin credentials"""
+    global admin_token
+    print("\n=== Testing Admin Login ===")
+    
+    login_data = {
+        "email": "admin@myaibo.in",
+        "password": "admin123"
+    }
+    
+    try:
+        response = requests.post(f"{API_BASE}/admin/login", json=login_data)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        
+        if response.status_code == 200:
+            result = response.json()
+            if "token" in result and "email" in result and "id" in result:
+                admin_token = result["token"]
+                print("✅ Admin login successful")
+                return True
+            else:
+                print("❌ Admin login failed - missing required fields in response")
+                return False
+        else:
+            print(f"❌ Admin login failed with status {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"❌ Admin login failed with error: {str(e)}")
+        return False
+
+def test_admin_get_blogs():
+    """Test GET /api/admin/blogs with authorization"""
+    print("\n=== Testing Admin Get Blogs ===")
+    
+    if not admin_token:
+        print("❌ No admin token available - login test must pass first")
+        return False
+    
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    
+    try:
+        response = requests.get(f"{API_BASE}/admin/blogs", headers=headers)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        
+        if response.status_code == 200:
+            blogs = response.json()
+            if isinstance(blogs, list):
+                print(f"✅ Admin get blogs successful - returned {len(blogs)} blogs")
+                return True
+            else:
+                print("❌ Admin get blogs failed - response is not a list")
+                return False
+        else:
+            print(f"❌ Admin get blogs failed with status {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"❌ Admin get blogs failed with error: {str(e)}")
+        return False
+
+def test_admin_create_blog():
+    """Test POST /api/admin/blogs with authorization"""
+    global created_blog_id
+    print("\n=== Testing Admin Create Blog ===")
+    
+    if not admin_token:
+        print("❌ No admin token available - login test must pass first")
+        return False
+    
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    blog_data = {
+        "title": "Test Post",
+        "slug": "test-post",
+        "excerpt": "Test",
+        "content": "Hello World",
+        "published": False
+    }
+    
+    try:
+        response = requests.post(f"{API_BASE}/admin/blogs", json=blog_data, headers=headers)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        
+        if response.status_code == 201:
+            result = response.json()
+            if "id" in result and result.get("title") == "Test Post":
+                created_blog_id = result["id"]
+                print("✅ Admin create blog successful")
+                return True
+            else:
+                print("❌ Admin create blog failed - missing id or incorrect title in response")
+                return False
+        else:
+            print(f"❌ Admin create blog failed with status {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"❌ Admin create blog failed with error: {str(e)}")
+        return False
+
+def test_admin_get_case_studies():
+    """Test GET /api/admin/case-studies with authorization"""
+    print("\n=== Testing Admin Get Case Studies ===")
+    
+    if not admin_token:
+        print("❌ No admin token available - login test must pass first")
+        return False
+    
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    
+    try:
+        response = requests.get(f"{API_BASE}/admin/case-studies", headers=headers)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        
+        if response.status_code == 200:
+            case_studies = response.json()
+            if isinstance(case_studies, list):
+                print(f"✅ Admin get case studies successful - returned {len(case_studies)} case studies")
+                return True
+            else:
+                print("❌ Admin get case studies failed - response is not a list")
+                return False
+        else:
+            print(f"❌ Admin get case studies failed with status {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"❌ Admin get case studies failed with error: {str(e)}")
+        return False
+
+def test_admin_public_blogs():
+    """Test GET /api/admin/public/blogs (no auth needed)"""
+    print("\n=== Testing Admin Public Blogs ===")
+    
+    try:
+        response = requests.get(f"{API_BASE}/admin/public/blogs")
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.json()}")
+        
+        if response.status_code == 200:
+            blogs = response.json()
+            if isinstance(blogs, list):
+                print(f"✅ Admin public blogs successful - returned {len(blogs)} published blogs")
+                return True
+            else:
+                print("❌ Admin public blogs failed - response is not a list")
+                return False
+        else:
+            print(f"❌ Admin public blogs failed with status {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"❌ Admin public blogs failed with error: {str(e)}")
+        return False
+
+def test_admin_delete_blog():
+    """Test DELETE /api/admin/blogs/{id} with authorization"""
+    print("\n=== Testing Admin Delete Blog ===")
+    
+    if not admin_token:
+        print("❌ No admin token available - login test must pass first")
+        return False
+    
+    if not created_blog_id:
+        print("❌ No blog ID available - create blog test must pass first")
+        return False
+    
+    headers = {"Authorization": f"Bearer {admin_token}"}
+    
+    try:
+        response = requests.delete(f"{API_BASE}/admin/blogs/{created_blog_id}", headers=headers)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 204:
+            print("✅ Admin delete blog successful")
+            return True
+        else:
+            print(f"❌ Admin delete blog failed with status {response.status_code}")
+            print(f"Response: {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ Admin delete blog failed with error: {str(e)}")
+        return False
+
 def run_all_tests():
     """Run all backend tests and return summary"""
     print("🚀 Starting Backend API Tests")
@@ -154,6 +341,7 @@ def run_all_tests():
     
     results = {}
     
+    # Contact Form Tests (existing)
     # Test 1: Root endpoint
     results['root_endpoint'] = test_root_endpoint()
     
@@ -170,6 +358,25 @@ def run_all_tests():
     
     # Test 5: Get contact submissions
     results['get_submissions'] = test_get_contact_submissions()
+    
+    # Admin API Tests (new)
+    # Test 6: Admin login
+    results['admin_login'] = test_admin_login()
+    
+    # Test 7: Admin get blogs
+    results['admin_get_blogs'] = test_admin_get_blogs()
+    
+    # Test 8: Admin create blog
+    results['admin_create_blog'] = test_admin_create_blog()
+    
+    # Test 9: Admin get case studies
+    results['admin_get_case_studies'] = test_admin_get_case_studies()
+    
+    # Test 10: Admin public blogs
+    results['admin_public_blogs'] = test_admin_public_blogs()
+    
+    # Test 11: Admin delete blog
+    results['admin_delete_blog'] = test_admin_delete_blog()
     
     # Summary
     print("\n" + "="*50)

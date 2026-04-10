@@ -12,6 +12,8 @@ from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
 from routes.cms_proxy import router as cms_proxy_router
+from routes.admin_api import router as admin_router
+from db.neon import init_tables, close_pool
 
 
 ROOT_DIR = Path(__file__).parent
@@ -134,20 +136,19 @@ async def submit_contact(input: ContactSubmissionCreate):
     </div>
     """
 
-    # Send notification email via Resend (non-blocking)
+    # Send notification email via Resend (non-blocking async)
     try:
-        params = {
-            "from": SENDER_EMAIL,
+        params: resend.Emails.SendParams = {
+            "from": f"MyAibo <{SENDER_EMAIL}>",
             "to": [NOTIFICATION_EMAIL],
-            "reply_to": submission.email,
             "subject": f"New enquiry from {submission.name} — MyAibo",
             "html": notification_html,
         }
-        await asyncio.to_thread(resend.Emails.send, params)
-        logger.info(f"Contact notification sent for {submission.email}")
+        email_response = await resend.Emails.send_async(params)
+        logger.info(f"Contact notification sent for {submission.email}, id={email_response.get('id')}")
     except Exception as e:
         # Log but don't fail the request — form submission still saved
-        logger.error(f"Resend error: {str(e)}")
+        logger.error(f"Resend error: {type(e).__name__}: {str(e)}")
 
     return {"status": "success", "id": submission.id}
 
@@ -162,6 +163,7 @@ async def get_contact_submissions():
 # Include the router in the main app
 app.include_router(api_router)
 app.include_router(cms_proxy_router, prefix="/api")
+app.include_router(admin_router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -181,3 +183,11 @@ logger = logging.getLogger(__name__)
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+    await close_pool()
+
+@app.on_event("startup")
+async def startup():
+    try:
+        await init_tables()
+    except Exception as e:
+        logger.error(f"Neon DB init error (non-fatal): {e}")

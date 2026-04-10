@@ -13,13 +13,13 @@ export default function Footer() {
               style={{
                 textDecoration: 'none',
                 display: 'block',
-                marginBottom: 16,
+                marginBottom: 12,
               }}
             >
               <img 
                 src="/myaibo-logo.png" 
                 alt="MyAibo" 
-                style={{ height: 100, width: 'auto' }}
+                style={{ height: 50, width: 'auto', display: 'block' }}
               />
             </a>
             <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.65, marginTop: 16 }}>
@@ -119,11 +119,6 @@ export default function Footer() {
               <li style={{ marginBottom: 12 }}>
                 <a href="mailto:info@myaibo.in" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
                   info@myaibo.in
-                </a>
-              </li>
-              <li style={{ marginBottom: 12 }}>
-                <a href="https://myaibo.in" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
-                  myaibo.in
                 </a>
               </li>
               <li style={{ marginBottom: 12 }}>
