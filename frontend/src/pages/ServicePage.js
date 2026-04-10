@@ -73,7 +73,7 @@ export default function ServicePage() {
           </p>
           <div className="flex flex-wrap gap-3">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-purple" style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}>
-              <Calendar size={16} /> Book Free Strategy Session
+              Book Free Strategy Session
             </a>
             <a href="#intro" className="btn-outline-light" style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500 }}>
               {data.ctaSecondary} <ArrowDown size={15} />
@@ -282,7 +282,7 @@ export default function ServicePage() {
           </p>
           <div className="flex flex-wrap justify-center gap-3 mb-3">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-purple inline-flex" style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}>
-              <Calendar size={16} /> Book Free Strategy Session
+              Book Free Strategy Session
             </a>
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="selection-btn">
               {data.finalCta.ctaSecondary} <ArrowRight size={14} />

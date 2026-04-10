@@ -92,7 +92,6 @@ export default function FinalCTA() {
           className="btn-purple inline-flex"
           style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
         >
-          <Calendar size={16} />
           Book Free Strategy Session
         </a>
 

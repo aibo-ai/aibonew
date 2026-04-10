@@ -54,7 +54,7 @@ export default function Navigation() {
           <img 
             src="/myaibo-logo.png" 
             alt="MyAibo" 
-            style={{ height: 50, width: 'auto' }}
+            style={{ height: 200, width: 'auto' }}
           />
         </Link>
 
@@ -288,7 +288,6 @@ export default function Navigation() {
               whiteSpace: 'nowrap',
             }}
           >
-            <Calendar size={18} />
             Book Free Strategy Session
           </a>
         </div>
@@ -481,7 +480,6 @@ export default function Navigation() {
             className="btn-purple inline-flex items-center gap-2 mt-4"
             style={{ padding: '12px 24px', fontSize: 15, fontWeight: 500, borderRadius: 8, textDecoration: 'none' }}
           >
-            <Calendar size={18} />
             Book Free Strategy Session
           </a>
         </div>

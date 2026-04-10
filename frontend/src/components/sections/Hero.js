@@ -100,7 +100,6 @@ export default function Hero() {
             className="btn-purple inline-flex items-center gap-2"
             style={{ padding: '16px 32px', fontSize: 16, fontWeight: 600 }}
           >
-            <Calendar size={20} />
             Book Free Strategy Session
           </a>
           <a
