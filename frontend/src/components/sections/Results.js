@@ -107,7 +107,7 @@ export default function Results() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {marketingResults.map((result, idx) => (
               <div
-                key={idx}
+                key={`mkt-${result.value || idx}`}
                 data-testid={`marketing-result-${idx + 1}`}
                 style={{
                   background: 'var(--off-white)',
@@ -189,7 +189,7 @@ export default function Results() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {technicalResults.map((result, idx) => (
               <div
-                key={idx}
+                key={`tech-${result.value || idx}`}
                 data-testid={`technical-result-${idx + 1}`}
                 style={{
                   background: 'var(--off-white)',

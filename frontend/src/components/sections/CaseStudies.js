@@ -90,7 +90,7 @@ export default function CaseStudies() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {caseStudies.map((study, idx) => (
             <div
-              key={idx}
+              key={`study-${study.client || idx}`}
               data-testid={`case-study-${idx + 1}`}
               style={{
                 background: 'var(--white)',

@@ -69,7 +69,7 @@ export default function Testimonials() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, idx) => (
             <div
-              key={idx}
+              key={`testimonial-${testimonial.name || idx}`}
               data-testid={`testimonial-${idx + 1}`}
               style={{
                 background: 'var(--off-white)',

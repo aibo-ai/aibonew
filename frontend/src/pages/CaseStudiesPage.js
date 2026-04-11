@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Building2, TrendingUp, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
@@ -9,21 +9,21 @@ export default function CaseStudiesPage() {
   const [caseStudies, setCaseStudies] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchCaseStudies();
-  }, []);
-
-  const fetchCaseStudies = async () => {
+  const fetchCaseStudies = useCallback(async () => {
     try {
       const response = await fetch(`${CMS_API_BASE}/case-studies/published`);
       const data = await response.json();
       setCaseStudies(data.data || []);
-    } catch (error) {
-      console.error('Error fetching case studies:', error);
+    } catch (_error) {
+      /* network error — silently handled */
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchCaseStudies();
+  }, [fetchCaseStudies]);
 
   return (
     <>

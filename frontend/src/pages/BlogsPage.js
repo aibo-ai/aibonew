@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
@@ -9,21 +9,21 @@ export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchBlogs();
-  }, []);
-
-  const fetchBlogs = async () => {
+  const fetchBlogs = useCallback(async () => {
     try {
       const response = await fetch(`${CMS_API_BASE}/blog/published`);
       const data = await response.json();
       setBlogs(data.data || []);
-    } catch (error) {
-      console.error('Error fetching blogs:', error);
+    } catch (_error) {
+      /* network error — silently handled */
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
 
   return (
     <>
@@ -117,9 +117,9 @@ export default function BlogsPage() {
                     {/* Categories */}
                     {blog.categories && Array.isArray(blog.categories) && blog.categories.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-3">
-                        {blog.categories.slice(0, 2).map((cat, idx) => (
+                        {blog.categories.slice(0, 2).map((cat) => (
                           <span
-                            key={idx}
+                            key={cat}
                             style={{
                               padding: '4px 10px',
                               fontSize: 11,

@@ -96,27 +96,32 @@ async def get_status_checks():
     
     return status_checks
 
-# ── Contact Form Endpoint ────────────────────────────────────────────────────
+# ── Contact Form Helpers ──────────────────────────────────────────────────────
 
-@api_router.post("/contact")
-async def submit_contact(input: ContactSubmissionCreate):
-    # Build submission object
-    submission = ContactSubmission(**input.model_dump())
-    doc = submission.model_dump()
-    doc['submitted_at'] = doc['submitted_at'].isoformat()
-
-    # Persist to MongoDB
-    await db.contact_submissions.insert_one(doc)
-
-    # Build notification email HTML
-    service_line = f"<tr><td style='padding:8px 0;color:#666;'>Service Interest</td><td style='padding:8px 0;font-weight:600;color:#1a1a1a;'>{submission.service_interest or 'Not specified'}</td></tr>" if submission.service_interest else ""
-    company_line = f"<tr><td style='padding:8px 0;color:#666;'>Company</td><td style='padding:8px 0;font-weight:600;color:#1a1a1a;'>{submission.company}</td></tr>" if submission.company else ""
-
-    notification_html = f"""
+def _build_notification_html(submission, submitted_at_str: str) -> str:
+    """Build the HTML email body for a new contact form submission."""
+    service_line = (
+        f"<tr><td style='padding:8px 0;color:#666;'>Service Interest</td>"
+        f"<td style='padding:8px 0;font-weight:600;color:#1a1a1a;'>"
+        f"{submission.service_interest or 'Not specified'}</td></tr>"
+        if submission.service_interest else ""
+    )
+    company_line = (
+        f"<tr><td style='padding:8px 0;color:#666;'>Company</td>"
+        f"<td style='padding:8px 0;font-weight:600;color:#1a1a1a;'>"
+        f"{submission.company}</td></tr>"
+        if submission.company else ""
+    )
+    date_display = (
+        submission.submitted_at.strftime('%d %b %Y, %H:%M UTC')
+        if hasattr(submission.submitted_at, 'strftime')
+        else submitted_at_str
+    )
+    return f"""
     <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;">
       <div style="background:#7c3bed;padding:24px 32px;">
         <h1 style="margin:0;color:#fff;font-size:20px;font-weight:600;">New Contact Form Submission</h1>
-        <p style="margin:6px 0 0;color:rgba(255,255,255,0.8);font-size:14px;">myaibo.in — {submission.submitted_at.strftime('%d %b %Y, %H:%M UTC') if hasattr(submission.submitted_at, 'strftime') else doc['submitted_at']}</p>
+        <p style="margin:6px 0 0;color:rgba(255,255,255,0.8);font-size:14px;">myaibo.in — {date_display}</p>
       </div>
       <div style="padding:32px;">
         <table style="width:100%;border-collapse:collapse;">
@@ -136,7 +141,9 @@ async def submit_contact(input: ContactSubmissionCreate):
     </div>
     """
 
-    # Send notification email via Resend (non-blocking async)
+
+async def _send_contact_notification(submission, notification_html: str):
+    """Attempt to send email notification via Resend (non-blocking)."""
     try:
         params: resend.Emails.SendParams = {
             "from": f"MyAibo <{SENDER_EMAIL}>",
@@ -147,8 +154,21 @@ async def submit_contact(input: ContactSubmissionCreate):
         email_response = await resend.Emails.send_async(params)
         logger.info(f"Contact notification sent for {submission.email}, id={email_response.get('id')}")
     except Exception as e:
-        # Log but don't fail the request — form submission still saved
         logger.error(f"Resend error: {type(e).__name__}: {str(e)}")
+
+
+# ── Contact Form Endpoint ────────────────────────────────────────────────────
+
+@api_router.post("/contact")
+async def submit_contact(input: ContactSubmissionCreate):
+    submission = ContactSubmission(**input.model_dump())
+    doc = submission.model_dump()
+    doc['submitted_at'] = doc['submitted_at'].isoformat()
+
+    await db.contact_submissions.insert_one(doc)
+
+    notification_html = _build_notification_html(submission, doc['submitted_at'])
+    await _send_contact_notification(submission, notification_html)
 
     return {"status": "success", "id": submission.id}
 

@@ -106,8 +106,8 @@ export default function TechnologyServices() {
             padding: '32px 24px',
           }}
         >
-          {stats.map((stat, idx) => (
-            <div key={idx} className="text-center">
+          {stats.map((stat) => (
+            <div key={`stat-${stat.value}-${stat.label}`} className="text-center">
               <div
                 style={{
                   fontFamily: "'Fraunces', serif",

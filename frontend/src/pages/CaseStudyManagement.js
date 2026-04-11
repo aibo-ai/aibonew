@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
 
@@ -26,23 +26,23 @@ export default function CaseStudyManagement() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const token = () => localStorage.getItem('admin_token');
-  const authHeaders = () => ({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${token()}` });
+  const getToken = useCallback(() => sessionStorage.getItem('admin_token'), []);
+  const authHeaders = useCallback(() => ({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` }), [getToken]);
 
-  useEffect(() => {
-    if (!token()) { navigate('/admin'); return; }
-    fetchCaseStudies();
-  }, [navigate]);
-
-  const fetchCaseStudies = async () => {
+  const fetchCaseStudies = useCallback(async () => {
     setLoading(true);
     try {
       const r = await fetch(`${BACKEND_URL}/api/admin/case-studies`, { headers: authHeaders() });
       if (r.status === 401) { navigate('/admin'); return; }
       const data = await r.json();
       setCaseStudies(data);
-    } catch (e) { console.error(e); } finally { setLoading(false); }
-  };
+    } catch (_err) { /* network error */ } finally { setLoading(false); }
+  }, [authHeaders, navigate]);
+
+  useEffect(() => {
+    if (!getToken()) { navigate('/admin'); return; }
+    fetchCaseStudies();
+  }, [navigate, getToken, fetchCaseStudies]);
 
   const openNew = () => { setEditing(null); setForm(EMPTY_CS); setError(''); setShowModal(true); };
   const openEdit = (cs) => {

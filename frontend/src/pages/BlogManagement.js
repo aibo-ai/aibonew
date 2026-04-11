@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
 
@@ -24,31 +24,31 @@ export default function BlogManagement() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const token = () => localStorage.getItem('admin_token');
+  const getToken = useCallback(() => sessionStorage.getItem('admin_token'), []);
 
-  const authHeaders = () => ({
+  const authHeaders = useCallback(() => ({
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token()}`,
-  });
+    'Authorization': `Bearer ${getToken()}`,
+  }), [getToken]);
 
-  useEffect(() => {
-    if (!token()) { navigate('/admin'); return; }
-    fetchBlogs();
-  }, [navigate]);
-
-  const fetchBlogs = async () => {
+  const fetchBlogs = useCallback(async () => {
     setLoading(true);
     try {
       const r = await fetch(`${BACKEND_URL}/api/admin/blogs`, { headers: authHeaders() });
       if (r.status === 401) { navigate('/admin'); return; }
       const data = await r.json();
       setBlogs(data);
-    } catch (e) {
-      console.error(e);
+    } catch (_err) {
+      /* network error — silently handled */
     } finally {
       setLoading(false);
     }
-  };
+  }, [authHeaders, navigate]);
+
+  useEffect(() => {
+    if (!getToken()) { navigate('/admin'); return; }
+    fetchBlogs();
+  }, [navigate, getToken, fetchBlogs]);
 
   const openNew = () => {
     setEditing(null);

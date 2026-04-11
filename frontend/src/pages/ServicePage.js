@@ -125,7 +125,7 @@ export default function ServicePage() {
             {data.intro.headline}
           </h2>
           {data.intro.body.map((p, i) => (
-            <p key={i} style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.7, margin: '0 0 14px' }}>{p}</p>
+            <p key={`intro-${i}-${p.slice(0, 20)}`} style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.7, margin: '0 0 14px' }}>{p}</p>
           ))}
           {/* Callout */}
           <div className="mt-8 flex gap-5 items-start" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 12, padding: '24px 28px' }}>
@@ -151,7 +151,7 @@ export default function ServicePage() {
               </h3>
             </div>
             {data.comparison.without.items.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 mb-3">
+              <div key={`without-${i}-${item.slice(0, 20)}`} className="flex items-start gap-3 mb-3">
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--text-muted)', marginTop: 7, flexShrink: 0 }} />
                 <span style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.55 }}>{item}</span>
               </div>
@@ -166,7 +166,7 @@ export default function ServicePage() {
               </h3>
             </div>
             {data.comparison.with.items.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 mb-3">
+              <div key={`with-${i}-${item.slice(0, 20)}`} className="flex items-start gap-3 mb-3">
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', marginTop: 7, flexShrink: 0 }} />
                 <span style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55 }}>{item}</span>
               </div>
@@ -212,7 +212,7 @@ export default function ServicePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.deliverables.cards.map((c, i) => (
-              <div key={i} className="card-lift" style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 28 }}>
+              <div key={`del-${i}-${c.title}`} className="card-lift" style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 28 }}>
                 <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
                 <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
               </div>
@@ -233,8 +233,8 @@ export default function ServicePage() {
           </div>
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-1 mb-12" style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, overflow: 'hidden' }}>
-            {data.whyNow.stats.map((s, i) => (
-              <div key={i} className="text-center" style={{ background: 'rgba(255,255,255,0.025)', padding: '24px 16px' }}>
+            {data.whyNow.stats.map((s) => (
+              <div key={`stat-${s.num}-${s.label}`} className="text-center" style={{ background: 'rgba(255,255,255,0.025)', padding: '24px 16px' }}>
                 <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: accentColor, display: 'block', lineHeight: 1.1 }}>{s.num}</span>
                 <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', lineHeight: 1.4, display: 'block', marginTop: 6 }}>{s.label}</span>
               </div>
@@ -242,8 +242,8 @@ export default function ServicePage() {
           </div>
           {/* Context cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {data.whyNow.contextCards.map((c, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.045)', border: '1px solid rgba(255,255,255,0.075)', borderRadius: 12, padding: 28 }}>
+            {data.whyNow.contextCards.map((c) => (
+              <div key={`ctx-${c.title}`} style={{ background: 'rgba(255,255,255,0.045)', border: '1px solid rgba(255,255,255,0.075)', borderRadius: 12, padding: 28 }}>
                 <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: '#fff', margin: '0 0 8px' }}>{c.title}</h3>
                 <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
               </div>
@@ -268,7 +268,7 @@ export default function ServicePage() {
               <span style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>Result</span>
             </div>
             {data.results.metrics.map((m, i) => (
-              <div key={i} className="grid grid-cols-2" style={{ padding: '14px 28px', borderBottom: i < data.results.metrics.length - 1 ? '1px solid var(--border-clr)' : 'none' }}>
+              <div key={`metric-${m.metric}`} className="grid grid-cols-2" style={{ padding: '14px 28px', borderBottom: i < data.results.metrics.length - 1 ? '1px solid var(--border-clr)' : 'none' }}>
                 <span style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)' }}>{m.metric}</span>
                 <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: accentDark }}>{m.result}</span>
               </div>

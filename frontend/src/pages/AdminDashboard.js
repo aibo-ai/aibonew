@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Briefcase, Eye, Plus } from 'lucide-react';
 
@@ -10,24 +10,7 @@ export default function AdminDashboard() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('admin_token');
-    const userData = localStorage.getItem('admin_user');
-    
-    if (!token) {
-      navigate('/admin');
-      return;
-    }
-
-    if (userData) {
-      setUser(JSON.parse(userData));
-    }
-
-    // Fetch stats
-    fetchStats(token);
-  }, [navigate]);
-
-  const fetchStats = async (token) => {
+  const fetchStats = useCallback(async (token) => {
     try {
       const headers = { 'Authorization': `Bearer ${token}` };
       const [blogsRes, casesRes] = await Promise.all([
@@ -43,14 +26,30 @@ export default function AdminDashboard() {
         caseStudies: Array.isArray(casesData) ? casesData.length : 0,
         views: 0
       });
-    } catch (error) {
-      console.error('Error fetching stats:', error);
+    } catch (_error) {
+      /* network error — silently handled */
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('admin_token');
+    const userData = sessionStorage.getItem('admin_user');
+    
+    if (!token) {
+      navigate('/admin');
+      return;
+    }
+
+    if (userData) {
+      try { setUser(JSON.parse(userData)); } catch { /* invalid JSON */ }
+    }
+
+    fetchStats(token);
+  }, [navigate, fetchStats]);
 
   const handleLogout = () => {
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin_user');
+    sessionStorage.removeItem('admin_token');
+    sessionStorage.removeItem('admin_user');
     navigate('/admin');
   };
 

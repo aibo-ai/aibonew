@@ -25,8 +25,8 @@ export default function AdminLogin() {
       const data = await response.json();
 
       if (response.ok && data.token) {
-        localStorage.setItem('admin_token', data.token);
-        localStorage.setItem('admin_user', JSON.stringify({ email: data.email, id: data.id }));
+        sessionStorage.setItem('admin_token', data.token);
+        sessionStorage.setItem('admin_user', JSON.stringify({ email: data.email, id: data.id }));
         navigate('/admin/dashboard');
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');
