@@ -200,10 +200,13 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ Admin get case studies successful with Bearer token authentication. Returns empty array as expected (no case studies in database)."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin get case studies successful. Retrieved 1 case studies during CRUD testing, test case study found correctly. Returns array of case studies with full metadata including id, title, client, industry, service, excerpt, challenge, solution, result, metrics, published status, and timestamps."
 
   - task: "Admin Create Blog API - POST /api/admin/blogs"
     implemented: true
-    working: false
+    working: true
     file: "backend/routes/admin_api.py"
     stuck_count: 1
     priority: "high"
@@ -212,10 +215,16 @@ backend:
       - working: false
         agent: "testing"
         comment: "❌ Admin create blog fails with 500 Internal Server Error. Database schema mismatch: API code expects 'published' column but database has 'status' column. This is a critical architectural issue."
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed neon.py - removed DROP TABLE statements that were destroying data on restart. DB schema now correctly has 'published' column. Backend restarted successfully."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin create blog successful. Created blog with ID a75bb0f3-a35a-4e98-ad19-553ca9d12251. All fields properly saved including title, slug, excerpt, content, author, category, tags, published status, and featured_image. Database schema fix resolved the issue."
 
   - task: "Admin Public Blogs API - GET /api/admin/public/blogs"
     implemented: true
-    working: false
+    working: true
     file: "backend/routes/admin_api.py"
     stuck_count: 1
     priority: "high"
@@ -224,18 +233,102 @@ backend:
       - working: false
         agent: "testing"
         comment: "❌ Admin public blogs fails with 500 Internal Server Error. Database schema mismatch: Query uses 'published=TRUE' but database has 'status' column instead. Same root cause as create blog issue."
+      - working: "NA"
+        agent: "main"
+        comment: "Schema fix applied - blogs table now has 'published' boolean column matching API code."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin public blogs successful. Returns array of published blogs correctly. No authentication required as expected. Schema fix resolved the database column mismatch issue."
 
   - task: "Admin Delete Blog API - DELETE /api/admin/blogs/{id}"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin_api.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Cannot test delete functionality due to create blog failure. Delete endpoint exists but requires successful blog creation first."
+      - working: "NA"
+        agent: "main"
+        comment: "Create blog should now work. Ready for delete testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin delete blog successful. Blog a75bb0f3-a35a-4e98-ad19-553ca9d12251 deleted successfully with 204 status code. Requires Bearer token authentication as expected."
+
+  - task: "Admin Create Case Study API - POST /api/admin/case-studies"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Case study creation endpoint implemented. Schema verified with 'published' boolean column. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin create case study successful. Created case study with ID 91933d22-61e7-4513-90c6-698125bd3613. All fields properly saved including title, client, industry, service, excerpt, challenge, solution, result, metrics (JSON), published status, and featured_image."
+
+  - task: "Admin Update Blog API - PUT /api/admin/blogs/{id}"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Update blog endpoint implemented. Needs testing after create is confirmed working."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin update blog successful. Blog updated successfully with new title 'Updated Test Blog Post - MyAibo AI Solutions' and published status changed to false. All fields properly updated with Bearer token authentication."
+
+  - task: "Admin Update Case Study API - PUT /api/admin/case-studies/{id}"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Update case study endpoint implemented. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin update case study successful. Case study updated successfully with new title 'Updated MyAibo AI Transformation - E-commerce Success Story', published status changed to false, and metrics ROI updated to 500%. All fields properly updated with Bearer token authentication."
+
+  - task: "Admin Delete Case Study API - DELETE /api/admin/case-studies/{id}"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Delete case study endpoint implemented. Needs testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin delete case study successful. Case study 91933d22-61e7-4513-90c6-698125bd3613 deleted successfully with 204 status code. Requires Bearer token authentication as expected."
+
+  - task: "Admin Public Case Studies API - GET /api/admin/public/case-studies"
+    implemented: true
+    working: true
+    file: "backend/routes/admin_api.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ Admin public case studies successful. Returns array of published case studies correctly. No authentication required as expected. Endpoint working properly for public access."
 
 frontend:
   - task: "Contact Form Frontend Integration"
@@ -257,13 +350,8 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Admin Create Blog API - POST /api/admin/blogs"
-    - "Admin Public Blogs API - GET /api/admin/public/blogs"
-    - "Admin Delete Blog API - DELETE /api/admin/blogs/{id}"
-  stuck_tasks:
-    - "Admin Create Blog API - POST /api/admin/blogs"
-    - "Admin Public Blogs API - GET /api/admin/public/blogs"
+  current_focus: []
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
@@ -272,6 +360,10 @@ agent_communication:
     message: "Completed comprehensive testing of contact form API endpoints. All 5 tests passed successfully. Backend is fully functional. Minor issue: Resend email service shows domain verification error but doesn't affect core functionality - contact submissions are saved correctly to MongoDB. Email notifications are attempted but fail due to unverified domain (myaibo.in)."
   - agent: "testing"
     message: "Completed admin API testing. CRITICAL ISSUE FOUND: Database schema mismatch between admin API code and actual database. Admin login and read operations work, but create/update operations fail due to schema incompatibility. Admin API expects 'published' column but database has 'status' column. This is a major architectural issue requiring immediate attention."
+  - agent: "main"
+    message: "Fixed neon.py - removed destructive DROP TABLE on startup. DB schema now correctly has 'published' boolean column matching the API code. Fixed AdminDashboard.js Quick Action links from /admin/blogs/new to /admin/blogs. Please test all blog and case study CRUD operations: create, read, update, delete for both blogs and case studies. Admin credentials: admin@myaibo.in / admin123. Backend URL for API: use localhost:8001."
+  - agent: "testing"
+    message: "✅ COMPREHENSIVE ADMIN CRUD TESTING COMPLETE: All 11 tests passed successfully (100% success rate). Tested admin login, blog CRUD (create, list, update, delete), case study CRUD (create, list, update, delete), and public endpoints for both blogs and case studies. Database schema fix resolved all previous issues. All APIs working correctly with proper authentication, data persistence, and response formats. Backend is fully functional for admin operations."
 
 # Previous Implementation Status (Historical)
 

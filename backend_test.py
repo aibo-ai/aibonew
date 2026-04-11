@@ -1,404 +1,383 @@
 #!/usr/bin/env python3
 """
-Backend API Testing Script for Contact Form and Admin APIs
-Tests the FastAPI backend contact form and admin endpoints
+Backend API Testing Script for Admin Blog and Case Study CRUD Operations
+Tests all endpoints with proper authentication and error handling.
 """
 
 import requests
 import json
 import sys
 from datetime import datetime
-import uuid
 
-# Backend URL from frontend/.env
-BACKEND_URL = "https://content-manager-134.preview.emergentagent.com"
-API_BASE = f"{BACKEND_URL}/api"
+# Configuration
+BASE_URL = "https://content-manager-134.preview.emergentagent.com/api"
+ADMIN_EMAIL = "admin@myaibo.in"
+ADMIN_PASSWORD = "admin123"
 
-# Global variable to store admin token
-admin_token = None
-created_blog_id = None
-
-def test_root_endpoint():
-    """Test GET /api/ - Root endpoint"""
-    print("\n=== Testing Root Endpoint ===")
-    try:
-        response = requests.get(f"{API_BASE}/")
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
+class APITester:
+    def __init__(self):
+        self.base_url = BASE_URL
+        self.token = None
+        self.headers = {"Content-Type": "application/json"}
+        self.test_results = []
         
-        if response.status_code == 200 and response.json().get("message") == "Hello World":
-            print("✅ Root endpoint working correctly")
-            return True
-        else:
-            print("❌ Root endpoint failed - unexpected response")
-            return False
-    except Exception as e:
-        print(f"❌ Root endpoint failed with error: {str(e)}")
-        return False
-
-def test_contact_form_valid_all_fields():
-    """Test POST /api/contact with all fields filled"""
-    print("\n=== Testing Contact Form - All Fields ===")
+    def log_test(self, test_name, success, details=""):
+        """Log test results"""
+        status = "✅ PASS" if success else "❌ FAIL"
+        self.test_results.append({
+            "test": test_name,
+            "success": success,
+            "details": details
+        })
+        print(f"{status}: {test_name}")
+        if details:
+            print(f"   Details: {details}")
+        print()
     
-    test_data = {
-        "name": "John Smith",
-        "email": "john.smith@example.com",
-        "company": "Tech Solutions Inc",
-        "service_interest": "AI Automations",
-        "message": "I'm interested in learning more about your AI automation services for our e-commerce platform."
-    }
-    
-    try:
-        response = requests.post(f"{API_BASE}/contact", json=test_data)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
-        
-        if response.status_code == 200:
-            result = response.json()
-            if result.get("status") == "success" and "id" in result:
-                print("✅ Contact form submission with all fields successful")
-                return True, result.get("id")
-            else:
-                print("❌ Contact form submission failed - invalid response format")
-                return False, None
-        else:
-            print(f"❌ Contact form submission failed with status {response.status_code}")
-            return False, None
-    except Exception as e:
-        print(f"❌ Contact form submission failed with error: {str(e)}")
-        return False, None
-
-def test_contact_form_required_fields_only():
-    """Test POST /api/contact with only required fields"""
-    print("\n=== Testing Contact Form - Required Fields Only ===")
-    
-    test_data = {
-        "name": "Jane Doe",
-        "email": "jane.doe@example.com",
-        "message": "This is a test message with only required fields."
-    }
-    
-    try:
-        response = requests.post(f"{API_BASE}/contact", json=test_data)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
-        
-        if response.status_code == 200:
-            result = response.json()
-            if result.get("status") == "success" and "id" in result:
-                print("✅ Contact form submission with required fields only successful")
-                return True, result.get("id")
-            else:
-                print("❌ Contact form submission failed - invalid response format")
-                return False, None
-        else:
-            print(f"❌ Contact form submission failed with status {response.status_code}")
-            return False, None
-    except Exception as e:
-        print(f"❌ Contact form submission failed with error: {str(e)}")
-        return False, None
-
-def test_contact_form_invalid_email():
-    """Test POST /api/contact with invalid email"""
-    print("\n=== Testing Contact Form - Invalid Email ===")
-    
-    test_data = {
-        "name": "Test User",
-        "email": "invalid-email-format",
-        "message": "This should fail due to invalid email format."
-    }
-    
-    try:
-        response = requests.post(f"{API_BASE}/contact", json=test_data)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
-        
-        if response.status_code == 422:
-            print("✅ Contact form correctly rejected invalid email with 422 validation error")
-            return True
-        else:
-            print(f"❌ Contact form should have returned 422 for invalid email, got {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ Contact form invalid email test failed with error: {str(e)}")
-        return False
-
-def test_get_contact_submissions():
-    """Test GET /api/contact - Get all contact submissions"""
-    print("\n=== Testing Get Contact Submissions ===")
-    
-    try:
-        response = requests.get(f"{API_BASE}/contact")
-        print(f"Status Code: {response.status_code}")
-        
-        if response.status_code == 200:
-            submissions = response.json()
-            print(f"Number of submissions retrieved: {len(submissions)}")
+    def admin_login(self):
+        """Test admin login and get JWT token"""
+        print("=== ADMIN LOGIN TEST ===")
+        try:
+            response = requests.post(
+                f"{self.base_url}/admin/login",
+                json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD},
+                headers=self.headers,
+                timeout=30
+            )
             
-            if len(submissions) > 0:
-                print("Sample submission structure:")
-                sample = submissions[0]
-                for key, value in sample.items():
-                    print(f"  {key}: {value}")
+            if response.status_code == 200:
+                data = response.json()
+                if "token" in data:
+                    self.token = data["token"]
+                    self.headers["Authorization"] = f"Bearer {self.token}"
+                    self.log_test("Admin Login", True, f"Token received, email: {data.get('email')}")
+                    return True
+                else:
+                    self.log_test("Admin Login", False, "No token in response")
+                    return False
+            else:
+                self.log_test("Admin Login", False, f"Status: {response.status_code}, Response: {response.text}")
+                return False
+                
+        except Exception as e:
+            self.log_test("Admin Login", False, f"Exception: {str(e)}")
+            return False
+    
+    def test_blog_crud(self):
+        """Test complete Blog CRUD operations"""
+        print("=== BLOG CRUD TESTS ===")
+        
+        # Test data
+        blog_data = {
+            "title": "Test Blog Post - MyAibo AI Solutions",
+            "slug": "test-blog-post-myaibo-ai",
+            "excerpt": "Comprehensive testing of MyAibo's AI-powered business solutions and automation capabilities",
+            "content": "This is a detailed test blog post about MyAibo's innovative AI solutions for modern businesses. Our platform provides cutting-edge automation, intelligent analytics, and seamless integration capabilities.",
+            "author": "MyAibo Team",
+            "category": "GEO",
+            "tags": ["ai", "automation", "geo", "business-solutions"],
+            "published": True,
+            "featured_image": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800"
+        }
+        
+        blog_id = None
+        
+        # 1. Create Blog
+        try:
+            response = requests.post(
+                f"{self.base_url}/admin/blogs",
+                json=blog_data,
+                headers=self.headers,
+                timeout=30
+            )
             
-            print("✅ Contact submissions retrieval successful")
-            return True
-        else:
-            print(f"❌ Contact submissions retrieval failed with status {response.status_code}")
-            print(f"Response: {response.text}")
-            return False
-    except Exception as e:
-        print(f"❌ Contact submissions retrieval failed with error: {str(e)}")
-        return False
-
-def test_admin_login():
-    """Test POST /api/admin/login with admin credentials"""
-    global admin_token
-    print("\n=== Testing Admin Login ===")
-    
-    login_data = {
-        "email": "admin@myaibo.in",
-        "password": "admin123"
-    }
-    
-    try:
-        response = requests.post(f"{API_BASE}/admin/login", json=login_data)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
-        
-        if response.status_code == 200:
-            result = response.json()
-            if "token" in result and "email" in result and "id" in result:
-                admin_token = result["token"]
-                print("✅ Admin login successful")
-                return True
+            if response.status_code == 201:
+                created_blog = response.json()
+                blog_id = created_blog.get("id")
+                if blog_id and created_blog.get("title") == blog_data["title"]:
+                    self.log_test("Create Blog", True, f"Blog created with ID: {blog_id}")
+                else:
+                    self.log_test("Create Blog", False, "Blog created but missing ID or title mismatch")
             else:
-                print("❌ Admin login failed - missing required fields in response")
-                return False
-        else:
-            print(f"❌ Admin login failed with status {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ Admin login failed with error: {str(e)}")
-        return False
-
-def test_admin_get_blogs():
-    """Test GET /api/admin/blogs with authorization"""
-    print("\n=== Testing Admin Get Blogs ===")
-    
-    if not admin_token:
-        print("❌ No admin token available - login test must pass first")
-        return False
-    
-    headers = {"Authorization": f"Bearer {admin_token}"}
-    
-    try:
-        response = requests.get(f"{API_BASE}/admin/blogs", headers=headers)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
+                self.log_test("Create Blog", False, f"Status: {response.status_code}, Response: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Create Blog", False, f"Exception: {str(e)}")
         
-        if response.status_code == 200:
-            blogs = response.json()
-            if isinstance(blogs, list):
-                print(f"✅ Admin get blogs successful - returned {len(blogs)} blogs")
-                return True
+        # 2. List Blogs
+        try:
+            response = requests.get(
+                f"{self.base_url}/admin/blogs",
+                headers=self.headers,
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                blogs = response.json()
+                if isinstance(blogs, list):
+                    found_blog = any(blog.get("id") == blog_id for blog in blogs) if blog_id else False
+                    self.log_test("List Blogs", True, f"Retrieved {len(blogs)} blogs, test blog found: {found_blog}")
+                else:
+                    self.log_test("List Blogs", False, "Response is not a list")
             else:
-                print("❌ Admin get blogs failed - response is not a list")
-                return False
-        else:
-            print(f"❌ Admin get blogs failed with status {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ Admin get blogs failed with error: {str(e)}")
-        return False
-
-def test_admin_create_blog():
-    """Test POST /api/admin/blogs with authorization"""
-    global created_blog_id
-    print("\n=== Testing Admin Create Blog ===")
-    
-    if not admin_token:
-        print("❌ No admin token available - login test must pass first")
-        return False
-    
-    headers = {"Authorization": f"Bearer {admin_token}"}
-    blog_data = {
-        "title": "Test Post",
-        "slug": "test-post",
-        "excerpt": "Test",
-        "content": "Hello World",
-        "published": False
-    }
-    
-    try:
-        response = requests.post(f"{API_BASE}/admin/blogs", json=blog_data, headers=headers)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
+                self.log_test("List Blogs", False, f"Status: {response.status_code}, Response: {response.text}")
+                
+        except Exception as e:
+            self.log_test("List Blogs", False, f"Exception: {str(e)}")
         
-        if response.status_code == 201:
-            result = response.json()
-            if "id" in result and result.get("title") == "Test Post":
-                created_blog_id = result["id"]
-                print("✅ Admin create blog successful")
-                return True
+        # 3. Update Blog (if created successfully)
+        if blog_id:
+            try:
+                update_data = blog_data.copy()
+                update_data["title"] = "Updated Test Blog Post - MyAibo AI Solutions"
+                update_data["published"] = False
+                
+                response = requests.put(
+                    f"{self.base_url}/admin/blogs/{blog_id}",
+                    json=update_data,
+                    headers=self.headers,
+                    timeout=30
+                )
+                
+                if response.status_code == 200:
+                    updated_blog = response.json()
+                    if updated_blog.get("title") == update_data["title"]:
+                        self.log_test("Update Blog", True, f"Blog updated successfully, new title: {updated_blog.get('title')}")
+                    else:
+                        self.log_test("Update Blog", False, "Blog updated but title not changed")
+                else:
+                    self.log_test("Update Blog", False, f"Status: {response.status_code}, Response: {response.text}")
+                    
+            except Exception as e:
+                self.log_test("Update Blog", False, f"Exception: {str(e)}")
+        
+        # 4. Public Blogs (no auth required)
+        try:
+            response = requests.get(
+                f"{self.base_url}/admin/public/blogs",
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                public_blogs = response.json()
+                if isinstance(public_blogs, list):
+                    self.log_test("Public Blogs", True, f"Retrieved {len(public_blogs)} public blogs")
+                else:
+                    self.log_test("Public Blogs", False, "Response is not a list")
             else:
-                print("❌ Admin create blog failed - missing id or incorrect title in response")
-                return False
-        else:
-            print(f"❌ Admin create blog failed with status {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ Admin create blog failed with error: {str(e)}")
-        return False
-
-def test_admin_get_case_studies():
-    """Test GET /api/admin/case-studies with authorization"""
-    print("\n=== Testing Admin Get Case Studies ===")
-    
-    if not admin_token:
-        print("❌ No admin token available - login test must pass first")
-        return False
-    
-    headers = {"Authorization": f"Bearer {admin_token}"}
-    
-    try:
-        response = requests.get(f"{API_BASE}/admin/case-studies", headers=headers)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
+                self.log_test("Public Blogs", False, f"Status: {response.status_code}, Response: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Public Blogs", False, f"Exception: {str(e)}")
         
-        if response.status_code == 200:
-            case_studies = response.json()
-            if isinstance(case_studies, list):
-                print(f"✅ Admin get case studies successful - returned {len(case_studies)} case studies")
-                return True
+        # 5. Delete Blog (if created successfully)
+        if blog_id:
+            try:
+                response = requests.delete(
+                    f"{self.base_url}/admin/blogs/{blog_id}",
+                    headers=self.headers,
+                    timeout=30
+                )
+                
+                if response.status_code == 204:
+                    self.log_test("Delete Blog", True, f"Blog {blog_id} deleted successfully")
+                else:
+                    self.log_test("Delete Blog", False, f"Status: {response.status_code}, Response: {response.text}")
+                    
+            except Exception as e:
+                self.log_test("Delete Blog", False, f"Exception: {str(e)}")
+    
+    def test_case_study_crud(self):
+        """Test complete Case Study CRUD operations"""
+        print("=== CASE STUDY CRUD TESTS ===")
+        
+        # Test data
+        case_study_data = {
+            "title": "MyAibo AI Transformation - E-commerce Success Story",
+            "client": "TechFlow Solutions",
+            "industry": "D2C",
+            "service": "GEO",
+            "excerpt": "How MyAibo's AI-powered automation increased conversion rates by 340% for a leading D2C brand",
+            "challenge": "TechFlow Solutions was struggling with manual processes, low conversion rates, and inefficient customer targeting. Their existing systems couldn't scale with growing demand.",
+            "solution": "MyAibo implemented a comprehensive AI automation suite including intelligent customer segmentation, automated email campaigns, and predictive analytics for inventory management.",
+            "result": "Within 6 months, TechFlow saw dramatic improvements across all key metrics. Customer engagement increased by 280%, conversion rates improved by 340%, and operational efficiency gained 150%.",
+            "metrics": {
+                "conversion_increase": "+340%",
+                "engagement_boost": "+280%",
+                "efficiency_gain": "+150%",
+                "roi": "450%"
+            },
+            "published": True,
+            "featured_image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800"
+        }
+        
+        case_study_id = None
+        
+        # 1. Create Case Study
+        try:
+            response = requests.post(
+                f"{self.base_url}/admin/case-studies",
+                json=case_study_data,
+                headers=self.headers,
+                timeout=30
+            )
+            
+            if response.status_code == 201:
+                created_cs = response.json()
+                case_study_id = created_cs.get("id")
+                if case_study_id and created_cs.get("title") == case_study_data["title"]:
+                    self.log_test("Create Case Study", True, f"Case study created with ID: {case_study_id}")
+                else:
+                    self.log_test("Create Case Study", False, "Case study created but missing ID or title mismatch")
             else:
-                print("❌ Admin get case studies failed - response is not a list")
-                return False
-        else:
-            print(f"❌ Admin get case studies failed with status {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ Admin get case studies failed with error: {str(e)}")
-        return False
-
-def test_admin_public_blogs():
-    """Test GET /api/admin/public/blogs (no auth needed)"""
-    print("\n=== Testing Admin Public Blogs ===")
-    
-    try:
-        response = requests.get(f"{API_BASE}/admin/public/blogs")
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.json()}")
+                self.log_test("Create Case Study", False, f"Status: {response.status_code}, Response: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Create Case Study", False, f"Exception: {str(e)}")
         
-        if response.status_code == 200:
-            blogs = response.json()
-            if isinstance(blogs, list):
-                print(f"✅ Admin public blogs successful - returned {len(blogs)} published blogs")
-                return True
+        # 2. List Case Studies
+        try:
+            response = requests.get(
+                f"{self.base_url}/admin/case-studies",
+                headers=self.headers,
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                case_studies = response.json()
+                if isinstance(case_studies, list):
+                    found_cs = any(cs.get("id") == case_study_id for cs in case_studies) if case_study_id else False
+                    self.log_test("List Case Studies", True, f"Retrieved {len(case_studies)} case studies, test case study found: {found_cs}")
+                else:
+                    self.log_test("List Case Studies", False, "Response is not a list")
             else:
-                print("❌ Admin public blogs failed - response is not a list")
-                return False
-        else:
-            print(f"❌ Admin public blogs failed with status {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ Admin public blogs failed with error: {str(e)}")
-        return False
-
-def test_admin_delete_blog():
-    """Test DELETE /api/admin/blogs/{id} with authorization"""
-    print("\n=== Testing Admin Delete Blog ===")
-    
-    if not admin_token:
-        print("❌ No admin token available - login test must pass first")
-        return False
-    
-    if not created_blog_id:
-        print("❌ No blog ID available - create blog test must pass first")
-        return False
-    
-    headers = {"Authorization": f"Bearer {admin_token}"}
-    
-    try:
-        response = requests.delete(f"{API_BASE}/admin/blogs/{created_blog_id}", headers=headers)
-        print(f"Status Code: {response.status_code}")
+                self.log_test("List Case Studies", False, f"Status: {response.status_code}, Response: {response.text}")
+                
+        except Exception as e:
+            self.log_test("List Case Studies", False, f"Exception: {str(e)}")
         
-        if response.status_code == 204:
-            print("✅ Admin delete blog successful")
-            return True
-        else:
-            print(f"❌ Admin delete blog failed with status {response.status_code}")
-            print(f"Response: {response.text}")
-            return False
-    except Exception as e:
-        print(f"❌ Admin delete blog failed with error: {str(e)}")
-        return False
+        # 3. Update Case Study (if created successfully)
+        if case_study_id:
+            try:
+                update_data = case_study_data.copy()
+                update_data["title"] = "Updated MyAibo AI Transformation - E-commerce Success Story"
+                update_data["published"] = False
+                update_data["metrics"]["roi"] = "500%"
+                
+                response = requests.put(
+                    f"{self.base_url}/admin/case-studies/{case_study_id}",
+                    json=update_data,
+                    headers=self.headers,
+                    timeout=30
+                )
+                
+                if response.status_code == 200:
+                    updated_cs = response.json()
+                    if updated_cs.get("title") == update_data["title"]:
+                        self.log_test("Update Case Study", True, f"Case study updated successfully, new title: {updated_cs.get('title')}")
+                    else:
+                        self.log_test("Update Case Study", False, "Case study updated but title not changed")
+                else:
+                    self.log_test("Update Case Study", False, f"Status: {response.status_code}, Response: {response.text}")
+                    
+            except Exception as e:
+                self.log_test("Update Case Study", False, f"Exception: {str(e)}")
+        
+        # 4. Public Case Studies (no auth required)
+        try:
+            response = requests.get(
+                f"{self.base_url}/admin/public/case-studies",
+                timeout=30
+            )
+            
+            if response.status_code == 200:
+                public_cs = response.json()
+                if isinstance(public_cs, list):
+                    self.log_test("Public Case Studies", True, f"Retrieved {len(public_cs)} public case studies")
+                else:
+                    self.log_test("Public Case Studies", False, "Response is not a list")
+            else:
+                self.log_test("Public Case Studies", False, f"Status: {response.status_code}, Response: {response.text}")
+                
+        except Exception as e:
+            self.log_test("Public Case Studies", False, f"Exception: {str(e)}")
+        
+        # 5. Delete Case Study (if created successfully)
+        if case_study_id:
+            try:
+                response = requests.delete(
+                    f"{self.base_url}/admin/case-studies/{case_study_id}",
+                    headers=self.headers,
+                    timeout=30
+                )
+                
+                if response.status_code == 204:
+                    self.log_test("Delete Case Study", True, f"Case study {case_study_id} deleted successfully")
+                else:
+                    self.log_test("Delete Case Study", False, f"Status: {response.status_code}, Response: {response.text}")
+                    
+            except Exception as e:
+                self.log_test("Delete Case Study", False, f"Exception: {str(e)}")
+    
+    def print_summary(self):
+        """Print test summary"""
+        print("=" * 60)
+        print("TEST SUMMARY")
+        print("=" * 60)
+        
+        total_tests = len(self.test_results)
+        passed_tests = sum(1 for result in self.test_results if result["success"])
+        failed_tests = total_tests - passed_tests
+        
+        print(f"Total Tests: {total_tests}")
+        print(f"Passed: {passed_tests}")
+        print(f"Failed: {failed_tests}")
+        print(f"Success Rate: {(passed_tests/total_tests)*100:.1f}%")
+        print()
+        
+        if failed_tests > 0:
+            print("FAILED TESTS:")
+            for result in self.test_results:
+                if not result["success"]:
+                    print(f"❌ {result['test']}: {result['details']}")
+            print()
+        
+        print("ALL TEST RESULTS:")
+        for result in self.test_results:
+            status = "✅" if result["success"] else "❌"
+            print(f"{status} {result['test']}")
+        
+        return failed_tests == 0
 
-def run_all_tests():
-    """Run all backend tests and return summary"""
-    print("🚀 Starting Backend API Tests")
-    print(f"Testing against: {API_BASE}")
+def main():
+    """Main test execution"""
+    print("Starting Admin Blog and Case Study CRUD API Tests")
+    print(f"Backend URL: {BASE_URL}")
+    print(f"Admin Email: {ADMIN_EMAIL}")
+    print("=" * 60)
     
-    results = {}
+    tester = APITester()
     
-    # Contact Form Tests (existing)
-    # Test 1: Root endpoint
-    results['root_endpoint'] = test_root_endpoint()
+    # Step 1: Login
+    if not tester.admin_login():
+        print("❌ CRITICAL: Admin login failed. Cannot proceed with authenticated tests.")
+        sys.exit(1)
     
-    # Test 2: Contact form with all fields
-    success, submission_id = test_contact_form_valid_all_fields()
-    results['contact_all_fields'] = success
+    # Step 2: Test Blog CRUD
+    tester.test_blog_crud()
     
-    # Test 3: Contact form with required fields only
-    success, submission_id2 = test_contact_form_required_fields_only()
-    results['contact_required_only'] = success
+    # Step 3: Test Case Study CRUD
+    tester.test_case_study_crud()
     
-    # Test 4: Contact form with invalid email
-    results['contact_invalid_email'] = test_contact_form_invalid_email()
+    # Step 4: Print summary
+    success = tester.print_summary()
     
-    # Test 5: Get contact submissions
-    results['get_submissions'] = test_get_contact_submissions()
-    
-    # Admin API Tests (new)
-    # Test 6: Admin login
-    results['admin_login'] = test_admin_login()
-    
-    # Test 7: Admin get blogs
-    results['admin_get_blogs'] = test_admin_get_blogs()
-    
-    # Test 8: Admin create blog
-    results['admin_create_blog'] = test_admin_create_blog()
-    
-    # Test 9: Admin get case studies
-    results['admin_get_case_studies'] = test_admin_get_case_studies()
-    
-    # Test 10: Admin public blogs
-    results['admin_public_blogs'] = test_admin_public_blogs()
-    
-    # Test 11: Admin delete blog
-    results['admin_delete_blog'] = test_admin_delete_blog()
-    
-    # Summary
-    print("\n" + "="*50)
-    print("📊 TEST SUMMARY")
-    print("="*50)
-    
-    passed = sum(1 for result in results.values() if result)
-    total = len(results)
-    
-    for test_name, result in results.items():
-        status = "✅ PASS" if result else "❌ FAIL"
-        print(f"{test_name.replace('_', ' ').title()}: {status}")
-    
-    print(f"\nOverall: {passed}/{total} tests passed")
-    
-    if passed == total:
-        print("🎉 All tests passed!")
-        return True
+    if success:
+        print("🎉 All tests passed successfully!")
+        sys.exit(0)
     else:
-        print("⚠️  Some tests failed - check details above")
-        return False
+        print("⚠️  Some tests failed. Check the details above.")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    success = run_all_tests()
-    sys.exit(0 if success else 1)
+    main()

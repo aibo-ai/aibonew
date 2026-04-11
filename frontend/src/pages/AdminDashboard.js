@@ -143,7 +143,7 @@ export default function AdminDashboard() {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <Link
-              to="/admin/blogs/new"
+              to="/admin/blogs"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -167,7 +167,7 @@ export default function AdminDashboard() {
             </Link>
 
             <Link
-              to="/admin/case-studies/new"
+              to="/admin/case-studies"
               style={{
                 display: 'flex',
                 alignItems: 'center',
