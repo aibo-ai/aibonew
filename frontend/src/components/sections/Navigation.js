@@ -52,7 +52,7 @@ export default function Navigation() {
         {/* Logo */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
           <img 
-            src="/myaibo-logo.png" 
+            src="/myaibo-logo-white.png" 
             alt="MyAibo" 
             style={{ height: 150, width: 'auto' }}
           />
