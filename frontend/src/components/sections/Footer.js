@@ -17,7 +17,7 @@ export default function Footer() {
               }}
             >
               <img 
-                src="/myaibo-logo.png" 
+                src="/myaibo-logo-white.png" 
                 alt="MyAibo" 
                 style={{ height: 100, width: 'auto', display: 'block' }}
               />
