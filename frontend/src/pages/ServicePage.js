@@ -293,16 +293,6 @@ export default function ServicePage() {
         </div>
       </section>
 
-      {/* ─── INTEGRATED STACK NOTE ─── */}
-      <div style={{ background: 'var(--off-white)', padding: '0 40px 0' }}>
-        <div className="mx-auto flex items-center gap-4" style={{ maxWidth: 900, background: 'var(--dark)', borderRadius: 8, padding: '16px 28px' }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--purple)', flexShrink: 0 }} />
-          <span style={{ color: 'rgba(255,255,255,0.68)', fontSize: 13, fontStyle: 'italic' }}>
-            Running GEO + AEO + SEO + Content as one integrated system? Clients who do see 3&ndash;5&times; the return of single-service engagements. Ask us about the Full Marketing Stack.
-          </span>
-        </div>
-      </div>
-
       {/* ─── FINAL CTA ─── */}
       <section style={{ background: 'var(--off-white)', padding: '64px 40px 80px' }}>
         <div className="mx-auto text-center" style={{ maxWidth: 500 }}>
