@@ -9,7 +9,7 @@ import json
 import sys
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://logo-swap-test.preview.emergentagent.com"
+BACKEND_URL = "https://content-manager-134.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 # Global variable to store admin token
