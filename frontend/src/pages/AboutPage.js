@@ -69,7 +69,7 @@ export default function AboutPage() {
               marginRight: 'auto',
             }}
           >
-            To democratize AI automation and make sophisticated solutions accessible.
+            To empower every client to grow without limits
           </p>
         </div>
       </section>
