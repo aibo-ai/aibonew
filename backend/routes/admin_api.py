@@ -4,40 +4,65 @@ import jwt
 import os
 import json
 from datetime import datetime, timezone, timedelta
-from typing import Optional, List
-from fastapi import APIRouter, HTTPException, Depends
+from typing import Optional, List, Dict, Any
+from fastapi import APIRouter, HTTPException, Depends, Request, Response
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, EmailStr
 from db.neon import get_pool
 
 router = APIRouter(prefix='/admin')
 bearer = HTTPBearer(auto_error=False)
-SECRET = os.environ.get('JWT_SECRET', 'myaibo-secret-2025')
+SECRET: str = os.environ.get('JWT_SECRET', 'myaibo-secret-2025')
+COOKIE_NAME: str = 'admin_token'
+COOKIE_MAX_AGE: int = 7 * 24 * 60 * 60  # 7 days in seconds
 
 # ── Auth ────────────────────────────────────────────────────────────────────
+
 
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+
 def make_token(user_id: str, email: str) -> str:
-    payload = {'sub': user_id, 'email': email,
-                'exp': datetime.now(timezone.utc) + timedelta(days=7)}
+    """Create a signed JWT for the given admin user."""
+    payload: Dict[str, Any] = {
+        'sub': user_id,
+        'email': email,
+        'exp': datetime.now(timezone.utc) + timedelta(days=7),
+    }
     return jwt.encode(payload, SECRET, algorithm='HS256')
 
-async def require_admin(creds: HTTPAuthorizationCredentials = Depends(bearer)):
-    if not creds:
-        raise HTTPException(status_code=401, detail='Not authenticated')
+
+def _decode_token(token: str) -> Dict[str, Any]:
+    """Decode and validate a JWT, raising HTTPException on failure."""
     try:
-        data = jwt.decode(creds.credentials, SECRET, algorithms=['HS256'])
-        return data
+        return jwt.decode(token, SECRET, algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail='Token expired')
     except Exception:
         raise HTTPException(status_code=401, detail='Invalid token')
 
+
+async def require_admin(
+    request: Request,
+    creds: Optional[HTTPAuthorizationCredentials] = Depends(bearer),
+) -> Dict[str, Any]:
+    """Extract admin identity from httpOnly cookie or Authorization header."""
+    # 1) Try httpOnly cookie first
+    cookie_token: Optional[str] = request.cookies.get(COOKIE_NAME)
+    if cookie_token:
+        return _decode_token(cookie_token)
+
+    # 2) Fall back to Authorization: Bearer header
+    if creds and creds.credentials:
+        return _decode_token(creds.credentials)
+
+    raise HTTPException(status_code=401, detail='Not authenticated')
+
+
 @router.post('/login')
-async def login(req: LoginRequest):
+async def login(req: LoginRequest, response: Response) -> Dict[str, Any]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         row = await conn.fetchrow('SELECT * FROM admin_users WHERE email=$1', req.email)
@@ -45,10 +70,44 @@ async def login(req: LoginRequest):
         raise HTTPException(status_code=401, detail='Invalid credentials')
     if not bcrypt.checkpw(req.password.encode(), row['password_hash'].encode()):
         raise HTTPException(status_code=401, detail='Invalid credentials')
-    token = make_token(row['id'], row['email'])
+
+    token: str = make_token(row['id'], row['email'])
+
+    # Set httpOnly cookie
+    response.set_cookie(
+        key=COOKIE_NAME,
+        value=token,
+        httponly=True,
+        secure=True,
+        samesite='none',
+        max_age=COOKIE_MAX_AGE,
+        path='/',
+    )
+
     return {'token': token, 'email': row['email'], 'id': row['id']}
 
+
+@router.post('/logout')
+async def logout(response: Response) -> Dict[str, str]:
+    """Clear the httpOnly auth cookie."""
+    response.delete_cookie(
+        key=COOKIE_NAME,
+        httponly=True,
+        secure=True,
+        samesite='none',
+        path='/',
+    )
+    return {'status': 'logged_out'}
+
+
+@router.get('/me')
+async def get_me(admin: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
+    """Return the authenticated admin's identity from the token."""
+    return {'email': admin.get('email', ''), 'id': admin.get('sub', '')}
+
+
 # ── Blog CRUD ────────────────────────────────────────────────────────────────
+
 
 class BlogCreate(BaseModel):
     title: str
@@ -62,28 +121,33 @@ class BlogCreate(BaseModel):
     featured_image: Optional[str] = None
     published_at: Optional[datetime] = None
 
+
 class BlogUpdate(BlogCreate):
     pass
 
-def row_to_blog(row):
-    d = dict(row)
+
+def row_to_blog(row: Any) -> Dict[str, Any]:
+    """Convert an asyncpg Record to a JSON-safe dict."""
+    d: Dict[str, Any] = dict(row)
     for k in ['created_at', 'updated_at', 'published_at']:
         if d.get(k) and hasattr(d[k], 'isoformat'):
             d[k] = d[k].isoformat()
     return d
 
+
 @router.get('/blogs')
-async def list_blogs(_: dict = Depends(require_admin)):
+async def list_blogs(_: Dict[str, Any] = Depends(require_admin)) -> List[Dict[str, Any]]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         rows = await conn.fetch('SELECT * FROM blogs ORDER BY created_at DESC')
     return [row_to_blog(r) for r in rows]
 
+
 @router.post('/blogs', status_code=201)
-async def create_blog(data: BlogCreate, _: dict = Depends(require_admin)):
+async def create_blog(data: BlogCreate, _: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
     pool = await get_pool()
-    blog_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc)
+    blog_id: str = str(uuid.uuid4())
+    now: datetime = datetime.now(timezone.utc)
     async with pool.acquire() as conn:
         await conn.execute("""
             INSERT INTO blogs (id,title,slug,excerpt,content,author,category,tags,
@@ -95,8 +159,9 @@ async def create_blog(data: BlogCreate, _: dict = Depends(require_admin)):
         row = await conn.fetchrow('SELECT * FROM blogs WHERE id=$1', blog_id)
     return row_to_blog(row)
 
+
 @router.get('/blogs/{blog_id}')
-async def get_blog(blog_id: str, _: dict = Depends(require_admin)):
+async def get_blog(blog_id: str, _: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         row = await conn.fetchrow('SELECT * FROM blogs WHERE id=$1', blog_id)
@@ -104,10 +169,11 @@ async def get_blog(blog_id: str, _: dict = Depends(require_admin)):
         raise HTTPException(404, 'Blog not found')
     return row_to_blog(row)
 
+
 @router.put('/blogs/{blog_id}')
-async def update_blog(blog_id: str, data: BlogUpdate, _: dict = Depends(require_admin)):
+async def update_blog(blog_id: str, data: BlogUpdate, _: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
     pool = await get_pool()
-    now = datetime.now(timezone.utc)
+    now: datetime = datetime.now(timezone.utc)
     async with pool.acquire() as conn:
         await conn.execute("""
             UPDATE blogs SET title=$2,slug=$3,excerpt=$4,content=$5,author=$6,
@@ -121,13 +187,16 @@ async def update_blog(blog_id: str, data: BlogUpdate, _: dict = Depends(require_
         raise HTTPException(404, 'Blog not found')
     return row_to_blog(row)
 
+
 @router.delete('/blogs/{blog_id}', status_code=204)
-async def delete_blog(blog_id: str, _: dict = Depends(require_admin)):
+async def delete_blog(blog_id: str, _: Dict[str, Any] = Depends(require_admin)) -> None:
     pool = await get_pool()
     async with pool.acquire() as conn:
         await conn.execute('DELETE FROM blogs WHERE id=$1', blog_id)
 
+
 # ── Case Study CRUD ──────────────────────────────────────────────────────────
+
 
 class CaseStudyCreate(BaseModel):
     title: str
@@ -142,11 +211,14 @@ class CaseStudyCreate(BaseModel):
     published: Optional[bool] = False
     featured_image: Optional[str] = None
 
+
 class CaseStudyUpdate(CaseStudyCreate):
     pass
 
-def row_to_cs(row):
-    d = dict(row)
+
+def row_to_cs(row: Any) -> Dict[str, Any]:
+    """Convert an asyncpg Record to a JSON-safe dict."""
+    d: Dict[str, Any] = dict(row)
     for k in ['created_at', 'updated_at']:
         if d.get(k) and hasattr(d[k], 'isoformat'):
             d[k] = d[k].isoformat()
@@ -154,19 +226,21 @@ def row_to_cs(row):
         d['metrics'] = json.loads(d['metrics'])
     return d
 
+
 @router.get('/case-studies')
-async def list_case_studies(_: dict = Depends(require_admin)):
+async def list_case_studies(_: Dict[str, Any] = Depends(require_admin)) -> List[Dict[str, Any]]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         rows = await conn.fetch('SELECT * FROM case_studies ORDER BY created_at DESC')
     return [row_to_cs(r) for r in rows]
 
+
 @router.post('/case-studies', status_code=201)
-async def create_case_study(data: CaseStudyCreate, _: dict = Depends(require_admin)):
+async def create_case_study(data: CaseStudyCreate, _: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
     pool = await get_pool()
-    cs_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc)
-    metrics_json = json.dumps(data.metrics or {})
+    cs_id: str = str(uuid.uuid4())
+    now: datetime = datetime.now(timezone.utc)
+    metrics_json: str = json.dumps(data.metrics or {})
     async with pool.acquire() as conn:
         await conn.execute("""
             INSERT INTO case_studies (id,title,client,industry,service,excerpt,
@@ -178,8 +252,9 @@ async def create_case_study(data: CaseStudyCreate, _: dict = Depends(require_adm
         row = await conn.fetchrow('SELECT * FROM case_studies WHERE id=$1', cs_id)
     return row_to_cs(row)
 
+
 @router.get('/case-studies/{cs_id}')
-async def get_case_study(cs_id: str, _: dict = Depends(require_admin)):
+async def get_case_study(cs_id: str, _: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         row = await conn.fetchrow('SELECT * FROM case_studies WHERE id=$1', cs_id)
@@ -187,11 +262,12 @@ async def get_case_study(cs_id: str, _: dict = Depends(require_admin)):
         raise HTTPException(404, 'Case study not found')
     return row_to_cs(row)
 
+
 @router.put('/case-studies/{cs_id}')
-async def update_case_study(cs_id: str, data: CaseStudyUpdate, _: dict = Depends(require_admin)):
+async def update_case_study(cs_id: str, data: CaseStudyUpdate, _: Dict[str, Any] = Depends(require_admin)) -> Dict[str, Any]:
     pool = await get_pool()
-    now = datetime.now(timezone.utc)
-    metrics_json = json.dumps(data.metrics or {})
+    now: datetime = datetime.now(timezone.utc)
+    metrics_json: str = json.dumps(data.metrics or {})
     async with pool.acquire() as conn:
         await conn.execute("""
             UPDATE case_studies SET title=$2,client=$3,industry=$4,service=$5,
@@ -206,16 +282,19 @@ async def update_case_study(cs_id: str, data: CaseStudyUpdate, _: dict = Depends
         raise HTTPException(404, 'Case study not found')
     return row_to_cs(row)
 
+
 @router.delete('/case-studies/{cs_id}', status_code=204)
-async def delete_case_study(cs_id: str, _: dict = Depends(require_admin)):
+async def delete_case_study(cs_id: str, _: Dict[str, Any] = Depends(require_admin)) -> None:
     pool = await get_pool()
     async with pool.acquire() as conn:
         await conn.execute('DELETE FROM case_studies WHERE id=$1', cs_id)
 
+
 # ── Public endpoints (no auth) ───────────────────────────────────────────────
 
+
 @router.get('/public/blogs')
-async def public_blogs():
+async def public_blogs() -> List[Dict[str, Any]]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         rows = await conn.fetch(
@@ -223,8 +302,9 @@ async def public_blogs():
         )
     return [row_to_blog(r) for r in rows]
 
+
 @router.get('/public/blogs/{slug}')
-async def public_blog_by_slug(slug: str):
+async def public_blog_by_slug(slug: str) -> Dict[str, Any]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         row = await conn.fetchrow('SELECT * FROM blogs WHERE slug=$1 AND published=TRUE', slug)
@@ -232,8 +312,9 @@ async def public_blog_by_slug(slug: str):
         raise HTTPException(404, 'Blog not found')
     return row_to_blog(row)
 
+
 @router.get('/public/case-studies')
-async def public_case_studies():
+async def public_case_studies() -> List[Dict[str, Any]]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         rows = await conn.fetch(

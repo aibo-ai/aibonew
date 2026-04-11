@@ -98,7 +98,7 @@ async def get_status_checks():
 
 # ── Contact Form Helpers ──────────────────────────────────────────────────────
 
-def _build_notification_html(submission, submitted_at_str: str) -> str:
+def _build_notification_html(submission: ContactSubmission, submitted_at_str: str) -> str:
     """Build the HTML email body for a new contact form submission."""
     service_line = (
         f"<tr><td style='padding:8px 0;color:#666;'>Service Interest</td>"
@@ -142,7 +142,7 @@ def _build_notification_html(submission, submitted_at_str: str) -> str:
     """
 
 
-async def _send_contact_notification(submission, notification_html: str):
+async def _send_contact_notification(submission: ContactSubmission, notification_html: str) -> None:
     """Attempt to send email notification via Resend (non-blocking)."""
     try:
         params: resend.Emails.SendParams = {
