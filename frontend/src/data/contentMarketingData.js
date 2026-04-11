@@ -3,18 +3,18 @@ export const contentMarketingData = {
   pageTitle: 'Content Marketing',
   eyebrow: 'Content \u00b7 The engine behind every ranking, citation, and conversion.',
   headline: 'Content that ranks, converts, and compounds.',
-  subheadline: 'Every GEO citation needs a source. Every AEO answer needs a page. Every SEO ranking needs content behind it. We build the content infrastructure that powers all three \u2014 and converts the humans who arrive.',
+  subheadline: 'Every GEO citation needs a source. Every AEO answer needs a page. Every SEO ranking needs content behind it. We build the content infrastructure that powers all three and converts the humans who arrive.',
   ctaSecondary: 'See How Content Works',
   intro: {
     label: 'The Approach',
-    headline: 'Content built for humans and AI engines \u2014 equally.',
+    headline: 'Content built for humans and AI engines equally.',
     body: [
-      "Content marketing has always been about creating material that earns attention, builds trust, and drives action. What has changed is who \u2014 and what \u2014 you need to earn that attention from.",
+      "Content marketing has always been about creating material that earns attention, builds trust, and drives action. What has changed is who and what you need to earn that attention from.",
       "Today, great content must perform on three surfaces simultaneously: it needs to rank in Google (SEO), be selected as the authoritative answer by AI engines (GEO + AEO), and convert the human who ultimately reads it. Most content fails at least one of these. Often all three.",
       "At MyAibo, content is never a standalone deliverable. Every piece we create is built within a strategic framework: mapped to a keyword, structured for answer extraction, seeded across authoritative platforms, and written to move a real human closer to a decision. We don\u2019t write content. We build content infrastructure.",
     ],
     calloutStat: '3\u00d7',
-    calloutText: 'more leads than outbound marketing \u2014 at 62% lower cost. But only when it\u2019s built with a strategy. Random content creates random results. Structured content infrastructure compounds.',
+    calloutText: 'more leads than outbound marketing at 62% lower cost. But only when it\u2019s built with a strategy. Random content creates random results. Structured content infrastructure compounds.',
   },
   comparison: {
     without: { title: 'Random Content Creation', items: [
@@ -36,10 +36,10 @@ export const contentMarketingData = {
     label: 'Our Process',
     headline: 'From strategy to content that works.',
     steps: [
-      { num: '01', title: 'Content Strategy & Audit', body: "We audit your existing content library \u2014 identifying what\u2019s underperforming, what can be revived, and what gaps exist in your topic authority. We then build a content strategy that maps every planned piece to a business outcome: a keyword to win, a query to answer, an audience to convert.", deliverable: 'Content Strategy Document + Editorial Calendar' },
+      { num: '01', title: 'Content Strategy & Audit', body: "We audit your existing content library identifying what\u2019s underperforming, what can be revived, and what gaps exist in your topic authority. We then build a content strategy that maps every planned piece to a business outcome: a keyword to win, a query to answer, an audience to convert.", deliverable: 'Content Strategy Document + Editorial Calendar' },
       { num: '02', title: 'Topic Authority Architecture', body: 'We design the full content architecture for your category: pillar pages that establish broad authority, cluster articles that support specific queries, FAQ hubs for AEO capture, and comparison content for high-intent buyers. Every piece connects to every other piece.', deliverable: 'Content Architecture Map' },
-      { num: '03', title: 'Content Creation', body: 'Our senior writers produce content built to dual standards: rigorous enough for human readers, structured correctly for AI engines. Long-form guides, thought leadership, case studies, product pages, FAQs, video scripts, email sequences \u2014 whatever format the strategy requires.', deliverable: 'Content Calendar Execution (ongoing)' },
-      { num: '04', title: 'Optimisation & Structuring', body: 'Every piece is optimised before publishing: schema markup added, internal links woven in, answer blocks formatted for featured snippet capture, and E-E-A-T signals embedded \u2014 author attribution, expert citations, source linking.', deliverable: 'Published, Optimised Content' },
+      { num: '03', title: 'Content Creation', body: 'Our senior writers produce content built to dual standards: rigorous enough for human readers, structured correctly for AI engines. Long-form guides, thought leadership, case studies, product pages, FAQs, video scripts, email sequences whatever format the strategy requires.', deliverable: 'Content Calendar Execution (ongoing)' },
+      { num: '04', title: 'Optimisation & Structuring', body: 'Every piece is optimised before publishing: schema markup added, internal links woven in, answer blocks formatted for featured snippet capture, and E-E-A-T signals embedded like author attribution, expert citations, source linking.', deliverable: 'Published, Optimised Content' },
       { num: '05', title: 'Distribution & Seeding', body: "We don\u2019t publish and pray. Each piece is seeded across the platforms that matter: relevant Q&A forums, industry publications, social amplification, and newsletter distribution. Content that lives only on your site is underperforming its potential.", deliverable: 'Distribution Report per Piece' },
     ],
   },
@@ -47,12 +47,12 @@ export const contentMarketingData = {
     label: 'The Deliverables',
     headline: 'Every content format. One integrated strategy.',
     cards: [
-      { title: 'Long-Form Authority Content', body: 'In-depth guides, definitive category resources, and comprehensive tutorials \u2014 the 2,000\u20135,000 word pieces that earn backlinks, establish topical authority, and get cited by AI engines as reference sources.' },
-      { title: 'Thought Leadership', body: "Executive bylines, industry perspectives, and opinion pieces placed in authoritative publications \u2014 building your brand\u2019s human credibility alongside its technical authority." },
+      { title: 'Long-Form Authority Content', body: 'In-depth guides, definitive category resources, and comprehensive tutorials such as the 2,000\u20135,000 word pieces that earn backlinks, establish topical authority, and get cited by AI engines as reference sources.' },
+      { title: 'Thought Leadership', body: "Executive bylines, industry perspectives, and opinion pieces placed in authoritative publications building your brand\u2019s human credibility alongside its technical authority." },
       { title: 'Case Studies & Proof Content', body: 'Structured case studies that showcase measurable outcomes, written to convert high-intent prospects who are evaluating whether you can deliver results like theirs.' },
-      { title: 'FAQ & AEO Content Hubs', body: 'Comprehensive question-and-answer content built specifically for featured snippet capture, PAA box ownership, and AI engine summarisation \u2014 structured for position zero from the first draft.' },
-      { title: 'Email & Nurture Sequences', body: 'Content that converts at every funnel stage \u2014 welcome sequences, educational drips, re-engagement campaigns \u2014 written to move prospects closer to a decision without feeling like marketing.' },
-      { title: 'Video Scripts & Multimedia Briefs', body: 'Scripts and briefs for explainer videos, social shorts, webinars, and podcasts \u2014 so your content strategy extends to every format your audience uses.' },
+      { title: 'FAQ & AEO Content Hubs', body: 'Comprehensive question-and-answer content built specifically for featured snippet capture, PAA box ownership, and AI engine summarisation, structured for position zero from the first draft.' },
+      { title: 'Email & Nurture Sequences', body: 'Content that converts at every funnel stage —welcome sequences, educational drips, re-engagement campaigns written to move prospects closer to a decision without feeling like marketing.' },
+      { title: 'Video Scripts & Multimedia Briefs', body: 'Scripts and briefs for explainer videos, social shorts, webinars, and podcasts so that your content strategy extends to every format your audience uses.' },
     ],
   },
   whyNow: {
@@ -65,9 +65,9 @@ export const contentMarketingData = {
       { num: '+78%', label: 'Average LTV improvement for MyAibo content clients (repeat purchase correlation)' },
     ],
     contextCards: [
-      { title: 'Content Feeds Everything Else', body: "GEO needs sources to cite. AEO needs pages to extract answers from. SEO needs content to rank. Backlinks need something worth linking to. Content isn\u2019t one marketing channel \u2014 it\u2019s the raw material that makes every other channel work." },
+      { title: 'Content Feeds Everything Else', body: "GEO needs sources to cite. AEO needs pages to extract answers from. SEO needs content to rank. Backlinks need something worth linking to. Content isn\u2019t one marketing channel, it\u2019s the raw material that makes every other channel work." },
       { title: 'The Compounding Effect', body: 'Unlike paid advertising, content accrues value over time. A well-built pillar page earns backlinks, rankings, and citations for months or years after it\u2019s published. The content you build today is still working in 2028.' },
-      { title: 'Trust Before Transaction', body: 'Buyers \u2014 especially in B2B and premium D2C \u2014 research extensively before purchasing. Content that educates, demonstrates expertise, and answers real questions builds the trust that converts. Brands that invest in content shorten their sales cycles and improve close rates.' },
+      { title: 'Trust Before Transaction', body: 'Buyers especially in B2B and premium D2C research extensively before purchasing. Content that educates, demonstrates expertise, and answers real questions builds the trust that converts. Brands that invest in content shorten their sales cycles and improve close rates.' },
     ],
   },
   results: {
@@ -80,7 +80,7 @@ export const contentMarketingData = {
       { metric: 'LTV improvement (content-nurtured customers)', result: '+78%' },
     ],
     testimonial: {
-      quote: "MyAibo\u2019s content isn\u2019t just good writing \u2014 it actually ranks, gets cited by AI tools, and converts. We saw email engagement jump 47% when they rebuilt our nurture sequences. The content infrastructure they built is an asset we\u2019ll be drawing from for years.",
+      quote: "MyAibo\u2019s content isn\u2019t just good writing, it actually ranks, gets cited by AI tools, and converts. We saw email engagement jump 47% when they rebuilt our nurture sequences. The content infrastructure they built is an asset we\u2019ll be drawing from for years.",
       author: 'Founder, Trudiance Beauty D2C Skincare & Makeup',
       role: 'D2C Skincare & Makeup',
       initials: 'TB',
