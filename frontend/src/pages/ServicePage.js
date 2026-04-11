@@ -309,15 +309,12 @@ export default function ServicePage() {
           <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--purple-dark)', display: 'block', marginBottom: 16 }}>
             Get Started
           </span>
-          <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 24px', lineHeight: 1.15 }}>
+          <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 32px', lineHeight: 1.15 }}>
             {data.finalCta.headline}
           </h2>
-          <div className="flex flex-wrap justify-center gap-3 mb-3">
+          <div className="flex justify-center mb-3">
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-purple inline-flex" style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}>
               Book Free Strategy Session
-            </a>
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="selection-btn">
-              {data.finalCta.ctaSecondary} <ArrowRight size={14} />
             </a>
           </div>
           <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 12 }}>
