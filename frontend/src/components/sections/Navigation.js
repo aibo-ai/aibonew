@@ -84,7 +84,10 @@ export default function Navigation() {
 
             {solutionsOpen && (
               <div
-                className="absolute top-full left-0 mt-2"
+                className="absolute top-full left-0"
+                style={{ paddingTop: 8 }}
+              >
+                <div
                 style={{
                   background: 'var(--white)',
                   borderRadius: 12,
@@ -170,6 +173,7 @@ export default function Navigation() {
                   </div>
                 </div>
               </div>
+              </div>
             )}
           </div>
 
@@ -197,7 +201,10 @@ export default function Navigation() {
 
             {resourcesOpen && (
               <div
-                className="absolute top-full left-0 mt-2"
+                className="absolute top-full left-0"
+                style={{ paddingTop: 8 }}
+              >
+                <div
                 style={{
                   background: 'var(--white)',
                   borderRadius: 12,
@@ -241,6 +248,7 @@ export default function Navigation() {
                 >
                   Case Studies
                 </Link>
+              </div>
               </div>
             )}
           </div>
