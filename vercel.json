@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd frontend && yarn install && yarn build",
+  "outputDirectory": "frontend/build",
+  "functions": {
+    "backend/api/index.py": { "runtime": "python3.11", "maxDuration": 60 },
+    "cms-backend/api/index.ts": { "runtime": "nodejs20.x", "maxDuration": 60 }
+  },
+  "rewrites": [
+    { "source": "/api/cms/:path*", "destination": "/cms-backend/api/index" },
+    { "source": "/api/:path*", "destination": "/backend/api/index" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

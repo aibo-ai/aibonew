@@ -1,37 +1,46 @@
 import asyncpg
 import os
 import logging
-from typing import Optional
+from typing import AsyncIterator
+from contextlib import asynccontextmanager
 
 logger: logging.Logger = logging.getLogger(__name__)
 
-_pool: Optional[asyncpg.Pool] = None
+
+def _get_neon_url() -> str:
+    neon_url: str = os.environ.get('NEON_DATABASE_URL', '')
+    if not neon_url:
+        raise RuntimeError('NEON_DATABASE_URL not configured')
+    return neon_url
 
 
-async def get_pool() -> asyncpg.Pool:
-    """Return (and lazily create) the shared connection pool."""
-    global _pool
-    if _pool is None:
-        neon_url: str = os.environ.get('NEON_DATABASE_URL', '')
-        if not neon_url:
-            raise RuntimeError('NEON_DATABASE_URL not configured')
-        try:
-            _pool = await asyncpg.create_pool(neon_url, min_size=1, max_size=5)
-            logger.info('Neon PostgreSQL pool created')
-        except Exception as exc:
-            _pool = None
-            raise RuntimeError(f'Failed to create Neon pool: {exc}') from exc
-    if _pool is None:
-        raise RuntimeError('Database pool is not available')
-    return _pool
+@asynccontextmanager
+async def get_connection() -> AsyncIterator[asyncpg.Connection]:
+    """Open and close a Neon connection per operation (serverless-safe)."""
+    conn = await asyncpg.connect(_get_neon_url())
+    try:
+        yield conn
+    finally:
+        await conn.close()
+
+
+class _ServerlessPoolCompat:
+    """Compatibility layer for existing code using pool.acquire()."""
+
+    @asynccontextmanager
+    async def acquire(self) -> AsyncIterator[asyncpg.Connection]:
+        async with get_connection() as conn:
+            yield conn
+
+
+async def get_pool() -> _ServerlessPoolCompat:
+    """Return a lightweight compatibility wrapper (no shared pool)."""
+    return _ServerlessPoolCompat()
 
 
 async def close_pool() -> None:
-    """Gracefully close the connection pool."""
-    global _pool
-    if _pool is not None:
-        await _pool.close()
-        _pool = None
+    """No-op in serverless mode where connections are per request."""
+    return None
 
 
 async def _ensure_blogs_table(conn: asyncpg.Connection) -> None:
@@ -101,8 +110,7 @@ async def _ensure_admin_users_table(conn: asyncpg.Connection) -> None:
 
 async def init_tables() -> None:
     """Ensure all tables exist with correct schema (non-destructive)."""
-    pool = await get_pool()
-    async with pool.acquire() as conn:
+    async with get_connection() as conn:
         await _ensure_admin_users_table(conn)
         await _ensure_blogs_table(conn)
         await _ensure_case_studies_table(conn)

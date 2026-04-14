@@ -1,7 +1,6 @@
 from fastapi import FastAPI, APIRouter
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import asyncio
 import logging
@@ -13,16 +12,11 @@ import uuid
 from datetime import datetime, timezone
 from routes.cms_proxy import router as cms_proxy_router
 from routes.admin_api import router as admin_router
-from db.neon import init_tables, close_pool
+from db.neon import init_tables, close_pool, get_connection
 
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
-
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
 
 # Resend configuration
 resend.api_key = os.environ.get('RESEND_API_KEY', '')
@@ -74,27 +68,45 @@ async def root():
 
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
-    
-    # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    
-    _ = await db.status_checks.insert_one(doc)
+    status_obj = StatusCheck(**input.model_dump())
+    async with get_connection() as conn:
+        await conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS status_checks (
+                id TEXT PRIMARY KEY,
+                client_name TEXT NOT NULL,
+                timestamp TIMESTAMPTZ NOT NULL
+            )
+            """
+        )
+        await conn.execute(
+            "INSERT INTO status_checks (id, client_name, timestamp) VALUES ($1, $2, $3)",
+            status_obj.id,
+            status_obj.client_name,
+            status_obj.timestamp,
+        )
     return status_obj
 
 @api_router.get("/status", response_model=List[StatusCheck])
 async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
-    return status_checks
+    async with get_connection() as conn:
+        await conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS status_checks (
+                id TEXT PRIMARY KEY,
+                client_name TEXT NOT NULL,
+                timestamp TIMESTAMPTZ NOT NULL
+            )
+            """
+        )
+        rows = await conn.fetch(
+            "SELECT id, client_name, timestamp FROM status_checks ORDER BY timestamp DESC LIMIT 1000"
+        )
+
+    return [
+        StatusCheck(id=row["id"], client_name=row["client_name"], timestamp=row["timestamp"])
+        for row in rows
+    ]
 
 # ── Contact Form Helpers ──────────────────────────────────────────────────────
 
@@ -162,23 +174,77 @@ async def _send_contact_notification(submission: ContactSubmission, notification
 @api_router.post("/contact")
 async def submit_contact(input: ContactSubmissionCreate):
     submission = ContactSubmission(**input.model_dump())
-    doc = submission.model_dump()
-    doc['submitted_at'] = doc['submitted_at'].isoformat()
+    async with get_connection() as conn:
+        await conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS contact_submissions (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                company TEXT,
+                service_interest TEXT,
+                message TEXT NOT NULL,
+                submitted_at TIMESTAMPTZ NOT NULL
+            )
+            """
+        )
+        await conn.execute(
+            """
+            INSERT INTO contact_submissions
+            (id, name, email, company, service_interest, message, submitted_at)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+            """,
+            submission.id,
+            submission.name,
+            submission.email,
+            submission.company,
+            submission.service_interest,
+            submission.message,
+            submission.submitted_at,
+        )
 
-    await db.contact_submissions.insert_one(doc)
-
-    notification_html = _build_notification_html(submission, doc['submitted_at'])
+    notification_html = _build_notification_html(submission, submission.submitted_at.isoformat())
     await _send_contact_notification(submission, notification_html)
 
     return {"status": "success", "id": submission.id}
 
 @api_router.get("/contact", response_model=List[ContactSubmission])
 async def get_contact_submissions():
-    submissions = await db.contact_submissions.find({}, {"_id": 0}).to_list(1000)
-    for s in submissions:
-        if isinstance(s.get('submitted_at'), str):
-            s['submitted_at'] = datetime.fromisoformat(s['submitted_at'])
-    return submissions
+    async with get_connection() as conn:
+        await conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS contact_submissions (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                email TEXT NOT NULL,
+                company TEXT,
+                service_interest TEXT,
+                message TEXT NOT NULL,
+                submitted_at TIMESTAMPTZ NOT NULL
+            )
+            """
+        )
+        rows = await conn.fetch(
+            """
+            SELECT id, name, email, company, service_interest, message, submitted_at
+            FROM contact_submissions
+            ORDER BY submitted_at DESC
+            LIMIT 1000
+            """
+        )
+
+    return [
+        ContactSubmission(
+            id=row["id"],
+            name=row["name"],
+            email=row["email"],
+            company=row["company"],
+            service_interest=row["service_interest"],
+            message=row["message"],
+            submitted_at=row["submitted_at"],
+        )
+        for row in rows
+    ]
 
 # Include the router in the main app
 app.include_router(api_router)
@@ -202,7 +268,6 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
-    client.close()
     await close_pool()
 
 @app.on_event("startup")
