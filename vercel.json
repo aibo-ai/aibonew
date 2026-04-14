@@ -2,12 +2,12 @@
   "buildCommand": "cd frontend && yarn install && yarn build",
   "outputDirectory": "frontend/build",
   "functions": {
-    "backend/api/index.py": { "maxDuration": 60 },
-    "cms-backend/api/index.ts": { "maxDuration": 60 }
+    "api/[...path].py": { "maxDuration": 60 },
+    "api/cms/[...path].ts": { "maxDuration": 60 }
   },
   "rewrites": [
-    { "source": "/api/cms/:path*", "destination": "/cms-backend/api/index" },
-    { "source": "/api/:path*", "destination": "/backend/api/index" },
+    { "source": "/api/cms/:path*", "destination": "/api/cms/:path*" },
+    { "source": "/api/:path*", "destination": "/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
