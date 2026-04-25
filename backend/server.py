@@ -174,34 +174,37 @@ async def _send_contact_notification(submission: ContactSubmission, notification
 @api_router.post("/contact")
 async def submit_contact(input: ContactSubmissionCreate):
     submission = ContactSubmission(**input.model_dump())
-    async with get_connection() as conn:
-        await conn.execute(
-            """
-            CREATE TABLE IF NOT EXISTS contact_submissions (
-                id TEXT PRIMARY KEY,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                company TEXT,
-                service_interest TEXT,
-                message TEXT NOT NULL,
-                submitted_at TIMESTAMPTZ NOT NULL
+    try:
+        async with get_connection() as conn:
+            await conn.execute(
+                """
+                CREATE TABLE IF NOT EXISTS contact_submissions (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    company TEXT,
+                    service_interest TEXT,
+                    message TEXT NOT NULL,
+                    submitted_at TIMESTAMPTZ NOT NULL
+                )
+                """
             )
-            """
-        )
-        await conn.execute(
-            """
-            INSERT INTO contact_submissions
-            (id, name, email, company, service_interest, message, submitted_at)
-            VALUES ($1, $2, $3, $4, $5, $6, $7)
-            """,
-            submission.id,
-            submission.name,
-            submission.email,
-            submission.company,
-            submission.service_interest,
-            submission.message,
-            submission.submitted_at,
-        )
+            await conn.execute(
+                """
+                INSERT INTO contact_submissions
+                (id, name, email, company, service_interest, message, submitted_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                """,
+                submission.id,
+                submission.name,
+                submission.email,
+                submission.company,
+                submission.service_interest,
+                submission.message,
+                submission.submitted_at,
+            )
+    except Exception as e:
+        logger.error(f"Contact DB write failed (continuing with notification): {e}")
 
     notification_html = _build_notification_html(submission, submission.submitted_at.isoformat())
     await _send_contact_notification(submission, notification_html)
