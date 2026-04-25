@@ -32,7 +32,7 @@ export default function CaseStudyManagement() {
   const fetchCaseStudies = useCallback(async () => {
     setLoading(true);
     try {
-      const r = await fetch(`${BACKEND_URL}/api/admin/case-studies`, { headers: authHeaders() });
+      const r = await fetch(`${BACKEND_URL}/admin/case-studies`, { headers: authHeaders() });
       if (r.status === 401) { navigate('/admin'); return; }
       const data = await r.json();
       setCaseStudies(data);
@@ -73,8 +73,8 @@ export default function CaseStudyManagement() {
     const payload = { ...form, metrics };
     try {
       const url = editing
-        ? `${BACKEND_URL}/api/admin/case-studies/${editing.id}`
-        : `${BACKEND_URL}/api/admin/case-studies`;
+        ? `${BACKEND_URL}/admin/case-studies/${editing.id}`
+        : `${BACKEND_URL}/admin/case-studies`;
       const r = await fetch(url, { method: editing ? 'PUT' : 'POST', headers: authHeaders(), body: JSON.stringify(payload) });
       if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.detail || 'Save failed'); }
       setShowModal(false);
@@ -84,12 +84,12 @@ export default function CaseStudyManagement() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this case study?')) return;
-    await fetch(`${BACKEND_URL}/api/admin/case-studies/${id}`, { method: 'DELETE', headers: authHeaders() });
+    await fetch(`${BACKEND_URL}/admin/case-studies/${id}`, { method: 'DELETE', headers: authHeaders() });
     setCaseStudies(caseStudies.filter(cs => cs.id !== id));
   };
 
   const togglePublish = async (cs) => {
-    const r = await fetch(`${BACKEND_URL}/api/admin/case-studies/${cs.id}`, {
+    const r = await fetch(`${BACKEND_URL}/admin/case-studies/${cs.id}`, {
       method: 'PUT', headers: authHeaders(),
       body: JSON.stringify({ ...cs, metrics: cs.metrics || {}, published: !cs.published }),
     });

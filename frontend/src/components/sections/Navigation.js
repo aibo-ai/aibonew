@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, X, Calendar } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 
 const BOOKING_URL = 'https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/?ismsaljsauthenabled=true';
 
@@ -23,6 +23,36 @@ export default function Navigation() {
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
+
+  const solutionsRef = useRef(null);
+  const resourcesRef = useRef(null);
+
+  useEffect(() => {
+    const closeDesktopMenus = () => {
+      setSolutionsOpen(false);
+      setResourcesOpen(false);
+    };
+
+    const handlePointerDown = (e) => {
+      const el = e.target;
+      if (solutionsRef.current?.contains(el) || resourcesRef.current?.contains(el)) return;
+      closeDesktopMenus();
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        setSolutionsOpen(false);
+        setResourcesOpen(false);
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
 
   return (
     <nav
@@ -60,14 +90,20 @@ export default function Navigation() {
 
         {/* Desktop Navigation - All items visible on desktop */}
         <div className="hidden lg:flex items-center gap-8" style={{ flex: 1, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
-          {/* Solutions Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setSolutionsOpen(true)}
-            onMouseLeave={() => setSolutionsOpen(false)}
-          >
+          {/* Solutions Dropdown — click to toggle (hover is unreliable with overlays / touch) */}
+          <div className="relative" ref={solutionsRef}>
             <button
+              type="button"
               className="nav-link inline-flex items-center gap-1"
+              aria-expanded={solutionsOpen}
+              aria-haspopup="true"
+              onClick={() => {
+                setSolutionsOpen((v) => {
+                  const next = !v;
+                  if (next) setResourcesOpen(false);
+                  return next;
+                });
+              }}
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -85,7 +121,7 @@ export default function Navigation() {
             {solutionsOpen && (
               <div
                 className="absolute top-full left-0"
-                style={{ paddingTop: 8 }}
+                style={{ paddingTop: 8, zIndex: 1100 }}
               >
                 <div
                 style={{
@@ -117,6 +153,10 @@ export default function Navigation() {
                       <Link
                         key={service.slug}
                         to={`/solutions/${service.slug}`}
+                        onClick={() => {
+                          setSolutionsOpen(false);
+                          setResourcesOpen(false);
+                        }}
                         style={{
                           display: 'block',
                           padding: '10px 12px',
@@ -154,6 +194,10 @@ export default function Navigation() {
                       <Link
                         key={service.slug}
                         to={`/solutions/${service.slug}`}
+                        onClick={() => {
+                          setSolutionsOpen(false);
+                          setResourcesOpen(false);
+                        }}
                         style={{
                           display: 'block',
                           padding: '10px 12px',
@@ -178,13 +222,19 @@ export default function Navigation() {
           </div>
 
           {/* Resources Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => setResourcesOpen(true)}
-            onMouseLeave={() => setResourcesOpen(false)}
-          >
+          <div className="relative" ref={resourcesRef}>
             <button
+              type="button"
               className="nav-link inline-flex items-center gap-1"
+              aria-expanded={resourcesOpen}
+              aria-haspopup="true"
+              onClick={() => {
+                setResourcesOpen((v) => {
+                  const next = !v;
+                  if (next) setSolutionsOpen(false);
+                  return next;
+                });
+              }}
               style={{
                 background: 'transparent',
                 border: 'none',
@@ -202,7 +252,7 @@ export default function Navigation() {
             {resourcesOpen && (
               <div
                 className="absolute top-full left-0"
-                style={{ paddingTop: 8 }}
+                style={{ paddingTop: 8, zIndex: 1100 }}
               >
                 <div
                 style={{
@@ -216,6 +266,10 @@ export default function Navigation() {
               >
                 <Link
                   to="/blogs"
+                  onClick={() => {
+                    setSolutionsOpen(false);
+                    setResourcesOpen(false);
+                  }}
                   style={{
                     display: 'block',
                     padding: '10px 12px',
@@ -233,6 +287,10 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to="/case-studies"
+                  onClick={() => {
+                    setSolutionsOpen(false);
+                    setResourcesOpen(false);
+                  }}
                   style={{
                     display: 'block',
                     padding: '10px 12px',

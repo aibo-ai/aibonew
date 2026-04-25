@@ -34,7 +34,7 @@ export default function BlogManagement() {
   const fetchBlogs = useCallback(async () => {
     setLoading(true);
     try {
-      const r = await fetch(`${BACKEND_URL}/api/admin/blogs`, { headers: authHeaders() });
+      const r = await fetch(`${BACKEND_URL}/admin/blogs`, { headers: authHeaders() });
       if (r.status === 401) { navigate('/admin'); return; }
       const data = await r.json();
       setBlogs(data);
@@ -96,8 +96,8 @@ export default function BlogManagement() {
     };
     try {
       const url = editing
-        ? `${BACKEND_URL}/api/admin/blogs/${editing.id}`
-        : `${BACKEND_URL}/api/admin/blogs`;
+        ? `${BACKEND_URL}/admin/blogs/${editing.id}`
+        : `${BACKEND_URL}/admin/blogs`;
       const r = await fetch(url, {
         method: editing ? 'PUT' : 'POST',
         headers: authHeaders(),
@@ -118,7 +118,7 @@ export default function BlogManagement() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this blog post?')) return;
-    await fetch(`${BACKEND_URL}/api/admin/blogs/${id}`, {
+    await fetch(`${BACKEND_URL}/admin/blogs/${id}`, {
       method: 'DELETE',
       headers: authHeaders(),
     });
@@ -126,7 +126,7 @@ export default function BlogManagement() {
   };
 
   const togglePublish = async (blog) => {
-    const r = await fetch(`${BACKEND_URL}/api/admin/blogs/${blog.id}`, {
+    const r = await fetch(`${BACKEND_URL}/admin/blogs/${blog.id}`, {
       method: 'PUT',
       headers: authHeaders(),
       body: JSON.stringify({

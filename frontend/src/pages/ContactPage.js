@@ -37,7 +37,7 @@ export default function ContactPage() {
     setErrorMsg('');
 
     try {
-      const res = await fetch(`${BACKEND_URL}/api/contact`, {
+      const res = await fetch(`${BACKEND_URL}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -58,7 +58,7 @@ export default function ContactPage() {
       setForm({ name: '', email: '', company: '', service_interest: '', message: '' });
     } catch (err) {
       setStatus('error');
-      setErrorMsg(err.message);
+      setErrorMsg(err.message || 'Network error. Please try again.');
     }
   };
 

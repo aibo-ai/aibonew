@@ -14,8 +14,8 @@ export default function AdminDashboard() {
     try {
       const headers = { 'Authorization': `Bearer ${token}` };
       const [blogsRes, casesRes] = await Promise.all([
-        fetch(`${BACKEND_URL}/api/admin/blogs`, { headers }),
-        fetch(`${BACKEND_URL}/api/admin/case-studies`, { headers }),
+        fetch(`${BACKEND_URL}/admin/blogs`, { headers }),
+        fetch(`${BACKEND_URL}/admin/case-studies`, { headers }),
       ]);
 
       const blogsData = await blogsRes.json();
