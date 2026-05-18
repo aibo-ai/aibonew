@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Mail, Linkedin, CheckCircle, AlertCircle, Loader } from 'lucide-react';
 import SEO from '@/components/SEO';
+import { BOOKING_URL } from '@/lib/constants';
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)',
@@ -227,7 +228,7 @@ export default function ContactPage() {
                   Book a free 30-minute strategy session. No commitment required.
                 </p>
                 <a
-                  href="https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/?ismsaljsauthenabled=true"
+                  href={BOOKING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-purple inline-flex items-center gap-2"

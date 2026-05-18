@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, Menu, X } from 'lucide-react';
-
-const BOOKING_URL = 'https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/?ismsaljsauthenabled=true';
+import { BOOKING_URL } from '@/lib/constants';
 
 const marketingServices = [
   { name: 'Generative Engine Optimization', slug: 'geo' },
