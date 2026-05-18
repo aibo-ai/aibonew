@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { BACKEND_URL } from '@/lib/constants';
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)', 'Answer Engine Optimization (AEO)',

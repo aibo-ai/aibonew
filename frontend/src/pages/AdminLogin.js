@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { BACKEND_URL } from '@/lib/constants';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -22,7 +21,7 @@ export default function AdminLogin() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (response.ok && data.token) {
         sessionStorage.setItem('admin_token', data.token);

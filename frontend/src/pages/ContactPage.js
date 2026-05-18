@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Mail, Linkedin, CheckCircle, AlertCircle, Loader } from 'lucide-react';
 import SEO from '@/components/SEO';
-import { BOOKING_URL } from '@/lib/constants';
+import { BACKEND_URL, BOOKING_URL } from '@/lib/constants';
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)',
@@ -13,8 +13,6 @@ const SERVICES = [
   'White Label Solutions',
   'Multiple Services / Not Sure Yet',
 ];
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export default function ContactPage() {
   const [form, setForm] = useState({

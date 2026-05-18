@@ -1,9 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Briefcase, Eye, Plus } from 'lucide-react';
-
-// Use the FastAPI backend admin API
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+import { BACKEND_URL } from '@/lib/constants';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ blogs: 0, caseStudies: 0, views: 0 });
