@@ -27,6 +27,8 @@ export default function AdminLogin() {
         sessionStorage.setItem('admin_token', data.token);
         sessionStorage.setItem('admin_user', JSON.stringify({ email: data.email, id: data.id }));
         navigate('/admin/dashboard');
+      } else if (response.status >= 500) {
+        setError('Server error while signing in. Please try again in a moment.');
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');
       }

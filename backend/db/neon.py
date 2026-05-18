@@ -6,6 +6,8 @@ from contextlib import asynccontextmanager
 
 logger: logging.Logger = logging.getLogger(__name__)
 
+_tables_ready: bool = False
+
 
 def _get_neon_url() -> str:
     neon_url: str = os.environ.get('NEON_DATABASE_URL', '')
@@ -17,6 +19,10 @@ def _get_neon_url() -> str:
 @asynccontextmanager
 async def get_connection() -> AsyncIterator[asyncpg.Connection]:
     """Open and close a Neon connection per operation (serverless-safe)."""
+    global _tables_ready
+    if not _tables_ready:
+        await init_tables()
+
     conn = await asyncpg.connect(_get_neon_url())
     try:
         yield conn
@@ -110,8 +116,16 @@ async def _ensure_admin_users_table(conn: asyncpg.Connection) -> None:
 
 async def init_tables() -> None:
     """Ensure all tables exist with correct schema (non-destructive)."""
-    async with get_connection() as conn:
+    global _tables_ready
+    if _tables_ready:
+        return
+
+    conn = await asyncpg.connect(_get_neon_url())
+    try:
         await _ensure_admin_users_table(conn)
         await _ensure_blogs_table(conn)
         await _ensure_case_studies_table(conn)
-    logger.info('Neon DB tables initialised')
+        _tables_ready = True
+        logger.info('Neon DB tables initialised')
+    finally:
+        await conn.close()
