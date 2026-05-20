@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
-import { BACKEND_URL } from '@/lib/constants';
+import { adminGet, adminMutate, AdminAuthError } from '@/lib/adminApi';
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)', 'Answer Engine Optimization (AEO)',
@@ -25,23 +25,22 @@ export default function CaseStudyManagement() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const getToken = useCallback(() => sessionStorage.getItem('admin_token'), []);
-  const authHeaders = useCallback(() => ({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` }), [getToken]);
-
   const fetchCaseStudies = useCallback(async () => {
     setLoading(true);
     try {
-      const r = await fetch(`${BACKEND_URL}/admin/case-studies`, { headers: authHeaders() });
-      if (r.status === 401) { navigate('/admin'); return; }
-      const data = await r.json();
+      const data = await adminGet('/case-studies');
       setCaseStudies(data);
-    } catch (_err) { /* network error */ } finally { setLoading(false); }
-  }, [authHeaders, navigate]);
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      console.error('[CaseStudyManagement] Failed to fetch case studies:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate]);
 
   useEffect(() => {
-    if (!getToken()) { navigate('/admin'); return; }
     fetchCaseStudies();
-  }, [navigate, getToken, fetchCaseStudies]);
+  }, [fetchCaseStudies]);
 
   const openNew = () => { setEditing(null); setForm(EMPTY_CS); setError(''); setShowModal(true); };
   const openEdit = (cs) => {
@@ -71,41 +70,50 @@ export default function CaseStudyManagement() {
     }
     const payload = { ...form, metrics };
     try {
-      const url = editing
-        ? `${BACKEND_URL}/admin/case-studies/${editing.id}`
-        : `${BACKEND_URL}/admin/case-studies`;
-      const r = await fetch(url, { method: editing ? 'PUT' : 'POST', headers: authHeaders(), body: JSON.stringify(payload) });
-      if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.detail || 'Save failed'); }
+      const path = editing ? `/case-studies/${editing.id}` : '/case-studies';
+      await adminMutate(path, editing ? 'PUT' : 'POST', payload);
       setShowModal(false);
       fetchCaseStudies();
-    } catch (e) { setError(e.message); } finally { setSaving(false); }
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this case study?')) return;
-    await fetch(`${BACKEND_URL}/admin/case-studies/${id}`, { method: 'DELETE', headers: authHeaders() });
-    setCaseStudies(caseStudies.filter(cs => cs.id !== id));
+    try {
+      await adminMutate(`/case-studies/${id}`, 'DELETE');
+      setCaseStudies(caseStudies.filter(cs => cs.id !== id));
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      console.error('[CaseStudyManagement] Failed to delete case study:', err);
+    }
   };
 
   const togglePublish = async (cs) => {
-    const r = await fetch(`${BACKEND_URL}/admin/case-studies/${cs.id}`, {
-      method: 'PUT', headers: authHeaders(),
-      body: JSON.stringify({ ...cs, metrics: cs.metrics || {}, published: !cs.published }),
-    });
-    if (r.ok) fetchCaseStudies();
+    try {
+      await adminMutate(`/case-studies/${cs.id}`, 'PUT', { ...cs, metrics: cs.metrics || {}, published: !cs.published });
+      fetchCaseStudies();
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      console.error('[CaseStudyManagement] Failed to toggle publish:', err);
+    }
   };
 
   const inputSt = { width: '100%', padding: '10px 14px', fontSize: 14, border: '1px solid var(--border-clr)', borderRadius: 8, background: 'var(--off-white)', boxSizing: 'border-box', fontFamily: "'DM Sans', sans-serif", outline: 'none' };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--off-white)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--off-white)' }} data-testid="case-study-management">
       <header style={{ background: 'var(--white)', borderBottom: '1px solid var(--border-clr)', padding: '16px 32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <Link to="/admin/dashboard" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}><ChevronLeft size={20} /></Link>
             <h1 style={{ fontSize: 20, fontWeight: 600, margin: 0, fontFamily: "'Fraunces', serif" }}>Case Study Management</h1>
           </div>
-          <button onClick={openNew} className="btn-purple" style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+          <button onClick={openNew} className="btn-purple" data-testid="new-case-study-button" style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <Plus size={18} /> New Case Study
           </button>
         </div>
@@ -138,10 +146,10 @@ export default function CaseStudyManagement() {
                   <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0, lineHeight: 1.5 }}>{cs.excerpt || 'No excerpt'}</p>
                 </div>
                 <div style={{ display: 'flex', gap: 8, padding: '12px 20px', borderTop: '1px solid var(--border-clr)' }}>
-                  <button onClick={() => openEdit(cs)} style={{ flex: 1, padding: '8px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+                  <button onClick={() => openEdit(cs)} data-testid={`edit-case-study-${cs.id}`} style={{ flex: 1, padding: '8px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
                     <Edit size={14} /> Edit
                   </button>
-                  <button onClick={() => handleDelete(cs.id)} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', color: '#dc2626', display: 'flex', alignItems: 'center', gap: 4, fontSize: 13 }}>
+                  <button onClick={() => handleDelete(cs.id)} data-testid={`delete-case-study-${cs.id}`} style={{ padding: '8px 12px', borderRadius: 6, border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', color: '#dc2626', display: 'flex', alignItems: 'center', gap: 4, fontSize: 13 }}>
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -156,7 +164,7 @@ export default function CaseStudyManagement() {
           <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 720, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 28px', borderBottom: '1px solid var(--border-clr)' }}>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, margin: 0 }}>{editing ? 'Edit Case Study' : 'New Case Study'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={22} /></button>
+              <button onClick={() => setShowModal(false)} data-testid="case-study-modal-close" style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={22} /></button>
             </div>
             <div style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 16 }}>
               {error && <div style={{ padding: '10px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, fontSize: 13, color: '#dc2626' }}>{error}</div>}
@@ -213,7 +221,7 @@ export default function CaseStudyManagement() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, padding: '20px 28px', borderTop: '1px solid var(--border-clr)' }}>
               <button onClick={() => setShowModal(false)} style={{ padding: '10px 20px', borderRadius: 8, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 14 }}>Cancel</button>
-              <button onClick={handleSave} disabled={saving} className="btn-purple" style={{ padding: '10px 24px', fontSize: 14, fontWeight: 500, border: 'none', cursor: saving ? 'not-allowed' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, opacity: saving ? 0.8 : 1 }}>
+              <button onClick={handleSave} disabled={saving} className="btn-purple" data-testid="case-study-save-button" style={{ padding: '10px 24px', fontSize: 14, fontWeight: 500, border: 'none', cursor: saving ? 'not-allowed' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, opacity: saving ? 0.8 : 1 }}>
                 <Save size={16} /> {saving ? 'Saving…' : 'Save Case Study'}
               </button>
             </div>

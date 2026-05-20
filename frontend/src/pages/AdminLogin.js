@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BACKEND_URL } from '@/lib/constants';
+import { adminFetch } from '@/lib/adminApi';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -15,16 +15,16 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await fetch(`${BACKEND_URL}/admin/login`, {
+      const response = await adminFetch('/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: { email, password },
       });
 
       const data = await response.json().catch(() => ({}));
 
-      if (response.ok && data.token) {
-        sessionStorage.setItem('admin_token', data.token);
+      if (response.ok) {
+        // Token now lives in an httpOnly cookie set by the server.
+        // Only store non-sensitive display data in sessionStorage.
         sessionStorage.setItem('admin_user', JSON.stringify({ email: data.email, id: data.id }));
         navigate('/admin/dashboard');
       } else if (response.status >= 500) {
@@ -33,6 +33,7 @@ export default function AdminLogin() {
         setError(data.detail || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
+      console.error('[AdminLogin] Network error:', err);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
@@ -70,6 +71,7 @@ export default function AdminLogin() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="admin@myaibo.in"
+                data-testid="admin-login-email-input"
                 style={{
                   width: '100%',
                   padding: '12px 16px',
@@ -97,6 +99,7 @@ export default function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
+                data-testid="admin-login-password-input"
                 style={{
                   width: '100%',
                   padding: '12px 16px',
@@ -115,7 +118,7 @@ export default function AdminLogin() {
 
             {/* Error Message */}
             {error && (
-              <div style={{ 
+              <div data-testid="admin-login-error" style={{ 
                 padding: '12px 16px', 
                 background: '#FEE2E2', 
                 border: '1px solid #FCA5A5', 
@@ -133,6 +136,7 @@ export default function AdminLogin() {
               type="submit"
               disabled={loading}
               className="btn-purple"
+              data-testid="admin-login-submit-button"
               style={{
                 width: '100%',
                 padding: '14px',

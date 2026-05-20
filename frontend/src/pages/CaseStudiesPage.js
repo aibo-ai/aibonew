@@ -14,8 +14,8 @@ export default function CaseStudiesPage() {
       const response = await fetch(`${CMS_API_BASE}/case-studies/published`);
       const data = await response.json();
       setCaseStudies(data.data || []);
-    } catch (_error) {
-      /* network error — silently handled */
+    } catch (error) {
+      console.error('[CaseStudiesPage] Failed to fetch case studies:', error);
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
-import { BACKEND_URL } from '@/lib/constants';
+import { adminGet, adminMutate, AdminAuthError } from '@/lib/adminApi';
 
 const EMPTY_BLOG = {
   title: '', slug: '', excerpt: '', content: '',
@@ -23,31 +23,22 @@ export default function BlogManagement() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const getToken = useCallback(() => sessionStorage.getItem('admin_token'), []);
-
-  const authHeaders = useCallback(() => ({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${getToken()}`,
-  }), [getToken]);
-
   const fetchBlogs = useCallback(async () => {
     setLoading(true);
     try {
-      const r = await fetch(`${BACKEND_URL}/admin/blogs`, { headers: authHeaders() });
-      if (r.status === 401) { navigate('/admin'); return; }
-      const data = await r.json();
+      const data = await adminGet('/blogs');
       setBlogs(data);
-    } catch (_err) {
-      /* network error — silently handled */
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      console.error('[BlogManagement] Failed to fetch blogs:', err);
     } finally {
       setLoading(false);
     }
-  }, [authHeaders, navigate]);
+  }, [navigate]);
 
   useEffect(() => {
-    if (!getToken()) { navigate('/admin'); return; }
     fetchBlogs();
-  }, [navigate, getToken, fetchBlogs]);
+  }, [fetchBlogs]);
 
   const openNew = () => {
     setEditing(null);
@@ -94,22 +85,13 @@ export default function BlogManagement() {
       tags: form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
     };
     try {
-      const url = editing
-        ? `${BACKEND_URL}/admin/blogs/${editing.id}`
-        : `${BACKEND_URL}/admin/blogs`;
-      const r = await fetch(url, {
-        method: editing ? 'PUT' : 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify(payload),
-      });
-      if (!r.ok) {
-        const d = await r.json().catch(() => ({}));
-        throw new Error(d.detail || 'Save failed');
-      }
+      const path = editing ? `/blogs/${editing.id}` : '/blogs';
+      await adminMutate(path, editing ? 'PUT' : 'POST', payload);
       setShowModal(false);
       fetchBlogs();
-    } catch (e) {
-      setError(e.message);
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      setError(err.message);
     } finally {
       setSaving(false);
     }
@@ -117,25 +99,28 @@ export default function BlogManagement() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this blog post?')) return;
-    await fetch(`${BACKEND_URL}/admin/blogs/${id}`, {
-      method: 'DELETE',
-      headers: authHeaders(),
-    });
-    setBlogs(blogs.filter(b => b.id !== id));
+    try {
+      await adminMutate(`/blogs/${id}`, 'DELETE');
+      setBlogs(blogs.filter(b => b.id !== id));
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      console.error('[BlogManagement] Failed to delete blog:', err);
+    }
   };
 
   const togglePublish = async (blog) => {
-    const r = await fetch(`${BACKEND_URL}/admin/blogs/${blog.id}`, {
-      method: 'PUT',
-      headers: authHeaders(),
-      body: JSON.stringify({
+    try {
+      await adminMutate(`/blogs/${blog.id}`, 'PUT', {
         title: blog.title, slug: blog.slug, excerpt: blog.excerpt,
         content: blog.content, author: blog.author, category: blog.category,
         tags: blog.tags || [], published: !blog.published,
         featured_image: blog.featured_image,
-      }),
-    });
-    if (r.ok) fetchBlogs();
+      });
+      fetchBlogs();
+    } catch (err) {
+      if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      console.error('[BlogManagement] Failed to toggle publish:', err);
+    }
   };
 
   const inputSt = {
@@ -146,7 +131,7 @@ export default function BlogManagement() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--off-white)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--off-white)' }} data-testid="blog-management">
       {/* Header */}
       <header style={{ background: 'var(--white)', borderBottom: '1px solid var(--border-clr)', padding: '16px 32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: 1200, margin: '0 auto' }}>
@@ -156,7 +141,7 @@ export default function BlogManagement() {
             </Link>
             <h1 style={{ fontSize: 20, fontWeight: 600, margin: 0, fontFamily: "'Fraunces', serif" }}>Blog Management</h1>
           </div>
-          <button onClick={openNew} className="btn-purple"
+          <button onClick={openNew} className="btn-purple" data-testid="new-blog-button"
             style={{ padding: '10px 20px', fontSize: 14, fontWeight: 500, border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
             <Plus size={18} /> New Blog Post
           </button>
@@ -206,10 +191,10 @@ export default function BlogManagement() {
                     </td>
                     <td style={{ padding: '14px 16px' }}>
                       <div style={{ display: 'flex', gap: 8 }}>
-                        <button onClick={() => openEdit(blog)} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <button onClick={() => openEdit(blog)} data-testid={`edit-blog-${blog.id}`} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Edit size={14} /> Edit
                         </button>
-                        <button onClick={() => handleDelete(blog.id)} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', fontSize: 13, color: '#dc2626', display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <button onClick={() => handleDelete(blog.id)} data-testid={`delete-blog-${blog.id}`} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', fontSize: 13, color: '#dc2626', display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Trash2 size={14} /> Delete
                         </button>
                       </div>
@@ -228,7 +213,7 @@ export default function BlogManagement() {
           <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 720, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 28px', borderBottom: '1px solid var(--border-clr)' }}>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, margin: 0 }}>{editing ? 'Edit Blog Post' : 'New Blog Post'}</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><X size={22} /></button>
+              <button onClick={() => setShowModal(false)} data-testid="blog-modal-close" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><X size={22} /></button>
             </div>
             <div style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 18 }}>
               {error && <div style={{ padding: '10px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, fontSize: 13, color: '#dc2626' }}>{error}</div>}
@@ -281,7 +266,7 @@ export default function BlogManagement() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, padding: '20px 28px', borderTop: '1px solid var(--border-clr)' }}>
               <button onClick={() => setShowModal(false)} style={{ padding: '10px 20px', borderRadius: 8, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 14 }}>Cancel</button>
-              <button onClick={handleSave} disabled={saving} className="btn-purple"
+              <button onClick={handleSave} disabled={saving} className="btn-purple" data-testid="blog-save-button"
                 style={{ padding: '10px 24px', fontSize: 14, fontWeight: 500, border: 'none', cursor: saving ? 'not-allowed' : 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, opacity: saving ? 0.8 : 1 }}>
                 <Save size={16} /> {saving ? 'Saving…' : 'Save Post'}
               </button>

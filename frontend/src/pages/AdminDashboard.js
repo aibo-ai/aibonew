@@ -1,58 +1,78 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FileText, Briefcase, Eye, Plus } from 'lucide-react';
-import { BACKEND_URL } from '@/lib/constants';
+import { adminFetch, adminGet, AdminAuthError } from '@/lib/adminApi';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({ blogs: 0, caseStudies: 0, views: 0 });
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  const fetchStats = useCallback(async (token) => {
+  const fetchStats = useCallback(async () => {
     try {
-      const headers = { 'Authorization': `Bearer ${token}` };
-      const [blogsRes, casesRes] = await Promise.all([
-        fetch(`${BACKEND_URL}/admin/blogs`, { headers }),
-        fetch(`${BACKEND_URL}/admin/case-studies`, { headers }),
+      const [blogsData, casesData] = await Promise.all([
+        adminGet('/blogs'),
+        adminGet('/case-studies'),
       ]);
-
-      const blogsData = await blogsRes.json();
-      const casesData = await casesRes.json();
-
       setStats({
         blogs: Array.isArray(blogsData) ? blogsData.length : 0,
         caseStudies: Array.isArray(casesData) ? casesData.length : 0,
-        views: 0
+        views: 0,
       });
-    } catch (_error) {
-      /* network error — silently handled */
+    } catch (error) {
+      if (error instanceof AdminAuthError) {
+        navigate('/admin');
+        return;
+      }
+      console.error('[AdminDashboard] Failed to fetch stats:', error);
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('admin_token');
-    const userData = sessionStorage.getItem('admin_user');
-    
-    if (!token) {
-      navigate('/admin');
-      return;
+    let cancelled = false;
+    (async () => {
+      try {
+        // /admin/me succeeds only if the httpOnly cookie is valid.
+        const me = await adminGet('/me');
+        if (cancelled) return;
+        setUser(me);
+        // Persist display data for snappy header on next mount.
+        sessionStorage.setItem('admin_user', JSON.stringify(me));
+        await fetchStats();
+      } catch (error) {
+        if (cancelled) return;
+        if (error instanceof AdminAuthError) {
+          sessionStorage.removeItem('admin_user');
+          navigate('/admin');
+          return;
+        }
+        console.error('[AdminDashboard] Auth check failed:', error);
+      }
+    })();
+
+    // Hydrate header from sessionStorage cache immediately for paint.
+    const cachedUser = sessionStorage.getItem('admin_user');
+    if (cachedUser) {
+      try { setUser(JSON.parse(cachedUser)); }
+      catch (e) { console.error('[AdminDashboard] Failed to parse cached user:', e); }
     }
 
-    if (userData) {
-      try { setUser(JSON.parse(userData)); } catch { /* invalid JSON */ }
-    }
-
-    fetchStats(token);
+    return () => { cancelled = true; };
   }, [navigate, fetchStats]);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem('admin_token');
-    sessionStorage.removeItem('admin_user');
-    navigate('/admin');
+  const handleLogout = async () => {
+    try {
+      await adminFetch('/logout', { method: 'POST' });
+    } catch (error) {
+      console.error('[AdminDashboard] Logout request failed:', error);
+    } finally {
+      sessionStorage.removeItem('admin_user');
+      navigate('/admin');
+    }
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--off-white)' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--off-white)' }} data-testid="admin-dashboard">
       {/* Header */}
       <header style={{ 
         background: 'var(--white)', 
@@ -72,10 +92,11 @@ export default function AdminDashboard() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-            Welcome, {user?.firstName || 'Admin User'}
+            Welcome, {user?.firstName || user?.email || 'Admin User'}
           </span>
           <button
             onClick={handleLogout}
+            data-testid="admin-logout-button"
             style={{
               padding: '8px 16px',
               fontSize: 13,
@@ -141,6 +162,7 @@ export default function AdminDashboard() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <Link
               to="/admin/blogs"
+              data-testid="admin-dashboard-new-blog-link"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -165,6 +187,7 @@ export default function AdminDashboard() {
 
             <Link
               to="/admin/case-studies"
+              data-testid="admin-dashboard-new-case-study-link"
               style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -14,8 +14,8 @@ export default function BlogsPage() {
       const response = await fetch(`${CMS_API_BASE}/blog/published`);
       const data = await response.json();
       setBlogs(data.data || []);
-    } catch (_error) {
-      /* network error — silently handled */
+    } catch (error) {
+      console.error('[BlogsPage] Failed to fetch blogs:', error);
     } finally {
       setLoading(false);
     }

@@ -177,9 +177,9 @@ export default function CaseStudies() {
                   Key Results
                 </div>
                 <ul style={{ margin: 0, paddingLeft: 20, listStyleType: 'disc' }}>
-                  {study.results.map((result, ridx) => (
+                  {study.results.map((result) => (
                     <li
-                      key={ridx}
+                      key={result}
                       style={{
                         fontSize: 13,
                         fontWeight: 500,
