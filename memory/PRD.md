@@ -22,6 +22,11 @@ Build a complete single-page React homepage for MyAibo (myaibo.in), a boutique A
 - Mobile responsive (hamburger menu, stacked layouts)
 - CTA links to Outlook booking: https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/
 
+## Deployment (Vercel)
+- Vercel serverless function entry points live at `api/index.py` (FastAPI via Mangum) and `api/cms/index.ts` (CMS).
+- `vercel.json` declares both in `functions` and uses `rewrites` to map `/api/cms/(.*) -> /api/cms/index.ts`, `/api/(.*) -> /api/index.py`, and the SPA catch-all `/((?!api/).*) -> /index.html`.
+- **Important**: Vercel's Python runtime does NOT support Next.js-style `[...path].py` catch-all filenames. Always use `index.py`.
+
 ## What's Been Implemented (Feb 2026)
 - All 12 homepage sections: Navigation, Hero, Positioning, Marketing Services, Technology Services, Why MyAibo, Results, Case Studies, Process, Testimonials, Final CTA, Footer
 - Brand color system with CSS variables
