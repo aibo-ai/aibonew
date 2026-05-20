@@ -48,3 +48,15 @@ Build a complete single-page React homepage for MyAibo (myaibo.in), a boutique A
 - P1: Add smooth scroll animations (intersection observer)
 - P2: Add blog/insights page
 - P2: SEO meta tags and Open Graph
+
+## Code Quality Improvements (May 2026)
+- **httpOnly cookie auth**: Admin JWT moved from sessionStorage to HttpOnly + Secure + SameSite=None cookie. JWT is no longer accessible via `document.cookie` or `sessionStorage` → XSS exfiltration surface eliminated.
+  - New helper: `/app/frontend/src/lib/adminApi.js` (uses `credentials: 'include'`).
+  - Backend already supported cookies via `set_cookie` in `/app/backend/routes/admin_api.py`; `require_admin()` reads cookie first, Bearer header as fallback.
+  - Endpoints: `POST /api/admin/login` (sets cookie), `POST /api/admin/logout` (clears cookie), `GET /api/admin/me` (cookie-only probe).
+- **Component refactor**: 
+  - `Navigation.js`: 555 → 70 lines. Split into `navigation/DesktopNav.js` (209), `navigation/MobileNav.js` (136), `navigation/navData.js` (12).
+  - `ContactPage.js`: 459 → 57 lines. Split into `contact/ContactInfoPanel.js` (116), `contact/ContactForm.js` (310).
+- **`BACKEND_URL` normalisation**: `constants.js` now always ends with `/api` so callers work in both Vercel production AND preview env.
+- **Regression test**: `/app/backend/tests/test_admin_cookie_auth.py` covers full admin auth + CRUD lifecycle. Run via `pytest backend/tests/`.
+
