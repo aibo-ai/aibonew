@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://content-manager-134.preview.emergentagent.com/api"
+BASE_URL = "https://runtime-error-fix-5.preview.emergentagent.com/api"
 ADMIN_EMAIL = "admin@myaibo.in"
 ADMIN_PASSWORD = "admin123"
 
