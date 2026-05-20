@@ -176,6 +176,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ Admin login successful with credentials admin@myaibo.in/admin123. Returns {token, email, id} as expected. JWT authentication working correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ Re-verified after BACKEND_URL fallback and vercel.json fixes. Login with correct credentials returns 200 with {token, email, id}. Login with wrong password correctly returns 401 (Invalid credentials). CORS preflight (OPTIONS) returns 204 with proper headers (allow-origin: *, allow-methods: GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH, allow-headers: *). All auth flows working correctly."
 
   - task: "Admin Get Blogs API - GET /api/admin/blogs"
     implemented: true
@@ -188,6 +191,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ Admin get blogs successful with Bearer token authentication. Returns array of existing blogs with full metadata. Authorization middleware working correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ Re-verified after recent fixes. GET /api/admin/blogs with Bearer token returns 200 with array (2 blogs retrieved). GET /api/admin/blogs without token correctly returns 401 (Not authenticated). Authorization middleware working correctly. GET /api/admin/public/blogs (no auth) returns 200 with array (2 public blogs). All blog listing endpoints working correctly."
 
   - task: "Admin Get Case Studies API - GET /api/admin/case-studies"
     implemented: true
@@ -203,6 +209,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ Admin get case studies successful. Retrieved 1 case studies during CRUD testing, test case study found correctly. Returns array of case studies with full metadata including id, title, client, industry, service, excerpt, challenge, solution, result, metrics, published status, and timestamps."
+      - working: true
+        agent: "testing"
+        comment: "✅ Re-verified after recent fixes. GET /api/admin/case-studies with Bearer token returns 200 with array (1 case study retrieved). Authorization middleware working correctly. GET /api/admin/public/case-studies (no auth) returns 200 with array (1 public case study). All case study listing endpoints working correctly."
 
   - task: "Admin Create Blog API - POST /api/admin/blogs"
     implemented: true
@@ -346,11 +355,14 @@ frontend:
 metadata:
   created_by: "testing_agent"
   version: "1.1"
-  test_sequence: 2
+  test_sequence: 3
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Admin Login API - POST /api/admin/login"
+    - "Admin Get Blogs API - GET /api/admin/blogs"
+    - "Admin Get Case Studies API - GET /api/admin/case-studies"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -364,6 +376,10 @@ agent_communication:
     message: "Fixed neon.py - removed destructive DROP TABLE on startup. DB schema now correctly has 'published' boolean column matching the API code. Fixed AdminDashboard.js Quick Action links from /admin/blogs/new to /admin/blogs. Please test all blog and case study CRUD operations: create, read, update, delete for both blogs and case studies. Admin credentials: admin@myaibo.in / admin123. Backend URL for API: use localhost:8001."
   - agent: "testing"
     message: "✅ COMPREHENSIVE ADMIN CRUD TESTING COMPLETE: All 11 tests passed successfully (100% success rate). Tested admin login, blog CRUD (create, list, update, delete), case study CRUD (create, list, update, delete), and public endpoints for both blogs and case studies. Database schema fix resolved all previous issues. All APIs working correctly with proper authentication, data persistence, and response formats. Backend is fully functional for admin operations."
+  - agent: "main"
+    message: "User reported myaibo.in/admin failing with `undefined/api/admin/login` 405 error. Root cause: deployed Vercel build is stale and frontend/.env is gitignored, so REACT_APP_BACKEND_URL is unset at build time. Source already has the fallback (BACKEND_URL → '/api') in constants.js. Additionally hardened vercel.json so SPA rewrite '/(.*) → /index.html' no longer can swallow /api/* requests (new pattern: '/((?!api/).*)'). Need re-verification of admin login + blogs + case-studies GET endpoints at the local backend (https://runtime-error-fix-5.preview.emergentagent.com via /api prefix) using credentials admin@myaibo.in / admin123 to make sure nothing regressed."
+  - agent: "testing"
+    message: "✅ RE-VERIFICATION COMPLETE: All 8 admin API tests passed successfully (100% success rate). Verified after BACKEND_URL fallback and vercel.json fixes. Tests: (1) Login with correct credentials → 200 with {token, email, id}, (2) Login with wrong password → 401, (3) GET /api/admin/blogs with token → 200 with array (2 blogs), (4) GET /api/admin/blogs without token → 401, (5) GET /api/admin/case-studies with token → 200 with array (1 case study), (6) GET /api/admin/public/blogs (no auth) → 200 with array (2 public blogs), (7) GET /api/admin/public/case-studies (no auth) → 200 with array (1 public case study), (8) OPTIONS /api/admin/login (CORS preflight) → 204 with proper CORS headers (allow-origin: *, allow-methods: GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH, allow-headers: *). All admin auth and listing endpoints working correctly. No regressions detected."
 
 # Previous Implementation Status (Historical)
 
