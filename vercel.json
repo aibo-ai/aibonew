@@ -3,7 +3,6 @@
   "outputDirectory": "frontend/build",
   "functions": {
     "api/index.py": {
-      "runtime": "vercel-python@4.x",
       "maxDuration": 60,
       "includeFiles": "backend/**"
     },
