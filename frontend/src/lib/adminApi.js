@@ -5,7 +5,7 @@
  */
 import { BACKEND_URL } from '@/lib/constants';
 
-const ADMIN_BASE = `${BACKEND_URL}/admin`;
+const ADMIN_BASE = `${window.location.origin}/api/cms/auth`;
 
 /**
  * Credentialed fetch against /api/admin/*. Returns the raw Response so
