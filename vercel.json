@@ -1,16 +1,24 @@
 {
   "buildCommand": "cd frontend && yarn install && yarn build && cd ../cms-backend && yarn install && yarn build",
   "outputDirectory": "frontend/build",
-  "functions": {
-    "api/*.py": {
-      "maxDuration": 60,
-      "includeFiles": "backend/**"
+  "builds": [
+    {
+      "src": "api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxDuration": 60,
+        "includeFiles": ["backend/**"]
+      }
     },
-    "api/cms/index.ts": {
-      "maxDuration": 60,
-      "includeFiles": "cms-backend/**"
+    {
+      "src": "api/cms/index.ts",
+      "use": "@vercel/node",
+      "config": {
+        "maxDuration": 60,
+        "includeFiles": ["cms-backend/**"]
+      }
     }
-  },
+  ],
   "rewrites": [
     { "source": "/api/cms/(.*)", "destination": "/api/cms/index.ts" },
     { "source": "/api/(.*)", "destination": "/api/index.py" },
