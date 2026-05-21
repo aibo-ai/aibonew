@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 
-const CMS_API_BASE = '/api/cms/api';
+import { BACKEND_URL } from '@/lib/constants';
 
 export default function BlogsPage() {
   const [blogs, setBlogs] = useState([]);
@@ -11,9 +11,9 @@ export default function BlogsPage() {
 
   const fetchBlogs = useCallback(async () => {
     try {
-      const response = await fetch(`${CMS_API_BASE}/blog/published`);
+      const response = await fetch(`${BACKEND_URL}/admin/public/blogs`);
       const data = await response.json();
-      setBlogs(data.data || []);
+      setBlogs(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('[BlogsPage] Failed to fetch blogs:', error);
     } finally {
@@ -106,34 +106,31 @@ export default function BlogsPage() {
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
-                  {blog.featuredImage && (
+                  {blog.featured_image && (
                     <img
-                      src={blog.featuredImage}
+                      src={blog.featured_image}
                       alt={blog.title}
                       style={{ width: '100%', height: 200, objectFit: 'cover' }}
                     />
                   )}
                   <div style={{ padding: 24 }}>
-                    {/* Categories */}
-                    {blog.categories && Array.isArray(blog.categories) && blog.categories.length > 0 && (
+                    {/* Category */}
+                    {blog.category && (
                       <div className="flex flex-wrap gap-2 mb-3">
-                        {blog.categories.slice(0, 2).map((cat) => (
-                          <span
-                            key={cat}
-                            style={{
-                              padding: '4px 10px',
-                              fontSize: 11,
-                              fontWeight: 600,
-                              background: 'var(--purple-light)',
-                              color: 'var(--purple-dark)',
-                              borderRadius: 6,
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.05em',
-                            }}
-                          >
-                            {cat}
-                          </span>
-                        ))}
+                        <span
+                          style={{
+                            padding: '4px 10px',
+                            fontSize: 11,
+                            fontWeight: 600,
+                            background: 'var(--purple-light)',
+                            color: 'var(--purple-dark)',
+                            borderRadius: 6,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                          }}
+                        >
+                          {blog.category}
+                        </span>
                       </div>
                     )}
 
@@ -165,16 +162,16 @@ export default function BlogsPage() {
 
                     {/* Meta */}
                     <div className="flex items-center gap-4 mb-4 text-xs text-gray-500">
-                      {blog.publishedAt && (
+                      {(blog.published_at || blog.created_at) && (
                         <div className="flex items-center gap-1">
                           <Calendar size={14} />
-                          <span>{new Date(blog.publishedAt).toLocaleDateString()}</span>
+                          <span>{new Date(blog.published_at || blog.created_at).toLocaleDateString()}</span>
                         </div>
                       )}
-                      {blog.readTime && (
+                      {blog.author && (
                         <div className="flex items-center gap-1">
                           <Clock size={14} />
-                          <span>{blog.readTime} min read</span>
+                          <span>{blog.author}</span>
                         </div>
                       )}
                     </div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Building2, TrendingUp, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 
-const CMS_API_BASE = '/api/cms/api';
+import { BACKEND_URL } from '@/lib/constants';
 
 export default function CaseStudiesPage() {
   const [caseStudies, setCaseStudies] = useState([]);
@@ -11,9 +11,9 @@ export default function CaseStudiesPage() {
 
   const fetchCaseStudies = useCallback(async () => {
     try {
-      const response = await fetch(`${CMS_API_BASE}/case-studies/published`);
+      const response = await fetch(`${BACKEND_URL}/admin/public/case-studies`);
       const data = await response.json();
-      setCaseStudies(data.data || []);
+      setCaseStudies(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('[CaseStudiesPage] Failed to fetch case studies:', error);
     } finally {
@@ -106,9 +106,9 @@ export default function CaseStudiesPage() {
                     e.currentTarget.style.boxShadow = 'none';
                   }}
                 >
-                  {study.featuredImage && (
+                  {study.featured_image && (
                     <img
-                      src={study.featuredImage}
+                      src={study.featured_image}
                       alt={study.title}
                       style={{ width: '100%', height: 200, objectFit: 'cover' }}
                     />
@@ -149,7 +149,7 @@ export default function CaseStudiesPage() {
                     </h3>
 
                     {/* Client Name */}
-                    {study.clientName && (
+                    {study.client && (
                       <div
                         className="flex items-center gap-2 mb-3"
                         style={{
@@ -158,7 +158,7 @@ export default function CaseStudiesPage() {
                         }}
                       >
                         <Building2 size={14} />
-                        {study.clientName}
+                        {study.client}
                       </div>
                     )}
 
@@ -174,8 +174,8 @@ export default function CaseStudiesPage() {
                       {study.excerpt}
                     </p>
 
-                    {/* Results Preview */}
-                    {study.results && study.results.length > 0 && (
+                    {/* Result Preview */}
+                    {study.result && (
                       <div
                         style={{
                           padding: 12,
@@ -195,7 +195,7 @@ export default function CaseStudiesPage() {
                           }}
                         >
                           <TrendingUp size={14} />
-                          Key Results
+                          Key Result
                         </div>
                         <div
                           style={{
@@ -204,14 +204,14 @@ export default function CaseStudiesPage() {
                             color: 'var(--text-primary)',
                           }}
                         >
-                          {study.results[0]}
+                          {study.result}
                         </div>
                       </div>
                     )}
 
                     {/* Read More Link */}
                     <Link
-                      to={`/case-study/${study.slug}`}
+                      to={`/case-study/${study.id}`}
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
