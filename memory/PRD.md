@@ -23,9 +23,14 @@ Build a complete single-page React homepage for MyAibo (myaibo.in), a boutique A
 - CTA links to Outlook booking: https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/
 
 ## Deployment (Vercel)
-- Vercel serverless function entry points live at `api/index.py` (FastAPI via Mangum) and `api/cms/index.ts` (CMS).
-- `vercel.json` declares both in `functions` and uses `rewrites` to map `/api/cms/(.*) -> /api/cms/index.ts`, `/api/(.*) -> /api/index.py`, and the SPA catch-all `/((?!api/).*) -> /index.html`.
-- **Important**: Vercel's Python runtime does NOT support Next.js-style `[...path].py` catch-all filenames. Always use `index.py`.
+- Vercel serverless function entry points live at `api/index.py` (FastAPI) and `api/cms/index.ts` (CMS).
+- **`api/index.py` MUST export `app` (the FastAPI ASGI instance) — NOT `handler` (Mangum).** Vercel's Python runtime natively handles ASGI; Mangum is an AWS Lambda artefact and Vercel does not recognise it as a function entrypoint.
+- `requirements.txt` lives at the **project root** (Vercel's expected location). A second copy in `api/requirements.txt` is OK but the root one is what Vercel reads.
+- `vercel.json` declares both functions and uses `includeFiles: "backend/**"` so the FastAPI source is bundled with the Python function. Rewrites: `/api/cms/(.*) -> /api/cms/index.ts`, `/api/(.*) -> /api/index.py`, SPA catch-all `/((?!api/).*) -> /index.html`.
+- **Common pitfalls**:
+  - Vercel does NOT support Next.js-style `[...path].py` catch-all filenames. Always use `index.py` / `main.py` / `app.py`.
+  - Vercel does NOT speak Mangum/Lambda events. The Python file must export `app` (ASGI) or `handler` (BaseHTTPRequestHandler subclass).
+  - `requirements.txt` should be at repo root, not buried in `api/`.
 
 ## What's Been Implemented (Feb 2026)
 - All 12 homepage sections: Navigation, Hero, Positioning, Marketing Services, Technology Services, Why MyAibo, Results, Case Studies, Process, Testimonials, Final CTA, Footer
