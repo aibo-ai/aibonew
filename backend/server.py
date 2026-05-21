@@ -66,6 +66,24 @@ class ContactSubmissionCreate(BaseModel):
 async def root():
     return {"message": "Hello World"}
 
+
+@api_router.get("/health")
+async def health_check():
+    """Lightweight diagnostic endpoint — never touches DB unless asked."""
+    neon_configured = bool(os.environ.get('NEON_DATABASE_URL'))
+    jwt_configured = bool(os.environ.get('JWT_SECRET'))
+    resend_configured = bool(os.environ.get('RESEND_API_KEY'))
+    return {
+        "status": "ok",
+        "backend": "fastapi",
+        "env": {
+            "NEON_DATABASE_URL": neon_configured,
+            "JWT_SECRET": jwt_configured,
+            "RESEND_API_KEY": resend_configured,
+        },
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_obj = StatusCheck(**input.model_dump())
