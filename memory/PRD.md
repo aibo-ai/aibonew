@@ -20,7 +20,7 @@ Build a complete single-page React homepage for MyAibo (myaibo.in), a boutique A
 - Case study filter (All/Marketing/Technology/Combined)
 - Solutions dropdown with 7 sub-items
 - Mobile responsive (hamburger menu, stacked layouts)
-- CTA links to Outlook booking: https://outlook.office365.com/book/MyAiboConsultation@myaibo.in/
+- CTA links to Google Calendar booking: https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1RTsHL7_2Q0w8M2J7ul--JslQuYdb9C9Bfd5yLu0i5VodhSqHB0i9gkvUCTKQ476GMWqETg3QB
 
 ## Deployment (Vercel)
 - Vercel serverless function entry points live at `api/index.py` (FastAPI) and `api/cms/index.ts` (CMS).
