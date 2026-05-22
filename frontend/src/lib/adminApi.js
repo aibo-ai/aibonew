@@ -14,7 +14,7 @@ const ADMIN_BASE = `${window.location.origin}/api/cms/auth`;
 export async function adminFetch(path, { method = 'GET', body, headers = {} } = {}) {
   const token = sessionStorage.getItem('admin_token');
   const init = {
-    method,
+method,
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
@@ -23,7 +23,11 @@ export async function adminFetch(path, { method = 'GET', body, headers = {} } = 
       ...headers,
     },
   };
-  };
+  if (body !== undefined) {
+    init.body = typeof body === 'string' ? body : JSON.stringify(body);
+  }
+  return fetch(`${ADMIN_BASE}${path}`, init);
+}
   if (body !== undefined) {
     init.body = typeof body === 'string' ? body : JSON.stringify(body);
   }
