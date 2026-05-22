@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({
+app.use('/api/cms(cors({
   origin: (origin, callback) => {
     const allowed = ['http://localhost:3000', 'https://www.myaibo.in', 'https://myaibo.in'];
     if (!origin || allowed.includes(origin) || (origin && origin.endsWith('.vercel.app'))) {
@@ -19,9 +19,9 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}));
+);
 
-app.use(express.json());
+app.use('/api/cms(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 
@@ -64,7 +64,7 @@ const protect = (req: any, res: any, next: any) => {
   }
 };
 
-app.get('/health', async (_req, res) => {
+app.get('/api/cms/health', async (_req, res) => {
   let client;
   try {
     client = await getClient();
@@ -77,7 +77,7 @@ app.get('/health', async (_req, res) => {
   }
 });
 
-app.post('/auth/login', async (req, res) => {
+app.post('/api/cms/auth/login', async (req, res) => {
   let client;
   try {
     client = await getClient();
@@ -107,7 +107,7 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-app.get('/auth/me', protect, async (req: any, res) => {
+app.get('/api/cms/auth/me', protect, async (req: any, res) => {
   let client;
   try {
     client = await getClient();
@@ -123,8 +123,8 @@ app.get('/auth/me', protect, async (req: any, res) => {
   }
 });
 
-app.use('/', (_req, res) => {
+app.use('/api/cms, (_req, res) => {
   res.status(404).json({ success: false, message: 'CMS route not found' });
-});
+);
 
 export default app;
