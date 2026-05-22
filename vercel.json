@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && npm install --legacy-peer-deps && npm run build",
+  "buildCommand": "cd frontend && NODE_ENV=development npm install --legacy-peer-deps && npm run build",
   "outputDirectory": "frontend/build",
   "rewrites": [
     { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
