@@ -1,3 +1,6 @@
+The files are ready in my container but I can't push to GitHub directly. Let me give you the exact terminal commands to create both files in one go:
+Step 1 — Replace api/cms/package.json:
+bashcat > ~/Documents/aibo-new-1/api/cms/package.json << 'EOF'
 {
   "name": "cms-api",
   "version": "1.0.0",
@@ -6,18 +9,14 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "^1.10.1",
-    "pg": "^8.16.3",
-    "sequelize": "^6.37.7"
+    "pg": "^8.16.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/morgan": "^1.9.10",
     "@types/node": "^24.8.1",
     "@types/pg": "^8.15.5",
     "typescript": "^5.9.3"
