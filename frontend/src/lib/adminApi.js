@@ -12,14 +12,17 @@ const ADMIN_BASE = `${window.location.origin}/api/cms/auth`;
  * callers can branch on status (e.g., 401 → redirect, 204 → no body).
  */
 export async function adminFetch(path, { method = 'GET', body, headers = {} } = {}) {
+  const token = sessionStorage.getItem('admin_token');
   const init = {
     method,
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
       ...(body ? { 'Content-Type': 'application/json' } : {}),
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
       ...headers,
     },
+  };
   };
   if (body !== undefined) {
     init.body = typeof body === 'string' ? body : JSON.stringify(body);

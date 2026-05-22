@@ -21,13 +21,16 @@ export default function AdminLogin() {
       });
 
       const data = await response.json().catch(() => ({}));
-
-      if (response.ok) {
-        // Token now lives in an httpOnly cookie set by the server.
-        // Only store non-sensitive display data in sessionStorage.
-        sessionStorage.setItem('admin_user', JSON.stringify({ email: data.email, id: data.id }));
-        navigate('/admin/dashboard');
-      } else if (response.status >= 500) {
+if (response.ok) {
+  if (data.token) {
+    sessionStorage.setItem('admin_token', data.token);
+  }
+  sessionStorage.setItem('admin_user', JSON.stringify({ 
+    email: data.user?.email || data.email, 
+    id: data.user?.id || data.id 
+  }));
+  navigate('/admin/dashboard');
+} else if (response.status >= 500) {
         setError('Server error while signing in. Please try again in a moment.');
       } else {
         setError(data.detail || 'Login failed. Please check your credentials.');
