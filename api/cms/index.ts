@@ -9,7 +9,7 @@ dotenv.config();
 
 const app = express();
 
-app.use('/api/cms(cors({
+app.use(cors({
   origin: (origin, callback) => {
     const allowed = ['http://localhost:3000', 'https://www.myaibo.in', 'https://myaibo.in'];
     if (!origin || allowed.includes(origin) || (origin && origin.endsWith('.vercel.app'))) {
@@ -19,18 +19,17 @@ app.use('/api/cms(cors({
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-);
+}));
 
-app.use('/api/cms(express.json());
+app.use(express.json());
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 
 const getClient = async () => {
- const client = new Client({
+  const client = new Client({
     connectionString: process.env.NEON_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
     connectionTimeoutMillis: 10000,
-    statement_timeout: 10000,
   });
   await client.connect();
   return client;
@@ -123,8 +122,8 @@ app.get('/api/cms/auth/me', protect, async (req: any, res) => {
   }
 });
 
-app.use('/api/cms, (_req, res) => {
+app.use('/api/cms', (_req, res) => {
   res.status(404).json({ success: false, message: 'CMS route not found' });
-);
+});
 
 export default app;
