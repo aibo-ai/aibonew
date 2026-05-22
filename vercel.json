@@ -4,7 +4,6 @@
   "rewrites": [
     { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
     { "source": "/api/:path*", "destination": "/api/index.py" },
-    { "handle": "filesystem" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/((?!api).*)", "destination": "/index.html" }
   ]
 }
