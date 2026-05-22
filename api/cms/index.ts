@@ -26,11 +26,11 @@ app.use('/api/cms(express.json());
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 
 const getClient = async () => {
-  const client = new Client({
+ const client = new Client({
     connectionString: process.env.NEON_DATABASE_URL || process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false },
     connectionTimeoutMillis: 10000,
-    query_timeout: 10000,
+    statement_timeout: 10000,
   });
   await client.connect();
   return client;
