@@ -11,11 +11,15 @@
       "src": "api/cms/index.ts",
       "use": "@vercel/node",
       "config": { "maxDuration": 60 }
+    },
+    {
+      "src": "frontend/build/(.*)",
+      "use": "@vercel/static"
     }
   ],
-  "rewrites": [
-    { "source": "/api/cms/(.*)", "destination": "/api/cms/index.ts" },
-    { "source": "/api/(.*)", "destination": "/api/index.py" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  "routes": [
+    { "src": "/api/cms/(.*)", "dest": "/api/cms/index.ts" },
+    { "src": "/api/(.*)", "dest": "/api/index.py" },
+    { "src": "/(.*)", "dest": "/frontend/build/$1" }
   ]
 }
