@@ -15,7 +15,7 @@ export default function AdminLogin() {
     setError('');
 
     try {
-      const response = await adminFetch('/login', {
+      const response = await adminFetch('/auth/login', {
         method: 'POST',
         body: { email, password },
       });

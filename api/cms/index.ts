@@ -124,6 +124,81 @@ app.get('/api/cms/auth/me', protect, async (req: any, res) => {
 
 app.use('/api/cms', (_req, res) => {
   res.status(404).json({ success: false, message: 'CMS route not found' });
+// ── Blogs ──────────────────────────────────────────────
+app.get('/api/cms/blogs', protect, async (req: any, res) => {
+  let client;
+  try {
+    client = await getClient();
+    await client.query(`CREATE TABLE IF NOT EXISTS cms_blogs (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      title VARCHAR(500) NOT NULL,
+      slug VARCHAR(500) UNIQUE NOT NULL,
+      excerpt TEXT,
+      content TEXT,
+      author VARCHAR(255) DEFAULT 'MyAibo Team',
+      category VARCHAR(255),
+      tags JSONB DEFAULT '[]',
+      published BOOLEAN DEFAULT false,
+      featured_image TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW(),
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    )`);
+    const result = await client.query('SELECT * FROM cms_blogs ORDER BY created_at DESC');
+    res.json(result.rows);
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  } finally {
+    if (client) await client.end();
+  }
+});
+
+app.post('/api/cms/blogs', protect, async (req: any, res) => {
+  let client;
+  try {
+    client = await getClient();
+    const { title, slug, excerpt, content, author, category, tags, published, featured_image } = req.body;
+    const result = await client.query(
+      `INSERT INTO cms_blogs (title, slug, excerpt, content, author, category, tags, published, featured_image)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`,
+      [title, slug, excerpt, content, author, category, JSON.stringify(tags||[]), published||false, featured_image]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  } finally {
+    if (client) await client.end();
+  }
+});
+
+app.put('/api/cms/blogs/:id', protect, async (req: any, res) => {
+  let client;
+  try {
+    client = await getClient();
+    const { title, slug, excerpt, content, author, category, tags, published, featured_image } = req.body;
+    const result = await client.query(
+      `UPDATE cms_blogs SET title=$1, slug=$2, excerpt=$3, content=$4, author=$5, category=$6,
+       tags=$7, published=$8, featured_image=$9, updated_at=NOW() WHERE id=$10 RETURNING *`,
+      [title, slug, excerpt, content, author, category, JSON.stringify(tags||[]), published||false, featured_image, req.params.id]
+    );
+    res.json(result.rows[0]);
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  } finally {
+    if (client) await client.end();
+  }
+});
+
+app.delete('/api/cms/blogs/:id', protect, async (req: any, res) => {
+  let client;
+  try {
+    client = await getClient();
+    await client.query('DELETE FROM cms_blogs WHERE id=$1', [req.params.id]);
+    res.status(204).send();
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  } finally {
+    if (client) await client.end();
+  }
 });
 
 export default app;
