@@ -1,25 +1,9 @@
 {
   "buildCommand": "cd frontend && yarn install && yarn build",
   "outputDirectory": "frontend/build",
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python",
-      "config": { "maxDuration": 60, "includeFiles": ["backend/**"] }
-    },
-    {
-      "src": "api/cms/index.ts",
-      "use": "@vercel/node",
-      "config": { "maxDuration": 60 }
-    },
-    {
-      "src": "frontend/build/(.*)",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "src": "/api/cms/(.*)", "dest": "/api/cms/index.ts" },
-    { "src": "/api/(.*)", "dest": "/api/index.py" },
-    { "src": "/(.*)", "dest": "/frontend/build/$1" }
+  "rewrites": [
+    { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
+    { "source": "/api/:path*", "destination": "/api/index.py" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
