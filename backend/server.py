@@ -10,7 +10,6 @@ from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import List, Optional
 import uuid
 from datetime import datetime, timezone
-from routes.cms_proxy import router as cms_proxy_router
 from routes.admin_api import router as admin_router
 from db.neon import init_tables, close_pool, get_connection
 
@@ -269,7 +268,6 @@ async def get_contact_submissions():
 
 # Include the router in the main app
 app.include_router(api_router)
-app.include_router(cms_proxy_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
 
 app.add_middleware(
