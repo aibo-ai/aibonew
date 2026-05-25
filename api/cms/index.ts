@@ -103,7 +103,139 @@ app.get('/api/cms/auth/me', protect, async (req: any, res) => {
     res.status(500).json({ success: false, message: e.message });
   }
 });
+// Blogs
+app.get('/api/cms/blogs', protect, async (_req, res) => {
+  try {
+    const sql = getDb();
+    const rows = await sql`SELECT * FROM cms_blogs ORDER BY "createdAt" DESC`;
+    res.json(rows);
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
 
+app.post('/api/cms/blogs', protect, async (req, res) => {
+  try {
+    const sql = getDb();
+    const { title, content, slug, status = 'draft', excerpt, coverImage } = req.body;
+    await sql`
+      CREATE TABLE IF NOT EXISTS cms_blogs (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        title VARCHAR(500) NOT NULL,
+        slug VARCHAR(500) UNIQUE NOT NULL,
+        content TEXT,
+        excerpt TEXT,
+        "coverImage" VARCHAR(1000),
+        status VARCHAR(50) DEFAULT 'draft',
+        "createdAt" TIMESTAMPTZ DEFAULT NOW(),
+        "updatedAt" TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+    const rows = await sql`
+      INSERT INTO cms_blogs (title, slug, content, excerpt, "coverImage", status)
+      VALUES (${title}, ${slug}, ${content}, ${excerpt}, ${coverImage}, ${status})
+      RETURNING *
+    `;
+    res.json({ success: true, blog: rows[0] });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+app.put('/api/cms/blogs/:id', protect, async (req, res) => {
+  try {
+    const sql = getDb();
+    const { title, content, slug, status, excerpt, coverImage } = req.body;
+    const rows = await sql`
+      UPDATE cms_blogs SET title=${title}, slug=${slug}, content=${content},
+      excerpt=${excerpt}, "coverImage"=${coverImage}, status=${status}, "updatedAt"=NOW()
+      WHERE id=${req.params.id} RETURNING *
+    `;
+    res.json({ success: true, blog: rows[0] });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+app.delete('/api/cms/blogs/:id', protect, async (req, res) => {
+  try {
+    const sql = getDb();
+    await sql`DELETE FROM cms_blogs WHERE id=${req.params.id}`;
+    res.json({ success: true });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+// Case Studies
+app.get('/api/cms/case-studies', protect, async (_req, res) => {
+  try {
+    const sql = getDb();
+    await sql`
+      CREATE TABLE IF NOT EXISTS cms_case_studies (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        title VARCHAR(500) NOT NULL,
+        slug VARCHAR(500) UNIQUE NOT NULL,
+        content TEXT,
+        excerpt TEXT,
+        "coverImage" VARCHAR(1000),
+        client VARCHAR(255),
+        status VARCHAR(50) DEFAULT 'draft',
+        "createdAt" TIMESTAMPTZ DEFAULT NOW(),
+        "updatedAt" TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+    const rows = await sql`SELECT * FROM cms_case_studies ORDER BY "createdAt" DESC`;
+    res.json(rows);
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+app.post('/api/cms/case-studies', protect, async (req, res) => {
+  try {
+    const sql = getDb();
+    const { title, content, slug, status = 'draft', excerpt, coverImage, client } = req.body;
+    const rows = await sql`
+      INSERT INTO cms_case_studies (title, slug, content, excerpt, "coverImage", client, status)
+      VALUES (${title}, ${slug}, ${content}, ${excerpt}, ${coverImage}, ${client}, ${status})
+      RETURNING *
+    `;
+    res.json({ success: true, caseStudy: rows[0] });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+app.put('/api/cms/case-studies/:id', protect, async (req, res) => {
+  try {
+    const sql = getDb();
+    const { title, content, slug, status, excerpt, coverImage, client } = req.body;
+    const rows = await sql`
+      UPDATE cms_case_studies SET title=${title}, slug=${slug}, content=${content},
+      excerpt=${excerpt}, "coverImage"=${coverImage}, client=${client}, status=${status},
+      "updatedAt"=NOW() WHERE id=${req.params.id} RETURNING *
+    `;
+    res.json({ success: true, caseStudy: rows[0] });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+app.delete('/api/cms/case-studies/:id', protect, async (req, res) => {
+  try {
+    const sql = getDb();
+    await sql`DELETE FROM cms_case_studies WHERE id=${req.params.id}`;
+    res.json({ success: true });
+  } catch (e: any) {
+    res.status(500).json({ success: false, message: e.message });
+  }
+});
+
+// Logout
+app.post('/api/cms/logout', (_req, res) => {
+  res.json({ success: true });
+});
 app.use('/api/cms', (_req, res) => {
   res.status(404).json({ success: false, message: 'CMS route not found' });
 });
