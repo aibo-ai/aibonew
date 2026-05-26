@@ -3,10 +3,10 @@
   "outputDirectory": "frontend/build",
   "functions": {
     "api/cms/index.ts": {
-      "runtime": "@vercel/node"
+      "maxDuration": 30
     },
     "api/index.py": {
-      "runtime": "@vercel/python"
+      "maxDuration": 30
     }
   },
   "rewrites": [
