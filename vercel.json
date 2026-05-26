@@ -6,6 +6,7 @@
     { "source": "/api/:path*", "destination": "/api/index.py" },
     { "source": "/social-intelligence", "destination": "https://socialintelligence-psi.vercel.app/" },
     { "source": "/social-intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/:path*" },
+    { "source": "/Yippee-Intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/Yippee-Intelligence/:path*" },
     { "source": "/((?!api).*)", "destination": "/index.html" }
   ]
 }
