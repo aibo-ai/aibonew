@@ -6,12 +6,12 @@ import HomePage from "@/pages/HomePage";
 import ServicePage from "@/pages/ServicePage";
 import AboutPage from "@/pages/AboutPage";
 import BlogsPage from "@/pages/BlogsPage";
+import BlogPage from "@/pages/BlogPage";
 import CaseStudiesPage from "@/pages/CaseStudiesPage";
 import ContactPage from "@/pages/ContactPage";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import BlogManagement from "@/pages/BlogManagement";
-import BlogPage from "@/pages/BlogPage";
 import CaseStudyManagement from "@/pages/CaseStudyManagement";
 
 function App() {
