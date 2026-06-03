@@ -11,6 +11,7 @@ import ContactPage from "@/pages/ContactPage";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
 import BlogManagement from "@/pages/BlogManagement";
+import BlogPostPage from "@/pages/BlogPostPage";
 import CaseStudyManagement from "@/pages/CaseStudyManagement";
 
 function App() {
@@ -66,6 +67,13 @@ function App() {
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/blogs" element={<BlogManagement />} />
+          <Route path="/blog/:slug" element={
+            <>
+              <Navigation />
+              <BlogPostPage />
+              <Footer />
+            </>
+          } />
           <Route path="/admin/case-studies" element={<CaseStudyManagement />} />
         </Routes>
       </BrowserRouter>
