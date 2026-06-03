@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff } from 'lucide-react';
+import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff, Bold, Italic, Underline as UnderlineIcon, Link as LinkIcon, List, AlignLeft, AlignCenter, AlignRight, Heading1, Heading2, Type } from 'lucide-react';
 import { adminGet, adminMutate, AdminAuthError } from '@/lib/adminApi';
 
 const EMPTY_BLOG = {
@@ -13,14 +13,159 @@ function slugify(text) {
   return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
 }
 
+function RichTextEditor({ value, onChange }) {
+  const editorRef = useRef(null);
+  const isInitialized = useRef(false);
+
+  useEffect(() => {
+    if (editorRef.current && !isInitialized.current) {
+      editorRef.current.innerHTML = value || '';
+      isInitialized.current = true;
+    }
+  }, []); // eslint-disable-line
+
+  useEffect(() => {
+    if (editorRef.current && isInitialized.current) {
+      if (editorRef.current.innerHTML !== (value || '')) {
+        editorRef.current.innerHTML = value || '';
+      }
+    }
+  }, [value]);
+
+  const execCmd = (command, value = null) => {
+    editorRef.current?.focus();
+    document.execCommand(command, false, value);
+    syncContent();
+  };
+
+  const syncContent = () => {
+    if (editorRef.current) {
+      onChange(editorRef.current.innerHTML);
+    }
+  };
+
+  const handleLink = () => {
+    const selection = window.getSelection();
+    const selectedText = selection?.toString();
+    const url = window.prompt('Enter URL:', 'https://');
+    if (url) {
+      if (selectedText) {
+        execCmd('createLink', url);
+      } else {
+        const linkText = window.prompt('Link text:', url);
+        if (linkText) {
+          document.execCommand('insertHTML', false, `<a href="${url}" target="_blank">${linkText}</a>`);
+          syncContent();
+        }
+      }
+    }
+  };
+
+  const handleFontSize = (size) => {
+    const selection = window.getSelection();
+    if (selection && selection.toString()) {
+      document.execCommand('fontSize', false, '7');
+      const fontEls = editorRef.current?.querySelectorAll('font[size="7"]') || [];
+      fontEls.forEach(el => {
+        const span = document.createElement('span');
+        span.style.fontSize = size;
+        span.innerHTML = el.innerHTML;
+        el.replaceWith(span);
+      });
+      syncContent();
+    }
+  };
+
+  const toolbarBtnSt = () => ({
+    padding: '5px 8px',
+    border: '1px solid var(--border-clr)',
+    borderRadius: 6,
+    background: 'var(--white)',
+    cursor: 'pointer',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'var(--text-secondary)',
+    fontSize: 13,
+    fontWeight: 600,
+    minWidth: 32,
+    height: 32,
+  });
+
+  return (
+    <div style={{ border: '1px solid var(--border-clr)', borderRadius: 8, overflow: 'hidden', background: 'var(--white)' }}>
+      <div style={{
+        display: 'flex', flexWrap: 'wrap', gap: 4, padding: '8px 10px',
+        borderBottom: '1px solid var(--border-clr)', background: 'var(--off-white)',
+        alignItems: 'center',
+      }}>
+        <button type="button" title="Heading 1" style={toolbarBtnSt()} onClick={() => execCmd('formatBlock', 'h2')}><Heading1 size={15} /></button>
+        <button type="button" title="Heading 2" style={toolbarBtnSt()} onClick={() => execCmd('formatBlock', 'h3')}><Heading2 size={15} /></button>
+        <button type="button" title="Paragraph" style={toolbarBtnSt()} onClick={() => execCmd('formatBlock', 'p')}><Type size={15} /></button>
+
+        <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
+
+        <select
+          title="Font size"
+          onChange={(e) => handleFontSize(e.target.value)}
+          defaultValue=""
+          style={{ padding: '4px 6px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', fontSize: 12, cursor: 'pointer', height: 32, color: 'var(--text-secondary)' }}
+        >
+          <option value="" disabled>Size</option>
+          <option value="12px">12px</option>
+          <option value="14px">14px</option>
+          <option value="16px">16px</option>
+          <option value="18px">18px</option>
+          <option value="20px">20px</option>
+          <option value="24px">24px</option>
+          <option value="28px">28px</option>
+          <option value="32px">32px</option>
+        </select>
+
+        <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
+
+        <button type="button" title="Bold" style={toolbarBtnSt()} onClick={() => execCmd('bold')}><Bold size={15} /></button>
+        <button type="button" title="Italic" style={toolbarBtnSt()} onClick={() => execCmd('italic')}><Italic size={15} /></button>
+        <button type="button" title="Underline" style={toolbarBtnSt()} onClick={() => execCmd('underline')}><UnderlineIcon size={15} /></button>
+
+        <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
+
+        <button type="button" title="Align Left" style={toolbarBtnSt()} onClick={() => execCmd('justifyLeft')}><AlignLeft size={15} /></button>
+        <button type="button" title="Align Center" style={toolbarBtnSt()} onClick={() => execCmd('justifyCenter')}><AlignCenter size={15} /></button>
+        <button type="button" title="Align Right" style={toolbarBtnSt()} onClick={() => execCmd('justifyRight')}><AlignRight size={15} /></button>
+
+        <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
+
+        <button type="button" title="Bullet List" style={toolbarBtnSt()} onClick={() => execCmd('insertUnorderedList')}><List size={15} /></button>
+        <button type="button" title="Insert Link" style={toolbarBtnSt()} onClick={handleLink}><LinkIcon size={15} /></button>
+        <button type="button" title="Clear Formatting" style={{ ...toolbarBtnSt(), fontSize: 11, padding: '4px 8px', minWidth: 'auto' }} onClick={() => execCmd('removeFormat')}>Clear</button>
+      </div>
+
+      <div
+        ref={editorRef}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={syncContent}
+        onBlur={syncContent}
+        style={{
+          minHeight: 220, padding: '14px 16px', fontSize: 14, lineHeight: 1.7,
+          outline: 'none', fontFamily: "'DM Sans', sans-serif",
+          color: 'var(--text-primary)', overflowY: 'auto', maxHeight: 400,
+        }}
+      />
+    </div>
+  );
+}
+
 export default function BlogManagement() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [editing, setEditing] = useState(null); // null = new, else blog object
+  const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY_BLOG);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [editorKey, setEditorKey] = useState(0);
   const navigate = useNavigate();
 
   const fetchBlogs = useCallback(async () => {
@@ -36,14 +181,13 @@ export default function BlogManagement() {
     }
   }, [navigate]);
 
-  useEffect(() => {
-    fetchBlogs();
-  }, [fetchBlogs]);
+  useEffect(() => { fetchBlogs(); }, [fetchBlogs]);
 
   const openNew = () => {
     setEditing(null);
     setForm(EMPTY_BLOG);
     setError('');
+    setEditorKey(k => k + 1);
     setShowModal(true);
   };
 
@@ -61,6 +205,7 @@ export default function BlogManagement() {
       featured_image: blog.featured_image || '',
     });
     setError('');
+    setEditorKey(k => k + 1);
     setShowModal(true);
   };
 
@@ -73,6 +218,10 @@ export default function BlogManagement() {
     }));
   };
 
+  const handleContentChange = (html) => {
+    setForm(prev => ({ ...prev, content: html }));
+  };
+
   const handleSave = async () => {
     if (!form.title.trim() || !form.slug.trim()) {
       setError('Title and slug are required.');
@@ -83,6 +232,7 @@ export default function BlogManagement() {
     const payload = {
       ...form,
       tags: form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
+      published_at: form.published ? (editing?.published_at || new Date().toISOString()) : null,
     };
     try {
       const path = editing ? `/blogs/${editing.id}` : '/blogs';
@@ -104,6 +254,7 @@ export default function BlogManagement() {
       setBlogs(blogs.filter(b => b.id !== id));
     } catch (err) {
       if (err instanceof AdminAuthError) { navigate('/admin'); return; }
+      alert('Failed to delete blog post. Please try again.');
       console.error('[BlogManagement] Failed to delete blog:', err);
     }
   };
@@ -115,6 +266,7 @@ export default function BlogManagement() {
         content: blog.content, author: blog.author, category: blog.category,
         tags: blog.tags || [], published: !blog.published,
         featured_image: blog.featured_image,
+        published_at: !blog.published ? new Date().toISOString() : blog.published_at,
       });
       fetchBlogs();
     } catch (err) {
@@ -132,13 +284,10 @@ export default function BlogManagement() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--off-white)' }} data-testid="blog-management">
-      {/* Header */}
       <header style={{ background: 'var(--white)', borderBottom: '1px solid var(--border-clr)', padding: '16px 32px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <Link to="/admin/dashboard" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>
-              <ChevronLeft size={20} />
-            </Link>
+            <Link to="/admin/dashboard" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}><ChevronLeft size={20} /></Link>
             <h1 style={{ fontSize: 20, fontWeight: 600, margin: 0, fontFamily: "'Fraunces', serif" }}>Blog Management</h1>
           </div>
           <button onClick={openNew} className="btn-purple" data-testid="new-blog-button"
@@ -191,10 +340,12 @@ export default function BlogManagement() {
                     </td>
                     <td style={{ padding: '14px 16px' }}>
                       <div style={{ display: 'flex', gap: 8 }}>
-                        <button onClick={() => openEdit(blog)} data-testid={`edit-blog-${blog.id}`} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <button onClick={() => openEdit(blog)} data-testid={`edit-blog-${blog.id}`}
+                          style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Edit size={14} /> Edit
                         </button>
-                        <button onClick={() => handleDelete(blog.id)} data-testid={`delete-blog-${blog.id}`} style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', fontSize: 13, color: '#dc2626', display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <button onClick={() => handleDelete(blog.id)} data-testid={`delete-blog-${blog.id}`}
+                          style={{ padding: '6px 12px', borderRadius: 6, border: '1px solid #fecaca', background: '#fef2f2', cursor: 'pointer', fontSize: 13, color: '#dc2626', display: 'flex', alignItems: 'center', gap: 4 }}>
                           <Trash2 size={14} /> Delete
                         </button>
                       </div>
@@ -207,10 +358,9 @@ export default function BlogManagement() {
         )}
       </div>
 
-      {/* Create / Edit Modal */}
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 20px' }}>
-          <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 720, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
+          <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 780, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 28px', borderBottom: '1px solid var(--border-clr)' }}>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, margin: 0 }}>{editing ? 'Edit Blog Post' : 'New Blog Post'}</h2>
               <button onClick={() => setShowModal(false)} data-testid="blog-modal-close" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><X size={22} /></button>
@@ -236,7 +386,7 @@ export default function BlogManagement() {
 
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Content</label>
-                <textarea name="content" value={form.content} onChange={handleChange} rows={8} placeholder="Full blog post content..." style={{ ...inputSt, resize: 'vertical', minHeight: 160 }} />
+                <RichTextEditor key={editorKey} value={form.content} onChange={handleContentChange} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
