@@ -5,7 +5,8 @@ import Footer from "@/components/sections/Footer";
 import HomePage from "@/pages/HomePage";
 import ServicePage from "@/pages/ServicePage";
 import AboutPage from "@/pages/AboutPage";
-import BlogPage from "@/pages/BlogsPage";
+import BlogsPage from "@/pages/BlogsPage";
+import BlogPage from "@/pages/BlogPage";
 import CaseStudiesPage from "@/pages/CaseStudiesPage";
 import ContactPage from "@/pages/ContactPage";
 import AdminLogin from "@/pages/AdminLogin";
@@ -18,7 +19,6 @@ function App() {
     <div style={{ overflowX: 'hidden' }}>
       <BrowserRouter>
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={
             <>
               <Navigation />
@@ -68,8 +68,6 @@ function App() {
               <Footer />
             </>
           } />
-
-          {/* Admin Routes */}
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/blogs" element={<BlogManagement />} />
