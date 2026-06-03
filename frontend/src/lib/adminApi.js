@@ -1,6 +1,6 @@
 import { BACKEND_URL } from '@/lib/constants';
 
-const ADMIN_BASE = `${window.location.origin}/api/cms`;
+const ADMIN_BASE = `${window.location.origin}/api/admin`;
 
 export async function adminFetch(path, { method = 'GET', body, headers = {} } = {}) {
   const token = sessionStorage.getItem('admin_token');
