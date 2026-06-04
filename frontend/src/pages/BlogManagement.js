@@ -1,17 +1,20 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff, Bold, Italic, Underline as UnderlineIcon, Link as LinkIcon, List, AlignLeft, AlignCenter, AlignRight, Heading1, Heading2, Type } from 'lucide-react';
+import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff, Bold, Italic, Underline as UnderlineIcon, Link as LinkIcon, List, AlignLeft, AlignCenter, AlignRight, Heading1, Heading2, Type, Upload, ImageIcon } from 'lucide-react';
 import { adminGet, adminMutate, AdminAuthError } from '@/lib/adminApi';
 
 const EMPTY_BLOG = {
   title: '', slug: '', excerpt: '', content: '',
   author: 'MyAibo Team', category: '', tags: '',
   published: false, featured_image: '',
+  meta_title: '', meta_description: '',
 };
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
 }
+
+// ── Rich Text Editor ─────────────────────────────────────────────────────────
 
 function RichTextEditor({ value, onChange }) {
   const editorRef = useRef(null);
@@ -32,21 +35,18 @@ function RichTextEditor({ value, onChange }) {
     }
   }, [value]);
 
-  const execCmd = (command, value = null) => {
+  const execCmd = (command, val = null) => {
     editorRef.current?.focus();
-    document.execCommand(command, false, value);
+    document.execCommand(command, false, val);
     syncContent();
   };
 
   const syncContent = () => {
-    if (editorRef.current) {
-      onChange(editorRef.current.innerHTML);
-    }
+    if (editorRef.current) onChange(editorRef.current.innerHTML);
   };
 
   const handleLink = () => {
-    const selection = window.getSelection();
-    const selectedText = selection?.toString();
+    const selectedText = window.getSelection()?.toString();
     const url = window.prompt('Enter URL:', 'https://');
     if (url) {
       if (selectedText) {
@@ -62,8 +62,7 @@ function RichTextEditor({ value, onChange }) {
   };
 
   const handleFontSize = (size) => {
-    const selection = window.getSelection();
-    if (selection && selection.toString()) {
+    if (window.getSelection()?.toString()) {
       document.execCommand('fontSize', false, '7');
       const fontEls = editorRef.current?.querySelectorAll('font[size="7"]') || [];
       fontEls.forEach(el => {
@@ -76,86 +75,149 @@ function RichTextEditor({ value, onChange }) {
     }
   };
 
-  const toolbarBtnSt = () => ({
-    padding: '5px 8px',
-    border: '1px solid var(--border-clr)',
-    borderRadius: 6,
-    background: 'var(--white)',
-    cursor: 'pointer',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'var(--text-secondary)',
-    fontSize: 13,
-    fontWeight: 600,
-    minWidth: 32,
-    height: 32,
+  const btn = () => ({
+    padding: '5px 8px', border: '1px solid var(--border-clr)', borderRadius: 6,
+    background: 'var(--white)', cursor: 'pointer', display: 'inline-flex',
+    alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)',
+    fontSize: 13, fontWeight: 600, minWidth: 32, height: 32,
   });
 
   return (
     <div style={{ border: '1px solid var(--border-clr)', borderRadius: 8, overflow: 'hidden', background: 'var(--white)' }}>
-      <div style={{
-        display: 'flex', flexWrap: 'wrap', gap: 4, padding: '8px 10px',
-        borderBottom: '1px solid var(--border-clr)', background: 'var(--off-white)',
-        alignItems: 'center',
-      }}>
-        <button type="button" title="Heading 1" style={toolbarBtnSt()} onClick={() => execCmd('formatBlock', 'h2')}><Heading1 size={15} /></button>
-        <button type="button" title="Heading 2" style={toolbarBtnSt()} onClick={() => execCmd('formatBlock', 'h3')}><Heading2 size={15} /></button>
-        <button type="button" title="Paragraph" style={toolbarBtnSt()} onClick={() => execCmd('formatBlock', 'p')}><Type size={15} /></button>
-
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, padding: '8px 10px', borderBottom: '1px solid var(--border-clr)', background: 'var(--off-white)', alignItems: 'center' }}>
+        <button type="button" title="Heading 1" style={btn()} onClick={() => execCmd('formatBlock', 'h2')}><Heading1 size={15} /></button>
+        <button type="button" title="Heading 2" style={btn()} onClick={() => execCmd('formatBlock', 'h3')}><Heading2 size={15} /></button>
+        <button type="button" title="Paragraph" style={btn()} onClick={() => execCmd('formatBlock', 'p')}><Type size={15} /></button>
         <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
-
-        <select
-          title="Font size"
-          onChange={(e) => handleFontSize(e.target.value)}
-          defaultValue=""
-          style={{ padding: '4px 6px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', fontSize: 12, cursor: 'pointer', height: 32, color: 'var(--text-secondary)' }}
-        >
+        <select onChange={(e) => handleFontSize(e.target.value)} defaultValue=""
+          style={{ padding: '4px 6px', borderRadius: 6, border: '1px solid var(--border-clr)', background: 'var(--white)', fontSize: 12, cursor: 'pointer', height: 32, color: 'var(--text-secondary)' }}>
           <option value="" disabled>Size</option>
-          <option value="12px">12px</option>
-          <option value="14px">14px</option>
-          <option value="16px">16px</option>
-          <option value="18px">18px</option>
-          <option value="20px">20px</option>
-          <option value="24px">24px</option>
-          <option value="28px">28px</option>
-          <option value="32px">32px</option>
+          {['12px','14px','16px','18px','20px','24px','28px','32px'].map(s => <option key={s} value={s}>{s}</option>)}
         </select>
-
         <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
-
-        <button type="button" title="Bold" style={toolbarBtnSt()} onClick={() => execCmd('bold')}><Bold size={15} /></button>
-        <button type="button" title="Italic" style={toolbarBtnSt()} onClick={() => execCmd('italic')}><Italic size={15} /></button>
-        <button type="button" title="Underline" style={toolbarBtnSt()} onClick={() => execCmd('underline')}><UnderlineIcon size={15} /></button>
-
+        <button type="button" title="Bold" style={btn()} onClick={() => execCmd('bold')}><Bold size={15} /></button>
+        <button type="button" title="Italic" style={btn()} onClick={() => execCmd('italic')}><Italic size={15} /></button>
+        <button type="button" title="Underline" style={btn()} onClick={() => execCmd('underline')}><UnderlineIcon size={15} /></button>
         <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
-
-        <button type="button" title="Align Left" style={toolbarBtnSt()} onClick={() => execCmd('justifyLeft')}><AlignLeft size={15} /></button>
-        <button type="button" title="Align Center" style={toolbarBtnSt()} onClick={() => execCmd('justifyCenter')}><AlignCenter size={15} /></button>
-        <button type="button" title="Align Right" style={toolbarBtnSt()} onClick={() => execCmd('justifyRight')}><AlignRight size={15} /></button>
-
+        <button type="button" title="Align Left" style={btn()} onClick={() => execCmd('justifyLeft')}><AlignLeft size={15} /></button>
+        <button type="button" title="Align Center" style={btn()} onClick={() => execCmd('justifyCenter')}><AlignCenter size={15} /></button>
+        <button type="button" title="Align Right" style={btn()} onClick={() => execCmd('justifyRight')}><AlignRight size={15} /></button>
         <div style={{ width: 1, height: 24, background: 'var(--border-clr)', margin: '0 4px' }} />
-
-        <button type="button" title="Bullet List" style={toolbarBtnSt()} onClick={() => execCmd('insertUnorderedList')}><List size={15} /></button>
-        <button type="button" title="Insert Link" style={toolbarBtnSt()} onClick={handleLink}><LinkIcon size={15} /></button>
-        <button type="button" title="Clear Formatting" style={{ ...toolbarBtnSt(), fontSize: 11, padding: '4px 8px', minWidth: 'auto' }} onClick={() => execCmd('removeFormat')}>Clear</button>
+        <button type="button" title="Bullet List" style={btn()} onClick={() => execCmd('insertUnorderedList')}><List size={15} /></button>
+        <button type="button" title="Insert Link" style={btn()} onClick={handleLink}><LinkIcon size={15} /></button>
+        <button type="button" title="Clear Formatting" style={{ ...btn(), fontSize: 11, padding: '4px 8px', minWidth: 'auto' }} onClick={() => execCmd('removeFormat')}>Clear</button>
       </div>
-
-      <div
-        ref={editorRef}
-        contentEditable
-        suppressContentEditableWarning
-        onInput={syncContent}
-        onBlur={syncContent}
-        style={{
-          minHeight: 220, padding: '14px 16px', fontSize: 14, lineHeight: 1.7,
-          outline: 'none', fontFamily: "'DM Sans', sans-serif",
-          color: 'var(--text-primary)', overflowY: 'auto', maxHeight: 400,
-        }}
+      <div ref={editorRef} contentEditable suppressContentEditableWarning
+        onInput={syncContent} onBlur={syncContent}
+        style={{ minHeight: 220, padding: '14px 16px', fontSize: 14, lineHeight: 1.7, outline: 'none', fontFamily: "'DM Sans', sans-serif", color: 'var(--text-primary)', overflowY: 'auto', maxHeight: 400 }}
       />
     </div>
   );
 }
+
+// ── Image Upload ─────────────────────────────────────────────────────────────
+
+function ImageUpload({ value, onChange }) {
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const fileRef = useRef(null);
+
+  const handleFile = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setUploadError('Please select an image file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { setUploadError('Image must be under 5MB.'); return; }
+
+    setUploading(true);
+    setUploadError('');
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const token = sessionStorage.getItem('admin_token');
+      const res = await fetch('/api/cms/upload', {
+        method: 'POST',
+        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) },
+        body: formData,
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Upload failed');
+      }
+      const data = await res.json();
+      onChange(data.url);
+    } catch (err) {
+      setUploadError(err.message);
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = '';
+    }
+  };
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+        <div style={{ flex: 1 }}>
+          <input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Paste image URL or upload below"
+            style={{
+              width: '100%', padding: '10px 14px', fontSize: 14,
+              border: '1px solid var(--border-clr)', borderRadius: 8,
+              background: 'var(--off-white)', boxSizing: 'border-box',
+              fontFamily: "'DM Sans', sans-serif", outline: 'none',
+            }}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          disabled={uploading}
+          style={{
+            padding: '10px 16px', borderRadius: 8, border: '1px solid var(--border-clr)',
+            background: 'var(--white)', cursor: uploading ? 'not-allowed' : 'pointer',
+            fontSize: 13, fontWeight: 500, display: 'inline-flex', alignItems: 'center',
+            gap: 6, whiteSpace: 'nowrap', opacity: uploading ? 0.7 : 1,
+          }}
+        >
+          <Upload size={15} />
+          {uploading ? 'Uploading…' : 'Upload Image'}
+        </button>
+        <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} style={{ display: 'none' }} />
+      </div>
+
+      {uploadError && (
+        <div style={{ marginTop: 6, fontSize: 12, color: '#dc2626' }}>{uploadError}</div>
+      )}
+
+      {value && (
+        <div style={{ marginTop: 10, position: 'relative', display: 'inline-block' }}>
+          <img src={value} alt="Featured" style={{ maxHeight: 160, maxWidth: '100%', borderRadius: 8, border: '1px solid var(--border-clr)', display: 'block' }} />
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            style={{ position: 'absolute', top: 6, right: 6, background: 'rgba(0,0,0,0.6)', border: 'none', borderRadius: '50%', width: 24, height: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}
+          >
+            <X size={12} />
+          </button>
+        </div>
+      )}
+
+      {!value && (
+        <div
+          onClick={() => fileRef.current?.click()}
+          style={{ marginTop: 10, border: '2px dashed var(--border-clr)', borderRadius: 8, padding: '24px', textAlign: 'center', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 13 }}
+        >
+          <ImageIcon size={24} style={{ margin: '0 auto 8px', display: 'block', opacity: 0.4 }} />
+          Click to upload or drag & drop
+          <div style={{ fontSize: 11, marginTop: 4 }}>PNG, JPG, WebP up to 5MB</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Main Component ────────────────────────────────────────────────────────────
 
 export default function BlogManagement() {
   const [blogs, setBlogs] = useState([]);
@@ -203,6 +265,8 @@ export default function BlogManagement() {
       tags: (blog.tags || []).join(', '),
       published: blog.published || false,
       featured_image: blog.featured_image || '',
+      meta_title: blog.meta_title || '',
+      meta_description: blog.meta_description || '',
     });
     setError('');
     setEditorKey(k => k + 1);
@@ -218,15 +282,8 @@ export default function BlogManagement() {
     }));
   };
 
-  const handleContentChange = (html) => {
-    setForm(prev => ({ ...prev, content: html }));
-  };
-
   const handleSave = async () => {
-    if (!form.title.trim() || !form.slug.trim()) {
-      setError('Title and slug are required.');
-      return;
-    }
+    if (!form.title.trim() || !form.slug.trim()) { setError('Title and slug are required.'); return; }
     setSaving(true);
     setError('');
     const payload = {
@@ -255,7 +312,6 @@ export default function BlogManagement() {
     } catch (err) {
       if (err instanceof AdminAuthError) { navigate('/admin'); return; }
       alert('Failed to delete blog post. Please try again.');
-      console.error('[BlogManagement] Failed to delete blog:', err);
     }
   };
 
@@ -266,12 +322,13 @@ export default function BlogManagement() {
         content: blog.content, author: blog.author, category: blog.category,
         tags: blog.tags || [], published: !blog.published,
         featured_image: blog.featured_image,
+        meta_title: blog.meta_title || '',
+        meta_description: blog.meta_description || '',
         published_at: !blog.published ? new Date().toISOString() : blog.published_at,
       });
       fetchBlogs();
     } catch (err) {
       if (err instanceof AdminAuthError) { navigate('/admin'); return; }
-      console.error('[BlogManagement] Failed to toggle publish:', err);
     }
   };
 
@@ -321,8 +378,15 @@ export default function BlogManagement() {
                 {blogs.map((blog, i) => (
                   <tr key={blog.id} style={{ borderBottom: i < blogs.length - 1 ? '1px solid var(--border-clr)' : 'none' }}>
                     <td style={{ padding: '14px 16px' }}>
-                      <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>{blog.title}</div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{blog.slug}</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        {blog.featured_image && (
+                          <img src={blog.featured_image} alt="" style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover', flexShrink: 0 }} />
+                        )}
+                        <div>
+                          <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>{blog.title}</div>
+                          <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{blog.slug}</div>
+                        </div>
+                      </div>
                     </td>
                     <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--text-secondary)' }}>{blog.category || '—'}</td>
                     <td style={{ padding: '14px 16px', fontSize: 13, color: 'var(--text-secondary)' }}>{blog.author || 'MyAibo Team'}</td>
@@ -365,6 +429,7 @@ export default function BlogManagement() {
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, margin: 0 }}>{editing ? 'Edit Blog Post' : 'New Blog Post'}</h2>
               <button onClick={() => setShowModal(false)} data-testid="blog-modal-close" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><X size={22} /></button>
             </div>
+
             <div style={{ padding: 28, display: 'flex', flexDirection: 'column', gap: 18 }}>
               {error && <div style={{ padding: '10px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, fontSize: 13, color: '#dc2626' }}>{error}</div>}
 
@@ -386,7 +451,7 @@ export default function BlogManagement() {
 
               <div>
                 <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Content</label>
-                <RichTextEditor key={editorKey} value={form.content} onChange={handleContentChange} />
+                <RichTextEditor key={editorKey} value={form.content} onChange={(html) => setForm(prev => ({ ...prev, content: html }))} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -405,8 +470,44 @@ export default function BlogManagement() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Featured Image URL</label>
-                <input name="featured_image" value={form.featured_image} onChange={handleChange} placeholder="https://..." style={inputSt} />
+                <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Featured Image</label>
+                <ImageUpload value={form.featured_image} onChange={(url) => setForm(prev => ({ ...prev, featured_image: url }))} />
+              </div>
+
+              <div style={{ borderTop: '1px solid var(--border-clr)', paddingTop: 18 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: '0.05em' }}>SEO Meta</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
+                      Meta Title
+                      <span style={{ fontWeight: 400, color: form.meta_title.length > 55 ? '#f59e0b' : 'var(--text-muted)', marginLeft: 8, fontSize: 12 }}>
+                        {form.meta_title.length}/60
+                      </span>
+                    </label>
+                    <input name="meta_title" value={form.meta_title} onChange={handleChange} placeholder="Leave blank to use post title" maxLength={60}
+                      style={{ ...inputSt, borderColor: form.meta_title.length > 55 ? '#f59e0b' : 'var(--border-clr)' }} />
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>Recommended: 50–60 characters</div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
+                      Meta Description
+                      <span style={{ fontWeight: 400, color: form.meta_description.length > 150 ? '#f59e0b' : 'var(--text-muted)', marginLeft: 8, fontSize: 12 }}>
+                        {form.meta_description.length}/160
+                      </span>
+                    </label>
+                    <textarea name="meta_description" value={form.meta_description} onChange={handleChange} placeholder="Leave blank to use excerpt" maxLength={160} rows={3}
+                      style={{ ...inputSt, resize: 'vertical', borderColor: form.meta_description.length > 150 ? '#f59e0b' : 'var(--border-clr)' }} />
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>Recommended: 150–160 characters</div>
+                  </div>
+                  {(form.meta_title || form.title) && (
+                    <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 8, padding: 14 }}>
+                      <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Google Preview</div>
+                      <div style={{ fontSize: 18, color: '#1a0dab', marginBottom: 2, fontWeight: 400, lineHeight: 1.3 }}>{form.meta_title || form.title}</div>
+                      <div style={{ fontSize: 13, color: '#006621', marginBottom: 4 }}>www.myaibo.in/blog/{form.slug || 'post-slug'}</div>
+                      <div style={{ fontSize: 13, color: '#545454', lineHeight: 1.5 }}>{form.meta_description || form.excerpt || 'Meta description will appear here...'}</div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 14, fontWeight: 500 }}>
@@ -414,6 +515,7 @@ export default function BlogManagement() {
                 Publish immediately
               </label>
             </div>
+
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, padding: '20px 28px', borderTop: '1px solid var(--border-clr)' }}>
               <button onClick={() => setShowModal(false)} style={{ padding: '10px 20px', borderRadius: 8, border: '1px solid var(--border-clr)', background: 'var(--white)', cursor: 'pointer', fontSize: 14 }}>Cancel</button>
               <button onClick={handleSave} disabled={saving} className="btn-purple" data-testid="blog-save-button"
