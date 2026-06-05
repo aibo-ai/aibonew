@@ -3,6 +3,8 @@ import cors from 'cors';
 import { neon } from '@neondatabase/serverless';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import multer from 'multer';
+import { put } from '@vercel/blob';
 
 const app = express();
 
@@ -20,8 +22,10 @@ app.use(cors({
 
 app.use(express.json());
 
-import multer from 'multer';
-import { put } from '@vercel/blob';
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const getDb = () => neon(process.env.NEON_DATABASE_URL || process.env.DATABASE_URL || '');
+
+// ── Image Upload ──────────────────────────────────────────────────────────────
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
 
@@ -32,6 +36,7 @@ app.post('/upload', upload.single('file'), async (req: any, res: any) => {
     const blob = await put(`blog-images/${Date.now()}-${originalname}`, buffer, {
       access: 'public',
       contentType: mimetype,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
     });
     return res.status(200).json({ url: blob.url });
   } catch (err: any) {
@@ -40,17 +45,40 @@ app.post('/upload', upload.single('file'), async (req: any, res: any) => {
   }
 });
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
-const getDb = () => neon(process.env.NEON_DATABASE_URL || process.env.DATABASE_URL || '');
+// ── Auth ──────────────────────────────────────────────────────────────────────
 
-const ensureTable = async () => {
+const verifyToken = (req: any, res: any, next: any) => {
+  const auth = req.headers['authorization'];
+  const token = auth && auth.startsWith('Bearer ') ? auth.slice(7) : null;
+  if (!token) return res.status(401).json({ error: 'Not authenticated' });
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+};
+
+app.post('/login', async (req: any, res: any) => {
+  const { email, password } = req.body;
   const sql = getDb();
-  await sql`
-    CREATE TABLE IF NOT EXISTS cms_users (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      email VARCHAR(255) UNIQUE NOT NULL,
-      password VARCHAR(255) NOT NULL,
-      "firstName" VARCHAR(255),
-      "lastName" VARCHAR(255),
-      role VARCHAR(50) DEFAULT 'editor',
-      "isActive" BOOLEAN DEFAULT true,
+  try {
+    const rows = await sql`SELECT * FROM admin_users WHERE email = ${email}`;
+    const user = rows[0];
+    if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+    const valid = await bcrypt.compare(password, user.password_hash);
+    if (!valid) return res.status(401).json({ error: 'Invalid credentials' });
+    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' } as SignOptions);
+    return res.status(200).json({ token, email: user.email, id: user.id });
+  } catch (err: any) {
+    console.error('Login error:', err);
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.get('/me', verifyToken, async (req: any, res: any) => {
+  return res.status(200).json({ email: req.user.email, id: req.user.id });
+});
+
+export default app;
