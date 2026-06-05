@@ -20,6 +20,26 @@ app.use(cors({
 
 app.use(express.json());
 
+import multer from 'multer';
+import { put } from '@vercel/blob';
+
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
+
+app.post('/upload', upload.single('file'), async (req: any, res: any) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    const { buffer, originalname, mimetype } = req.file;
+    const blob = await put(`blog-images/${Date.now()}-${originalname}`, buffer, {
+      access: 'public',
+      contentType: mimetype,
+    });
+    return res.status(200).json({ url: blob.url });
+  } catch (err: any) {
+    console.error('Upload error:', err);
+    return res.status(500).json({ error: err.message || 'Upload failed' });
+  }
+});
+
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
 const getDb = () => neon(process.env.NEON_DATABASE_URL || process.env.DATABASE_URL || '');
 
