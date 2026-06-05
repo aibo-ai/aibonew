@@ -4,7 +4,6 @@ import { neon } from '@neondatabase/serverless';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import multer from 'multer';
-import { put } from '@vercel/blob';
 
 const app = express();
 
@@ -32,15 +31,21 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 *
 app.post('/upload', upload.single('file'), async (req: any, res: any) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    console.log('BLOB token present:', !!token, 'starts with:', token?.substring(0, 20));
+    if (!token) return res.status(500).json({ error: 'BLOB_READ_WRITE_TOKEN not configured' });
+
     const { buffer, originalname, mimetype } = req.file;
-    const blob = await put(`blog-images/${Date.now()}-${originalname}`, buffer, {
+    const { put: blobPut } = await import('@vercel/blob');
+    const blob = await blobPut(`blog-images/${Date.now()}-${originalname}`, buffer, {
       access: 'public',
       contentType: mimetype,
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+      token,
     });
     return res.status(200).json({ url: blob.url });
   } catch (err: any) {
-    console.error('Upload error:', err);
+    console.error('Upload error full:', err);
     return res.status(500).json({ error: err.message || 'Upload failed' });
   }
 });
