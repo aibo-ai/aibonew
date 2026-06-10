@@ -2,7 +2,9 @@
   "buildCommand": "cd frontend && NODE_ENV=development npm install --legacy-peer-deps && npm run build",
   "outputDirectory": "frontend/build",
   "rewrites": [
+    { "source": "/api/cms/blog/og/:slug", "destination": "/api/cms/index.ts" },
     { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
+    { "source": "/blog/:slug", "destination": "/api/cms/index.ts" },
     { "source": "/api/:path*", "destination": "/api/index.py" },
     { "source": "/social-intelligence", "destination": "https://socialintelligence-psi.vercel.app/" },
     { "source": "/social-intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/:path*" },
