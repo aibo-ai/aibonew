@@ -63,6 +63,17 @@ const protect = (req: any, res: any, next: any) => {
   }
 };
 
+const escapeHtml = (str: string): string =>
+  str
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+// ─────────────────────────────────────────────
+// HEALTH
+// ─────────────────────────────────────────────
+
 app.get('/api/cms/health', async (_req, res) => {
   let client;
   try {
@@ -75,6 +86,10 @@ app.get('/api/cms/health', async (_req, res) => {
     if (client) await client.end();
   }
 });
+
+// ─────────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────────
 
 app.post('/api/cms/auth/login', async (req, res) => {
   let client;
@@ -97,7 +112,17 @@ app.post('/api/cms/auth/login', async (req, res) => {
       JWT_SECRET,
       { expiresIn: '30d' } as SignOptions
     );
-    res.json({ success: true, token, user: { id: user.id, email: user.email, role: user.role, firstName: user.firstName, lastName: user.lastName } });
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+    });
   } catch (e: any) {
     console.error('[CMS login error]', e);
     res.status(500).json({ success: false, message: 'Server error', error: e.message });
@@ -121,6 +146,113 @@ app.get('/api/cms/auth/me', protect, async (req: any, res) => {
     if (client) await client.end();
   }
 });
+
+// ─────────────────────────────────────────────
+// OG TAG ENDPOINT FOR SOCIAL MEDIA CRAWLERS
+// @route   GET /api/cms/blog/og/:slug
+// @access  Public
+// Called by vercel.json rewrite when /blog/:slug is hit by a social bot
+// ─────────────────────────────────────────────
+
+app.get('/api/cms/blog/og/:slug', async (req: any, res) => {
+  let client;
+  const siteUrl = 'https://www.myaibo.in';
+  const defaultOgImage = `${siteUrl}/og-default.png`;
+  const { slug } = req.params;
+  const blogUrl = `${siteUrl}/blog/${slug}`;
+
+  try {
+    client = await getClient();
+
+    // Query the blogs table — adjust column names if yours differ
+    const result = await client.query(
+      `SELECT title, excerpt, meta_description, featured_image
+       FROM blogs
+       WHERE slug = $1
+         AND status = 'published'
+         AND published_at IS NOT NULL
+       LIMIT 1`,
+      [slug]
+    );
+
+    const post = result.rows[0];
+
+    const title = escapeHtml(post?.title || 'MyAibo Blog');
+    const description = escapeHtml(
+      post?.meta_description || post?.excerpt || 'AI-powered insights from MyAibo.'
+    );
+    const ogImage = escapeHtml(post?.featured_image || defaultOgImage);
+    const safeUrl = escapeHtml(blogUrl);
+    const safeSiteUrl = escapeHtml(siteUrl);
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+
+    return res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>${title} | MyAibo</title>
+  <meta name="description" content="${description}" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="MyAibo" />
+  <meta property="og:title" content="${title}" />
+  <meta property="og:description" content="${description}" />
+  <meta property="og:image" content="${ogImage}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content="${safeUrl}" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${title}" />
+  <meta name="twitter:description" content="${description}" />
+  <meta name="twitter:image" content="${ogImage}" />
+
+  <!-- Redirect humans who land here directly back to the SPA -->
+  <meta http-equiv="refresh" content="0; url=${safeUrl}" />
+  <link rel="canonical" href="${safeUrl}" />
+</head>
+<body>
+  <p>Redirecting to <a href="${safeUrl}">${title}</a>...</p>
+</body>
+</html>`);
+
+  } catch (e: any) {
+    console.error('[OG route error]', e);
+    // On any error still return a valid OG page so the social card doesn't break
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MyAibo — AI-Powered Growth</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MyAibo" />
+  <meta property="og:title" content="MyAibo — AI-Powered Growth" />
+  <meta property="og:description" content="MyAibo builds AI-powered marketing systems and technical products — GEO, AEO, SEO, content, automation, and full-stack development." />
+  <meta property="og:image" content="${defaultOgImage}" />
+  <meta property="og:url" content="${safeSiteUrl}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MyAibo — AI-Powered Growth" />
+  <meta name="twitter:description" content="MyAibo builds AI-powered marketing systems and technical products — GEO, AEO, SEO, content, automation, and full-stack development." />
+  <meta name="twitter:image" content="${defaultOgImage}" />
+  <meta http-equiv="refresh" content="0; url=${safeSiteUrl}" />
+</head>
+<body>
+  <p>Redirecting to <a href="${safeSiteUrl}">MyAibo</a>...</p>
+</body>
+</html>`);
+  } finally {
+    if (client) await client.end();
+  }
+});
+
+// ─────────────────────────────────────────────
+// CATCH-ALL for unmatched /api/cms/* routes
+// ─────────────────────────────────────────────
 
 app.use('/api/cms', (_req, res) => {
   res.status(404).json({ success: false, message: 'CMS route not found' });
