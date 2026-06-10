@@ -166,7 +166,7 @@ app.get('/api/cms/blog/og/:slug', async (req: any, res) => {
 
     // Query the blogs table — adjust column names if yours differ
     const result = await client.query(
-      `SELECT title, excerpt, meta_description, featured_image
+      `SELECT title, excerpt, featured_image
        FROM blogs
        WHERE slug = $1
          AND status = 'published'
