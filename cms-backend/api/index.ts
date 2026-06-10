@@ -179,7 +179,7 @@ app.get('/api/cms/blog/og/:slug', async (req: any, res) => {
 
     const title = escapeHtml(post?.title || 'MyAibo Blog');
     const description = escapeHtml(
-      post?.meta_description || post?.excerpt || 'AI-powered insights from MyAibo.'
+     post?.excerpt || 'AI-powered insights from MyAibo.'
     );
     const ogImage = escapeHtml(post?.featured_image || defaultOgImage);
     const safeUrl = escapeHtml(blogUrl);
