@@ -9,7 +9,7 @@ import json
 import sys
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://runtime-error-fix-5.preview.emergentagent.com"
+BACKEND_URL = "https://solutions-geo-aeo.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 # Global variable to store admin token
