@@ -24,18 +24,19 @@ const linkStyle = {
 export default function DesktopNav() {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const [activePillar, setActivePillar] = useState(pillars[0].slug);
+  const [expandedPillar, setExpandedPillar] = useState(null);
   const solutionsRef = useRef(null);
   const resourcesRef = useRef(null);
 
   const closeAll = () => {
     setSolutionsOpen(false);
     setResourcesOpen(false);
+    setExpandedPillar(null);
   };
 
   useEffect(() => {
-    // Reset active pillar every time the menu opens
-    if (solutionsOpen) setActivePillar(pillars[0].slug);
+    // Every time the menu re-opens, start collapsed (no right column)
+    if (solutionsOpen) setExpandedPillar(null);
   }, [solutionsOpen]);
 
   useEffect(() => {
@@ -56,7 +57,7 @@ export default function DesktopNav() {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
 
-  const active = pillars.find((p) => p.slug === activePillar) || pillars[0];
+  const active = expandedPillar ? pillars.find((p) => p.slug === expandedPillar) : null;
 
   return (
     <div className="hidden lg:flex items-center gap-8" style={{ flex: 1, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
@@ -104,169 +105,221 @@ export default function DesktopNav() {
                 border: '1px solid var(--border-clr)',
                 overflow: 'hidden',
                 display: 'grid',
-                gridTemplateColumns: '300px 320px',
-                width: 620,
-                minHeight: 320,
+                gridTemplateColumns: active ? '300px 320px' : '300px',
+                width: active ? 620 : 300,
+                minHeight: 288,
+                transition: 'width 220ms ease, grid-template-columns 220ms ease',
               }}
             >
               {/* Left: 6 pillar rows */}
               <div
                 style={{
                   background: 'var(--off-white)',
-                  borderRight: '1px solid var(--border-clr)',
+                  borderRight: active ? '1px solid var(--border-clr)' : 'none',
                   padding: '10px 10px',
                 }}
               >
                 {pillars.map((pillar) => {
-                  const isActive = pillar.slug === activePillar;
+                  const isActive = pillar.slug === expandedPillar;
+                  const toggleExpand = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setExpandedPillar((cur) => (cur === pillar.slug ? null : pillar.slug));
+                  };
                   return (
-                    <button
+                    <div
                       key={pillar.slug}
-                      type="button"
                       role="menuitem"
-                      title={`View ${pillar.name} overview`}
                       aria-current={isActive ? 'true' : undefined}
-                      onMouseEnter={() => setActivePillar(pillar.slug)}
-                      onFocus={() => setActivePillar(pillar.slug)}
-                      onClick={() => {
-                        // Clicking navigates to the pillar page
-                        closeAll();
-                        window.location.href = `/solutions/${pillar.slug}`;
-                      }}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 8,
+                        gap: 6,
                         width: '100%',
                         background: isActive ? 'var(--white)' : 'transparent',
-                        border: 'none',
                         borderRadius: 8,
-                        padding: '9px 10px',
-                        cursor: 'pointer',
-                        textAlign: 'left',
-                        fontFamily: 'inherit',
+                        marginBottom: 2,
                         boxShadow: isActive ? '0 1px 4px rgba(15,10,30,0.06)' : 'none',
                         transition: 'background 0.15s',
                       }}
                     >
-                      <span
-                        style={{
-                          fontSize: 9,
-                          fontWeight: 700,
-                          letterSpacing: '0.06em',
-                          textTransform: 'uppercase',
-                          background: isActive ? 'var(--purple)' : 'var(--purple-light)',
-                          color: isActive ? '#fff' : 'var(--purple-dark)',
-                          padding: '3px 5px',
-                          borderRadius: 4,
-                          flexShrink: 0,
-                          minWidth: 36,
-                          textAlign: 'center',
-                          fontFamily: "'DM Sans', sans-serif",
-                        }}
-                      >
-                        {pillar.short}
-                      </span>
-                      <span
+                      <Link
+                        to={`/solutions/${pillar.slug}`}
+                        onClick={closeAll}
                         style={{
                           flex: 1,
-                          fontFamily: "'Fraunces', serif",
-                          fontSize: 13.5,
-                          fontWeight: 600,
-                          color: 'var(--text-primary)',
-                          lineHeight: 1.25,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 8,
+                          padding: '9px 4px 9px 10px',
+                          textDecoration: 'none',
                           minWidth: 0,
+                          borderRadius: 8,
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isActive) e.currentTarget.parentElement.style.background = 'rgba(124,59,237,0.05)';
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive) e.currentTarget.parentElement.style.background = 'transparent';
                         }}
                       >
-                        {pillar.name}
-                      </span>
-                      <ChevronRight
-                        size={14}
+                        <span
+                          style={{
+                            fontSize: 9,
+                            fontWeight: 700,
+                            letterSpacing: '0.06em',
+                            textTransform: 'uppercase',
+                            background: isActive ? 'var(--purple)' : 'var(--purple-light)',
+                            color: isActive ? '#fff' : 'var(--purple-dark)',
+                            padding: '3px 5px',
+                            borderRadius: 4,
+                            flexShrink: 0,
+                            minWidth: 36,
+                            textAlign: 'center',
+                            fontFamily: "'DM Sans', sans-serif",
+                          }}
+                        >
+                          {pillar.short}
+                        </span>
+                        <span
+                          style={{
+                            flex: 1,
+                            fontFamily: "'Fraunces', serif",
+                            fontSize: 13.5,
+                            fontWeight: 600,
+                            color: 'var(--text-primary)',
+                            lineHeight: 1.25,
+                            minWidth: 0,
+                          }}
+                        >
+                          {pillar.name}
+                        </span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={toggleExpand}
+                        aria-expanded={isActive}
+                        aria-label={`${isActive ? 'Hide' : 'Show'} ${pillar.name} deep-dive services`}
                         style={{
-                          color: isActive ? 'var(--purple-dark)' : 'rgba(74,69,104,0.4)',
+                          background: 'transparent',
+                          border: 'none',
+                          padding: '10px 10px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: 6,
                           flexShrink: 0,
                         }}
-                      />
-                    </button>
+                        onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--purple-light)'; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+                      >
+                        <ChevronRight
+                          size={14}
+                          style={{
+                            color: isActive ? 'var(--purple-dark)' : 'rgba(74,69,104,0.5)',
+                            transition: 'transform 0.2s',
+                            transform: isActive ? 'rotate(90deg)' : 'rotate(0deg)',
+                          }}
+                        />
+                      </button>
+                    </div>
                   );
                 })}
+                {!active && (
+                  <div
+                    style={{
+                      marginTop: 10,
+                      paddingTop: 10,
+                      borderTop: '1px solid var(--border-clr)',
+                      fontSize: 11,
+                      color: 'var(--text-muted)',
+                      lineHeight: 1.4,
+                      padding: '10px 10px 0',
+                    }}
+                  >
+                    Click a pillar name to visit its overview page, or tap the arrow to see its deep-dive services.
+                  </div>
+                )}
               </div>
 
-              {/* Right: cluster links for the active pillar */}
-              <div
-                style={{
-                  padding: '16px 18px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
+              {/* Right: cluster links for the expanded pillar (only rendered when a pillar is expanded) */}
+              {active && (
                 <div
                   style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: 'var(--purple-dark)',
-                    marginBottom: 10,
+                    padding: '16px 18px',
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}
                 >
-                  {active.short} Deep-Dive Services
-                </div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: 'var(--purple-dark)',
+                      marginBottom: 10,
+                    }}
+                  >
+                    {active.short} Deep-Dive Services
+                  </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
-                  {active.clusters.map((c) => (
-                    <Link
-                      key={c.slug}
-                      to={`/solutions/${active.slug}/${c.slug}`}
-                      onClick={closeAll}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        gap: 8,
-                        padding: '8px 10px',
-                        fontSize: 13,
-                        fontWeight: 400,
-                        color: 'var(--text-secondary)',
-                        textDecoration: 'none',
-                        borderRadius: 6,
-                        lineHeight: 1.4,
-                        transition: 'background 0.15s, color 0.15s',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'var(--purple-light)';
-                        e.currentTarget.style.color = 'var(--purple-dark)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = 'var(--text-secondary)';
-                      }}
-                    >
-                      <span>{c.name}</span>
-                      <ArrowRight size={12} style={{ opacity: 0.55, flexShrink: 0 }} />
-                    </Link>
-                  ))}
-                </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+                    {active.clusters.map((c) => (
+                      <Link
+                        key={c.slug}
+                        to={`/solutions/${active.slug}/${c.slug}`}
+                        onClick={closeAll}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: 8,
+                          padding: '8px 10px',
+                          fontSize: 13,
+                          fontWeight: 400,
+                          color: 'var(--text-secondary)',
+                          textDecoration: 'none',
+                          borderRadius: 6,
+                          lineHeight: 1.4,
+                          transition: 'background 0.15s, color 0.15s',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'var(--purple-light)';
+                          e.currentTarget.style.color = 'var(--purple-dark)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent';
+                          e.currentTarget.style.color = 'var(--text-secondary)';
+                        }}
+                      >
+                        <span>{c.name}</span>
+                        <ArrowRight size={12} style={{ opacity: 0.55, flexShrink: 0 }} />
+                      </Link>
+                    ))}
+                  </div>
 
-                <Link
-                  to={`/solutions/${active.slug}`}
-                  onClick={closeAll}
-                  style={{
-                    marginTop: 12,
-                    paddingTop: 12,
-                    borderTop: '1px solid var(--border-clr)',
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: 'var(--purple-dark)',
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 4,
-                  }}
-                >
-                  View {active.name} overview <ArrowRight size={12} />
-                </Link>
-              </div>
+                  <Link
+                    to={`/solutions/${active.slug}`}
+                    onClick={closeAll}
+                    style={{
+                      marginTop: 12,
+                      paddingTop: 12,
+                      borderTop: '1px solid var(--border-clr)',
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: 'var(--purple-dark)',
+                      textDecoration: 'none',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 4,
+                    }}
+                  >
+                    View {active.name} overview <ArrowRight size={12} />
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}
