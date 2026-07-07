@@ -11,6 +11,7 @@ import { aiAutomationsData } from "@/data/aiAutomationsData";
 import { whiteLabelData } from "@/data/whiteLabelData";
 import { fullStackData } from "@/data/fullStackData";
 import SEO from "@/components/SEO";
+import ClusterLinksBar from "@/components/sections/ClusterLinksBar";
 
 const seoMetaData = {
   geo: {
@@ -116,6 +117,9 @@ export default function ServicePage() {
           </div>
         </div>
       </section>
+
+      {/* ─── CLUSTER DEEP-DIVE TABS (small, non-invasive strip) ─── */}
+      <ClusterLinksBar pillarSlug={slug} />
 
       {/* ─── INTRO ─── */}
       <section id="intro" style={{ background: 'var(--white)', padding: '80px 40px' }}>

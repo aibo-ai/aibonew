@@ -1,9 +1,10 @@
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
 import HomePage from "@/pages/HomePage";
 import ServicePage from "@/pages/ServicePage";
+import ClusterPage from "@/pages/ClusterPage";
 import AboutPage from "@/pages/AboutPage";
 import BlogsPage from "@/pages/BlogsPage";
 import BlogPage from "@/pages/BlogPage";
@@ -61,6 +62,21 @@ function App() {
               <Footer />
             </>
           } />
+
+          {/* Redirect the removed White Label pillar to Full Stack Development */}
+          <Route path="/solutions/white-label" element={<Navigate to="/solutions/full-stack" replace />} />
+          <Route path="/solutions/white-label/*" element={<Navigate to="/solutions/full-stack" replace />} />
+
+          {/* Cluster (sub-service) pages */}
+          <Route path="/solutions/:pillar/:cluster" element={
+            <>
+              <Navigation />
+              <ClusterPage />
+              <Footer />
+            </>
+          } />
+
+          {/* Pillar page */}
           <Route path="/solutions/:slug" element={
             <>
               <Navigation />
@@ -68,6 +84,7 @@ function App() {
               <Footer />
             </>
           } />
+
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/blogs" element={<BlogManagement />} />

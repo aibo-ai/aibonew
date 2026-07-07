@@ -7,12 +7,6 @@ const technologyServices = [
   },
   {
     number: '02',
-    title: 'White Label Solutions',
-    tagline: 'Launch a proprietary product without building from scratch.',
-    description: 'Fully branded, API-first platforms in 4–8 weeks. Multi-tenant architecture, NDA-secured IP ownership, custom feature roadmaps.',
-  },
-  {
-    number: '03',
     title: 'Full Stack Development',
     tagline: 'Complete products, built to last.',
     description: 'From pixel perfect frontends to high-throughput backend engines. You own 100% of the IP.',

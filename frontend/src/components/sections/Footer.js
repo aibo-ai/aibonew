@@ -69,11 +69,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li style={{ marginBottom: 12 }}>
-                <Link to="/solutions/white-label" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
-                  White Label Solutions
-                </Link>
-              </li>
-              <li style={{ marginBottom: 12 }}>
                 <Link to="/solutions/full-stack" style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}>
                   Full Stack Development
                 </Link>

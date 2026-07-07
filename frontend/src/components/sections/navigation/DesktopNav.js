@@ -1,30 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
-import { marketingServices, technicalServices } from './navData';
-
-const dropdownItemStyle = {
-  display: 'block',
-  padding: '10px 12px',
-  fontSize: 14,
-  fontWeight: 400,
-  color: 'var(--text-primary)',
-  textDecoration: 'none',
-  borderRadius: 6,
-  transition: 'background 0.2s',
-};
-
-const dropdownHeadingStyle = {
-  fontSize: 12,
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  color: 'var(--purple-dark)',
-  marginBottom: 12,
-  paddingBottom: 8,
-  borderBottom: '1px solid var(--border-clr)',
-};
+import { pillars } from './navData';
 
 const triggerStyle = {
   background: 'transparent',
@@ -43,19 +21,31 @@ const linkStyle = {
   textDecoration: 'none',
 };
 
-function DropdownItem({ to, onSelect, children }) {
-  return (
-    <Link
-      to={to}
-      onClick={onSelect}
-      style={dropdownItemStyle}
-      onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
-      onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-    >
-      {children}
-    </Link>
-  );
-}
+const pillarHeadingStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+  fontFamily: "'Fraunces', serif",
+  fontSize: 14,
+  fontWeight: 600,
+  color: 'var(--text-primary)',
+  textDecoration: 'none',
+  paddingBottom: 8,
+  marginBottom: 8,
+  borderBottom: '1px solid var(--border-clr)',
+};
+
+const clusterLinkStyle = {
+  display: 'block',
+  padding: '6px 8px',
+  fontSize: 12.5,
+  fontWeight: 400,
+  color: 'var(--text-secondary)',
+  textDecoration: 'none',
+  borderRadius: 4,
+  lineHeight: 1.4,
+  transition: 'background 0.15s, color 0.15s',
+};
 
 export default function DesktopNav() {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
@@ -88,7 +78,7 @@ export default function DesktopNav() {
 
   return (
     <div className="hidden lg:flex items-center gap-8" style={{ flex: 1, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
-      {/* Solutions Dropdown */}
+      {/* Solutions Mega-Menu */}
       <div className="relative" ref={solutionsRef}>
         <button
           type="button"
@@ -106,38 +96,86 @@ export default function DesktopNav() {
           style={triggerStyle}
         >
           Solutions
-          <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+          <ChevronDown
+            size={16}
+            style={{ transition: 'transform 0.2s', transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          />
         </button>
 
         {solutionsOpen && (
-          <div className="absolute top-full left-0" style={{ paddingTop: 8, zIndex: 1100 }}>
+          <div
+            style={{
+              position: 'fixed',
+              top: 68,
+              right: 24,
+              zIndex: 1100,
+              paddingTop: 8,
+            }}
+          >
             <div
               style={{
                 background: 'var(--white)',
                 borderRadius: 12,
-                boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-                minWidth: 520,
+                boxShadow: '0 12px 40px rgba(15,10,30,0.18)',
                 border: '1px solid var(--border-clr)',
-                padding: '20px',
+                padding: '22px 24px 20px',
+                width: 'min(980px, calc(100vw - 48px))',
               }}
             >
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <div style={dropdownHeadingStyle}>Marketing Services</div>
-                  {marketingServices.map((service) => (
-                    <DropdownItem key={service.slug} to={`/solutions/${service.slug}`} onSelect={closeAll}>
-                      {service.name}
-                    </DropdownItem>
-                  ))}
-                </div>
-                <div>
-                  <div style={dropdownHeadingStyle}>Technical Services</div>
-                  {technicalServices.map((service) => (
-                    <DropdownItem key={service.slug} to={`/solutions/${service.slug}`} onSelect={closeAll}>
-                      {service.name}
-                    </DropdownItem>
-                  ))}
-                </div>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+                  gap: 20,
+                }}
+              >
+                {pillars.map((pillar) => (
+                  <div key={pillar.slug} style={{ minWidth: 0 }}>
+                    <Link
+                      to={`/solutions/${pillar.slug}`}
+                      onClick={closeAll}
+                      style={pillarHeadingStyle}
+                    >
+                      <span
+                        style={{
+                          background: 'var(--purple-light)',
+                          color: 'var(--purple-dark)',
+                          fontSize: 10,
+                          fontWeight: 700,
+                          letterSpacing: '0.08em',
+                          textTransform: 'uppercase',
+                          padding: '2px 6px',
+                          borderRadius: 4,
+                          fontFamily: "'DM Sans', sans-serif",
+                        }}
+                      >
+                        {pillar.short}
+                      </span>
+                      <span style={{ flex: 1 }}>{pillar.name}</span>
+                      <ArrowRight size={12} style={{ color: 'var(--purple-dark)', opacity: 0.6 }} />
+                    </Link>
+                    <div style={{ marginTop: 2 }}>
+                      {pillar.clusters.map((c) => (
+                        <Link
+                          key={c.slug}
+                          to={`/solutions/${pillar.slug}/${c.slug}`}
+                          onClick={closeAll}
+                          style={clusterLinkStyle}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'var(--purple-light)';
+                            e.currentTarget.style.color = 'var(--purple-dark)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'transparent';
+                            e.currentTarget.style.color = 'var(--text-secondary)';
+                          }}
+                        >
+                          {c.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -162,7 +200,10 @@ export default function DesktopNav() {
           style={triggerStyle}
         >
           Resources
-          <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+          <ChevronDown
+            size={16}
+            style={{ transition: 'transform 0.2s', transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          />
         </button>
 
         {resourcesOpen && (
@@ -177,8 +218,24 @@ export default function DesktopNav() {
                 padding: '12px',
               }}
             >
-              <DropdownItem to="/blogs" onSelect={closeAll}>Blogs</DropdownItem>
-              <DropdownItem to="/case-studies" onSelect={closeAll}>Case Studies</DropdownItem>
+              <Link
+                to="/blogs"
+                onClick={closeAll}
+                style={{ display: 'block', padding: '10px 12px', fontSize: 14, fontWeight: 400, color: 'var(--text-primary)', textDecoration: 'none', borderRadius: 6 }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+              >
+                Blogs
+              </Link>
+              <Link
+                to="/case-studies"
+                onClick={closeAll}
+                style={{ display: 'block', padding: '10px 12px', fontSize: 14, fontWeight: 400, color: 'var(--text-primary)', textDecoration: 'none', borderRadius: 6 }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--purple-light)')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+              >
+                Case Studies
+              </Link>
             </div>
           </div>
         )}

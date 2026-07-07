@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
-import { marketingServices, technicalServices } from './navData';
+import { pillars } from './navData';
 
 const accordionTriggerStyle = {
   background: 'transparent',
@@ -14,13 +14,16 @@ const accordionTriggerStyle = {
   textAlign: 'left',
 };
 
-const sectionLabelStyle = {
-  fontSize: 11,
-  fontWeight: 600,
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  color: 'var(--purple)',
-  marginBottom: 8,
+const pillarTriggerStyle = {
+  background: 'transparent',
+  border: 'none',
+  color: 'rgba(255,255,255,0.82)',
+  fontSize: 13.5,
+  fontWeight: 500,
+  cursor: 'pointer',
+  textAlign: 'left',
+  padding: '6px 0',
+  width: '100%',
 };
 
 const mobileLinkStyle = {
@@ -28,6 +31,14 @@ const mobileLinkStyle = {
   fontSize: 14,
   textDecoration: 'none',
   fontWeight: 400,
+};
+
+const clusterLinkStyle = {
+  color: 'rgba(255,255,255,0.6)',
+  fontSize: 12.5,
+  textDecoration: 'none',
+  fontWeight: 400,
+  paddingLeft: 12,
 };
 
 const topLinkStyle = {
@@ -40,6 +51,11 @@ const topLinkStyle = {
 export default function MobileNav({ onCloseMenu }) {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [expandedPillar, setExpandedPillar] = useState(null);
+
+  const togglePillar = (slug) => {
+    setExpandedPillar((cur) => (cur === slug ? null : slug));
+  };
 
   return (
     <div
@@ -49,6 +65,8 @@ export default function MobileNav({ onCloseMenu }) {
         background: 'var(--dark)',
         borderTop: '1px solid rgba(124,59,237,0.2)',
         padding: '24px 32px',
+        maxHeight: 'calc(100vh - 64px)',
+        overflowY: 'auto',
       }}
     >
       {/* Solutions Accordion */}
@@ -60,40 +78,76 @@ export default function MobileNav({ onCloseMenu }) {
           style={accordionTriggerStyle}
         >
           Solutions
-          <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+          <ChevronDown
+            size={16}
+            style={{ transition: 'transform 0.2s', transform: solutionsOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          />
         </button>
 
         {solutionsOpen && (
-          <div style={{ paddingLeft: 16, marginTop: 8 }}>
-            <div style={{ marginBottom: 16 }}>
-              <div style={sectionLabelStyle}>Marketing Services</div>
-              {marketingServices.map((service) => (
-                <Link
-                  key={service.slug}
-                  to={`/solutions/${service.slug}`}
-                  onClick={onCloseMenu}
-                  className="block py-2"
-                  style={mobileLinkStyle}
+          <div style={{ paddingLeft: 12, marginTop: 6 }}>
+            {pillars.map((pillar) => {
+              const expanded = expandedPillar === pillar.slug;
+              return (
+                <div
+                  key={pillar.slug}
+                  style={{
+                    borderBottom: '1px solid rgba(255,255,255,0.06)',
+                    padding: '4px 0',
+                  }}
                 >
-                  {service.name}
-                </Link>
-              ))}
-            </div>
-
-            <div>
-              <div style={sectionLabelStyle}>Technical Services</div>
-              {technicalServices.map((service) => (
-                <Link
-                  key={service.slug}
-                  to={`/solutions/${service.slug}`}
-                  onClick={onCloseMenu}
-                  className="block py-2"
-                  style={mobileLinkStyle}
-                >
-                  {service.name}
-                </Link>
-              ))}
-            </div>
+                  <div className="flex items-center justify-between gap-2">
+                    <Link
+                      to={`/solutions/${pillar.slug}`}
+                      onClick={onCloseMenu}
+                      style={{
+                        ...mobileLinkStyle,
+                        flex: 1,
+                        padding: '8px 0',
+                      }}
+                    >
+                      {pillar.name}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => togglePillar(pillar.slug)}
+                      aria-expanded={expanded}
+                      aria-label={`${expanded ? 'Collapse' : 'Expand'} ${pillar.name} cluster pages`}
+                      style={{
+                        ...pillarTriggerStyle,
+                        width: 32,
+                        textAlign: 'center',
+                        padding: 4,
+                      }}
+                    >
+                      <ChevronRight
+                        size={14}
+                        style={{
+                          transition: 'transform 0.2s',
+                          transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                          color: 'var(--purple)',
+                        }}
+                      />
+                    </button>
+                  </div>
+                  {expanded && (
+                    <div style={{ paddingBottom: 8 }}>
+                      {pillar.clusters.map((c) => (
+                        <Link
+                          key={c.slug}
+                          to={`/solutions/${pillar.slug}/${c.slug}`}
+                          onClick={onCloseMenu}
+                          className="block py-1.5"
+                          style={clusterLinkStyle}
+                        >
+                          &rsaquo; {c.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -107,7 +161,10 @@ export default function MobileNav({ onCloseMenu }) {
           style={accordionTriggerStyle}
         >
           Resources
-          <ChevronDown size={16} style={{ transition: 'transform 0.2s', transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+          <ChevronDown
+            size={16}
+            style={{ transition: 'transform 0.2s', transform: resourcesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          />
         </button>
 
         {resourcesOpen && (

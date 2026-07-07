@@ -9,7 +9,6 @@ const SERVICES = [
   'Content Marketing',
   'Full Stack Development',
   'AI Automations',
-  'White Label Solutions',
   'Multiple Services / Not Sure Yet',
 ];
 
