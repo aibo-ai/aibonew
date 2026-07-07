@@ -136,5 +136,5 @@ body {
   to   { transform: translateX(-50%); }
 }
 .ticker-viewport:hover .ticker-track {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
