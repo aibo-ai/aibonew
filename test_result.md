@@ -351,18 +351,53 @@ frontend:
       - working: "NA"
         agent: "testing"
         comment: "Frontend testing not performed as per testing agent guidelines. Backend APIs are fully functional."
+  
+  - task: "Homepage Hero Trusted By Ticker - Hansaplast Logo Size Fix"
+    implemented: true
+    working: true
+    file: "frontend/src/components/sections/TrustedByTicker.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Hansaplast logo height is now 64px (previously 46px). Logo renders correctly and is noticeably larger. Image loads successfully (1280px natural width). Bug fix confirmed working."
+  
+  - task: "Homepage Hero Trusted By Ticker - Trudiance Logo Artwork Update"
+    implemented: true
+    working: true
+    file: "frontend/src/components/sections/TrustedByTicker.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Trudiance logo loads successfully with new artwork (1000×1000px natural dimensions). Visual inspection of screenshots confirms the face-with-laurel-wreath medallion + 'TRUDIANCE' wordmark is displaying correctly as white silhouette. Image path /logos/trudiance.png loads without errors. Bug fix confirmed working."
+  
+  - task: "Homepage Hero Trusted By Ticker - Animation and Functionality"
+    implemented: true
+    working: true
+    file: "frontend/src/components/sections/TrustedByTicker.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ All 18 logo images present (9 unique logos × 2 for seamless loop). Ticker animation 'aibo-ticker' running correctly with 40.5s duration. All logos (ITC, Hansaplast, ElasticRun, OptimHire, Trudiance, Harmony, Iluvia, Fego, vPersonalize) render as white silhouettes with proper spacing. Minor: Hover-to-pause CSS rule exists but doesn't work due to inline animation style having higher specificity than CSS hover rule - this is a pre-existing implementation issue, not related to the bug fixes being verified."
 
 metadata:
   created_by: "testing_agent"
-  version: "1.1"
-  test_sequence: 3
-  run_ui: false
+  version: "1.2"
+  test_sequence: 4
+  run_ui: true
 
 test_plan:
   current_focus:
-    - "Admin Login API - POST /api/admin/login"
-    - "Admin Get Blogs API - GET /api/admin/blogs"
-    - "Admin Get Case Studies API - GET /api/admin/case-studies"
+    - "Homepage Hero Trusted By Ticker - Hansaplast Logo Size Fix"
+    - "Homepage Hero Trusted By Ticker - Trudiance Logo Artwork Update"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -382,6 +417,8 @@ agent_communication:
     message: "✅ RE-VERIFICATION COMPLETE: All 8 admin API tests passed successfully (100% success rate). Verified after BACKEND_URL fallback and vercel.json fixes. Tests: (1) Login with correct credentials → 200 with {token, email, id}, (2) Login with wrong password → 401, (3) GET /api/admin/blogs with token → 200 with array (2 blogs), (4) GET /api/admin/blogs without token → 401, (5) GET /api/admin/case-studies with token → 200 with array (1 case study), (6) GET /api/admin/public/blogs (no auth) → 200 with array (2 public blogs), (7) GET /api/admin/public/case-studies (no auth) → 200 with array (1 public case study), (8) OPTIONS /api/admin/login (CORS preflight) → 204 with proper CORS headers (allow-origin: *, allow-methods: GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH, allow-headers: *). All admin auth and listing endpoints working correctly. No regressions detected."
   - agent: "main"
     message: "SOLUTIONS SECTION REWORK — Added 18 new cluster (sub-service) pages under 6 pillars (GEO×3, AEO×2, SEO×4, Content Marketing×2, AI Automation×3, Full Stack Development×4). Frontend-only change (no backend/API modifications). New files: /app/frontend/src/data/clusterPagesData.js (all 18 pages content), /app/frontend/src/pages/ClusterPage.js (reusable 5-component template: Hero → AEO Safe-Box → Deep-Dive Capabilities → Metric-Driven Blueprint → Related Siblings → Geography+CTA), /app/frontend/src/components/sections/ClusterLinksBar.js (small rectangular chip strip under pillar hero). Updated: navData.js/DesktopNav.js/MobileNav.js to a 6-column mega-menu (desktop) + nested accordion (mobile), TechnologyServices/Footer/ContactForm to remove White Label references, ServicePage.js to render ClusterLinksBar directly under hero, App.js to add /solutions/:pillar/:cluster route and a client-side redirect /solutions/white-label → /solutions/full-stack. All 24 pages (18 clusters + 6 pillars) share the same design tokens (--purple, Fraunces/DM Sans). SEO: unique title/meta per cluster + JSON-LD Service and BreadcrumbList schema. Verified visually via screenshots — mega-menu, ClusterLinksBar strip on pillar pages, all 5 cluster sections, and the /solutions/white-label → /solutions/full-stack redirect all working. No backend changes; backend does not need retesting."
+  - agent: "testing"
+    message: "✅ HOMEPAGE HERO TICKER BUG FIX VERIFICATION COMPLETE: Verified both bug fixes on http://localhost:3000/. (1) Hansaplast logo size: ✅ PASS - Height is now 64px (previously 46px), logo is noticeably larger and loads successfully. (2) Trudiance logo artwork: ✅ PASS - New artwork with face-with-laurel-wreath medallion + 'TRUDIANCE' wordmark loads successfully (1000×1000px), displays correctly as white silhouette. (3) All 9 logos present: ✅ PASS - 18 total images (9 unique × 2 for seamless loop). (4) Ticker animation: ✅ PASS - 'aibo-ticker' animation running correctly with 40.5s duration. (5) Hover-to-pause: ⚠️ MINOR ISSUE - CSS hover rule exists but doesn't work due to inline animation style having higher specificity - this is a pre-existing implementation issue, not related to the bug fixes being verified. BOTH PRIMARY BUG FIXES CONFIRMED WORKING."
 
 # Previous Implementation Status (Historical)
 
