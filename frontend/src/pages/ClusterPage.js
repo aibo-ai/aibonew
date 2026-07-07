@@ -453,10 +453,6 @@ export default function ClusterPage() {
                 {UNIVERSAL_CTA}
               </a>
             </div>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 16 }}>
-              <Check size={12} style={{ display: 'inline-block', marginRight: 6, verticalAlign: '-2px' }} />
-              NDA-protected &middot; Bengaluru-engineered &middot; Global delivery
-            </p>
           </div>
         </section>
       </main>
