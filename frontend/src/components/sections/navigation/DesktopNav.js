@@ -27,8 +27,31 @@ export default function DesktopNav() {
   const [expandedPillar, setExpandedPillar] = useState(null);
   const solutionsRef = useRef(null);
   const resourcesRef = useRef(null);
+  const closeTimerRef = useRef(null);
+
+  const cancelClose = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
+  };
+
+  const openSolutions = () => {
+    cancelClose();
+    setSolutionsOpen(true);
+    setResourcesOpen(false);
+  };
+
+  const scheduleCloseSolutions = () => {
+    cancelClose();
+    closeTimerRef.current = setTimeout(() => {
+      setSolutionsOpen(false);
+      setExpandedPillar(null);
+    }, 180);
+  };
 
   const closeAll = () => {
+    cancelClose();
     setSolutionsOpen(false);
     setResourcesOpen(false);
     setExpandedPillar(null);
@@ -57,12 +80,19 @@ export default function DesktopNav() {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
 
+  useEffect(() => () => cancelClose(), []);
+
   const active = expandedPillar ? pillars.find((p) => p.slug === expandedPillar) : null;
 
   return (
     <div className="hidden lg:flex items-center gap-8" style={{ flex: 1, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
       {/* Solutions master-detail mega-menu */}
-      <div className="relative" ref={solutionsRef}>
+      <div
+        className="relative"
+        ref={solutionsRef}
+        onMouseEnter={openSolutions}
+        onMouseLeave={scheduleCloseSolutions}
+      >
         <button
           type="button"
           className="nav-link inline-flex items-center gap-1"
@@ -70,12 +100,14 @@ export default function DesktopNav() {
           aria-haspopup="true"
           data-testid="desktop-nav-solutions-trigger"
           onClick={() => {
-            setSolutionsOpen((v) => {
-              const next = !v;
-              if (next) setResourcesOpen(false);
-              return next;
-            });
+            // Click support for touch & keyboard users
+            if (solutionsOpen) {
+              closeAll();
+            } else {
+              openSolutions();
+            }
           }}
+          onFocus={openSolutions}
           style={triggerStyle}
         >
           Solutions
@@ -88,12 +120,14 @@ export default function DesktopNav() {
         {solutionsOpen && (
           <div
             style={{
-              position: 'fixed',
-              top: 68,
-              right: 24,
+              position: 'absolute',
+              top: '100%',
+              right: 0,
               zIndex: 1100,
-              paddingTop: 8,
+              paddingTop: 12,
             }}
+            onMouseEnter={openSolutions}
+            onMouseLeave={scheduleCloseSolutions}
           >
             <div
               role="menu"
