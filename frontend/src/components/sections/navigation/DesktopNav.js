@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronRight, ArrowRight } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
@@ -50,12 +50,12 @@ export default function DesktopNav() {
     }, 180);
   };
 
-  const closeAll = () => {
+  const closeAll = useCallback(() => {
     cancelClose();
     setSolutionsOpen(false);
     setResourcesOpen(false);
     setExpandedPillar(null);
-  };
+  },[]);
 
   useEffect(() => {
     // Every time the menu re-opens, start collapsed (no right column)
@@ -70,7 +70,7 @@ export default function DesktopNav() {
     };
     document.addEventListener('pointerdown', handlePointerDown);
     return () => document.removeEventListener('pointerdown', handlePointerDown);
-  }, []);
+  }, [closeAll]);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -78,7 +78,7 @@ export default function DesktopNav() {
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  }, [closeAll]);
 
   useEffect(() => () => cancelClose(), []);
 
