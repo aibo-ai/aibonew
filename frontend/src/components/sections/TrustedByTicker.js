@@ -10,17 +10,19 @@ import { useEffect, useRef } from 'react';
 // Logo order requested by the client:
 // 1. ITC   2. Hansaplast   3. ElasticRun   4. OptimHire
 // 5. Trudiance   6. Harmony   7. Iluvia   8. Fego
-// Missing artwork for Trudiance / Iluvia / Fego is rendered as a text-only
-// wordmark so the ticker mechanic is complete; swap-in when logos land.
+//
+// `invert = true` means the logo is essentially monochrome-dark (navy/black
+// on transparent). We flip it to white so it reads against the dark hero.
+// Multicolor / brand-color logos render natively and rely on their own fills.
 const logos = [
-  { name: 'ITC',        src: '/logos/itc.png',        h: 44 },
-  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 40 },
-  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 34 },
-  { name: 'OptimHire',  src: '/logos/optimhire.webp', h: 30 },
-  { name: 'Trudiance',  src: null,                    h: 34 },
-  { name: 'Harmony',    src: '/logos/harmony.png',    h: 52 },
-  { name: 'Iluvia',     src: null,                    h: 34 },
-  { name: 'Fego',       src: null,                    h: 34 },
+  { name: 'ITC',        src: '/logos/itc.png',        h: 44, invert: true  },
+  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 46, invert: false },
+  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 40, invert: true  },
+  { name: 'OptimHire',  src: '/logos/optimhire.png',  h: 32, invert: true  },
+  { name: 'Trudiance',  src: '/logos/trudiance.png',  h: 60, invert: false },
+  { name: 'Harmony',    src: '/logos/harmony.png',    h: 58, invert: false },
+  { name: 'Iluvia',     src: '/logos/iluvia.png',     h: 30, invert: true  },
+  { name: 'Fego',       src: '/logos/fego.png',       h: 46, invert: true  },
 ];
 
 export default function TrustedByTicker() {
@@ -71,7 +73,7 @@ export default function TrustedByTicker() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 24,
+            gap: 64,
             width: 'max-content',
             animation: 'aibo-ticker var(--ticker-duration, 36s) linear infinite',
           }}
@@ -85,43 +87,26 @@ export default function TrustedByTicker() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                height: 60,
-                minWidth: logo.src ? 132 : 96,
-                padding: '10px 22px',
-                background: 'rgba(255,255,255,0.94)',
-                borderRadius: 10,
-                boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                transition: 'transform 0.2s, box-shadow 0.2s',
+                height: 72,
+                minWidth: 130,
+                padding: '0 8px',
               }}
             >
-              {logo.src ? (
-                <img
-                  src={logo.src}
-                  alt={`${logo.name} logo`}
-                  loading="lazy"
-                  draggable={false}
-                  style={{
-                    height: logo.h,
-                    maxHeight: '100%',
-                    width: 'auto',
-                    objectFit: 'contain',
-                    userSelect: 'none',
-                  }}
-                />
-              ) : (
-                <span
-                  style={{
-                    fontFamily: "'Fraunces', serif",
-                    fontSize: 20,
-                    fontWeight: 500,
-                    color: '#1a1330',
-                    letterSpacing: '-0.3px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {logo.name}
-                </span>
-              )}
+              <img
+                src={logo.src}
+                alt={`${logo.name} logo`}
+                loading="lazy"
+                draggable={false}
+                style={{
+                  height: logo.h,
+                  maxHeight: '100%',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: logo.invert ? 'brightness(0) invert(1)' : 'none',
+                  opacity: logo.invert ? 0.88 : 1,
+                  userSelect: 'none',
+                }}
+              />
             </div>
           ))}
         </div>
