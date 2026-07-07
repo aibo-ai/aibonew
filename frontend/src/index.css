@@ -129,3 +129,12 @@ body {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.55; transform: scale(1.25); }
 }
+
+/* Infinite horizontal marquee used by the "Trusted by" hero ticker */
+@keyframes aibo-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-viewport:hover .ticker-track {
+  animation-play-state: paused;
+}

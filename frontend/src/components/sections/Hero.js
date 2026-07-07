@@ -1,7 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { BOOKING_URL } from "@/lib/constants";
-
-const clients = ['Iluvia', 'Trudiance', 'Fego', 'Optimhire', 'vPersonalize', 'Brokenatom'];
+import TrustedByTicker from "@/components/sections/TrustedByTicker";
 
 export default function Hero() {
   return (
@@ -112,26 +111,8 @@ export default function Hero() {
           </a>
         </div>
 
-        {/* Trusted by */}
-        <div data-testid="hero-clients">
-          <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 16 }}>
-            Trusted by
-          </div>
-          <div className="flex flex-wrap gap-x-8 gap-y-3 items-center">
-            {clients.map((client) => (
-              <span
-                key={client}
-                style={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: 'rgba(255,255,255,0.7)',
-                }}
-              >
-                {client}
-              </span>
-            ))}
-          </div>
-        </div>
+        {/* Trusted by — scrolling logo ticker */}
+        <TrustedByTicker />
       </div>
     </section>
   );
