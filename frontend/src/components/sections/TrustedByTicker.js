@@ -9,20 +9,21 @@ import { useEffect, useRef } from 'react';
 
 // Logo order requested by the client:
 // 1. ITC   2. Hansaplast   3. ElasticRun   4. OptimHire
-// 5. Trudiance   6. Harmony   7. Iluvia   8. Fego
+// 5. Trudiance   6. Harmony   7. Iluvia   8. Fego   9. vPersonalize
 //
-// `invert = true` means the logo is essentially monochrome-dark (navy/black
-// on transparent). We flip it to white so it reads against the dark hero.
-// Multicolor / brand-color logos render natively and rely on their own fills.
+// All logos are rendered as unified white silhouettes via
+// `filter: brightness(0) invert(1)` so the ticker looks like one design
+// system rather than 9 mismatched brand palettes.
 const logos = [
-  { name: 'ITC',        src: '/logos/itc.png',        h: 44, invert: true },
-  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 46, invert: true },
-  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 40, invert: true },
-  { name: 'OptimHire',  src: '/logos/optimhire.png',  h: 32, invert: true },
-  { name: 'Trudiance',  src: '/logos/trudiance.png',  h: 60, invert: true },
-  { name: 'Harmony',    src: '/logos/harmony.png',    h: 58, invert: true },
-  { name: 'Iluvia',     src: '/logos/iluvia.png',     h: 30, invert: true },
-  { name: 'Fego',       src: '/logos/fego.png',       h: 46, invert: true },
+  { name: 'ITC',          src: '/logos/itc.png',          h: 44, invert: true },
+  { name: 'Hansaplast',   src: '/logos/hansaplast.png',   h: 46, invert: true },
+  { name: 'ElasticRun',   src: '/logos/elasticrun.png',   h: 40, invert: true },
+  { name: 'OptimHire',    src: '/logos/optimhire.png',    h: 32, invert: true },
+  { name: 'Trudiance',    src: '/logos/trudiance.png',    h: 60, invert: true },
+  { name: 'Harmony',      src: '/logos/harmony.png',      h: 58, invert: true },
+  { name: 'Iluvia',       src: '/logos/iluvia.png',       h: 30, invert: true },
+  { name: 'Fego',         src: '/logos/fego.png',         h: 46, invert: true },
+  { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 48, invert: true },
 ];
 
 export default function TrustedByTicker() {
