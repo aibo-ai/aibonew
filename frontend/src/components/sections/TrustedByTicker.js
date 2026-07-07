@@ -15,14 +15,14 @@ import { useEffect, useRef } from 'react';
 // on transparent). We flip it to white so it reads against the dark hero.
 // Multicolor / brand-color logos render natively and rely on their own fills.
 const logos = [
-  { name: 'ITC',        src: '/logos/itc.png',        h: 44, invert: true  },
-  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 46, invert: false },
-  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 40, invert: true  },
-  { name: 'OptimHire',  src: '/logos/optimhire.png',  h: 32, invert: true  },
-  { name: 'Trudiance',  src: '/logos/trudiance.png',  h: 60, invert: false },
-  { name: 'Harmony',    src: '/logos/harmony.png',    h: 58, invert: false },
-  { name: 'Iluvia',     src: '/logos/iluvia.png',     h: 30, invert: true  },
-  { name: 'Fego',       src: '/logos/fego.png',       h: 46, invert: true  },
+  { name: 'ITC',        src: '/logos/itc.png',        h: 44, invert: true },
+  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 46, invert: true },
+  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 40, invert: true },
+  { name: 'OptimHire',  src: '/logos/optimhire.png',  h: 32, invert: true },
+  { name: 'Trudiance',  src: '/logos/trudiance.png',  h: 60, invert: true },
+  { name: 'Harmony',    src: '/logos/harmony.png',    h: 58, invert: true },
+  { name: 'Iluvia',     src: '/logos/iluvia.png',     h: 30, invert: true },
+  { name: 'Fego',       src: '/logos/fego.png',       h: 46, invert: true },
 ];
 
 export default function TrustedByTicker() {
