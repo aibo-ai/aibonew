@@ -72,6 +72,7 @@ export default function DesktopNav() {
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [closeAll]);
 
+  
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') closeAll();
