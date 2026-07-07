@@ -84,7 +84,7 @@ export default function Hero() {
             margin: '0 0 40px',
           }}
         >
-          We help brands grow on two fronts: building the marketing systems that generate demand and the technical products that deliver efficiency.
+          We help brands grow on two fronts: providing marketing services that generate demand and building technical products that deliver efficiency.
           <br />
           <br />
           No generalist fluff. Just deep expertise in both.
