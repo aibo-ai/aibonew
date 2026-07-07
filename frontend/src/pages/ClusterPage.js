@@ -144,7 +144,7 @@ export default function ClusterPage() {
                 className="btn-purple inline-flex items-center gap-2"
                 style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
               >
-                {UNIVERSAL_CTA} <ArrowRight size={15} />
+                {UNIVERSAL_CTA}
               </a>
               <a
                 href="#deep-dive"
@@ -438,13 +438,10 @@ export default function ClusterPage() {
               Get Started
             </div>
             <h2
-              style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 'clamp(26px, 3.4vw, 38px)', letterSpacing: '-0.6px', color: '#fff', margin: '0 0 14px', lineHeight: 1.2 }}
+              style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 'clamp(26px, 3.4vw, 38px)', letterSpacing: '-0.6px', color: '#fff', margin: '0 0 28px', lineHeight: 1.2 }}
             >
               {finalHeadline}
             </h2>
-            <p style={{ fontSize: 15.5, fontWeight: 300, color: 'rgba(255,255,255,0.7)', lineHeight: 1.65, margin: '0 0 28px' }}>
-              {data.geography.body}
-            </p>
             <div className="flex justify-center flex-wrap gap-3">
               <a
                 href={BOOKING_URL}
@@ -453,7 +450,7 @@ export default function ClusterPage() {
                 className="btn-purple inline-flex items-center gap-2"
                 style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
               >
-                {UNIVERSAL_CTA} <ArrowRight size={15} />
+                {UNIVERSAL_CTA}
               </a>
             </div>
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 16 }}>
