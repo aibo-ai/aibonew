@@ -6,6 +6,31 @@ import { BOOKING_URL } from '@/lib/constants';
 import { getCluster, getClustersForPillar, pillarMeta } from '@/data/clusterPagesData';
 import SEO from '@/components/SEO';
 
+// Per-cluster "Ready to…" headline shown in the final CTA section.
+// Keyed by `${pillar}/${cluster}` to keep the data file untouched.
+const FINAL_CTA_HEADLINES = {
+  'geo/llmo-company': 'Ready to Be the Answer AI Gives — Not the Footnote?',
+  'geo/perplexity-gemini-chatgpt-optimization': 'Ready to Get Cited Before Your Competitor Does?',
+  'geo/zero-click-search-synthetic-traffic': 'Ready to Win the Searches Nobody Clicks Through On?',
+  'aeo/llm-bot-compliance-llms-txt': 'Ready to Let AI Crawlers In — On Your Terms?',
+  'aeo/semantic-faq-knowledge-graph-schema': 'Ready to Make Your Content Machine-Readable?',
+  'seo/programmatic-seo-engine': 'Ready to Scale Content Without Scaling Headcount?',
+  'seo/topical-authority-entity-seo': 'Ready to Own the Category, Not Just the Keywords?',
+  'seo/ai-agent-optimization': 'Ready to Rank for the Agents Doing the Browsing Now?',
+  'seo/community-ugc-search-amplification': 'Ready to Let Your Community Do the Ranking?',
+  'content-marketing/data-driven-inbound-original-research': 'Ready to Publish the Research Everyone Else Cites?',
+  'content-marketing/multi-channel-b2b-saas-growth-loops': 'Ready to Grow on All Fronts?',
+  'ai-automations/aiaa-operational-auditing': "Ready to Find Out What Your Automations Are Actually Costing You?",
+  'ai-automations/agentic-workflow-consulting': 'Ready to Put Multiple Agents to Work in One System?',
+  'ai-automations/n8n-automation-services': "Ready for Automations That Don't Break in Production?",
+  'full-stack/ai-native-generative-ui-development': 'Ready to Ship an Interface That Thinks With the User?',
+  'full-stack/enterprise-rag-vector-database-architecture': 'Ready to Give Your AI a Memory It Can Trust?',
+  'full-stack/ai-solutions-integrator-operations': 'Ready to Stop Duct-Taping Your AI Stack Together?',
+  'full-stack/fractional-ai-engineering-cto': 'Ready for Senior AI Engineering Without a Full-Time Hire?',
+};
+
+const UNIVERSAL_CTA = 'Book Free Strategy Session';
+
 // Shared design tokens (already declared as CSS vars in index.css)
 // --purple, --purple-dark, --purple-light, --dark, --white, --off-white,
 // --border-clr, --text-primary, --text-secondary, --text-muted
@@ -36,6 +61,7 @@ export default function ClusterPage() {
   }
 
   const siblings = getClustersForPillar(pillar).filter((c) => c.slug !== cluster).slice(0, 3);
+  const finalHeadline = FINAL_CTA_HEADLINES[`${pillar}/${cluster}`] || data.geography.headline;
 
   // JSON-LD structured data
   const structuredData = {
@@ -118,7 +144,7 @@ export default function ClusterPage() {
                 className="btn-purple inline-flex items-center gap-2"
                 style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
               >
-                {data.primaryCta} <ArrowRight size={15} />
+                {UNIVERSAL_CTA} <ArrowRight size={15} />
               </a>
               <a
                 href="#deep-dive"
@@ -412,9 +438,9 @@ export default function ClusterPage() {
               Get Started
             </div>
             <h2
-              style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 'clamp(24px, 3.2vw, 34px)', letterSpacing: '-0.6px', color: '#fff', margin: '0 0 14px', lineHeight: 1.25 }}
+              style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 'clamp(26px, 3.4vw, 38px)', letterSpacing: '-0.6px', color: '#fff', margin: '0 0 14px', lineHeight: 1.2 }}
             >
-              {data.geography.headline}
+              {finalHeadline}
             </h2>
             <p style={{ fontSize: 15.5, fontWeight: 300, color: 'rgba(255,255,255,0.7)', lineHeight: 1.65, margin: '0 0 28px' }}>
               {data.geography.body}
@@ -425,9 +451,9 @@ export default function ClusterPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-purple inline-flex items-center gap-2"
-                style={{ padding: '14px 26px', fontSize: 15, fontWeight: 500 }}
+                style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
               >
-                {data.geography.finalCta} <ArrowRight size={15} />
+                {UNIVERSAL_CTA} <ArrowRight size={15} />
               </a>
             </div>
             <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 16 }}>

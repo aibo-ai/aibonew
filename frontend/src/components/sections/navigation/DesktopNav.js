@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ArrowRight } from 'lucide-react';
+import { ChevronDown, ChevronRight, ArrowRight } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
 import { pillars } from './navData';
 
@@ -21,35 +21,10 @@ const linkStyle = {
   textDecoration: 'none',
 };
 
-const pillarHeadingStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 6,
-  fontFamily: "'Fraunces', serif",
-  fontSize: 14,
-  fontWeight: 600,
-  color: 'var(--text-primary)',
-  textDecoration: 'none',
-  paddingBottom: 8,
-  marginBottom: 8,
-  borderBottom: '1px solid var(--border-clr)',
-};
-
-const clusterLinkStyle = {
-  display: 'block',
-  padding: '6px 8px',
-  fontSize: 12.5,
-  fontWeight: 400,
-  color: 'var(--text-secondary)',
-  textDecoration: 'none',
-  borderRadius: 4,
-  lineHeight: 1.4,
-  transition: 'background 0.15s, color 0.15s',
-};
-
 export default function DesktopNav() {
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [activePillar, setActivePillar] = useState(pillars[0].slug);
   const solutionsRef = useRef(null);
   const resourcesRef = useRef(null);
 
@@ -57,6 +32,11 @@ export default function DesktopNav() {
     setSolutionsOpen(false);
     setResourcesOpen(false);
   };
+
+  useEffect(() => {
+    // Reset active pillar every time the menu opens
+    if (solutionsOpen) setActivePillar(pillars[0].slug);
+  }, [solutionsOpen]);
 
   useEffect(() => {
     const handlePointerDown = (e) => {
@@ -76,9 +56,11 @@ export default function DesktopNav() {
     return () => document.removeEventListener('keydown', onKey);
   }, []);
 
+  const active = pillars.find((p) => p.slug === activePillar) || pillars[0];
+
   return (
     <div className="hidden lg:flex items-center gap-8" style={{ flex: 1, justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
-      {/* Solutions Mega-Menu */}
+      {/* Solutions master-detail mega-menu */}
       <div className="relative" ref={solutionsRef}>
         <button
           type="button"
@@ -113,69 +95,177 @@ export default function DesktopNav() {
             }}
           >
             <div
+              role="menu"
+              aria-label="Solutions"
               style={{
                 background: 'var(--white)',
                 borderRadius: 12,
                 boxShadow: '0 12px 40px rgba(15,10,30,0.18)',
                 border: '1px solid var(--border-clr)',
-                padding: '22px 24px 20px',
-                width: 'min(980px, calc(100vw - 48px))',
+                overflow: 'hidden',
+                display: 'grid',
+                gridTemplateColumns: '300px 320px',
+                width: 620,
+                minHeight: 320,
               }}
             >
+              {/* Left: 6 pillar rows */}
               <div
                 style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                  gap: 20,
+                  background: 'var(--off-white)',
+                  borderRight: '1px solid var(--border-clr)',
+                  padding: '10px 10px',
                 }}
               >
-                {pillars.map((pillar) => (
-                  <div key={pillar.slug} style={{ minWidth: 0 }}>
-                    <Link
-                      to={`/solutions/${pillar.slug}`}
-                      onClick={closeAll}
-                      style={pillarHeadingStyle}
+                {pillars.map((pillar) => {
+                  const isActive = pillar.slug === activePillar;
+                  return (
+                    <button
+                      key={pillar.slug}
+                      type="button"
+                      role="menuitem"
+                      title={`View ${pillar.name} overview`}
+                      aria-current={isActive ? 'true' : undefined}
+                      onMouseEnter={() => setActivePillar(pillar.slug)}
+                      onFocus={() => setActivePillar(pillar.slug)}
+                      onClick={() => {
+                        // Clicking navigates to the pillar page
+                        closeAll();
+                        window.location.href = `/solutions/${pillar.slug}`;
+                      }}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        width: '100%',
+                        background: isActive ? 'var(--white)' : 'transparent',
+                        border: 'none',
+                        borderRadius: 8,
+                        padding: '9px 10px',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        fontFamily: 'inherit',
+                        boxShadow: isActive ? '0 1px 4px rgba(15,10,30,0.06)' : 'none',
+                        transition: 'background 0.15s',
+                      }}
                     >
                       <span
                         style={{
-                          background: 'var(--purple-light)',
-                          color: 'var(--purple-dark)',
-                          fontSize: 10,
+                          fontSize: 9,
                           fontWeight: 700,
-                          letterSpacing: '0.08em',
+                          letterSpacing: '0.06em',
                           textTransform: 'uppercase',
-                          padding: '2px 6px',
+                          background: isActive ? 'var(--purple)' : 'var(--purple-light)',
+                          color: isActive ? '#fff' : 'var(--purple-dark)',
+                          padding: '3px 5px',
                           borderRadius: 4,
+                          flexShrink: 0,
+                          minWidth: 36,
+                          textAlign: 'center',
                           fontFamily: "'DM Sans', sans-serif",
                         }}
                       >
                         {pillar.short}
                       </span>
-                      <span style={{ flex: 1 }}>{pillar.name}</span>
-                      <ArrowRight size={12} style={{ color: 'var(--purple-dark)', opacity: 0.6 }} />
+                      <span
+                        style={{
+                          flex: 1,
+                          fontFamily: "'Fraunces', serif",
+                          fontSize: 13.5,
+                          fontWeight: 600,
+                          color: 'var(--text-primary)',
+                          lineHeight: 1.25,
+                          minWidth: 0,
+                        }}
+                      >
+                        {pillar.name}
+                      </span>
+                      <ChevronRight
+                        size={14}
+                        style={{
+                          color: isActive ? 'var(--purple-dark)' : 'rgba(74,69,104,0.4)',
+                          flexShrink: 0,
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right: cluster links for the active pillar */}
+              <div
+                style={{
+                  padding: '16px 18px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: 'var(--purple-dark)',
+                    marginBottom: 10,
+                  }}
+                >
+                  {active.short} Deep-Dive Services
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+                  {active.clusters.map((c) => (
+                    <Link
+                      key={c.slug}
+                      to={`/solutions/${active.slug}/${c.slug}`}
+                      onClick={closeAll}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: 8,
+                        padding: '8px 10px',
+                        fontSize: 13,
+                        fontWeight: 400,
+                        color: 'var(--text-secondary)',
+                        textDecoration: 'none',
+                        borderRadius: 6,
+                        lineHeight: 1.4,
+                        transition: 'background 0.15s, color 0.15s',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'var(--purple-light)';
+                        e.currentTarget.style.color = 'var(--purple-dark)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = 'var(--text-secondary)';
+                      }}
+                    >
+                      <span>{c.name}</span>
+                      <ArrowRight size={12} style={{ opacity: 0.55, flexShrink: 0 }} />
                     </Link>
-                    <div style={{ marginTop: 2 }}>
-                      {pillar.clusters.map((c) => (
-                        <Link
-                          key={c.slug}
-                          to={`/solutions/${pillar.slug}/${c.slug}`}
-                          onClick={closeAll}
-                          style={clusterLinkStyle}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.background = 'var(--purple-light)';
-                            e.currentTarget.style.color = 'var(--purple-dark)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.background = 'transparent';
-                            e.currentTarget.style.color = 'var(--text-secondary)';
-                          }}
-                        >
-                          {c.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+
+                <Link
+                  to={`/solutions/${active.slug}`}
+                  onClick={closeAll}
+                  style={{
+                    marginTop: 12,
+                    paddingTop: 12,
+                    borderTop: '1px solid var(--border-clr)',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    color: 'var(--purple-dark)',
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                >
+                  View {active.name} overview <ArrowRight size={12} />
+                </Link>
               </div>
             </div>
           </div>
