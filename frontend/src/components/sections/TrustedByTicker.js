@@ -16,12 +16,12 @@ import { useEffect, useRef } from 'react';
 // system rather than 9 mismatched brand palettes.
 const logos = [
   { name: 'ITC',          src: '/logos/itc.png',          h: 44, invert: true },
-  { name: 'Hansaplast',   src: '/logos/hansaplast.png',   h: 64, invert: true },
-  { name: 'ElasticRun',   src: '/logos/elasticrun.png',   h: 40, invert: true },
+  { name: 'Hansaplast',   src: '/logos/hansaplast.png',   h: 84, invert: true },
+  { name: 'ElasticRun',   src: '/logos/elasticrun.png',   h: 60, invert: true },
   { name: 'OptimHire',    src: '/logos/optimhire.png',    h: 32, invert: true },
   { name: 'Trudiance',    src: '/logos/trudiance.png',    h: 60, invert: true },
   { name: 'Harmony',      src: '/logos/harmony.png',      h: 58, invert: true },
-  { name: 'Iluvia',       src: '/logos/iluvia.png',       h: 30, invert: true },
+  { name: 'Iluvia',       src: '/logos/iluvia.png',       h: 50, invert: true },
   { name: 'Fego',         src: '/logos/fego.png',         h: 46, invert: true },
   { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 48, invert: true },
 ];
