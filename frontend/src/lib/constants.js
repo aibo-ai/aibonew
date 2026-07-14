@@ -1,5 +1,5 @@
 export const BOOKING_URL =
-  "https://calendar.app.google/fhN7TSzLypCQT4tQ8";
+  "https://calendly.com/myaibo-info";
 
 /**
  * API base, always ending in /api. Resolution order:
