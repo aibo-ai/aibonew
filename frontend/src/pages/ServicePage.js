@@ -162,7 +162,7 @@ export default function ServicePage() {
             {data.subheadline}
           </p>
           <div className="flex flex-wrap gap-3">
-            
+            <a
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
@@ -368,7 +368,7 @@ export default function ServicePage() {
             {data.finalCta.headline}
           </h2>
           <div className="flex justify-center mb-3">
-            
+            <a
               href={BOOKING_URL}
               target="_blank"
               rel="noopener noreferrer"
