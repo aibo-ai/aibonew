@@ -12,9 +12,18 @@ import SEO from "@/components/SEO";
 export default function HomePage() {
   return (
     <>
-      <SEO 
-        title="Marketing & AI Technology Agency | MyAibo"
-        description="MyAibo builds AI-powered marketing systems and technical products — GEO, AEO, SEO, content, automation, and full-stack development."
+      <SEO
+        title="AI Marketing & GEO Agency in India | MyAibo"
+        description="MyAibo is a Bengaluru-based AI marketing and technology agency — GEO, AEO, SEO, content, automation, and full-stack development for brands in India and beyond."
+        path="/"
+        keywords={[
+          'AI marketing agency India',
+          'GEO agency India',
+          'AEO services',
+          'SEO agency Bengaluru',
+          'generative engine optimization',
+          'answer engine optimization',
+        ]}
       />
       <main style={{ paddingTop: 64 }}>
         <Hero />
