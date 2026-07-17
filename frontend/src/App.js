@@ -67,6 +67,12 @@ function App() {
           <Route path="/solutions/white-label" element={<Navigate to="/solutions/full-stack" replace />} />
           <Route path="/solutions/white-label/*" element={<Navigate to="/solutions/full-stack" replace />} />
 
+          {/* Redirect the removed AI/ML pillar — Google still has this URL indexed
+              (real impressions for "ai ml solutions", "custom machine learning solutions"),
+              so send it somewhere live instead of letting it 404 silently. */}
+          <Route path="/solutions/ai-ml" element={<Navigate to="/solutions/ai-automations" replace />} />
+          <Route path="/solutions/ai-ml/*" element={<Navigate to="/solutions/ai-automations" replace />} />
+
           {/* Cluster (sub-service) pages */}
           <Route path="/solutions/:pillar/:cluster" element={
             <>
