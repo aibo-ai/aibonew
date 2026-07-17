@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { ArrowDown, ArrowRight, Check, X } from "lucide-react";
 import SectionLabel from "@/components/sections/SectionLabel";
 import { BOOKING_URL } from "@/lib/constants";
+import { trackBookingClick } from "@/lib/analytics";
 import { geoData } from "@/data/geoData";
 import { aeoData } from "@/data/aeoData";
 import { seoData } from "@/data/seoData";
@@ -15,32 +17,39 @@ import ClusterLinksBar from "@/components/sections/ClusterLinksBar";
 
 const seoMetaData = {
   geo: {
-    title: "GEO Services — Be the Brand AI Recommends | MyAibo",
-    description: "Structure your presence so ChatGPT, Perplexity, and Google SGE cite your brand by name. MyAibo GEO clients see +340% AI citation growth."
+    title: "GEO Services in India — Be the Brand AI Recommends | MyAibo",
+    description: "GEO services that structure your brand's presence so ChatGPT, Perplexity, and Google SGE cite you by name. MyAibo GEO clients in India see +340% AI citation growth.",
+    keywords: ['GEO services', 'GEO services in India', 'GEO services provider', 'generative engine optimization', 'managed GEO services'],
   },
   aeo: {
     title: "AEO Services — Own Position Zero | MyAibo",
-    description: "Win featured snippets, PAA boxes, and voice answers before competitors. MyAibo AEO drives +280% PAA ownership and +47 new snippets per client."
+    description: "AEO services that win featured snippets, PAA boxes, and voice answers before competitors. MyAibo AEO drives +280% PAA ownership and +47 new snippets per client.",
+    keywords: ['AEO services', 'answer engine optimization', 'featured snippet optimization', 'PAA optimization'],
   },
   seo: {
-    title: "SEO Services — Organic Authority That Lasts | MyAibo",
-    description: "Technical SEO, keyword architecture, and link equity built to compound. MyAibo SEO clients see +280% organic growth and 11x ROI over paid search."
+    title: "SEO Services in India — Organic Authority That Lasts | MyAibo",
+    description: "SEO services including D2C SEO — technical SEO, keyword architecture, and link equity built to compound. MyAibo SEO clients see +280% organic growth and 11x ROI over paid search.",
+    keywords: ['SEO services', 'SEO services India', 'D2C SEO services', 'technical SEO agency'],
   },
   'content-marketing': {
     title: "Content Marketing Services | MyAibo",
-    description: "Long-form guides, case studies, FAQs, and nurture sequences built for Google, AI engines, and humans equally. +220% organic traffic on average."
+    description: "Long-form guides, case studies, FAQs, and nurture sequences built for Google, AI engines, and humans equally. +220% organic traffic on average.",
+    keywords: ['content marketing services', 'content marketing agency India'],
   },
   'ai-automations': {
     title: "AI Automation Services — Custom AI Agents | MyAibo",
-    description: "Production-grade AI agents for lead capture, support, outreach, and ops workflows. Cut manual effort by 70% without adding headcount."
+    description: "Production-grade AI agents for lead capture, support, outreach, and ops workflows. Cut manual effort by 70% without adding headcount.",
+    keywords: ['AI automation services', 'AI agents', 'custom AI ML solutions', 'AI ML solutions'],
   },
   'white-label': {
     title: "White Label AI Platform Development | MyAibo",
-    description: "Launch a fully branded AI product in under 10 weeks. NDA-secured, multi-tenant, reseller-ready — 100% your IP, zero vendor attribution."
+    description: "Launch a fully branded AI product in under 10 weeks. NDA-secured, multi-tenant, reseller-ready — 100% your IP, zero vendor attribution.",
+    keywords: ['white label AI platform', 'white label development'],
   },
   'full-stack': {
     title: "Full Stack Development — Built to Last | MyAibo",
-    description: "Web apps, AI-integrated products, e-commerce platforms, and APIs built front to back. Modern stacks, zero technical debt, 100% IP ownership."
+    description: "Web apps, AI-integrated products, e-commerce platforms, and APIs built front to back. Modern stacks, zero technical debt, 100% IP ownership.",
+    keywords: ['full stack development', 'custom machine learning solutions', 'AI ML solutions'],
   },
 };
 
@@ -52,6 +61,16 @@ const dataMap = {
   'ai-automations': aiAutomationsData,
   'white-label': whiteLabelData,
   'full-stack': fullStackData,
+};
+
+const pillarDisplayNames = {
+  geo: 'GEO',
+  aeo: 'AEO',
+  seo: 'SEO',
+  'content-marketing': 'Content Marketing',
+  'ai-automations': 'AI Automations',
+  'white-label': 'White Label',
+  'full-stack': 'Full Stack Development',
 };
 
 export default function ServicePage() {
@@ -79,9 +98,44 @@ export default function ServicePage() {
     );
   }
 
+  // JSON-LD structured data — same pattern already used on ClusterPage.js,
+  // now applied to the pillar pages too (these get the most search traffic).
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: pillarDisplayNames[slug] || data.pageTitle,
+    serviceType: data.pageTitle,
+    provider: {
+      '@type': 'Organization',
+      name: 'MyAibo',
+      url: 'https://www.myaibo.in',
+    },
+    areaServed: 'India',
+    description: seoMeta?.description,
+  };
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.myaibo.in/' },
+      { '@type': 'ListItem', position: 2, name: pillarDisplayNames[slug] || data.pageTitle, item: `https://www.myaibo.in/solutions/${slug}` },
+    ],
+  };
+
   return (
     <>
-      {seoMeta && <SEO title={seoMeta.title} description={seoMeta.description} />}
+      {seoMeta && (
+        <SEO
+          title={seoMeta.title}
+          description={seoMeta.description}
+          path={`/solutions/${slug}`}
+          keywords={seoMeta.keywords}
+        />
+      )}
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+      </Helmet>
       <main>
       {/* ─── HERO ─── */}
       <section
@@ -108,7 +162,14 @@ export default function ServicePage() {
             {data.subheadline}
           </p>
           <div className="flex flex-wrap gap-3">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-purple" style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}>
+            
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-purple"
+              style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
+              onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'hero' })}
+            >
               Book Free Strategy Session
             </a>
             <a href="#intro" className="btn-outline-light" style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500 }}>
@@ -307,7 +368,14 @@ export default function ServicePage() {
             {data.finalCta.headline}
           </h2>
           <div className="flex justify-center mb-3">
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="btn-purple inline-flex" style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}>
+            
+              href={BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-purple inline-flex"
+              style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
+              onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'final_cta' })}
+            >
               Book Free Strategy Session
             </a>
           </div>
