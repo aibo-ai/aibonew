@@ -93,7 +93,7 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 mb-16">
-          
+          <a
             href={BOOKING_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -103,7 +103,7 @@ export default function Hero() {
           >
             Book Free Strategy Session
           </a>
-          
+          <a
             href="#case-studies"
             className="btn-outline inline-flex items-center gap-2"
             style={{ padding: '16px 32px', fontSize: 16, fontWeight: 600 }}
