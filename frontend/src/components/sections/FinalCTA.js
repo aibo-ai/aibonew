@@ -45,7 +45,7 @@ export default function FinalCTA() {
         </h2>
 
         {/* Primary CTA */}
-        
+        <a
           href={BOOKING_URL}
           target="_blank"
           rel="noopener noreferrer"
