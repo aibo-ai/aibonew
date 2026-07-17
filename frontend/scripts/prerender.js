@@ -20,7 +20,8 @@ const fs = require("fs");
 const path = require("path");
 const http = require("http");
 const handler = require("serve-handler");
-const puppeteer = require("puppeteer");
+const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer-core");
 
 const ROOT = path.join(__dirname, "..");
 const BUILD_DIR = path.join(ROOT, "build");
@@ -102,7 +103,22 @@ async function prerenderRoute(browser, route) {
     });
     // Let Helmet finish its post-render title/meta update.
     await page.waitForSelector("title");
-    const html = await page.content();
+    let html = await page.content();
+
+    // Helmet appends a page-specific <meta name="description"> but has no
+    // knowledge of the generic one already baked into index.html, so both
+    // end up in the document. Keep only the Helmet one when both exist.
+    const descTags = [
+      ...html.matchAll(/<meta name="description"[^>]*>/g),
+    ];
+    if (descTags.length > 1) {
+      const genericTag = descTags.find(
+        (m) => !m[0].includes('data-react-helmet')
+      );
+      if (genericTag) {
+        html = html.replace(genericTag[0], "");
+      }
+    }
 
     const outDir = route === "/" ? BUILD_DIR : path.join(BUILD_DIR, route);
     fs.mkdirSync(outDir, { recursive: true });
@@ -124,8 +140,10 @@ async function main() {
 
   const server = await startServer();
   const browser = await puppeteer.launch({
-    headless: "new",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath(),
+    headless: chromium.headless,
   });
 
   let failures = 0;
