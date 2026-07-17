@@ -9,6 +9,8 @@ on:
       - "frontend/src/**"
       - "frontend/scripts/prerender.js"
       - "frontend/package.json"
+      - "frontend/.gitignore"
+      - ".github/workflows/prerender.yml"
 
 jobs:
   prerender:
