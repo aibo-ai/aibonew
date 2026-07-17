@@ -11,7 +11,7 @@ export const aeoData = {
     body: [
       "Answer Engine Optimisation (AEO) is the discipline of structuring content so search engines and AI assistants select it as the direct, authoritative answer to a user\u2019s query displayed above organic results, read aloud by voice assistants, or embedded in AI-generated summaries.",
       "Where SEO earns you a ranking, AEO earns you the answer box. That\u2019s a fundamentally different form of value: the user gets their answer from you, without needing to click through. Your brand becomes the trusted source \u2014 not just another link in a list.",
-      "AEO is a content architecture discipline: knowing which questions your audience is asking, how those questions are phrased, what format the answer engine expects, and how to structure your content to match that precisely.",
+      "MyAibo's AEO services cover the full discipline end to end: knowing which questions your audience is asking, how those questions are phrased, what format the answer engine expects, and how to structure your content to match that precisely.",
     ],
     calloutStat: '35\u201345%',
     calloutText: 'Click-through traffic captured by featured snippets on informational queries. If you\u2019re not in those boxes, a competitor is \u2014 and they\u2019re receiving the trust transfer that comes with being \u201cthe official answer.\u201d',
