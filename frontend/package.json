@@ -60,6 +60,7 @@
   "scripts": {
     "start": "npx craco start",
     "build": "npx craco build",
+    "build:only": "npx craco build",
     "postbuild": "node scripts/prerender.js || echo '[postbuild] prerender failed, continuing without it'",
     "test": "npx craco test"
   },
