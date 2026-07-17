@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && NODE_ENV=development npm install --legacy-peer-deps && npm run build",
+  "buildCommand": "cd frontend && if git log -1 --pretty=%B | grep -q '\\[skip ci\\]'; then echo 'Skipping rebuild — using prerendered output from CI'; else NODE_ENV=development npm install --legacy-peer-deps && npm run build; fi",
   "outputDirectory": "frontend/build",
   "rewrites": [
     { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
