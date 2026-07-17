@@ -2,9 +2,13 @@
 /**
  * Post-build prerendering.
  *
- * Runs after `npm run build`. Serves the build/ output locally, visits every
- * known route in headless Chrome, and writes the fully-rendered HTML to
- * build/<route>/index.html.
+ * Runs after `npm run build`, EITHER locally/CI (with full Chromium deps
+ * installed via `npx playwright install --with-deps chromium`) or skipped
+ * gracefully if the browser can't launch (e.g. on Vercel's build machine,
+ * which lacks the shared libs Chromium needs).
+ *
+ * Serves the build/ output locally, visits every known route in headless
+ * Chrome, and writes the fully-rendered HTML to build/<route>/index.html.
  *
  * Why: Vercel serves static files before applying the SPA catch-all rewrite
  * in vercel.json (`/((?!api).*) -> /index.html`). Once a real index.html
@@ -20,8 +24,7 @@ const fs = require("fs");
 const path = require("path");
 const http = require("http");
 const handler = require("serve-handler");
-const chromium = require("@sparticuz/chromium");
-const puppeteer = require("puppeteer-core");
+const { chromium } = require("playwright");
 
 const ROOT = path.join(__dirname, "..");
 const BUILD_DIR = path.join(ROOT, "build");
@@ -98,7 +101,7 @@ async function prerenderRoute(browser, route) {
   const page = await browser.newPage();
   try {
     await page.goto(`${ORIGIN}${route}`, {
-      waitUntil: "networkidle0",
+      waitUntil: "networkidle",
       timeout: 30000,
     });
     // Let Helmet finish its post-render title/meta update.
@@ -139,12 +142,20 @@ async function main() {
   console.log(`[prerender] Rendering ${routes.length} routes...`);
 
   const server = await startServer();
-  const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: await chromium.executablePath(),
-    headless: chromium.headless,
-  });
+
+  let browser;
+  try {
+    browser = await chromium.launch();
+  } catch (err) {
+    // Environment can't launch a browser (e.g. Vercel's build container,
+    // which lacks required shared libs). Skip prerendering rather than
+    // failing the whole deployment — the SPA still works without it.
+    console.warn(
+      `[prerender] Could not launch browser, skipping prerender: ${err.message}`
+    );
+    server.close();
+    return;
+  }
 
   let failures = 0;
   for (const route of routes) {
