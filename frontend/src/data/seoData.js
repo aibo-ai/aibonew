@@ -11,6 +11,7 @@ export const seoData = {
     body: [
       "Search Engine Optimisation has evolved far beyond meta tags and keyword density. Modern SEO is the discipline of building the technical and content infrastructure that signals authority to Google\u2019s algorithm, and increasingly, to the AI engines that are trained on the same signals.",
       "At MyAibo, we approach SEO as a foundational investment, not a short-term traffic play. We build the technical architecture that makes every other marketing channel work better: GEO citations draw from your domain authority. AEO snippets depend on your content structure. Content marketing needs the keyword framework to reach the right audience.",
+      "We offer SEO services in India built around real buyer categories, including dedicated D2C SEO services for e-commerce and consumer brands competing on crowded, high-intent category pages.",
       "Everything compounds. SEO is where the compounding starts.",
     ],
     calloutStat: '11\u00d7',
