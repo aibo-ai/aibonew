@@ -1,4 +1,5 @@
 import { BOOKING_URL } from "@/lib/constants";
+import { trackBookingClick } from "@/lib/analytics";
 
 export default function FinalCTA() {
   return (
@@ -44,13 +45,14 @@ export default function FinalCTA() {
         </h2>
 
         {/* Primary CTA */}
-        <a
+        
           href={BOOKING_URL}
           target="_blank"
           rel="noopener noreferrer"
           data-testid="cta-book-session"
           className="btn-purple inline-flex"
           style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
+          onClick={() => trackBookingClick({ page: '/', placement: 'final_cta' })}
         >
           Book Free Strategy Session
         </a>
