@@ -11,6 +11,7 @@ export const geoData = {
     body: [
       "Generative Engine Optimisation (GEO) is the practice of structuring your brand\u2019s digital presence so AI language models surface you, not your competitors when users ask questions in your category.",
       "Unlike traditional SEO, GEO isn\u2019t about ranking on a page. It\u2019s about becoming the trusted source that AI models draw from when they generate answers. That means owning how you\u2019re represented across the web\u2019s knowledge graph: your entity data, third-party citations, structured content, and E-E-A-T signals.",
+      "MyAibo is a GEO services provider based in India, working with brands who need GEO services in India built for how Indian and global AI platforms actually surface answers today \u2014 not a generic playbook borrowed from traditional SEO.",
       "AI-generated answers now appear before organic results across every major platform. Brands that aren\u2019t optimised for these surfaces are losing customers they never knew they had.",
     ],
     calloutStat: '62%',
