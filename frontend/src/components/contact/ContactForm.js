@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle, AlertCircle, Loader } from 'lucide-react';
 import { BACKEND_URL } from '@/lib/constants';
+import { trackLeadFormSubmit } from '@/lib/analytics';
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)',
@@ -72,6 +73,9 @@ export default function ContactForm() {
         const data = await res.json().catch(() => ({}));
         throw new Error(data.detail || 'Something went wrong. Please try again.');
       }
+
+      // Fire the GA4/GTM conversion event now that submission is confirmed successful.
+      trackLeadFormSubmit({ service_interest: form.service_interest || 'not_specified' });
 
       setStatus('success');
       setForm(EMPTY_FORM);
