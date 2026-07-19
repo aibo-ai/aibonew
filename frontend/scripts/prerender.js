@@ -105,7 +105,7 @@ async function prerenderRoute(browser, route) {
       timeout: 30000,
     });
     // Let Helmet finish its post-render title/meta update.
-    await page.waitForSelector("title");
+    await page.waitForSelector("title", { state: "attached" });
     let html = await page.content();
 
     // Helmet appends a page-specific <meta name="description"> but has no
