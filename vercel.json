@@ -1,6 +1,12 @@
 {
   "buildCommand": "cd frontend && if git log -1 --pretty=%B | grep -q '\\[skip ci\\]'; then echo 'Skipping rebuild — using prerendered output from CI'; else NODE_ENV=development npm install --legacy-peer-deps && npm run build; fi",
   "outputDirectory": "frontend/build",
+  "redirects": [
+    { "source": "/solutions/ai-ml", "destination": "/solutions/ai-automations", "permanent": true },
+    { "source": "/solutions/ai-ml/:path*", "destination": "/solutions/ai-automations", "permanent": true },
+    { "source": "/solutions/white-label", "destination": "/solutions/full-stack", "permanent": true },
+    { "source": "/solutions/white-label/:path*", "destination": "/solutions/full-stack", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
     { "source": "/api/:path*", "destination": "/api/index.py" },
