@@ -11,6 +11,8 @@ on:
       - "frontend/package.json"
       - "frontend/.gitignore"
       - ".github/workflows/prerender.yml"
+      - "vercel.json"
+  workflow_dispatch:
 
 jobs:
   prerender:
