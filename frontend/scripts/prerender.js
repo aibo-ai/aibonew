@@ -19,10 +19,16 @@
  * This does NOT change what real users see. They still get the same HTML,
  * then React mounts on top via createRoot as it does today. It only adds
  * content that was previously missing until JS ran.
+ *
+ * API calls made by pages during rendering (e.g. BlogPage fetching a post)
+ * are proxied through to the real production API (see startServer below),
+ * so pages that fetch data client-side render with real content instead of
+ * failing against this local static-file server.
  */
 const fs = require("fs");
 const path = require("path");
 const http = require("http");
+const https = require("https");
 const handler = require("serve-handler");
 const { chromium } = require("playwright");
 
@@ -31,10 +37,15 @@ const BUILD_DIR = path.join(ROOT, "build");
 const PORT = 45123;
 const ORIGIN = `http://localhost:${PORT}`;
 
-// Where to fetch dynamic blog slugs from at build time. Defaults to
-// production so a Vercel build picks up whatever is live right now.
+// Where to fetch dynamic blog slugs from at build time, and where to proxy
+// runtime /api/* calls during rendering. Defaults to production so a Vercel
+// build picks up whatever is live right now.
 // Override locally with: PRERENDER_API_ORIGIN=http://localhost:3001 node scripts/prerender.js
 const PROD_API = process.env.PRERENDER_API_ORIGIN || "https://www.myaibo.in";
+
+// The real public origin used when writing absolute URLs into sitemap.xml.
+// Always the production domain, regardless of PRERENDER_API_ORIGIN overrides.
+const ORIGIN_PUBLIC = "https://www.myaibo.in";
 
 const STATIC_ROUTES = ["/", "/about", "/blogs", "/case-studies", "/contact"];
 const PILLARS = [
@@ -86,13 +97,38 @@ async function getRoutes() {
 
 function startServer() {
   return new Promise((resolve) => {
-    const server = http.createServer((req, res) =>
+    const server = http.createServer((req, res) => {
+      // Proxy API calls to the real production backend so pages that fetch
+      // data client-side (e.g. blog posts) render with real content during
+      // prerendering, instead of hitting this static file server and
+      // getting index.html back for an /api/* path (which breaks JSON.parse
+      // in the page and produces "Post not found" style fallback content).
+      if (req.url.startsWith("/api/")) {
+        const target = new URL(req.url, PROD_API);
+        const client = target.protocol === "https:" ? https : http;
+        const proxyReq = client.request(
+          target,
+          { method: req.method, headers: { ...req.headers, host: target.host } },
+          (proxyRes) => {
+            res.writeHead(proxyRes.statusCode, proxyRes.headers);
+            proxyRes.pipe(res);
+          }
+        );
+        proxyReq.on("error", (err) => {
+          console.warn(`[prerender] API proxy error for ${req.url}: ${err.message}`);
+          res.writeHead(502);
+          res.end();
+        });
+        req.pipe(proxyReq);
+        return;
+      }
+
       handler(req, res, {
         public: BUILD_DIR,
         cleanUrls: false,
         rewrites: [{ source: "**", destination: "/index.html" }],
-      })
-    );
+      });
+    });
     server.listen(PORT, () => resolve(server));
   });
 }
@@ -132,6 +168,27 @@ async function prerenderRoute(browser, route) {
   }
 }
 
+function writeSitemap(routes) {
+  const today = new Date().toISOString().slice(0, 10);
+  const priorityFor = (route) => {
+    if (route === "/") return "1.0";
+    if (/^\/solutions\/[^/]+$/.test(route)) return "0.9";
+    if (route.startsWith("/blog/")) return "0.6";
+    return "0.7";
+  };
+  const urls = routes
+    .map(
+      (route) =>
+        `  <url><loc>${ORIGIN_PUBLIC}${route}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${priorityFor(
+          route
+        )}</priority></url>`
+    )
+    .join("\n");
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+  fs.writeFileSync(path.join(BUILD_DIR, "sitemap.xml"), xml);
+  console.log(`[prerender] sitemap.xml written with ${routes.length} URLs.`);
+}
+
 async function main() {
   if (!fs.existsSync(BUILD_DIR)) {
     console.error("[prerender] build/ not found — run `npm run build` first.");
@@ -140,6 +197,7 @@ async function main() {
 
   const routes = await getRoutes();
   console.log(`[prerender] Rendering ${routes.length} routes...`);
+  writeSitemap(routes);
 
   const server = await startServer();
 
