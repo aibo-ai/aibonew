@@ -60,7 +60,7 @@ export default function BlogsPage() {
                     onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)'; }}
                     onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
                   >{blog.featured_image && (
-                      <img src={blog.featured_image} alt={blog.title} style={{ width: '100%', height: 200, objectFit: 'cover' }} />
+                      <img src={blog.featured_image} alt={blog.title} loading="lazy" style={{ width: '100%', height: 200, objectFit: 'cover' }} />
                     )}
                     <div style={{ padding: 24 }}>
                       {blog.category && (
