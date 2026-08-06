@@ -110,6 +110,7 @@ export default function CaseStudiesPage() {
                     <img
                       src={study.featured_image}
                       alt={study.title}
+                      loading="lazy"
                       style={{ width: '100%', height: 200, objectFit: 'cover' }}
                     />
                   )}
