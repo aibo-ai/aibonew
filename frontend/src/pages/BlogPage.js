@@ -133,6 +133,7 @@ export default function BlogPage() {
               <img
                 src={blog.featured_image}
                 alt={blog.title}
+                loading="lazy"
                 style={{ width: '100%', maxHeight: 480, objectFit: 'cover', display: 'block' }}
               />
             </div>
