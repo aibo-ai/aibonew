@@ -44,7 +44,7 @@ jobs:
         working-directory: frontend
         run: node scripts/prerender.js
 
-     - name: Commit prerendered HTML
+      - name: Commit prerendered HTML
         working-directory: frontend
         run: |
           git config user.name "github-actions[bot]"
