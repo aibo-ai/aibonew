@@ -61,7 +61,6 @@ export default function BlogsPage() {
                     onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
                   >{blog.featured_image && (
                       <img src={blog.featured_image} alt={blog.title} loading="lazy" style={{ width: '100%', height: 200, aspectRatio: '1 / 1', objectFit: 'cover' }} />
-                    )}
                     <div style={{ padding: 24 }}>
                       {blog.category && (
                         <div className="flex flex-wrap gap-2 mb-3">
