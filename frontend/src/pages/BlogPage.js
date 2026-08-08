@@ -6,7 +6,7 @@
                 src={blog.featured_image}
                 alt={blog.title}
                 loading="lazy"
-                style={{ width: '100%', maxHeight: 480, objectFit: 'cover', display: 'block' }}
+                style={{ width: '100%', maxHeight: 480, aspectRatio: '1.875 / 1', objectFit: 'cover', display: 'block' }}
               />
             </div>
           </div>
