@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-12">
           {/* Company Info */}
           <div className="md:col-span-1">
-            <a
+            
               href="/"
               style={{
                 textDecoration: 'none',
@@ -20,6 +20,8 @@ export default function Footer() {
                 src="/myaibo-logo-white.png" 
                 alt="MyAibo" 
                 loading="lazy"
+                width={100}
+                height={100}
                 style={{ height: 100, width: 'auto', display: 'block' }}
               />
             </a>
