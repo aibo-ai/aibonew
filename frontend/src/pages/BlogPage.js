@@ -129,4 +129,48 @@ export default function BlogPage() {
         {/* Featured image */}
         {blog.featured_image && (
           <div style={{ background: 'var(--dark-surface)' }}>
-            <div className="mx-auto" style={{
+            <div className="mx-auto" style={{ maxWidth: 900 }}>
+              <img
+                src={blog.featured_image}
+                alt={blog.title}
+                loading="lazy"
+                style={{ width: '100%', maxHeight: 480, aspectRatio: '1.875 / 1', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Content */}
+        <section style={{ background: 'var(--off-white)', padding: '72px 40px 100px' }}>
+          <div className="mx-auto" style={{ maxWidth: 800 }}>
+            <Link
+              to="/blogs"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                fontSize: 14,
+                fontWeight: 500,
+                color: 'var(--purple-dark)',
+                textDecoration: 'none',
+                marginBottom: 48,
+              }}
+            >
+              <ArrowLeft size={15} /> All posts
+            </Link>
+
+            <article
+              className="prose"
+              style={{
+                fontSize: 17,
+                lineHeight: 1.8,
+                color: 'var(--text-primary)',
+              }}
+              dangerouslySetInnerHTML={{ __html: blog.content }}
+            />
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
