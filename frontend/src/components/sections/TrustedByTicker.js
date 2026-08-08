@@ -14,16 +14,19 @@ import { useEffect, useRef } from 'react';
 // All logos are rendered as unified white silhouettes via
 // `filter: brightness(0) invert(1)` so the ticker looks like one design
 // system rather than 9 mismatched brand palettes.
+// `w` is each logo's rendered width at its display height `h`, calculated
+// from the compressed asset's real aspect ratio — set explicitly so the
+// browser can reserve layout space before the image loads (prevents CLS).
 const logos = [
-  { name: 'ITC',          src: '/logos/itc.png',          h: 44, invert: true },
-  { name: 'Hansaplast',   src: '/logos/hansaplast.png',   h: 84, invert: true },
-  { name: 'ElasticRun',   src: '/logos/elasticrun.png',   h: 60, invert: true },
-  { name: 'OptimHire',    src: '/logos/optimhire.png',    h: 32, invert: true },
-  { name: 'Trudiance',    src: '/logos/trudiance.png',    h: 60, invert: true },
-  { name: 'Harmony',      src: '/logos/harmony.png',      h: 58, invert: true },
-  { name: 'Iluvia',       src: '/logos/iluvia.png',       h: 50, invert: true },
-  { name: 'Fego',         src: '/logos/fego.png',         h: 46, invert: true },
-  { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 48, invert: true },
+  { name: 'ITC',          src: '/logos/itc.png',          h: 44, w: 57,  invert: true },
+  { name: 'Hansaplast',   src: '/logos/hansaplast.png',   h: 84, w: 84,  invert: true },
+  { name: 'ElasticRun',   src: '/logos/elasticrun.png',   h: 60, w: 110, invert: true },
+  { name: 'OptimHire',    src: '/logos/optimhire.png',    h: 32, w: 156, invert: true },
+  { name: 'Trudiance',    src: '/logos/trudiance.png',    h: 60, w: 60,  invert: true },
+  { name: 'Harmony',      src: '/logos/harmony.png',      h: 58, w: 58,  invert: true },
+  { name: 'Iluvia',       src: '/logos/iluvia.png',       h: 50, w: 100, invert: true },
+  { name: 'Fego',         src: '/logos/fego.png',         h: 46, w: 89,  invert: true },
+  { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 48, w: 48,  invert: true },
 ];
 
 export default function TrustedByTicker() {
@@ -98,6 +101,8 @@ export default function TrustedByTicker() {
                 alt={`${logo.name} logo`}
                 loading="lazy"
                 draggable={false}
+                width={logo.w}
+                height={logo.h}
                 style={{
                   height: logo.h,
                   maxHeight: '100%',
