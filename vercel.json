@@ -14,5 +14,25 @@
     { "source": "/social-intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/:path*" },
     { "source": "/Yippee-Intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/Yippee-Intelligence/:path*" },
     { "source": "/((?!api).*)", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/logos/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(myaibo-logo.png|myaibo-logo-white.png|og-default.png|favicon.ico)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800" }
+      ]
+    }
   ]
 }
