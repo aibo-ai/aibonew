@@ -2,6 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --purple: #7C3BED;
+  --purple-dark: #5A24C7;
+  --purple-light: #EDE5FC;
+  --purple-mid: #6B32D4;
+  --dark: #0F0A1E;
+  --dark-mid: #1A1133;
+  --dark-surface: #221740;
+  --white: #FFFFFF;
+  --off-white: #F7F5FC;
+  --warm-gray: #EAE6F4;
+  --border-clr: #DDD8F0;
+  --text-primary: #0F0A1E;
+  --text-secondary: #4A4568;
+  --text-muted: #7168A0;
+  --amber: #F59E0B;
+  --amber-light: #FEF3C7;
+
+  --background: 260 47% 97%;
+  --foreground: 255 50% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 255 50% 8%;
+  --popover: 262 42% 9%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 262 82% 58%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96.1%;
+  --muted-foreground: 0 0% 45.1%;
+  --accent: 262 82% 58%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 260 30% 90%;
+  --input: 260 30% 90%;
+  --ring: 262 82% 58%;
+  --radius: 0.5rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--text-primary);
+  background: var(--off-white);
+  font-weight: 400;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+@layer base {
+  [data-debug-wrapper="true"] {
+    display: contents !important;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.btn-purple {
+  display: inline-block;
+  background: var(--purple, #7C3BED);
+  color: #fff !important;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-purple:hover {
+  background: var(--purple-dark, #5A24C7);
+}
+
+/* Card hover lift used across service, pillar and cluster pages */
+.card-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15,10,30,0.08);
+  border-color: rgba(124,59,237,0.28);
+}
+
+/* Light outline button used on dark hero sections */
+.btn-outline-light {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: rgba(255,255,255,0.9) !important;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.18s, border-color 0.18s;
+}
+.btn-outline-light:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.4);
+}
+
+/* Subtle pulse for eyebrow dots on hero sections */
+.pulse-dot {
+  animation: aibo-pulse 2.4s ease-in-out infinite;
+}
+@keyframes aibo-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.25); }
+}
+
+/* Infinite horizontal marquee used by the "Trusted by" hero ticker */
+@keyframes aibo-ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-viewport:hover .ticker-track {
+  animation-play-state: paused !important;
+}
+
+/* Fixed nav logo — smaller on mobile so the header doesn't dominate the viewport */
 .nav-logo-img {
   height: 64px;
   width: auto;
@@ -12,73 +148,4 @@
   .nav-logo-img {
     height: 96px;
   }
-}
-
-:root {
-  --purple: #7C3BED;
-  --purple-dark: #5A24C7;
-  --purple-light: #EDE5FC;
-  --purple-mid: #6B32D4;
-  --dark: #0F0A1E;
-  --dark-mid: #1A1133;
-  --dark-surface: #221740;
-  --white: #FFFFFF;
-  --off-white: #FAFAFA;
-  --text-primary: #1A1625;
-  --text-secondary: #4A4568;
-  --text-muted: rgba(26,22,37,0.55);
-  --border-clr: rgba(26,22,37,0.1);
-  --radius: 0.5rem;
-  --background: 0 0% 100%;
-  --foreground: 240 10% 3.9%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 10% 3.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 240 10% 3.9%;
-  --primary: 262 83% 58%;
-  --primary-foreground: 0 0% 98%;
-  --secondary: 240 4.8% 95.9%;
-  --secondary-foreground: 240 5.9% 10%;
-  --muted: 240 4.8% 95.9%;
-  --muted-foreground: 240 3.8% 46.1%;
-  --accent: 240 4.8% 95.9%;
-  --accent-foreground: 240 5.9% 10%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 98%;
-  --border: 240 5.9% 90%;
-  --input: 240 5.9% 90%;
-  --ring: 262 83% 58%;
-}
-
-body {
-  margin: 0;
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: var(--white);
-  color: var(--text-primary);
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-.btn-purple {
-  background: var(--purple);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-purple:hover {
-  background: var(--purple-dark);
-}
-
-.nav-link {
-  transition: color 0.2s;
-}
-
-.nav-link:hover {
-  color: var(--purple-light) !important;
 }
