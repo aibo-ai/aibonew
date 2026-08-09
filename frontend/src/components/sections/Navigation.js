@@ -26,11 +26,11 @@ export default function Navigation() {
         style={{
           maxWidth: 1180,
           margin: '0 auto',
-          padding: '8px 40px',
+          padding: '8px 20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          gap: 40,
+          gap: 24,
         }}
       >
         {/* Logo */}
@@ -40,7 +40,7 @@ export default function Navigation() {
             alt="MyAibo"
             width={150}
             height={150}
-            style={{ height: 150, width: 'auto' }}
+            className="nav-logo-img"
           />
         </Link>
 
