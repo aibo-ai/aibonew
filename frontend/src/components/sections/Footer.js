@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Company Info */}
           <div className="md:col-span-1">
             
-              href="/"
+              <a href="/"
               style={{
                 textDecoration: 'none',
                 display: 'block',
