@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && npm install --legacy-peer-deps && npx playwright install --with-deps chromium && npm run build",
+  "buildCommand": "cd frontend && echo 'Using build output committed by GitHub Actions' && npm install --legacy-peer-deps",
   "outputDirectory": "frontend/build",
   "redirects": [
     { "source": "/solutions/ai-ml", "destination": "/solutions/ai-automations", "permanent": true },
