@@ -155,20 +155,7 @@ function ImageUpload({ value, onChange }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-        <div style={{ flex: 1 }}>
-          <input
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder="Paste image URL or upload below"
-            style={{
-              width: '100%', padding: '10px 14px', fontSize: 14,
-              border: '1px solid var(--border-clr)', borderRadius: 8,
-              background: 'var(--off-white)', boxSizing: 'border-box',
-              fontFamily: "'DM Sans', sans-serif", outline: 'none',
-            }}
-          />
-        </div>
+      {!value && (
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
@@ -183,8 +170,8 @@ function ImageUpload({ value, onChange }) {
           <Upload size={15} />
           {uploading ? 'Uploading…' : 'Upload Image'}
         </button>
-        <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} style={{ display: 'none' }} />
-      </div>
+      )}
+      <input ref={fileRef} type="file" accept="image/*" onChange={handleFile} style={{ display: 'none' }} />
 
       {uploadError && (
         <div style={{ marginTop: 6, fontSize: 12, color: '#dc2626' }}>{uploadError}</div>
@@ -198,6 +185,24 @@ function ImageUpload({ value, onChange }) {
             onClick={() => onChange('')}
             style={{ position: 'absolute', top: 6, right: 6, background: 'rgba(0,0,0,0.6)', border: 'none', borderRadius: '50%', width: 24, height: 24, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}
           >
+            <X size={12} />
+          </button>
+        </div>
+      )}
+
+      {!value && (
+        <div
+          onClick={() => fileRef.current?.click()}
+          style={{ marginTop: 10, border: '2px dashed var(--border-clr)', borderRadius: 8, padding: '24px', textAlign: 'center', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 13 }}
+        >
+          <ImageIcon size={24} style={{ margin: '0 auto 8px', display: 'block', opacity: 0.4 }} />
+          Click to upload or drag & drop
+          <div style={{ fontSize: 11, marginTop: 4 }}>PNG, JPG, WebP up to 5MB</div>
+        </div>
+      )}
+    </div>
+  );
+}
             <X size={12} />
           </button>
         </div>
