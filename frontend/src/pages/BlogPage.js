@@ -1,106 +1,145 @@
 import { useEffect, useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
-import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { BACKEND_URL } from '@/lib/constants';
 
-export default function BlogsPage() {
-  const [blogs, setBlogs] = useState([]);
+export default function BlogPage() {
+  const { slug } = useParams();
+  const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const fetchBlogs = useCallback(async () => {
+  const fetchBlog = useCallback(async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/admin/public/blogs`);
+      const response = await fetch(`${BACKEND_URL}/admin/public/blogs/${slug}`);
+      if (!response.ok) throw new Error('Blog post not found');
       const data = await response.json();
-      setBlogs(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('[BlogsPage] Failed to fetch blogs:', error);
+      setBlog(data);
+    } catch (err) {
+      console.error('[BlogPage] Failed to fetch blog:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [slug]);
 
   useEffect(() => {
-    fetchBlogs();
-  }, [fetchBlogs]);
+    fetchBlog();
+  }, [fetchBlog]);
+
+  if (loading) {
+    return (
+      <main style={{ paddingTop: 64 }}>
+        <div style={{ textAlign: 'center', padding: '120px 20px', color: 'var(--text-muted)' }}>
+          Loading...
+        </div>
+      </main>
+    );
+  }
+
+  if (error || !blog) {
+    return (
+      <main style={{ paddingTop: 64 }}>
+        <div style={{ textAlign: 'center', padding: '120px 20px' }}>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, color: 'var(--text-primary)', marginBottom: 16 }}>
+            Post not found
+          </h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: 32 }}>
+            {error || 'This blog post could not be loaded.'}
+          </p>
+          <Link
+            to="/blogs"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 8, color: 'var(--purple-dark)', textDecoration: 'none', fontWeight: 500 }}
+          >
+            <ArrowLeft size={16} /> Back to all posts
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  const publishedDate = blog.published_at || blog.created_at;
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: blog.title,
+    description: blog.excerpt || '',
+    image: blog.featured_image || 'https://www.myaibo.in/og-default.png',
+    datePublished: publishedDate,
+    dateModified: blog.updated_at || publishedDate,
+    author: {
+      '@type': 'Person',
+      name: blog.author || 'MyAibo',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'MyAibo',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.myaibo.in/myaibo-logo.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://www.myaibo.in/blog/${slug}`,
+    },
+  };
 
   return (
     <>
       <SEO
-        title="Blog — AI, Marketing & Technology Insights | MyAibo"
-        description="Expert perspectives on GEO, AEO, SEO, AI automation, and full-stack development from the team building systems that actually compound."
+        title={`${blog.title} | MyAibo Blog`}
+        description={blog.excerpt || ''}
+        path={`/blog/${slug}`}
+        image={blog.featured_image}
       />
+      <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       <main style={{ paddingTop: 64 }}>
-        <section style={{ background: 'var(--dark)', padding: '100px 40px 60px' }}>
-          <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>
-            <h1 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(36px, 4.5vw, 56px)', letterSpacing: '-1.5px', color: '#fff', margin: '0 0 16px', lineHeight: 1.15 }}>
-              Blog & Insights
-            </h1>
-            <p style={{ fontSize: 18, fontWeight: 300, color: 'rgba(255,255,255,0.85)', margin: 0, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
-              Insights on marketing, technology, and AI innovation
-            </p>
-          </div>
-        </section>
-        <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
-          <div className="mx-auto" style={{ maxWidth: 1100 }}>
-            {loading ? (
-              <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
-                Loading blogs...
-              </div>
-            ) : blogs.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
-                No blog posts available yet
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {blogs.map((blog) => (
-                  <article
-                    key={blog.id}
-                    style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--border-clr)', overflow: 'hidden', transition: 'transform 0.2s, box-shadow 0.2s' }}
-                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)'; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
-                  >{blog.featured_image && (
-                      <img src={blog.featured_image} alt={blog.title} loading="lazy" style={{ width: '100%', height: 200, objectFit: 'cover' }} />
-                    )}
-                    <div style={{ padding: 24 }}>
-                      {blog.category && (
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          <span style={{ padding: '4px 10px', fontSize: 11, fontWeight: 600, background: 'var(--purple-light)', color: 'var(--purple-dark)', borderRadius: 6, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                            {blog.category}
-                          </span>
-                        </div>
-                      )}
-                      <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 12px', lineHeight: 1.3 }}>
-                        {blog.title}
-                      </h3>
-                      <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.6 }}>
-                        {blog.excerpt}
-                      </p>
-                      <div className="flex items-center gap-4 mb-4 text-xs text-gray-500">
-                        {(blog.published_at || blog.created_at) && (
-                          <div className="flex items-center gap-1">
-                            <Calendar size={14} />
-                            <span>{new Date(blog.published_at || blog.created_at).toLocaleDateString()}</span>
-                          </div>
-                        )}
-                        {blog.author && (
-                          <div className="flex items-center gap-1">
-                            <Clock size={14} />
-                            <span>{blog.author}</span>
-                          </div>
-                        )}
-                      </div>
-                      <Link to={`/blog/${blog.slug}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 500, color: 'var(--purple-dark)', textDecoration: 'none' }}>
-                        Read More <ArrowRight size={16} />
-                      </Link>
-                    </div>
-                  </article>
-                ))}
+        {/* Hero */}
+        <section style={{ background: 'var(--dark)', padding: '80px 40px 60px' }}>
+          <div className="mx-auto" style={{ maxWidth: 800 }}>
+            {blog.category && (
+              <div style={{ marginBottom: 16 }}>
+                <span style={{
+                  padding: '4px 12px',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  background: 'rgba(124,59,237,0.25)',
+                  color: '#c4a7f7',
+                  borderRadius: 6,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                }}>
+                  {blog.category}
+                </span>
               </div>
             )}
-          </div>
-        </section>
-      </main>
-    </>
-  );
-}
+            <h1 style={{
+              fontFamily: "'Fraunces', serif",
+              fontWeight: 300,
+              fontSize: 'clamp(28px, 4vw, 48px)',
+              letterSpacing: '-1px',
+              color: '#fff',
+              margin: '0 0 20px',
+              lineHeight: 1.2,
+            }}>
+              {blog.title}
+            </h1>
+            {blog.excerpt && (
+              <p style={{ fontSize: 18, fontWeight: 300, color: 'rgba(255,255,255,0.75)', margin: '0 0 28px', lineHeight: 1.6 }}>
+                {blog.excerpt}
+              </p>
+            )}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center', color: 'rgba(255,255,255,0.55)', fontSize: 13 }}>
+              {blog.author && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <User size={14} />
+                  <span>{blog.author}</span>
+                </div>
+              )}
+              {publishedDate && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <Calendar size={14} />
+                  <span>{new Date(publishedDate).toLocaleDateString('en-US', { year: 'numeric', month:
