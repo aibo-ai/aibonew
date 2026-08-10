@@ -203,24 +203,6 @@ function ImageUpload({ value, onChange }) {
     </div>
   );
 }
-            <X size={12} />
-          </button>
-        </div>
-      )}
-
-      {!value && (
-        <div
-          onClick={() => fileRef.current?.click()}
-          style={{ marginTop: 10, border: '2px dashed var(--border-clr)', borderRadius: 8, padding: '24px', textAlign: 'center', cursor: 'pointer', color: 'var(--text-muted)', fontSize: 13 }}
-        >
-          <ImageIcon size={24} style={{ margin: '0 auto 8px', display: 'block', opacity: 0.4 }} />
-          Click to upload or drag & drop
-          <div style={{ fontSize: 11, marginTop: 4 }}>PNG, JPG, WebP up to 5MB</div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 // ── Main Component ────────────────────────────────────────────────────────────
 
