@@ -64,10 +64,10 @@
     "postbuild": "node scripts/prerender.js || echo '[postbuild] prerender failed, continuing without it'",
     "test": "npx craco test"
   },
-  "browserslist": {
+ "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
+      "defaults",
+      "not IE 11",
       "not op_mini all"
     ],
     "development": [
