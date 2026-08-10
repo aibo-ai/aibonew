@@ -1,0 +1,23 @@
+# MyAibo
+
+> MyAibo (Hilisa Ventures Pvt Ltd) is a Bengaluru-based AI marketing and technology agency offering Generative Engine Optimization (GEO), Answer Engine Optimization (AEO), SEO, content marketing, AI automation development, white-label development, and full-stack development for brands across India and globally.
+
+## Services
+
+- [GEO Services](https://www.myaibo.in/solutions/geo): Generative Engine Optimization — improving brand visibility and citation share in AI-generated answers (ChatGPT, Perplexity, Gemini).
+- [AEO Services](https://www.myaibo.in/solutions/aeo): Answer Engine Optimization — structuring content to be directly surfaced as answers by AI and voice assistants.
+- [SEO Services](https://www.myaibo.in/solutions/seo): Traditional search engine optimization and organic visibility.
+- [Content Marketing](https://www.myaibo.in/solutions/content-marketing): Strategic content production and distribution.
+- [AI Automation](https://www.myaibo.in/solutions/ai-automations): Custom AI workforce and automation development.
+- [Full Stack Development](https://www.myaibo.in/solutions/full-stack): End-to-end web application and platform development.
+
+## Company
+
+- [About](https://www.myaibo.in/about): Company background and team.
+- [Case Studies](https://www.myaibo.in/case-studies): Client results and outcomes.
+- [Blog](https://www.myaibo.in/blogs): Insights on GEO, AEO, SEO, and AI marketing.
+- [Contact](https://www.myaibo.in/contact): Get in touch.
+
+## Optional
+
+- [Sitemap](https://www.myaibo.in/sitemap.xml): Full list of indexable pages.
