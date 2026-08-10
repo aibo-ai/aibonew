@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd frontend && if git log -1 --pretty=%B | grep -q '\\[skip ci\\]'; then echo 'Skipping rebuild — using prerendered output from CI'; else NODE_ENV=development npm install --legacy-peer-deps && npm run build; fi",
+  "buildCommand": "cd frontend && npm install --legacy-peer-deps && npx playwright install --with-deps chromium && npm run build",
   "outputDirectory": "frontend/build",
   "redirects": [
     { "source": "/solutions/ai-ml", "destination": "/solutions/ai-automations", "permanent": true },
