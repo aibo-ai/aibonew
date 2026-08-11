@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.366a350c.css",
+    "main.css": "/static/css/main.342a264e.css",
     "main.js": "/static/js/main.c5536f43.js",
     "static/js/908.a1a386ab.chunk.js": "/static/js/908.a1a386ab.chunk.js",
     "static/js/548.98e2a52c.chunk.js": "/static/js/548.98e2a52c.chunk.js",
@@ -16,8 +16,22 @@
     "static/js/857.6cd25342.chunk.js": "/static/js/857.6cd25342.chunk.js",
     "static/js/591.105c935e.chunk.js": "/static/js/591.105c935e.chunk.js",
     "static/js/211.17ef602e.chunk.js": "/static/js/211.17ef602e.chunk.js",
+    "static/media/inter-latin-600-normal.woff": "/static/media/inter-latin-600-normal.f10265da6bd8d66999ac.woff",
+    "static/media/fraunces-latin-300-italic.woff": "/static/media/fraunces-latin-300-italic.a75701cd8b6d9d54bb19.woff",
+    "static/media/inter-latin-600-normal.woff2": "/static/media/inter-latin-600-normal.69a8d1d484967aba2389.woff2",
+    "static/media/fraunces-latin-300-italic.woff2": "/static/media/fraunces-latin-300-italic.3cf8c24db8d729250f12.woff2",
+    "static/media/fraunces-latin-600-normal.woff": "/static/media/fraunces-latin-600-normal.abcc7b0dbd26f0a00e13.woff",
+    "static/media/fraunces-latin-300-normal.woff": "/static/media/fraunces-latin-300-normal.2810e466d55669b76c25.woff",
+    "static/media/dm-sans-latin-500-normal.woff": "/static/media/dm-sans-latin-500-normal.ed11bdb46a5adfbb6416.woff",
+    "static/media/dm-sans-latin-400-normal.woff": "/static/media/dm-sans-latin-400-normal.2c8c7be0365aecdaf260.woff",
+    "static/media/fraunces-latin-600-normal.woff2": "/static/media/fraunces-latin-600-normal.2ff38412868fc8bf103b.woff2",
+    "static/media/fraunces-latin-300-normal.woff2": "/static/media/fraunces-latin-300-normal.9ea469d78f5b83e89929.woff2",
+    "static/media/dm-sans-latin-300-normal.woff": "/static/media/dm-sans-latin-300-normal.fbd4aab74294673a3a7d.woff",
+    "static/media/dm-sans-latin-500-normal.woff2": "/static/media/dm-sans-latin-500-normal.95be878c7de25e1db4c0.woff2",
+    "static/media/dm-sans-latin-400-normal.woff2": "/static/media/dm-sans-latin-400-normal.97def203da337e26d827.woff2",
+    "static/media/dm-sans-latin-300-normal.woff2": "/static/media/dm-sans-latin-300-normal.492712424f428ca228aa.woff2",
     "index.html": "/index.html",
-    "main.366a350c.css.map": "/static/css/main.366a350c.css.map",
+    "main.342a264e.css.map": "/static/css/main.342a264e.css.map",
     "main.c5536f43.js.map": "/static/js/main.c5536f43.js.map",
     "908.a1a386ab.chunk.js.map": "/static/js/908.a1a386ab.chunk.js.map",
     "548.98e2a52c.chunk.js.map": "/static/js/548.98e2a52c.chunk.js.map",
@@ -35,7 +49,7 @@
     "211.17ef602e.chunk.js.map": "/static/js/211.17ef602e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.366a350c.css",
+    "static/css/main.342a264e.css",
     "static/js/main.c5536f43.js"
   ]
 }
