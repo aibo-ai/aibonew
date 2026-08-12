@@ -3,8 +3,8 @@ import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navigation from "@/components/sections/Navigation";
 import Footer from "@/components/sections/Footer";
+import HomePage from "@/pages/HomePage";
 
-const HomePage = lazy(() => import("@/pages/HomePage"));
 const ServicePage = lazy(() => import("@/pages/ServicePage"));
 const ClusterPage = lazy(() => import("@/pages/ClusterPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
