@@ -1,5 +1,24 @@
 import { Link } from 'react-router-dom';
 
+const OFFICES = [
+  {
+    country: 'India',
+    address: 'ECC Road, Whitefield, Bengaluru - 560066',
+  },
+  {
+    country: 'Germany',
+    address: 'Helene-Jacobs-Straße, Berlin - 14199',
+  },
+  {
+    country: 'Czech Republic',
+    address: 'Na Babě, Dejvice, Praha - 16000',
+  },
+  {
+    country: 'USA',
+    address: 'Peachtree Industrial Blvd, Duluth, GA 30097',
+  },
+];
+
 export default function Footer() {
   return (
     <footer style={{ background: 'var(--dark)', padding: '64px 40px 32px', borderTop: '1px solid rgba(124,59,237,0.2)' }}>
@@ -140,6 +159,25 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Global Offices */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 40, marginBottom: 40 }}>
+          <h4 style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 24 }}>
+            OUR OFFICES
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {OFFICES.map((office) => (
+              <div key={office.country}>
+                <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.85)', marginBottom: 6 }}>
+                  {office.country}
+                </div>
+                <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.6, margin: 0 }}>
+                  {office.address}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
