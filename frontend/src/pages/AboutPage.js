@@ -31,6 +31,7 @@ export default function AboutPage() {
       <SEO 
         title="About MyAibo — Marketing & AI Technology Agency"
         description="Founded by veterans from Flipkart, InMobi, Zomato, and Leena.ai. MyAibo combines deep marketing and AI engineering expertise under one roof."
+        path="/about"
       />
       <main>
       {/* Vision Section */}

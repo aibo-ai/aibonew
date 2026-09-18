@@ -85,12 +85,28 @@ async function getBlogRoutes() {
   }
 }
 
+async function getCaseStudyRoutes() {
+  try {
+    const res = await fetch(`${PROD_API}/api/admin/public/case-studies`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const studies = await res.json();
+    const list = Array.isArray(studies) ? studies : studies.caseStudies || [];
+    return list.map((cs) => `/case-study/${cs.id}`);
+  } catch (err) {
+    console.warn(
+      `[prerender] Skipping case study routes — could not reach ${PROD_API}: ${err.message}`
+    );
+    return [];
+  }
+}
+
 async function getRoutes() {
   const routes = [
     ...STATIC_ROUTES,
     ...PILLARS.map((p) => `/solutions/${p}`),
     ...getClusterRoutes(),
     ...(await getBlogRoutes()),
+    ...(await getCaseStudyRoutes()),
   ];
   return [...new Set(routes)];
 }

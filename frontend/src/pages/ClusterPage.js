@@ -90,7 +90,7 @@ export default function ClusterPage() {
 
   return (
     <>
-      <SEO title={data.meta.title} description={data.meta.description} />
+      <SEO title={data.meta.title} description={data.meta.description} path={`/solutions/${pillar}/${cluster}`} />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>

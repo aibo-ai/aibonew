@@ -30,6 +30,7 @@ export default function CaseStudiesPage() {
       <SEO 
         title="Client Case Studies & Results | MyAibo"
         description="Real outcomes across marketing and technology — +156% conversions, 8x faster inventory, and sales capacity tripled. See the full results."
+        path="/case-studies"
       />
       <main style={{ paddingTop: 64 }}>
       {/* Hero Section */}

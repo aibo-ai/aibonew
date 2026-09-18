@@ -29,6 +29,7 @@ export default function BlogsPage() {
       <SEO
         title="Blog — AI, Marketing & Technology Insights | MyAibo"
         description="Expert perspectives on GEO, AEO, SEO, AI automation, and full-stack development from the team building systems that actually compound."
+        path="/blogs"
       />
       <main style={{ paddingTop: 64 }}>
         <section style={{ background: 'var(--dark)', padding: '100px 40px 60px' }}>

@@ -11,6 +11,7 @@ const AboutPage = lazy(() => import("@/pages/AboutPage"));
 const BlogsPage = lazy(() => import("@/pages/BlogsPage"));
 const BlogPage = lazy(() => import("@/pages/BlogPage"));
 const CaseStudiesPage = lazy(() => import("@/pages/CaseStudiesPage"));
+const CaseStudyPage = lazy(() => import("@/pages/CaseStudyPage"));
 const ContactPage = lazy(() => import("@/pages/ContactPage"));
 const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
@@ -55,6 +56,13 @@ function App() {
               <>
                 <Navigation />
                 <CaseStudiesPage />
+                <Footer />
+              </>
+            } />
+            <Route path="/case-study/:id" element={
+              <>
+                <Navigation />
+                <CaseStudyPage />
                 <Footer />
               </>
             } />

@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, Tag, ArrowLeft } from 'lucide-react';
 import SEO from '@/components/SEO';
+import RelatedPosts from '@/components/sections/RelatedPosts';
 import { BACKEND_URL } from '@/lib/constants';
 
 export default function BlogPage() {
@@ -199,6 +200,8 @@ export default function BlogPage() {
             />
           </div>
         </section>
+
+        <RelatedPosts currentBlog={blog} />
       </main>
     </>
   );

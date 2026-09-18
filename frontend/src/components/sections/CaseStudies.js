@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+
 const caseStudies = [
   {
     type: 'Marketing',
@@ -195,6 +198,16 @@ export default function CaseStudies() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Link
+            to="/case-studies"
+            className="inline-flex items-center gap-2"
+            style={{ fontSize: 14, fontWeight: 500, color: 'var(--purple-dark)', textDecoration: 'none' }}
+          >
+            View all case studies <ArrowRight size={14} />
+          </Link>
         </div>
       </div>
     </section>

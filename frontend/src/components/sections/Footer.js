@@ -6,10 +6,6 @@ const OFFICES = [
     address: 'ECC Road, Whitefield, Bengaluru - 560066',
   },
   {
-    country: 'Germany',
-    address: 'Helene-Jacobs-Straße, Berlin - 14199',
-  },
-  {
     country: 'Czech Republic',
     address: 'Na Babě, Dejvice, Praha - 16000',
   },
@@ -167,7 +163,7 @@ export default function Footer() {
           <h4 style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 24 }}>
             OUR OFFICES
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             {OFFICES.map((office) => (
               <div key={office.country}>
                 <div style={{ fontSize: 14, fontWeight: 500, color: 'rgba(255,255,255,0.85)', marginBottom: 6 }}>
