@@ -2,8 +2,9 @@ import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { BACKEND_URL } from '@/lib/constants';
+import { clusterPages } from '@/data/clusterPagesData';
 
-// Maps a blog's category to the most relevant /solutions/ pillar page.
+// Maps a blog's category to the most relevant /solutions/ PILLAR page.
 // Matched by substring so new categories degrade gracefully instead of
 // throwing — a category that matches nothing simply renders no service link.
 const CATEGORY_TO_SOLUTION = [
@@ -15,9 +16,48 @@ const CATEGORY_TO_SOLUTION = [
   { test: /content|creative/i, path: '/solutions/content-marketing', label: 'Content Marketing' },
 ];
 
-function solutionForCategory(category) {
-  if (!category) return null;
-  return CATEGORY_TO_SOLUTION.find((c) => c.test.test(category)) || null;
+const STOPWORDS = new Set([
+  'the', 'and', 'for', 'with', 'from', 'that', 'this', 'your', 'you', 'are',
+  'how', 'what', 'why', 'when', 'who', 'its', 'it\'s', 'a', 'an', 'to', 'of',
+  'in', 'on', 'is', 'as', 'or', 'by', 'at', 'be', 'not', 'no', 'vs', 'vs.',
+]);
+
+function significantWords(text) {
+  return (text || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 3 && !STOPWORDS.has(w));
+}
+
+// Prefers a specific cluster sub-page (e.g. "Topical Authority & Entity SEO")
+// over the generic pillar page whenever the post's own title/tags clearly
+// overlap with one — so a post about topical authority links to that exact
+// service page instead of just the general SEO pillar. Falls back to the
+// category → pillar mapping when no cluster page overlaps meaningfully.
+function bestSolutionMatch(blog) {
+  const blogWords = new Set([
+    ...significantWords(blog.title),
+    ...significantWords(Array.isArray(blog.tags) ? blog.tags.join(' ') : ''),
+  ]);
+
+  let best = null;
+  let bestScore = 0;
+  for (const cluster of clusterPages) {
+    const clusterWords = significantWords(`${cluster.subLabel} ${cluster.eyebrow || ''}`);
+    const score = clusterWords.filter((w) => blogWords.has(w)).length;
+    if (score > bestScore) {
+      bestScore = score;
+      best = cluster;
+    }
+  }
+
+  if (best && bestScore >= 2) {
+    return { path: `/solutions/${best.pillar}/${best.slug}`, label: best.subLabel };
+  }
+
+  if (!blog.category) return null;
+  return CATEGORY_TO_SOLUTION.find((c) => c.test.test(blog.category)) || null;
 }
 
 // Scores every other published post by shared tags, falling back to shared
@@ -76,7 +116,7 @@ export default function RelatedPosts({ currentBlog }) {
     fetchRelated();
   }, [fetchRelated]);
 
-  const solution = solutionForCategory(currentBlog.category);
+  const solution = bestSolutionMatch(currentBlog);
 
   if (loading) return null;
 

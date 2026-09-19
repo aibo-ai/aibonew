@@ -3,28 +3,29 @@ import { ArrowRight } from 'lucide-react';
 
 // Curated, not auto-generated: these are the posts we most want the
 // homepage — the site's highest-authority page — linking directly into,
-// rather than routing everyone through /blogs two hops deep.
+// rather than routing everyone through /blogs two hops deep. Ordered by
+// priority: zero-impression posts need the link equity most.
 const FEATURED_POSTS = [
+  {
+    slug: 'website-speed-architecture-seo-ai-ranking-factor',
+    category: 'SEO',
+    title: 'Website speed & architecture: the ranking factor marketing teams keep outsourcing to no one',
+    excerpt: "Site speed and architecture aren't just Google ranking signals anymore — they decide whether AI engines cite you.",
+    image: 'https://uymhyszw5ybjqagu.public.blob.vercel-storage.com/blog-images/1784719289368-Thumbnail%20blog%20new-K1ubfHIa6ZUFg1VjDZbYbstE29bSBU.png',
+  },
   {
     slug: 'topical-authority-replacing-keywords',
     category: 'SEO',
-    title: "What Is Topical Authority And How It's Replacing Keywords as the #1 SEO Signal",
+    title: "What is topical authority, and how it's replacing keywords as the #1 SEO signal",
     excerpt: 'Google no longer rewards pages that mention the right keywords — it rewards websites that genuinely own a subject.',
     image: 'https://uymhyszw5ybjqagu.public.blob.vercel-storage.com/blog-images/1780677529643-Picture%201-iQXiGsppL0xMEgQ1QFSIHBAf6Etd2T.jpg',
   },
   {
     slug: 'ai-native-agency-vs-traditional-marketing-agency',
     category: 'AI Native Agency',
-    title: 'AI-Native Agency vs. Traditional Marketing Agency: How to Choose in 2026',
+    title: 'AI-native agency vs. traditional marketing agency: how to choose in 2026',
     excerpt: "Every marketing leader evaluating agency partners in 2026 faces a question that didn't exist five years ago.",
     image: 'https://uymhyszw5ybjqagu.public.blob.vercel-storage.com/blog-images/1786377256064-Cover-ab0BrdqUeIIbSUlDELhKoqnUVgkCTv.png',
-  },
-  {
-    slug: 'website-speed-architecture-seo-ai-ranking-factor',
-    category: 'SEO',
-    title: 'Website Speed & Architecture: The Ranking Factor Marketing Teams Keep Outsourcing to No One',
-    excerpt: "Site speed and architecture aren't just Google ranking signals anymore — they decide whether AI engines cite you.",
-    image: 'https://uymhyszw5ybjqagu.public.blob.vercel-storage.com/blog-images/1784719289368-Thumbnail%20blog%20new-K1ubfHIa6ZUFg1VjDZbYbstE29bSBU.png',
   },
 ];
 

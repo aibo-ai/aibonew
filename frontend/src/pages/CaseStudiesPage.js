@@ -5,6 +5,23 @@ import SEO from '@/components/SEO';
 
 import { BACKEND_URL } from '@/lib/constants';
 
+const FALLBACK_DESCRIPTION =
+  'Real client outcomes across marketing and technology — GEO, AEO, SEO, content, automation, and full-stack development. See the full results.';
+
+// Built from whatever is actually published, so this can't drift out of
+// sync with the page's real content the way a hand-written description can
+// once case studies are added or removed.
+function buildDescription(caseStudies) {
+  const highlights = caseStudies
+    .flatMap((cs) => Object.entries(cs.metrics || {}))
+    .filter(([key, val]) => /%|x$/i.test(String(val)) && key !== 'timeframe')
+    .map(([key, val]) => `${val} ${key.replace(/_/g, ' ')}`)
+    .slice(0, 3);
+
+  if (highlights.length === 0) return FALLBACK_DESCRIPTION;
+  return `Real client outcomes across marketing and technology — ${highlights.join(', ')}. See the full results.`;
+}
+
 export default function CaseStudiesPage() {
   const [caseStudies, setCaseStudies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,9 +44,9 @@ export default function CaseStudiesPage() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Client Case Studies & Results | MyAibo"
-        description="Real outcomes across marketing and technology — +156% conversions, 8x faster inventory, and sales capacity tripled. See the full results."
+        description={buildDescription(caseStudies)}
         path="/case-studies"
       />
       <main style={{ paddingTop: 64 }}>
