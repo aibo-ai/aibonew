@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { ArrowDown, ArrowRight, Check, X } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUp, Check, X } from "lucide-react";
 import SectionLabel from "@/components/sections/SectionLabel";
 import { BOOKING_URL } from "@/lib/constants";
 import { trackBookingClick } from "@/lib/analytics";
@@ -12,8 +12,104 @@ import { contentMarketingData } from "@/data/contentMarketingData";
 import { aiAutomationsData } from "@/data/aiAutomationsData";
 import { whiteLabelData } from "@/data/whiteLabelData";
 import { fullStackData } from "@/data/fullStackData";
+import { pillarHeroStats } from "@/data/pillarHeroStats";
 import SEO from "@/components/SEO";
 import ClusterLinksBar from "@/components/sections/ClusterLinksBar";
+import BrowserChrome from "@/components/sections/BrowserChrome";
+
+// Same generic, data-driven hero mockup pattern as ClusterPage — templated
+// from fields every pillar page already has, with a real published stat
+// from pillarHeroStats rather than per-page bespoke mockup content.
+function PillarHeroMockup({ data, slug }) {
+  const stat = pillarHeroStats[slug];
+  return (
+    <div className="relative" style={{ minHeight: 340 }}>
+      <BrowserChrome url="chatgpt.com" badge="LIVE">
+        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 14 }}>
+          Who's the best {data.pageTitle} partner in India?
+        </div>
+        <div style={{ paddingTop: 12, borderTop: '1px solid var(--border-clr)' }}>
+          <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
+            <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>ChatGPT</span>
+          </div>
+          <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)', margin: 0, paddingLeft: 28 }}>
+            For {data.pageTitle}, marketing and AI teams consistently cite{' '}
+            <span style={{ background: 'var(--purple-light)', color: 'var(--purple-dark)', fontWeight: 600, padding: '1px 4px', borderRadius: 4 }}>
+              MyAibo
+            </span>{' '}
+            for measurable, compounding results.
+          </p>
+        </div>
+      </BrowserChrome>
+
+      {stat && (
+        <div
+          className="absolute hidden md:block"
+          style={{
+            top: -22,
+            right: -20,
+            background: 'var(--dark)',
+            borderRadius: 16,
+            padding: '14px 18px',
+            boxShadow: '0 12px 30px rgba(15,10,30,0.35)',
+            width: 168,
+          }}
+        >
+          <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
+            {stat.label}
+          </div>
+          <div className="flex items-center gap-1" style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 600, color: '#fff' }}>
+            <ArrowUp size={16} color="#4ADE80" />
+            {stat.value}
+          </div>
+          <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.55)' }}>{stat.sub}</div>
+        </div>
+      )}
+
+      <div
+        className="absolute hidden md:block"
+        style={{
+          bottom: -28,
+          left: -24,
+          background: 'var(--white)',
+          border: '1px solid var(--border-clr)',
+          borderRadius: 16,
+          padding: 16,
+          boxShadow: '0 16px 36px rgba(15,10,30,0.22)',
+          width: 230,
+        }}
+      >
+        <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
+          <span
+            style={{
+              fontSize: 9.5,
+              fontWeight: 700,
+              letterSpacing: '0.06em',
+              color: 'var(--purple-dark)',
+              background: 'var(--purple-light)',
+              borderRadius: 5,
+              padding: '2px 7px',
+            }}
+          >
+            PERPLEXITY
+          </span>
+          <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16A34A' }}>● CITED</span>
+        </div>
+        <p style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text-primary)', margin: '0 0 8px' }}>
+          {data.pageTitle} — cited across ChatGPT, Perplexity, and Google AI Overviews.
+        </p>
+        <div className="flex flex-wrap gap-1">
+          {['myaibo.in', `solutions/${slug}`, 'case studies'].map((c) => (
+            <span key={c} style={{ fontSize: 9.5, color: 'var(--text-muted)', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 4, padding: '2px 6px' }}>
+              ● {c}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const seoMetaData = {
   geo: {
@@ -140,45 +236,49 @@ export default function ServicePage() {
       {/* ─── HERO ─── */}
       <section
         className="relative hero-dotgrid"
-        style={{ padding: '150px 40px 80px', overflow: 'hidden' }}
+        style={{ padding: '150px 40px 90px', overflow: 'hidden' }}
       >
-        <div className="relative z-10 mx-auto" style={{ maxWidth: 800 }}>
-          {/* Breadcrumb */}
-          <div className="mb-5" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-            <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-            <span className="mx-2">/</span>
-            <span style={{ color: 'var(--purple-dark)' }}>{data.pageTitle}</span>
+        <div className="relative z-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center" style={{ maxWidth: 1180 }}>
+          <div>
+            {/* Breadcrumb */}
+            <div className="mb-5" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+              <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
+              <span className="mx-2">/</span>
+              <span style={{ color: 'var(--purple-dark)' }}>{data.pageTitle}</span>
+            </div>
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 mb-5" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}>
+              <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
+              <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>{data.eyebrow}</span>
+            </div>
+            <h1 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(32px, 4.4vw, 52px)', letterSpacing: '-1.5px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '0 0 18px' }}>
+              {data.headline}
+            </h1>
+            <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 540 }}>
+              {data.subheadline}
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-purple"
+                style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
+                onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'hero' })}
+              >
+                Book Free Strategy Session
+              </a>
+              <a
+                href="#intro"
+                className="inline-flex items-center gap-2"
+                style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
+              >
+                {data.ctaSecondary} <ArrowDown size={15} />
+              </a>
+            </div>
           </div>
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 mb-5" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}>
-            <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-            <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>{data.eyebrow}</span>
-          </div>
-          <h1 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(36px, 5vw, 60px)', letterSpacing: '-1.5px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '0 0 18px' }}>
-            {data.headline}
-          </h1>
-          <p style={{ fontSize: 17, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 580 }}>
-            {data.subheadline}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-purple"
-              style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
-              onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'hero' })}
-            >
-              Book Free Strategy Session
-            </a>
-            <a
-              href="#intro"
-              className="inline-flex items-center gap-2"
-              style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
-            >
-              {data.ctaSecondary} <ArrowDown size={15} />
-            </a>
-          </div>
+
+          <PillarHeroMockup data={data} slug={slug} />
         </div>
       </section>
 
