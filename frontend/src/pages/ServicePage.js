@@ -186,7 +186,7 @@ export default function ServicePage() {
       <ClusterLinksBar pillarSlug={slug} />
 
       {/* ─── INTRO ─── */}
-      <section id="intro" style={{ background: 'var(--white)', padding: '80px 40px' }}>
+      <section id="intro" style={{ background: 'var(--white)', padding: '100px 40px' }}>
         <div className="mx-auto" style={{ maxWidth: 800 }}>
           <SectionLabel text={data.intro.label} />
           <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 20px', lineHeight: 1.15 }}>
@@ -196,7 +196,7 @@ export default function ServicePage() {
             <p key={`intro-${i}-${p.slice(0, 20)}`} style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.7, margin: '0 0 14px' }}>{p}</p>
           ))}
           {/* Callout */}
-          <div className="mt-8 flex gap-5 items-start" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 12, padding: '24px 28px' }}>
+          <div className="mt-8 flex gap-5 items-start" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 16, padding: '24px 28px' }}>
             <span style={{ fontFamily: "'Fraunces', serif", fontSize: 42, fontWeight: 600, color: accentColor, lineHeight: 1, flexShrink: 0 }}>
               {data.intro.calloutStat}
             </span>
@@ -208,10 +208,10 @@ export default function ServicePage() {
       </section>
 
       {/* ─── BEFORE vs AFTER ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
         <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-6" style={{ maxWidth: 900 }}>
           {/* Without */}
-          <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 28 }}>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
             <div className="flex items-center gap-2 mb-5">
               <X size={18} style={{ color: 'var(--text-muted)' }} />
               <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
@@ -226,7 +226,7 @@ export default function ServicePage() {
             ))}
           </div>
           {/* With */}
-          <div style={{ background: 'var(--dark)', borderRadius: 12, padding: 28 }}>
+          <div style={{ background: 'var(--dark)', borderRadius: 16, padding: 28 }}>
             <div className="flex items-center gap-2 mb-5">
               <Check size={18} style={{ color: '#A07AF0' }} />
               <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: '#fff', margin: 0 }}>
@@ -244,7 +244,7 @@ export default function ServicePage() {
       </section>
 
       {/* ─── PROCESS ─── */}
-      <section style={{ background: 'var(--white)', padding: '80px 40px' }}>
+      <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
         <div className="mx-auto" style={{ maxWidth: 800 }}>
           <SectionLabel text={data.process.label} />
           <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 36px', lineHeight: 1.15 }}>
@@ -270,7 +270,7 @@ export default function ServicePage() {
       </section>
 
       {/* ─── DELIVERABLES ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
           <div className="text-center mb-10">
             <SectionLabel text={data.deliverables.label} centered />
@@ -280,7 +280,7 @@ export default function ServicePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.deliverables.cards.map((c, i) => (
-              <div key={`del-${i}-${c.title}`} className="card-lift" style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 28 }}>
+              <div key={`del-${i}-${c.title}`} className="card-lift" style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
                 <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
                 <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
               </div>
@@ -290,7 +290,7 @@ export default function ServicePage() {
       </section>
 
       {/* ─── WHY NOW ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
           <div className="text-center mb-12">
             <SectionLabel text={data.whyNow.label} centered />
@@ -309,7 +309,7 @@ export default function ServicePage() {
                   style={{
                     background: bg === 'purple' ? 'var(--purple-light)' : bg === 'amber' ? 'var(--amber-light)' : 'var(--white)',
                     border: '1px solid var(--border-clr)',
-                    borderRadius: 14,
+                    borderRadius: 18,
                     padding: '22px 18px',
                   }}
                 >
@@ -323,7 +323,7 @@ export default function ServicePage() {
           {/* Context cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {data.whyNow.contextCards.map((c) => (
-              <div key={`ctx-${c.title}`} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 28 }}>
+              <div key={`ctx-${c.title}`} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
                 <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
                 <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
               </div>
@@ -333,7 +333,7 @@ export default function ServicePage() {
       </section>
 
       {/* ─── RESULTS ─── */}
-      <section style={{ background: 'var(--white)', padding: '80px 40px' }}>
+      <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
         <div className="mx-auto" style={{ maxWidth: 900 }}>
           <div className="text-center mb-10">
             <SectionLabel text={data.results.label} centered />
@@ -342,7 +342,7 @@ export default function ServicePage() {
             </h2>
           </div>
           {/* Metrics table */}
-          <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 12, overflow: 'hidden', marginBottom: 32 }}>
+          <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden', marginBottom: 32 }}>
             <div className="grid grid-cols-2" style={{ borderBottom: '1px solid var(--border-clr)', padding: '14px 28px', background: 'var(--white)' }}>
               <span style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>Metric</span>
               <span style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>Result</span>
@@ -355,7 +355,7 @@ export default function ServicePage() {
             ))}
           </div>
           {/* Testimonial */}
-          <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 12, padding: 28 }}>
+          <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 16, padding: 28 }}>
             <span style={{ fontFamily: "'Fraunces', serif", fontSize: 28, color: 'var(--purple)', display: 'block', marginBottom: 6, lineHeight: 1 }}>&ldquo;</span>
             <p style={{ fontSize: 15, fontWeight: 300, color: 'var(--text-primary)', lineHeight: 1.7, fontStyle: 'italic', margin: '0 0 16px' }}>
               {data.results.testimonial.quote}

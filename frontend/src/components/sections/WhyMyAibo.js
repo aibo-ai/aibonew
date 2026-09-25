@@ -40,7 +40,7 @@ export default function WhyMyAibo() {
       data-testid="why-myaibo-section"
       style={{
         background: 'var(--off-white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -84,7 +84,7 @@ export default function WhyMyAibo() {
               style={{
                 background: 'var(--white)',
                 border: '1px solid var(--border-clr)',
-                borderRadius: 12,
+                borderRadius: 16,
                 padding: '32px 28px',
               }}
             >
@@ -94,7 +94,7 @@ export default function WhyMyAibo() {
                   width: 48,
                   height: 48,
                   background: 'var(--purple-light)',
-                  borderRadius: 12,
+                  borderRadius: 16,
                 }}
               >
                 <reason.icon size={24} style={{ color: 'var(--purple-dark)' }} />

@@ -51,7 +51,7 @@ export default function ContactPage() {
         </section>
 
         {/* Main Content */}
-        <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+        <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
           <div className="mx-auto" style={{ maxWidth: 1100 }}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               <ContactInfoPanel />

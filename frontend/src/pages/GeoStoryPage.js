@@ -97,7 +97,7 @@ function HeroMockup({ slug, mockup }) {
           top: -22,
           right: -20,
           background: 'var(--dark)',
-          borderRadius: 12,
+          borderRadius: 16,
           padding: '14px 18px',
           boxShadow: '0 12px 30px rgba(15,10,30,0.35)',
           width: 168,
@@ -121,7 +121,7 @@ function HeroMockup({ slug, mockup }) {
           left: -24,
           background: 'var(--white)',
           border: '1px solid var(--border-clr)',
-          borderRadius: 12,
+          borderRadius: 16,
           padding: 16,
           boxShadow: '0 16px 36px rgba(15,10,30,0.22)',
           width: 240,
@@ -299,7 +299,7 @@ export default function GeoStoryPage({ slug }) {
                 <div
                   key={s.num}
                   className="card-lift"
-                  style={{ background: ACCENT_BG[s.accent], border: '1px solid var(--border-clr)', borderRadius: 14, padding: '24px 22px' }}
+                  style={{ background: ACCENT_BG[s.accent], border: '1px solid var(--border-clr)', borderRadius: 18, padding: '24px 22px' }}
                 >
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 10 }}>
                     {s.num} · {s.label}
@@ -351,7 +351,7 @@ export default function GeoStoryPage({ slug }) {
                       </span>
                     ))}
                   </div>
-                  <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 20 }}>
+                  <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 20 }}>
                     <div
                       className="inline-flex items-center gap-2 mb-3"
                       style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--purple-dark)', background: 'var(--purple-light)', borderRadius: 5, padding: '3px 8px' }}
@@ -387,11 +387,11 @@ export default function GeoStoryPage({ slug }) {
                 <div
                   key={p.title}
                   className="card-lift"
-                  style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 14, padding: '26px 24px', display: 'flex', flexDirection: 'column' }}
+                  style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 18, padding: '26px 24px', display: 'flex', flexDirection: 'column' }}
                 >
                   <div
                     className="flex items-center justify-center mb-4"
-                    style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--purple-light)', color: 'var(--purple-dark)', fontFamily: "'Fraunces', serif", fontSize: 14, fontWeight: 600 }}
+                    style={{ width: 36, height: 36, borderRadius: 14, background: 'var(--purple-light)', color: 'var(--purple-dark)', fontFamily: "'Fraunces', serif", fontSize: 14, fontWeight: 600 }}
                   >
                     0{i + 1}
                   </div>
@@ -421,7 +421,7 @@ export default function GeoStoryPage({ slug }) {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch mb-16">
-              <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
+              <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 20, padding: 28 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--text-muted)', marginBottom: 10 }}>
                   {story.signal.leftLabel}
                 </div>
@@ -429,14 +429,14 @@ export default function GeoStoryPage({ slug }) {
                   {story.signal.leftTitle}
                 </h3>
                 {story.signal.leftItems.map((it) => (
-                  <div key={it.quote} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 10, padding: '12px 16px', marginBottom: 10 }}>
+                  <div key={it.quote} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 14, padding: '12px 16px', marginBottom: 10 }}>
                     <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--purple-dark)', marginBottom: 4 }}>{it.meta}</div>
                     <div style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{it.quote}</div>
                   </div>
                 ))}
               </div>
 
-              <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.25)', borderRadius: 16, padding: 28 }}>
+              <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.25)', borderRadius: 20, padding: 28 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--purple-dark)', marginBottom: 10 }}>
                   {story.signal.rightLabel}
                 </div>
@@ -444,7 +444,7 @@ export default function GeoStoryPage({ slug }) {
                   {story.signal.rightTitle}
                 </h3>
                 {story.signal.rightItems.map((it) => (
-                  <div key={it.source} style={{ background: 'var(--white)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 10, padding: '12px 16px', marginBottom: 10 }}>
+                  <div key={it.source} style={{ background: 'var(--white)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 14, padding: '12px 16px', marginBottom: 10 }}>
                     <div style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--purple-dark)', marginBottom: 4 }}>● {it.source}</div>
                     <div style={{ fontSize: 13, color: 'var(--text-primary)', lineHeight: 1.55 }}>{it.text}</div>
                   </div>
@@ -460,7 +460,7 @@ export default function GeoStoryPage({ slug }) {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 14, padding: 24, textAlign: 'center' }}>
+              <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 18, padding: 24, textAlign: 'center' }}>
                 <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 14 }}>
                   ● BEFORE
                 </div>
@@ -471,7 +471,7 @@ export default function GeoStoryPage({ slug }) {
                   LLM: &ldquo;{story.beforeAfter.before}&rdquo;
                 </p>
               </div>
-              <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.25)', borderRadius: 14, padding: 24, textAlign: 'center' }}>
+              <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.25)', borderRadius: 18, padding: 24, textAlign: 'center' }}>
                 <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--purple-dark)', marginBottom: 14 }}>
                   ● AFTER
                 </div>
@@ -507,7 +507,7 @@ export default function GeoStoryPage({ slug }) {
                     style={{
                       background: isDark ? 'var(--dark)' : isAccent ? 'var(--purple-light)' : 'var(--white)',
                       border: isDark ? 'none' : '1px solid var(--border-clr)',
-                      borderRadius: 14,
+                      borderRadius: 18,
                       padding: '24px 22px',
                     }}
                   >
@@ -553,7 +553,7 @@ export default function GeoStoryPage({ slug }) {
                     key={s.slug}
                     to={`/solutions/${s.pillar}/${s.slug}`}
                     className="card-lift"
-                    style={{ display: 'block', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: '22px 22px', textDecoration: 'none' }}
+                    style={{ display: 'block', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: '22px 22px', textDecoration: 'none' }}
                   >
                     <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 8 }}>
                       GEO

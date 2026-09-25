@@ -98,7 +98,7 @@ export default function CaseStudiesPage() {
       <section
         style={{
           background: 'var(--off-white)',
-          padding: '80px 40px',
+          padding: '100px 40px',
         }}
       >
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -117,7 +117,7 @@ export default function CaseStudiesPage() {
                   key={study.id}
                   style={{
                     background: 'var(--white)',
-                    borderRadius: 12,
+                    borderRadius: 16,
                     border: '1px solid var(--border-clr)',
                     overflow: 'hidden',
                     transition: 'transform 0.2s, box-shadow 0.2s',

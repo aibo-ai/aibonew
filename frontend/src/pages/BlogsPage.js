@@ -49,7 +49,7 @@ export default function BlogsPage() {
             </p>
           </div>
         </section>
-        <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+        <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
           <div className="mx-auto" style={{ maxWidth: 1100 }}>
             {loading ? (
               <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
@@ -64,7 +64,7 @@ export default function BlogsPage() {
                 {blogs.map((blog) => (
                   <article
                     key={blog.id}
-                    style={{ background: 'var(--white)', borderRadius: 12, border: '1px solid var(--border-clr)', overflow: 'hidden', transition: 'transform 0.2s, box-shadow 0.2s' }}
+                    style={{ background: 'var(--white)', borderRadius: 16, border: '1px solid var(--border-clr)', overflow: 'hidden', transition: 'transform 0.2s, box-shadow 0.2s' }}
                     onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)'; }}
                     onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
                   >{blog.featured_image && (

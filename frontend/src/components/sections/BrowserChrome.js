@@ -7,7 +7,7 @@ export default function BrowserChrome({ url, badge, children }) {
     <div
       style={{
         background: 'var(--white)',
-        borderRadius: 14,
+        borderRadius: 18,
         border: '1px solid var(--border-clr)',
         boxShadow: '0 20px 60px rgba(15,10,30,0.18)',
         overflow: 'hidden',

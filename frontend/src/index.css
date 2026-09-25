@@ -102,11 +102,12 @@ body {
 
 /* Card hover lift used across service, pillar and cluster pages */
 .card-lift {
+  box-shadow: 0 1px 2px rgba(15,10,30,0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .card-lift:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(15,10,30,0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(15,10,30,0.1);
   border-color: rgba(124,59,237,0.28);
 }
 
@@ -149,8 +150,8 @@ body {
    for the old solid-dark hero. Reused across every page's hero section. */
 .hero-dotgrid {
   background-color: var(--off-white);
-  background-image: radial-gradient(rgba(124,59,237,0.18) 1px, transparent 1px);
-  background-size: 22px 22px;
+  background-image: radial-gradient(rgba(113,104,160,0.28) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Fixed nav logo — smaller on mobile so the header doesn't dominate the viewport */

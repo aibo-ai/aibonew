@@ -176,7 +176,7 @@ export default function ClusterPage() {
                 background: 'var(--off-white)',
                 border: '1px solid var(--border-clr)',
                 borderLeft: '4px solid var(--purple)',
-                borderRadius: 10,
+                borderRadius: 14,
                 padding: '28px 32px',
                 position: 'relative',
               }}
@@ -207,7 +207,7 @@ export default function ClusterPage() {
         </section>
 
         {/* ─── COMPONENT 3: DEEP-DIVE CAPABILITIES ─── */}
-        <section id="deep-dive" style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+        <section id="deep-dive" style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
           <div className="mx-auto" style={{ maxWidth: 1100 }}>
             <div className="mx-auto text-center mb-12" style={{ maxWidth: 780 }}>
               <div
@@ -241,7 +241,7 @@ export default function ClusterPage() {
                   style={{
                     background: 'var(--white)',
                     border: '1px solid var(--border-clr)',
-                    borderRadius: 12,
+                    borderRadius: 16,
                     padding: '28px 26px',
                     display: 'flex',
                     flexDirection: 'column',
@@ -252,7 +252,7 @@ export default function ClusterPage() {
                     style={{
                       width: 38,
                       height: 38,
-                      borderRadius: 10,
+                      borderRadius: 14,
                       background: 'var(--purple-light)',
                       color: 'var(--purple-dark)',
                       fontFamily: "'Fraunces', serif",
@@ -290,7 +290,7 @@ export default function ClusterPage() {
         </section>
 
         {/* ─── COMPONENT 4: METRIC-DRIVEN BLUEPRINT ─── */}
-        <section style={{ background: 'var(--white)', padding: '80px 40px' }}>
+        <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
           <div className="mx-auto" style={{ maxWidth: 1100 }}>
             <div className="text-center mb-12">
               <div
@@ -315,7 +315,7 @@ export default function ClusterPage() {
                   style={{
                     background: 'var(--off-white)',
                     border: '1px solid var(--border-clr)',
-                    borderRadius: 12,
+                    borderRadius: 16,
                     padding: '24px 22px',
                     position: 'relative',
                   }}
@@ -402,7 +402,7 @@ export default function ClusterPage() {
                       display: 'block',
                       background: 'var(--white)',
                       border: '1px solid var(--border-clr)',
-                      borderRadius: 12,
+                      borderRadius: 16,
                       padding: '22px 22px',
                       textDecoration: 'none',
                     }}
@@ -432,7 +432,7 @@ export default function ClusterPage() {
 
         {/* ─── FAQ ─── */}
         {data.faq && data.faq.length > 0 && (
-          <section style={{ background: 'var(--white)', padding: '80px 40px' }}>
+          <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
             <div className="mx-auto" style={{ maxWidth: 800 }}>
               <div className="text-center mb-12">
                 <div
@@ -455,7 +455,7 @@ export default function ClusterPage() {
         {/* ─── COMPONENT 5: GEOGRAPHY + FINAL CTA ─── */}
         <section
           className="relative"
-          style={{ background: 'var(--dark)', padding: '80px 40px', overflow: 'hidden' }}
+          style={{ background: 'var(--dark)', padding: '100px 40px', overflow: 'hidden' }}
         >
           <div
             className="absolute pointer-events-none"

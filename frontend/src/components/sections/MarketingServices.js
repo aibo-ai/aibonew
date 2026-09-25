@@ -32,7 +32,7 @@ export default function MarketingServices() {
       data-testid="marketing-services-section"
       style={{
         background: 'var(--white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -103,7 +103,7 @@ export default function MarketingServices() {
               style={{
                 background: 'var(--off-white)',
                 border: '1px solid var(--border-clr)',
-                borderRadius: 12,
+                borderRadius: 16,
                 padding: '32px',
                 display: 'grid',
                 gridTemplateColumns: 'auto 1fr',
@@ -164,7 +164,7 @@ export default function MarketingServices() {
           style={{
             background: 'linear-gradient(135deg, var(--purple-light) 0%, rgba(237,229,252,0.5) 100%)',
             border: '1px solid var(--purple)',
-            borderRadius: 12,
+            borderRadius: 16,
             padding: '28px 32px',
             textAlign: 'center',
           }}

@@ -179,7 +179,7 @@ export default function CaseStudyPage() {
                     style={{
                       background: 'var(--white)',
                       border: '1px solid var(--border-clr)',
-                      borderRadius: 12,
+                      borderRadius: 16,
                       padding: '20px',
                       textAlign: 'center',
                     }}

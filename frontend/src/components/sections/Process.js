@@ -28,7 +28,7 @@ export default function Process() {
     <section
       id="process"
       data-testid="process-section"
-      style={{ background: 'var(--off-white)', padding: '80px 40px' }}
+      style={{ background: 'var(--off-white)', padding: '100px 40px' }}
     >
       <div className="mx-auto" style={{ maxWidth: 1000 }}>
         {/* Intro */}

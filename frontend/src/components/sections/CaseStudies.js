@@ -53,7 +53,7 @@ export default function CaseStudies() {
       data-testid="case-studies-section"
       style={{
         background: 'var(--off-white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -98,7 +98,7 @@ export default function CaseStudies() {
               style={{
                 background: 'var(--white)',
                 border: '1px solid var(--border-clr)',
-                borderRadius: 12,
+                borderRadius: 16,
                 padding: '28px',
                 display: 'flex',
                 flexDirection: 'column',

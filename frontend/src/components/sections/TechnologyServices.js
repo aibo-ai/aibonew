@@ -28,7 +28,7 @@ export default function TechnologyServices() {
       data-testid="technology-services-section"
       style={{
         background: 'var(--off-white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -96,7 +96,7 @@ export default function TechnologyServices() {
           style={{
             background: 'var(--amber-light)',
             border: '1px solid rgba(245,158,11,0.3)',
-            borderRadius: 12,
+            borderRadius: 16,
             padding: '32px 24px',
           }}
         >
@@ -137,7 +137,7 @@ export default function TechnologyServices() {
               style={{
                 background: 'var(--white)',
                 border: '1px solid var(--border-clr)',
-                borderRadius: 12,
+                borderRadius: 16,
                 padding: '32px',
                 display: 'grid',
                 gridTemplateColumns: 'auto 1fr',
@@ -198,7 +198,7 @@ export default function TechnologyServices() {
           style={{
             background: 'linear-gradient(135deg, var(--amber-light) 0%, rgba(254,243,199,0.4) 100%)',
             border: '1px solid var(--amber)',
-            borderRadius: 12,
+            borderRadius: 16,
             padding: '28px 32px',
             textAlign: 'center',
           }}

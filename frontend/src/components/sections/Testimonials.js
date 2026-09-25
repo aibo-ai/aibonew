@@ -29,7 +29,7 @@ export default function Testimonials() {
       data-testid="testimonials-section"
       style={{
         background: 'var(--white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -73,7 +73,7 @@ export default function Testimonials() {
               style={{
                 background: 'var(--off-white)',
                 border: '1px solid var(--border-clr)',
-                borderRadius: 12,
+                borderRadius: 16,
                 padding: '32px 28px',
                 display: 'flex',
                 flexDirection: 'column',

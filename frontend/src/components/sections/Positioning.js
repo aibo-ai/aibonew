@@ -5,7 +5,7 @@ export default function Positioning() {
       data-testid="positioning-section"
       style={{
         background: 'var(--off-white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>

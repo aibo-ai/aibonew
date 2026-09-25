@@ -34,7 +34,7 @@ export default function LatestInsights() {
     <section
       id="latest-insights"
       data-testid="latest-insights-section"
-      style={{ background: 'var(--white)', padding: '80px 40px' }}
+      style={{ background: 'var(--white)', padding: '100px 40px' }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
         <div className="flex items-baseline justify-between mb-12 flex-wrap gap-4">

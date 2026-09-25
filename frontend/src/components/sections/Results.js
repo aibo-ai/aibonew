@@ -53,7 +53,7 @@ export default function Results() {
       data-testid="results-section"
       style={{
         background: 'var(--white)',
-        padding: '80px 40px',
+        padding: '100px 40px',
       }}
     >
       <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -114,7 +114,7 @@ export default function Results() {
                   style={{
                     background: accent === 'purple' ? 'var(--purple-light)' : accent === 'amber' ? 'var(--amber-light)' : 'var(--white)',
                     border: '1px solid var(--border-clr)',
-                    borderRadius: 14,
+                    borderRadius: 18,
                     padding: '24px 22px',
                   }}
                 >
@@ -192,7 +192,7 @@ export default function Results() {
                   style={{
                     background: accent === 'purple' ? 'var(--purple-light)' : accent === 'amber' ? 'var(--amber-light)' : 'var(--white)',
                     border: '1px solid var(--border-clr)',
-                    borderRadius: 14,
+                    borderRadius: 18,
                     padding: '24px 20px',
                     textAlign: 'center',
                   }}

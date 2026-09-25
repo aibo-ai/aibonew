@@ -86,7 +86,7 @@ export default function AboutPage() {
         data-testid="about-stats-section"
         style={{
           background: 'var(--white)',
-          padding: '80px 40px',
+          padding: '100px 40px',
         }}
       >
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -99,7 +99,7 @@ export default function AboutPage() {
                 style={{
                   background: i === 1 ? 'var(--purple-light)' : 'var(--off-white)',
                   border: '1px solid var(--border-clr)',
-                  borderRadius: 14,
+                  borderRadius: 18,
                   padding: '28px 24px',
                 }}
               >
@@ -142,7 +142,7 @@ export default function AboutPage() {
         data-testid="about-founders-section"
         style={{
           background: 'var(--off-white)',
-          padding: '80px 40px',
+          padding: '100px 40px',
         }}
       >
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
@@ -187,7 +187,7 @@ export default function AboutPage() {
                 style={{
                   background: 'var(--white)',
                   border: '1px solid var(--border-clr)',
-                  borderRadius: 16,
+                  borderRadius: 20,
                   padding: 32,
                 }}
               >
