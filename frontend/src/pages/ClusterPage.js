@@ -5,6 +5,7 @@ import { ArrowRight, ArrowDown, Check } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
 import { getCluster, getClustersForPillar, pillarMeta } from '@/data/clusterPagesData';
 import SEO from '@/components/SEO';
+import FaqAccordion from '@/components/sections/FaqAccordion';
 
 // Per-cluster "Ready to…" headline shown in the final CTA section.
 // Keyed by `${pillar}/${cluster}` to keep the data file untouched.
@@ -12,6 +13,8 @@ const FINAL_CTA_HEADLINES = {
   'geo/llmo-company': 'Ready to Be the Answer AI Gives — Not the Footnote?',
   'geo/perplexity-gemini-chatgpt-optimization': 'Ready to Get Cited Before Your Competitor Does?',
   'geo/zero-click-search-synthetic-traffic': 'Ready to Win the Searches Nobody Clicks Through On?',
+  'geo/quora-content-seeding': 'Ready to Own the Quora Threads Your Buyers Are Already Reading?',
+  'geo/wikipedia': 'Ready to Close the Wikipedia Gap Before Someone Else Fills It?',
   'aeo/llm-bot-compliance-llms-txt': 'Ready to Let AI Crawlers In — On Your Terms?',
   'aeo/semantic-faq-knowledge-graph-schema': 'Ready to Make Your Content Machine-Readable?',
   'seo/programmatic-seo-engine': 'Ready to Scale Content Without Scaling Headcount?',
@@ -87,6 +90,15 @@ export default function ClusterPage() {
       { '@type': 'ListItem', position: 4, name: data.subLabel, item: `https://myaibo.in/solutions/${pillar}/${cluster}` },
     ],
   };
+  const faqLd = data.faq && data.faq.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  } : null;
 
   return (
     <>
@@ -94,45 +106,41 @@ export default function ClusterPage() {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+        {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
       </Helmet>
 
       <main>
         {/* ─── COMPONENT 1: HERO ─── */}
         <section
-          className="relative"
-          style={{ background: 'var(--dark)', padding: '140px 40px 72px', overflow: 'hidden' }}
+          className="relative hero-dotgrid"
+          style={{ padding: '150px 40px 80px', overflow: 'hidden' }}
         >
-          <div
-            className="absolute pointer-events-none"
-            style={{ width: 560, height: 560, top: -100, right: -100, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,59,237,0.18) 0%, transparent 68%)' }}
-          />
           <div className="relative z-10 mx-auto" style={{ maxWidth: 800 }}>
             {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" className="mb-5" style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
-              <Link to="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Home</Link>
+            <nav aria-label="Breadcrumb" className="mb-5" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+              <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
               <span className="mx-2">/</span>
-              <Link to={`/solutions/${pillar}`} style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>{data.pillarName}</Link>
+              <Link to={`/solutions/${pillar}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{data.pillarName}</Link>
               <span className="mx-2">/</span>
-              <span style={{ color: '#A07AF0' }}>{data.subLabel}</span>
+              <span style={{ color: 'var(--purple-dark)' }}>{data.subLabel}</span>
             </nav>
 
             {/* Eyebrow */}
             <div
               className="inline-flex items-center gap-2 mb-5"
-              style={{ background: 'rgba(124,59,237,0.15)', border: '1px solid rgba(124,59,237,0.35)', borderRadius: 20, padding: '5px 14px' }}
+              style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}
             >
               <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-              <span style={{ color: '#A07AF0', fontSize: 12, fontWeight: 500 }}>{data.eyebrow}</span>
+              <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>{data.eyebrow}</span>
             </div>
 
             <h1
-              className="headline-dark"
-              style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px, 4.6vw, 54px)', letterSpacing: '-1.5px', color: '#fff', lineHeight: 1.1, margin: '0 0 18px' }}
+              style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(32px, 4.6vw, 54px)', letterSpacing: '-1.5px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '0 0 18px' }}
             >
               {data.h1}
             </h1>
 
-            <p style={{ fontSize: 17, fontWeight: 300, color: 'rgba(255,255,255,0.72)', lineHeight: 1.65, margin: '0 0 28px', maxWidth: 640 }}>
+            <p style={{ fontSize: 17, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 28px', maxWidth: 640 }}>
               {data.heroBody}
             </p>
 
@@ -148,8 +156,8 @@ export default function ClusterPage() {
               </a>
               <a
                 href="#deep-dive"
-                className="btn-outline-light inline-flex items-center gap-2"
-                style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500 }}
+                className="inline-flex items-center gap-2"
+                style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
               >
                 See how it works <ArrowDown size={15} />
               </a>
@@ -418,6 +426,28 @@ export default function ClusterPage() {
                   </Link>
                 ))}
               </div>
+            </div>
+          </section>
+        )}
+
+        {/* ─── FAQ ─── */}
+        {data.faq && data.faq.length > 0 && (
+          <section style={{ background: 'var(--white)', padding: '80px 40px' }}>
+            <div className="mx-auto" style={{ maxWidth: 800 }}>
+              <div className="text-center mb-12">
+                <div
+                  style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}
+                >
+                  FAQ
+                </div>
+                <h2
+                  className="headline-light"
+                  style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(26px, 3.4vw, 40px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.2 }}
+                >
+                  Everything You Need to Know
+                </h2>
+              </div>
+              <FaqAccordion items={data.faq} />
             </div>
           </section>
         )}

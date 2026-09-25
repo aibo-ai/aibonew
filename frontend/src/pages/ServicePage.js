@@ -139,26 +139,25 @@ export default function ServicePage() {
       <main>
       {/* ─── HERO ─── */}
       <section
-        className="relative"
-        style={{ background: 'var(--dark)', padding: '140px 40px 72px', overflow: 'hidden' }}
+        className="relative hero-dotgrid"
+        style={{ padding: '150px 40px 80px', overflow: 'hidden' }}
       >
-        <div className="absolute pointer-events-none" style={{ width: 560, height: 560, top: -100, right: -100, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,59,237,0.18) 0%, transparent 68%)' }} />
         <div className="relative z-10 mx-auto" style={{ maxWidth: 800 }}>
           {/* Breadcrumb */}
-          <div className="mb-5" style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)' }}>
-            <Link to="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Home</Link>
+          <div className="mb-5" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+            <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
             <span className="mx-2">/</span>
-            <span style={{ color: '#A07AF0' }}>{data.pageTitle}</span>
+            <span style={{ color: 'var(--purple-dark)' }}>{data.pageTitle}</span>
           </div>
           {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 mb-5" style={{ background: 'rgba(124,59,237,0.15)', border: '1px solid rgba(124,59,237,0.35)', borderRadius: 20, padding: '5px 14px' }}>
+          <div className="inline-flex items-center gap-2 mb-5" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}>
             <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-            <span style={{ color: '#A07AF0', fontSize: 12, fontWeight: 500 }}>{data.eyebrow}</span>
+            <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>{data.eyebrow}</span>
           </div>
-          <h1 className="headline-dark" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(36px, 5vw, 60px)', letterSpacing: '-1.5px', color: '#fff', lineHeight: 1.1, margin: '0 0 18px' }}>
+          <h1 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(36px, 5vw, 60px)', letterSpacing: '-1.5px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '0 0 18px' }}>
             {data.headline}
           </h1>
-          <p style={{ fontSize: 17, fontWeight: 300, color: 'rgba(255,255,255,0.62)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 580 }}>
+          <p style={{ fontSize: 17, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 580 }}>
             {data.subheadline}
           </p>
           <div className="flex flex-wrap gap-3">
@@ -172,7 +171,11 @@ export default function ServicePage() {
             >
               Book Free Strategy Session
             </a>
-            <a href="#intro" className="btn-outline-light" style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500 }}>
+            <a
+              href="#intro"
+              className="inline-flex items-center gap-2"
+              style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
+            >
               {data.ctaSecondary} <ArrowDown size={15} />
             </a>
           </div>
@@ -286,31 +289,43 @@ export default function ServicePage() {
         </div>
       </section>
 
-      {/* ─── WHY NOW (dark) ─── */}
-      <section className="relative" style={{ background: 'var(--dark)', padding: '80px 40px', overflow: 'hidden' }}>
-        <div className="absolute pointer-events-none" style={{ width: 560, height: 560, top: -200, left: -200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,59,237,0.16) 0%, transparent 65%)' }} />
-        <div className="relative z-10 mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="text-center mb-10">
-            <SectionLabel text={data.whyNow.label} dark centered />
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: '#fff', margin: 0, lineHeight: 1.15 }}>
+      {/* ─── WHY NOW ─── */}
+      <section style={{ background: 'var(--off-white)', padding: '80px 40px' }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center mb-12">
+            <SectionLabel text={data.whyNow.label} centered />
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
               {data.whyNow.headline}
             </h2>
           </div>
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1 mb-12" style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 8, overflow: 'hidden' }}>
-            {data.whyNow.stats.map((s) => (
-              <div key={`stat-${s.num}-${s.label}`} className="text-center" style={{ background: 'rgba(255,255,255,0.025)', padding: '24px 16px' }}>
-                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: accentColor, display: 'block', lineHeight: 1.1 }}>{s.num}</span>
-                <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', lineHeight: 1.4, display: 'block', marginTop: 6 }}>{s.label}</span>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
+            {data.whyNow.stats.map((s, i) => {
+              const bg = ['white', 'purple', 'white', 'amber'][i % 4];
+              return (
+                <div
+                  key={`stat-${s.num}-${s.label}`}
+                  className="card-lift"
+                  style={{
+                    background: bg === 'purple' ? 'var(--purple-light)' : bg === 'amber' ? 'var(--amber-light)' : 'var(--white)',
+                    border: '1px solid var(--border-clr)',
+                    borderRadius: 14,
+                    padding: '22px 18px',
+                  }}
+                >
+                  <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>0{i + 1}</span>
+                  <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: bg === 'amber' ? '#92400E' : accentDark, display: 'block', lineHeight: 1.15, margin: '8px 0' }}>{s.num}</span>
+                  <span style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5, display: 'block' }}>{s.label}</span>
+                </div>
+              );
+            })}
           </div>
           {/* Context cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {data.whyNow.contextCards.map((c) => (
-              <div key={`ctx-${c.title}`} style={{ background: 'rgba(255,255,255,0.045)', border: '1px solid rgba(255,255,255,0.075)', borderRadius: 12, padding: 28 }}>
-                <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: '#fff', margin: '0 0 8px' }}>{c.title}</h3>
-                <p style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
+              <div key={`ctx-${c.title}`} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 12, padding: 28 }}>
+                <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
+                <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
               </div>
             ))}
           </div>

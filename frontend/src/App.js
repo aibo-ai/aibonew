@@ -7,6 +7,7 @@ import Footer from "@/components/sections/Footer";
 const HomePage = lazy(() => import("@/pages/HomePage"));
 const ServicePage = lazy(() => import("@/pages/ServicePage"));
 const ClusterPage = lazy(() => import("@/pages/ClusterPage"));
+const GeoStoryPage = lazy(() => import("@/pages/GeoStoryPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
 const BlogsPage = lazy(() => import("@/pages/BlogsPage"));
 const BlogPage = lazy(() => import("@/pages/BlogPage"));
@@ -83,6 +84,26 @@ function App() {
                 so send it somewhere live instead of letting it 404 silently. */}
             <Route path="/solutions/ai-ml" element={<Navigate to="/solutions/ai-automations" replace />} />
             <Route path="/solutions/ai-ml/*" element={<Navigate to="/solutions/ai-automations" replace />} />
+
+            {/* GEO "story" layout pages — richer, mockup-driven layout than the
+                standard cluster template, reusing the same clusterPagesData
+                content as their source of truth. Static paths so React
+                Router's ranking prefers these over the dynamic cluster route
+                below for these two slugs specifically. */}
+            <Route path="/solutions/geo/quora-content-seeding" element={
+              <>
+                <Navigation />
+                <GeoStoryPage slug="quora-content-seeding" />
+                <Footer />
+              </>
+            } />
+            <Route path="/solutions/geo/wikipedia" element={
+              <>
+                <Navigation />
+                <GeoStoryPage slug="wikipedia" />
+                <Footer />
+              </>
+            } />
 
             {/* Cluster (sub-service) pages */}
             <Route path="/solutions/:pillar/:cluster" element={

@@ -37,32 +37,38 @@ export default function AboutPage() {
       {/* Vision Section */}
       <section
         data-testid="about-vision-section"
+        className="hero-dotgrid"
         style={{
-          background: 'var(--dark)',
-          padding: '140px 40px 80px',
+          padding: '150px 40px 90px',
           marginTop: 64,
         }}
       >
         <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>
+          <div
+            className="inline-flex items-center gap-2 mb-6"
+            style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}
+          >
+            <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
+            <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>About MyAibo</span>
+          </div>
           <h1
-            className="headline-dark"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(36px, 4.5vw, 56px)',
               letterSpacing: '-1.5px',
-              color: '#fff',
+              color: 'var(--text-primary)',
               margin: '0 0 24px',
               lineHeight: 1.15,
             }}
           >
-            Our Vision
+            Our vision: <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>growth without limits.</em>
           </h1>
           <p
             style={{
               fontSize: 'clamp(16px, 2vw, 20px)',
               fontWeight: 300,
-              color: 'rgba(255,255,255,0.85)',
+              color: 'var(--text-secondary)',
               lineHeight: 1.6,
               margin: 0,
               maxWidth: 700,
@@ -70,7 +76,7 @@ export default function AboutPage() {
               marginRight: 'auto',
             }}
           >
-            To empower every client to grow without limits
+            To empower every client to grow without limits.
           </p>
         </div>
       </section>
@@ -84,29 +90,24 @@ export default function AboutPage() {
         }}
       >
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {stats.map((stat) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {stats.map((stat, i) => (
               <div
                 key={stat.label}
                 data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}
-                className="text-center"
+                className="card-lift"
                 style={{
-                  background: 'var(--off-white)',
+                  background: i === 1 ? 'var(--purple-light)' : 'var(--off-white)',
                   border: '1px solid var(--border-clr)',
-                  borderRadius: 16,
-                  padding: '40px 20px',
+                  borderRadius: 14,
+                  padding: '28px 24px',
                 }}
               >
-                <div
-                  className="flex items-center justify-center mx-auto mb-4"
-                  style={{
-                    width: 56,
-                    height: 56,
-                    background: 'var(--purple-light)',
-                    borderRadius: 12,
-                  }}
-                >
-                  <stat.icon size={28} style={{ color: 'var(--purple-dark)' }} />
+                <div className="flex items-center justify-between mb-4">
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>
+                    0{i + 1}
+                  </span>
+                  <stat.icon size={20} style={{ color: 'var(--purple-dark)' }} />
                 </div>
                 <div
                   style={{
@@ -122,7 +123,7 @@ export default function AboutPage() {
                 </div>
                 <div
                   style={{
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: 500,
                     color: 'var(--text-secondary)',
                     margin: 0,

@@ -8,34 +8,20 @@ export default function Hero() {
     <section
       id="hero"
       data-testid="hero-section"
-      className="relative"
+      className="relative hero-dotgrid"
       style={{
-        background: 'var(--dark)',
-        padding: '144px 40px 72px',
+        padding: '152px 40px 80px',
         overflow: 'hidden',
       }}
     >
-      {/* Ambient glow */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: 560,
-          height: 560,
-          top: -100,
-          right: -100,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,59,237,0.18) 0%, transparent 68%)',
-        }}
-      />
-
       <div className="relative z-10 mx-auto" style={{ maxWidth: 1100 }}>
         {/* Eyebrow badge */}
         <div
           data-testid="hero-eyebrow-badge"
           className="inline-flex items-center gap-2 mb-6"
           style={{
-            background: 'rgba(124,59,237,0.15)',
-            border: '1px solid rgba(124,59,237,0.35)',
+            background: 'var(--purple-light)',
+            border: '1px solid rgba(124,59,237,0.3)',
             borderRadius: 20,
             padding: '5px 14px',
           }}
@@ -50,7 +36,7 @@ export default function Hero() {
               display: 'block',
             }}
           />
-          <span style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.95)' }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--purple-dark)' }}>
             Boutique Agency · Marketing + Technology
           </span>
         </div>
@@ -58,19 +44,19 @@ export default function Hero() {
         {/* Main headline */}
         <h1
           data-testid="hero-headline"
-          className="headline-dark"
           style={{
             fontFamily: "'Fraunces', serif",
-            fontWeight: 300,
+            fontWeight: 600,
             fontSize: 'clamp(42px, 5.5vw, 72px)',
             letterSpacing: '-2px',
             lineHeight: 1.1,
-            color: '#fff',
+            color: 'var(--text-primary)',
             margin: '0 0 24px',
             maxWidth: 900,
           }}
         >
-          Where great marketing meets serious engineering.
+          Where great marketing meets{' '}
+          <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>serious engineering.</em>
         </h1>
 
         {/* Supporting text */}
@@ -80,7 +66,7 @@ export default function Hero() {
             fontSize: 'clamp(17px, 2vw, 20px)',
             fontWeight: 300,
             lineHeight: 1.6,
-            color: 'rgba(255,255,255,0.85)',
+            color: 'var(--text-secondary)',
             maxWidth: 680,
             margin: '0 0 40px',
           }}
@@ -105,8 +91,8 @@ export default function Hero() {
           </a>
           <a
             href="#case-studies"
-            className="btn-outline inline-flex items-center gap-2"
-            style={{ padding: '16px 32px', fontSize: 16, fontWeight: 600 }}
+            className="inline-flex items-center gap-2"
+            style={{ padding: '16px 32px', fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
           >
             View Case Studies
             <ArrowRight size={18} />

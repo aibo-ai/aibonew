@@ -53,10 +53,9 @@ export default function MarketingServices() {
 
           <h2
             data-testid="marketing-headline"
-            className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(32px, 4vw, 48px)',
               letterSpacing: '-1.5px',
               lineHeight: 1.15,
@@ -64,7 +63,8 @@ export default function MarketingServices() {
               margin: '0 0 20px',
             }}
           >
-            Be the answer on every surface, in every engine.
+            Be the answer on every surface,{' '}
+            <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>in every engine.</em>
           </h2>
 
           <p

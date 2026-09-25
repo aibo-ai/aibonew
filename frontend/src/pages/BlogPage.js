@@ -99,7 +99,7 @@ export default function BlogPage() {
       <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       <main style={{ paddingTop: 64 }}>
         {/* Hero */}
-        <section style={{ background: 'var(--dark)', padding: '80px 40px 60px' }}>
+        <section className="hero-dotgrid" style={{ padding: '90px 40px 60px' }}>
           <div className="mx-auto" style={{ maxWidth: 800 }}>
             {blog.category && (
               <div style={{ marginBottom: 16 }}>
@@ -107,8 +107,8 @@ export default function BlogPage() {
                   padding: '4px 12px',
                   fontSize: 11,
                   fontWeight: 600,
-                  background: 'rgba(124,59,237,0.25)',
-                  color: '#c4a7f7',
+                  background: 'var(--purple-light)',
+                  color: 'var(--purple-dark)',
                   borderRadius: 6,
                   textTransform: 'uppercase',
                   letterSpacing: '0.06em',
@@ -119,21 +119,21 @@ export default function BlogPage() {
             )}
             <h1 style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(28px, 4vw, 48px)',
               letterSpacing: '-1px',
-              color: '#fff',
+              color: 'var(--text-primary)',
               margin: '0 0 20px',
               lineHeight: 1.2,
             }}>
               {blog.title}
             </h1>
             {blog.excerpt && (
-              <p style={{ fontSize: 18, fontWeight: 300, color: 'rgba(255,255,255,0.75)', margin: '0 0 28px', lineHeight: 1.6 }}>
+              <p style={{ fontSize: 18, fontWeight: 300, color: 'var(--text-secondary)', margin: '0 0 28px', lineHeight: 1.6 }}>
                 {blog.excerpt}
               </p>
             )}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center', color: 'rgba(255,255,255,0.55)', fontSize: 13 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center', color: 'var(--text-muted)', fontSize: 13 }}>
               {blog.author && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <User size={14} />
@@ -158,7 +158,7 @@ export default function BlogPage() {
 
         {/* Featured image */}
         {blog.featured_image && (
-          <div style={{ background: 'var(--dark-surface)' }}>
+          <div style={{ background: 'var(--off-white)' }}>
             <div className="mx-auto" style={{ maxWidth: 900 }}>
               <img
                 src={blog.featured_image}

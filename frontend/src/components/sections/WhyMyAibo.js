@@ -61,10 +61,9 @@ export default function WhyMyAibo() {
 
           <h2
             data-testid="why-myaibo-headline"
-            className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(32px, 4vw, 48px)',
               letterSpacing: '-1.5px',
               lineHeight: 1.15,
@@ -72,7 +71,7 @@ export default function WhyMyAibo() {
               margin: 0,
             }}
           >
-            Six reasons the best brands choose us.
+            Six reasons the best brands <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>choose us.</em>
           </h2>
         </div>
 

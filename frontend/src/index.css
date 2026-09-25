@@ -145,6 +145,14 @@ body {
   animation-play-state: paused !important;
 }
 
+/* Light dot-grid hero background — the "new-design" system's replacement
+   for the old solid-dark hero. Reused across every page's hero section. */
+.hero-dotgrid {
+  background-color: var(--off-white);
+  background-image: radial-gradient(rgba(124,59,237,0.18) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
 /* Fixed nav logo — smaller on mobile so the header doesn't dominate the viewport */
 .nav-logo-img {
   height: 64px;

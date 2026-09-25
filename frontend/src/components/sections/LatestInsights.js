@@ -52,10 +52,9 @@ export default function LatestInsights() {
               Latest Insights
             </div>
             <h2
-              className="headline-light"
               style={{
                 fontFamily: "'Fraunces', serif",
-                fontWeight: 300,
+                fontWeight: 600,
                 fontSize: 'clamp(28px, 3.6vw, 42px)',
                 letterSpacing: '-1px',
                 lineHeight: 1.15,
@@ -63,7 +62,8 @@ export default function LatestInsights() {
                 margin: 0,
               }}
             >
-              What we're seeing in GEO, AEO & SEO
+              What we're seeing in{' '}
+              <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>GEO, AEO &amp; SEO.</em>
             </h2>
           </div>
           <Link

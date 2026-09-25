@@ -16,7 +16,7 @@ export const pillarMeta = {
 };
 
 export const clusterPages = [
-  // ─────────────────────────── GEO (3) ───────────────────────────
+  // ─────────────────────────── GEO (5) ───────────────────────────
   {
     pillar: 'geo',
     slug: 'llmo-company',
@@ -195,6 +195,170 @@ export const clusterPages = [
     meta: {
       title: 'Zero-Click Search & Synthetic Traffic Strategy | MyAibo GEO',
       description: 'MyAibo builds an AI Visibility Index and synthetic search content architecture so your brand wins the query — even when the click never happens.',
+    },
+  },
+  {
+    pillar: 'geo',
+    slug: 'quora-content-seeding',
+    pillarName: 'Generative Engine Optimization',
+    subLabel: 'Quora & Review-Platform Content Seeding',
+    eyebrow: 'Generative Engine Optimization · Quora & Review-Platform Visibility',
+    h1: 'Quora Has 400 Million Buyers Doing Research. Is Your Brand In Those Threads?',
+    heroBody:
+      "Quora isn't winning the AI-citation race the way Reddit is right now — we'll tell you that straight, not sell you a stat that doesn't hold up. What it still has: 100 million users in India alone, a college-educated, higher-income user base, and a habit of showing up in Google's featured snippets and \"People Also Ask\" boxes for the exact comparison and decision-stage questions your buyers are typing in.",
+    primaryCta: 'Get a Free Quora & Review-Platform Visibility Audit',
+    aeoBox:
+      "MyAibo runs Quora and review-platform (G2 and category equivalents) content seeding — question and thread mapping, compliant answer and review drafting, and competitive share-of-voice tracking — targeted at the comparison and decision-stage queries where 100M+ Indian Quora users and high-intent B2B buyers actually research. This runs as a complement to Reddit-led GEO work, not a replacement: Reddit for AI-answer citation, Quora and reviews for classic Google search and late-stage buyer intent.",
+    deepDive: {
+      question: "Why Is a Competitor's Name Showing Up in the Quora Threads Ranking for Your Category — And Not Yours?",
+      framing:
+        "Quora answers 99% of the questions asked on it and fields 3,000–5,000 new questions a day, from users in a research-and-compare mindset — over half report household income above $100K, concentrated in the 25–34 bracket squarely in the researching-before-buying stage. If a competitor's name is showing up in the threads ranking for your category's comparison queries and yours isn't, that's lost consideration, not just lost traffic.",
+      pillars: [
+        {
+          title: 'Question & Thread Mapping',
+          technical:
+            "We find the specific Quora questions already ranking (or capable of ranking) for your category's comparison, \"vs,\" and \"is it worth it\" queries — where a well-placed, genuine answer earns both direct traffic and featured-snippet real estate.",
+          human:
+            'Puts your brand in front of buyers at the exact moment they are comparing you to a named competitor, instead of leaving that thread to answer itself.',
+        },
+        {
+          title: 'Compliant Answer & Review-Platform Seeding',
+          technical:
+            "Real, credentialed-sounding answers written by people with actual category knowledge, following Quora's content and self-promotion policies, plus structured presence and schema markup across review platforms (G2 and category equivalents) that Google already weights as high-trust, first-hand-experience content.",
+          human:
+            'The same trust signal that makes a Reddit thread outrank a landing page, applied to Quora and reviews — no spam-linking, no policy risk.',
+        },
+        {
+          title: 'Competitive Share-of-Voice Tracking',
+          technical:
+            "We monitor which threads and reviews are actually driving traffic and rankings for your category, and where competitors are currently winning that you're not contesting.",
+          human:
+            'Turns "we don\'t know how we compare on Quora" into a tracked, closeable gap instead of a blind spot.',
+        },
+      ],
+    },
+    blueprint: {
+      title: 'Our 4-Phase Community-Led SEO Framework',
+      phases: [
+        { num: 1, name: 'Landscape Audit', timeframe: 'Weeks 1–2', body: 'Map existing Quora threads, review platform coverage, and competitor share-of-voice for your category\'s highest-intent queries.' },
+        { num: 2, name: 'Strategy Development', timeframe: 'Weeks 2–4', body: 'Prioritize the threads and platforms with the best ranking opportunity and highest buyer intent, not just the highest traffic.' },
+        { num: 3, name: 'Execution', timeframe: 'Weeks 4–10', body: 'Seed genuine, policy-compliant answers and reviews, written to actually answer the question rather than pivot to a pitch.' },
+        { num: 4, name: 'Ongoing Monitoring', timeframe: 'Continuous', body: 'Track rankings, snippet ownership, and competitive movement, and refresh or extend answers that are losing ground.' },
+      ],
+    },
+    geography: {
+      headline: 'Community-Led SEO from Bengaluru. Built for Buyers Who Compare Before They Buy.',
+      body: 'Our Bengaluru team runs Quora and review-platform seeding under strict content-policy compliance for SaaS, D2C, and B2B clients across India, North America, and the UK.',
+      finalCta: 'Request Your Quora & Review-Platform Visibility Audit',
+    },
+    faq: [
+      {
+        q: 'Is Quora still worth investing in if AI engines are citing it less?',
+        a: "For AI citations specifically, less than Reddit right now — we'll say that plainly. For classic Google search and reaching a high-intent, high-income research audience, yes; that hasn't changed.",
+      },
+      {
+        q: 'Do you write fake reviews or use bot accounts?',
+        a: "No. Everything is real answers and reviews from people with genuine category knowledge, following each platform's actual content policies.",
+      },
+      {
+        q: 'How does this differ from Quora Ads?',
+        a: 'Ads buy placement and traffic for as long as you pay; this builds organic answers and review presence that keep ranking and earning traffic after the work is done.',
+      },
+      {
+        q: 'Can this help with featured snippets specifically?',
+        a: 'Yes — Quora answers are frequently pulled into Google\'s featured snippets and People Also Ask boxes for comparison and "how does X work" queries, and that\'s a specific target of the seeding strategy.',
+      },
+      {
+        q: "What's the difference between this and your GEO service?",
+        a: 'GEO (and the dedicated Reddit-style work) targets being cited inside AI-generated answers. This page targets ranking and visibility inside classic Google search results and Quora itself — related goals and different mechanics.',
+      },
+    ],
+    targetKeywords: ['Quora marketing agency', 'Quora content seeding', 'G2 review management', 'Quora SEO strategy'],
+    meta: {
+      title: 'Quora & Review-Platform Content Seeding | MyAibo GEO',
+      description: 'MyAibo seeds compliant Quora answers and G2/review-platform presence for the comparison queries your buyers are researching, plus share-of-voice tracking against named competitors.',
+    },
+  },
+  {
+    pillar: 'geo',
+    slug: 'wikipedia',
+    pillarName: 'Generative Engine Optimization',
+    subLabel: 'Wikipedia Page Creation & Management',
+    eyebrow: 'Generative Engine Optimization · Wikipedia Notability & Article Management',
+    h1: "Your Company Clears Wikipedia's Bar for Notability. It Still Doesn't Have a Page.",
+    heroBody:
+      "Wikipedia is the single most-cited unstructured source on the open web — and increasingly, the reference layer AI systems consult before a customer, investor, or journalist ever reaches your site. Nearly half of ChatGPT's top-cited sources trace back to Wikipedia. If your company or founder doesn't have a compliant, properly sourced article, that space isn't empty — it's either missing entirely or being filled by whoever gets there first.",
+    primaryCta: 'Get a Free Wikipedia Notability Assessment',
+    aeoBox:
+      "MyAibo builds and manages compliant Wikipedia articles — notability and source audits against Wikipedia's notability guideline for organizations (WP:NCORP), neutral citation-backed drafting, formal paid-contributor disclosure, and submission through Articles for Creation for independent volunteer review — plus ongoing vandalism monitoring and AI-citation tracking after publication. Nearly half of ChatGPT's top-cited sources trace back to Wikipedia, making a properly sourced article the highest-authority third-party asset a brand can hold.",
+    deepDive: {
+      question: "Why Doesn't a Generic Wikipedia Consultant — or an Internal Team — Get This Done Safely?",
+      framing:
+        "A recent audit for an NSE-listed healthcare network — India's largest dedicated cancer care provider, 30+ centers, 400+ oncologists, 35 years of operating history — found no Wikipedia article at all, despite its own founder already having one that references the company extensively. The gap wasn't a notability problem. It was simply a task nobody owned — and it's read as a signal by exactly the people doing due diligence: investors, accreditation bodies, journalists, and now AI systems.",
+      pillars: [
+        {
+          title: 'Policy Compliance, Disclosed From Day One',
+          technical:
+            "Wikipedia explicitly prohibits undisclosed paid editing, and articles that read like marketing copy get deleted, often within days. We file formal paid-contributor disclosure and submit through Articles for Creation for independent volunteer review — disclosed articles have measurably better survival rates than undisclosed ones.",
+          human:
+            'Avoids the deletion notice and permanent conflict-of-interest flag that sinks most company-written or undisclosed-consultant attempts.',
+        },
+        {
+          title: 'Content Structured for AI Parsing, Not Just Human Review',
+          technical:
+            'Every factual claim tied to an independent citation, written to Wikipedia\'s neutral-point-of-view standard and structured to be favorably parsed by ChatGPT, Gemini, and Perplexity — not just to survive human editorial review.',
+          human:
+            'Most generic Wikipedia consultants stop at "the page is live." This is built to actually get pulled into AI-generated answers once it exists.',
+        },
+        {
+          title: 'Ongoing Monitoring & Downstream Citation Tracking',
+          technical:
+            'We monitor for vandalism, unsourced edits, and factual drift, and make any future updates through the same disclosed, sourced process — while tracking article views, referring-domain visibility, and AI-citation shifts traceable back to the article.',
+          human:
+            'Protects the asset after launch instead of treating publication as the finish line.',
+        },
+      ],
+    },
+    blueprint: {
+      title: 'Our 4-Phase Framework',
+      phases: [
+        { num: 1, name: 'Notability & Source Audit', timeframe: 'Weeks 1–2', body: 'Compile and verify independent coverage, confirm the notability bar is cleared, and flag sourcing gaps before drafting starts.' },
+        { num: 2, name: 'Draft & Structure', timeframe: 'Weeks 2–4', body: "Write a neutral, encyclopedic article with every claim tied to an independent citation; internal review against Wikipedia's verifiability and NPOV policies before it goes anywhere." },
+        { num: 3, name: 'Disclosure & Submission', timeframe: 'Weeks 4–5', body: "Formal paid-editor disclosure, submission for independent review, and iteration with volunteer editors until it's accepted." },
+        { num: 4, name: 'Ongoing Management', timeframe: 'Retainer', body: 'Vandalism monitoring, periodic sourced updates, and quarterly reporting on article views, referring-domain visibility, and any AI-citation shifts traceable back to the article.' },
+      ],
+    },
+    geography: {
+      headline: "Wikipedia Compliance Work from Bengaluru. Built for Investors, Journalists, and AI Systems.",
+      body: 'Our Bengaluru team runs notability audits and disclosed article management for listed companies, funded startups, and founders across India, North America, and the UK.',
+      finalCta: 'Book Your Wikipedia Notability Assessment',
+    },
+    faq: [
+      {
+        q: 'Can you guarantee my company gets a Wikipedia page?',
+        a: "No, and anyone who guarantees it isn't being straight with you — Wikipedia articles are reviewed and accepted by independent volunteer editors, not bought. What we guarantee is a properly sourced, policy-compliant draft that gives it the best realistic chance, and we won't take on the audit-phase work if the notability bar clearly isn't cleared.",
+      },
+      {
+        q: 'Is this the same as paying someone to edit Wikipedia secretly?',
+        a: "No — and that approach gets articles deleted, since undisclosed paid editing is explicitly against Wikipedia's terms of use. Every article we work on carries a formal paid-contributor disclosure.",
+      },
+      {
+        q: "What if we already have a page and it's outdated or inaccurate?",
+        a: "The same disclosed, sourced-edit process applies to updates as to new articles — we don't silently edit, and neither should anyone working on your behalf.",
+      },
+      {
+        q: 'How is this different from your GEO/AEO services generally?',
+        a: 'Your broader GEO program builds citation-worthy content across your own properties. This is specific to the single highest-authority third-party source AI systems already trust by default — different mechanics, same underlying goal of being described accurately wherever AI systems look.',
+      },
+      {
+        q: 'What happens if the article gets vandalized or someone adds inaccurate information later?',
+        a: "That's what the ongoing management phase covers — active monitoring for unsourced edits or factual drift, with any correction made through Wikipedia's own proper channels.",
+      },
+    ],
+    targetKeywords: ['Wikipedia page creation service', 'Wikipedia notability consultant', 'corporate Wikipedia article writing', 'Wikipedia SEO for AI citation'],
+    meta: {
+      title: 'Wikipedia Page Creation & Management | MyAibo GEO',
+      description: 'MyAibo builds compliant, disclosed Wikipedia articles — notability audits, neutral citation-backed drafting, and ongoing vandalism monitoring — for the source AI systems already trust.',
     },
   },
 

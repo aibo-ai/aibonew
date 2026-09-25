@@ -11,9 +11,10 @@ import { useEffect, useRef } from 'react';
 // 1. ITC   2. Hansaplast   3. ElasticRun   4. OptimHire
 // 5. Trudiance   6. Harmony   7. Iluvia   8. Fego   9. vPersonalize
 //
-// All logos are rendered as unified white silhouettes via
-// `filter: brightness(0) invert(1)` so the ticker looks like one design
-// system rather than 9 mismatched brand palettes.
+// All logos are rendered as unified dark silhouettes via `filter:
+// brightness(0)` so the ticker looks like one design system rather than
+// 9 mismatched brand palettes (the light hero background needs dark
+// silhouettes, not the white-on-dark inversion this used to use).
 // `w` is each logo's rendered width at its display height `h`, calculated
 // from the compressed asset's real aspect ratio — set explicitly so the
 // browser can reserve layout space before the image loads (prevents CLS).
@@ -51,7 +52,7 @@ export default function TrustedByTicker() {
           fontWeight: 600,
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
-          color: 'rgba(255,255,255,0.5)',
+          color: 'var(--text-muted)',
           marginBottom: 16,
         }}
       >
@@ -108,8 +109,8 @@ export default function TrustedByTicker() {
                   maxHeight: '100%',
                   width: 'auto',
                   objectFit: 'contain',
-                  filter: logo.invert ? 'brightness(0) invert(1)' : 'none',
-                  opacity: logo.invert ? 0.88 : 1,
+                  filter: logo.invert ? 'brightness(0)' : 'none',
+                  opacity: logo.invert ? 0.55 : 1,
                   userSelect: 'none',
                 }}
               />

@@ -74,7 +74,6 @@ export default function Results() {
 
           <h2
             data-testid="results-headline"
-            className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
               fontWeight: 300,
@@ -85,7 +84,7 @@ export default function Results() {
               margin: 0,
             }}
           >
-            Results that speak for themselves.
+            Results that <em style={{ color: 'var(--purple-dark)' }}>speak for themselves.</em>
           </h2>
         </div>
 
@@ -104,70 +103,66 @@ export default function Results() {
             Marketing Results
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {marketingResults.map((result, idx) => (
-              <div
-                key={`mkt-${result.value || idx}`}
-                data-testid={`marketing-result-${idx + 1}`}
-                style={{
-                  background: 'var(--off-white)',
-                  border: '1px solid var(--border-clr)',
-                  borderRadius: 12,
-                  padding: '28px 24px',
-                  textAlign: 'center',
-                }}
-              >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {marketingResults.map((result, idx) => {
+              const accent = ['white', 'purple', 'white', 'amber'][idx % 4];
+              return (
                 <div
-                  className="flex items-center justify-center mx-auto mb-4"
+                  key={`mkt-${result.value || idx}`}
+                  data-testid={`marketing-result-${idx + 1}`}
+                  className="card-lift"
                   style={{
-                    width: 48,
-                    height: 48,
-                    background: 'var(--purple-light)',
-                    borderRadius: 12,
+                    background: accent === 'purple' ? 'var(--purple-light)' : accent === 'amber' ? 'var(--amber-light)' : 'var(--white)',
+                    border: '1px solid var(--border-clr)',
+                    borderRadius: 14,
+                    padding: '24px 22px',
                   }}
                 >
-                  <result.icon size={24} style={{ color: 'var(--purple-dark)' }} />
-                </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>0{idx + 1}</span>
+                    <result.icon size={18} style={{ color: accent === 'amber' ? '#92400E' : 'var(--purple-dark)' }} />
+                  </div>
 
-                <div
-                  style={{
-                    fontFamily: "'Fraunces', serif",
-                    fontSize: 'clamp(28px, 3.5vw, 36px)',
-                    fontWeight: 600,
-                    color: 'var(--purple-dark)',
-                    margin: '0 0 8px',
-                    lineHeight: 1,
-                  }}
-                >
-                  {result.value}
-                </div>
-
-                <div
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: 'var(--text-primary)',
-                    margin: '0 0 4px',
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {result.label}
-                </div>
-
-                {result.sublabel && (
                   <div
                     style={{
-                      fontSize: 12,
-                      fontWeight: 400,
-                      color: 'var(--text-muted)',
-                      margin: 0,
+                      fontFamily: "'Fraunces', serif",
+                      fontSize: 'clamp(28px, 3.5vw, 36px)',
+                      fontWeight: 600,
+                      color: accent === 'amber' ? '#92400E' : 'var(--purple-dark)',
+                      margin: '0 0 8px',
+                      lineHeight: 1,
                     }}
                   >
-                    {result.sublabel}
+                    {result.value}
                   </div>
-                )}
-              </div>
-            ))}
+
+                  <div
+                    style={{
+                      fontSize: 13.5,
+                      fontWeight: 500,
+                      color: 'var(--text-primary)',
+                      margin: '0 0 4px',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {result.label}
+                  </div>
+
+                  {result.sublabel && (
+                    <div
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 400,
+                        color: 'var(--text-muted)',
+                        margin: 0,
+                      }}
+                    >
+                      {result.sublabel}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -186,45 +181,49 @@ export default function Results() {
             Technical Results
           </h3>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {technicalResults.map((result, idx) => (
-              <div
-                key={`tech-${result.value || idx}`}
-                data-testid={`technical-result-${idx + 1}`}
-                style={{
-                  background: 'var(--off-white)',
-                  border: '1px solid var(--border-clr)',
-                  borderRadius: 12,
-                  padding: '28px 20px',
-                  textAlign: 'center',
-                }}
-              >
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+            {technicalResults.map((result, idx) => {
+              const accent = ['white', 'purple', 'white', 'amber'][idx % 4];
+              return (
                 <div
+                  key={`tech-${result.value || idx}`}
+                  data-testid={`technical-result-${idx + 1}`}
+                  className="card-lift"
                   style={{
-                    fontFamily: "'Fraunces', serif",
-                    fontSize: 'clamp(24px, 3vw, 32px)',
-                    fontWeight: 600,
-                    color: 'var(--purple-dark)',
-                    margin: '0 0 8px',
-                    lineHeight: 1,
+                    background: accent === 'purple' ? 'var(--purple-light)' : accent === 'amber' ? 'var(--amber-light)' : 'var(--white)',
+                    border: '1px solid var(--border-clr)',
+                    borderRadius: 14,
+                    padding: '24px 20px',
+                    textAlign: 'center',
                   }}
                 >
-                  {result.value}
-                </div>
+                  <div
+                    style={{
+                      fontFamily: "'Fraunces', serif",
+                      fontSize: 'clamp(24px, 3vw, 32px)',
+                      fontWeight: 600,
+                      color: accent === 'amber' ? '#92400E' : 'var(--purple-dark)',
+                      margin: '0 0 8px',
+                      lineHeight: 1,
+                    }}
+                  >
+                    {result.value}
+                  </div>
 
-                <div
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 500,
-                    color: 'var(--text-secondary)',
-                    margin: 0,
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {result.label}
+                  <div
+                    style={{
+                      fontSize: 13,
+                      fontWeight: 500,
+                      color: 'var(--text-secondary)',
+                      margin: 0,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {result.label}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

@@ -13,6 +13,8 @@ export const pillars = [
       { slug: 'llmo-company', name: 'LLM Optimization (LLMO) Company' },
       { slug: 'perplexity-gemini-chatgpt-optimization', name: 'Perplexity, Gemini & ChatGPT Optimization' },
       { slug: 'zero-click-search-synthetic-traffic', name: 'Zero-Click Search & Synthetic Traffic' },
+      { slug: 'quora-content-seeding', name: 'Quora & Review-Platform Content Seeding' },
+      { slug: 'wikipedia', name: 'Wikipedia Page Creation & Management' },
     ],
   },
   {

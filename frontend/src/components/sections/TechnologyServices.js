@@ -27,7 +27,7 @@ export default function TechnologyServices() {
       id="technology-services"
       data-testid="technology-services-section"
       style={{
-        background: 'var(--dark)',
+        background: 'var(--off-white)',
         padding: '80px 40px',
       }}
     >
@@ -40,7 +40,7 @@ export default function TechnologyServices() {
               fontWeight: 600,
               textTransform: 'uppercase',
               letterSpacing: '0.08em',
-              color: 'var(--purple)',
+              color: '#92400E',
               marginBottom: 16,
             }}
           >
@@ -49,18 +49,18 @@ export default function TechnologyServices() {
 
           <h2
             data-testid="technology-headline"
-            className="headline-dark"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(32px, 4vw, 48px)',
               letterSpacing: '-1.5px',
               lineHeight: 1.15,
-              color: '#fff',
+              color: 'var(--text-primary)',
               margin: '0 0 20px',
             }}
           >
-            From AI pilots to production systems, engineered to scale.
+            From AI pilots to production systems,{' '}
+            <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#92400E' }}>engineered to scale.</em>
           </h2>
 
           <p
@@ -69,19 +69,19 @@ export default function TechnologyServices() {
               fontSize: 'clamp(16px, 2vw, 19px)',
               fontWeight: 300,
               lineHeight: 1.65,
-              color: 'rgba(255,255,255,0.85)',
+              color: 'var(--text-secondary)',
               maxWidth: 780,
               margin: '0 auto 12px',
             }}
           >
-            Most AI projects never reach production and most dev partners vanish after handover
+            Most AI projects never reach production and most dev partners vanish after handover.
           </p>
 
           <p
             style={{
               fontSize: 16,
               fontWeight: 500,
-              color: 'rgba(255,255,255,0.95)',
+              color: 'var(--text-primary)',
               maxWidth: 780,
               margin: '0 auto',
             }}
@@ -94,8 +94,8 @@ export default function TechnologyServices() {
         <div
           className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12"
           style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
+            background: 'var(--amber-light)',
+            border: '1px solid rgba(245,158,11,0.3)',
             borderRadius: 12,
             padding: '32px 24px',
           }}
@@ -107,7 +107,7 @@ export default function TechnologyServices() {
                   fontFamily: "'Fraunces', serif",
                   fontSize: 'clamp(24px, 3vw, 32px)',
                   fontWeight: 600,
-                  color: 'var(--purple)',
+                  color: '#92400E',
                   marginBottom: 6,
                 }}
               >
@@ -117,7 +117,7 @@ export default function TechnologyServices() {
                 style={{
                   fontSize: 12,
                   fontWeight: 400,
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'var(--text-secondary)',
                   lineHeight: 1.4,
                 }}
               >
@@ -133,9 +133,10 @@ export default function TechnologyServices() {
             <div
               key={service.number}
               data-testid={`technology-service-${service.title.toLowerCase().replace(/\s+/g, '-')}`}
+              className="card-lift"
               style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'var(--white)',
+                border: '1px solid var(--border-clr)',
                 borderRadius: 12,
                 padding: '32px',
                 display: 'grid',
@@ -149,7 +150,7 @@ export default function TechnologyServices() {
                   fontFamily: "'Fraunces', serif",
                   fontSize: 20,
                   fontWeight: 600,
-                  color: 'var(--purple)',
+                  color: '#92400E',
                   minWidth: 40,
                 }}
               >
@@ -161,7 +162,7 @@ export default function TechnologyServices() {
                     fontFamily: "'Fraunces', serif",
                     fontSize: 24,
                     fontWeight: 600,
-                    color: '#fff',
+                    color: 'var(--text-primary)',
                     margin: '0 0 6px',
                   }}
                 >
@@ -171,7 +172,7 @@ export default function TechnologyServices() {
                   style={{
                     fontSize: 14,
                     fontWeight: 500,
-                    color: 'var(--purple)',
+                    color: '#92400E',
                     margin: '0 0 12px',
                   }}
                 >
@@ -181,7 +182,7 @@ export default function TechnologyServices() {
                   style={{
                     fontSize: 15,
                     lineHeight: 1.7,
-                    color: 'rgba(255,255,255,0.75)',
+                    color: 'var(--text-secondary)',
                     margin: 0,
                   }}
                 >
@@ -195,8 +196,8 @@ export default function TechnologyServices() {
         {/* Bottom CTA */}
         <div
           style={{
-            background: 'linear-gradient(135deg, rgba(124,59,237,0.15) 0%, rgba(124,59,237,0.05) 100%)',
-            border: '1px solid var(--purple)',
+            background: 'linear-gradient(135deg, var(--amber-light) 0%, rgba(254,243,199,0.4) 100%)',
+            border: '1px solid var(--amber)',
             borderRadius: 12,
             padding: '28px 32px',
             textAlign: 'center',
@@ -206,7 +207,7 @@ export default function TechnologyServices() {
             style={{
               fontSize: 16,
               fontWeight: 400,
-              color: 'rgba(255,255,255,0.9)',
+              color: 'var(--text-primary)',
               margin: 0,
             }}
           >

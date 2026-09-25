@@ -24,10 +24,9 @@ export default function Positioning() {
 
         <h2
           data-testid="positioning-headline"
-          className="headline-light"
           style={{
             fontFamily: "'Fraunces', serif",
-            fontWeight: 300,
+            fontWeight: 600,
             fontSize: 'clamp(32px, 4vw, 52px)',
             letterSpacing: '-1.5px',
             lineHeight: 1.15,
@@ -35,7 +34,8 @@ export default function Positioning() {
             margin: '0 0 20px',
           }}
         >
-          We're not an instrument. We're your growth partner.
+          We're not an instrument.{' '}
+          <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>We're your growth partner.</em>
         </h2>
 
         <p

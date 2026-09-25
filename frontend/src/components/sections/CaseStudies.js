@@ -74,10 +74,9 @@ export default function CaseStudies() {
 
           <h2
             data-testid="case-studies-headline"
-            className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(32px, 4vw, 48px)',
               letterSpacing: '-1.5px',
               lineHeight: 1.15,
@@ -85,7 +84,8 @@ export default function CaseStudies() {
               margin: 0,
             }}
           >
-            Real challenges. Measurable outcomes.
+            Real challenges.{' '}
+            <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>Measurable outcomes.</em>
           </h2>
         </div>
 

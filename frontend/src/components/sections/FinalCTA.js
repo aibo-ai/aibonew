@@ -41,7 +41,7 @@ export default function FinalCTA() {
             lineHeight: 1.15,
           }}
         >
-          Ready to grow on <em>both fronts?</em>
+          Ready to grow on <em style={{ color: 'var(--purple-dark)' }}>both fronts?</em>
         </h2>
 
         {/* Primary CTA */}

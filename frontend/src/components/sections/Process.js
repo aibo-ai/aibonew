@@ -35,10 +35,9 @@ export default function Process() {
         <div className="text-center mx-auto mb-14" style={{ maxWidth: 500 }}>
           <SectionLabel text="How We Work" centered />
           <h2
-            className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(28px, 3.5vw, 42px)',
               letterSpacing: '-1px',
               color: 'var(--text-primary)',
@@ -46,7 +45,8 @@ export default function Process() {
               lineHeight: 1.15,
             }}
           >
-            From brief to results &mdash; a process built around <em>clarity.</em>
+            From brief to results &mdash; a process built around{' '}
+            <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>clarity.</em>
           </h2>
         </div>
 

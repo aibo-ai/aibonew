@@ -50,10 +50,9 @@ export default function Testimonials() {
 
           <h2
             data-testid="testimonials-headline"
-            className="headline-light"
             style={{
               fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
+              fontWeight: 600,
               fontSize: 'clamp(32px, 4vw, 48px)',
               letterSpacing: '-1.5px',
               lineHeight: 1.15,
@@ -61,7 +60,7 @@ export default function Testimonials() {
               margin: 0,
             }}
           >
-            What our clients say.
+            What our <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>clients say.</em>
           </h2>
         </div>
 
