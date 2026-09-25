@@ -270,11 +270,18 @@ export default function BlogManagement() {
   };
 
   const handleSave = async () => {
-    if (!form.title.trim() || !form.slug.trim()) { setError('Title and slug are required.'); return; }
+    // Always re-run the slug through slugify() before validating/saving —
+    // the field is free text (typed or pasted), and a stray paste (e.g.
+    // grabbing a "Meta title:" label along with the slug from a content
+    // brief) would otherwise go straight to the database and break the
+    // /blog/:slug lookup.
+    const cleanSlug = slugify(form.slug);
+    if (!form.title.trim() || !cleanSlug) { setError('Title and slug are required.'); return; }
     setSaving(true);
     setError('');
     const payload = {
       ...form,
+      slug: cleanSlug,
       tags: form.tags ? form.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
       published_at: form.published ? (editing?.published_at || new Date().toISOString()) : null,
     };
