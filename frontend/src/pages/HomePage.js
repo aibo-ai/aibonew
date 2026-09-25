@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/Hero";
 import Positioning from "@/components/sections/Positioning";
+import AIConsensus from "@/components/sections/AIConsensus";
 import MarketingServices from "@/components/sections/MarketingServices";
 import TechnologyServices from "@/components/sections/TechnologyServices";
 import WhyMyAibo from "@/components/sections/WhyMyAibo";
@@ -29,6 +30,7 @@ export default function HomePage() {
       <main style={{ paddingTop: 64 }}>
         <Hero />
         <Positioning />
+        <AIConsensus />
         <MarketingServices />
         <TechnologyServices />
         <WhyMyAibo />
