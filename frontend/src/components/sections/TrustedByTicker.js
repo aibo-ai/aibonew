@@ -47,13 +47,14 @@ export default function TrustedByTicker() {
   return (
     <div data-testid="hero-clients" style={{ marginTop: 8 }}>
       <div
+        className="text-center"
         style={{
           fontSize: 12,
           fontWeight: 600,
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
           color: 'var(--text-muted)',
-          marginBottom: 16,
+          marginBottom: 20,
         }}
       >
         Trusted by

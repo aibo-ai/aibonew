@@ -204,11 +204,16 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* Trusted by — scrolling logo ticker */}
-          <TrustedByTicker />
         </div>
 
         <HeroMockup />
+      </div>
+
+      {/* Trusted by — full-width scrolling logo ticker, not confined to the
+          hero's left column so the marquee has room to actually scroll
+          across the page instead of showing 2-3 logos in a cramped strip. */}
+      <div className="relative z-10 mx-auto mt-20" style={{ maxWidth: 1400 }}>
+        <TrustedByTicker />
       </div>
     </section>
   );
