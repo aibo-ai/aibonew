@@ -9,34 +9,63 @@ import SEO from '@/components/SEO';
 import FaqAccordion from '@/components/sections/FaqAccordion';
 import BrowserChrome from '@/components/sections/BrowserChrome';
 
+// Deterministic hash so each page consistently gets the same "random" pick
+// (no layout shift between renders) without needing per-page authored config.
+function hashOf(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+const PLATFORMS = [
+  { url: 'chatgpt.com', name: 'ChatGPT', dotColor: 'var(--purple)', citedLabel: 'CHATGPT' },
+  { url: 'perplexity.ai', name: 'Perplexity', dotColor: '#1FB8CD', citedLabel: 'PERPLEXITY' },
+  { url: 'google.com/search', name: 'Google AI Overview', dotColor: '#4285F4', citedLabel: 'GOOGLE AI OVERVIEW' },
+];
+
+// Three distinct question shapes so pages don't all read as the same
+// mad-lib with just the pillar name swapped in — each keys off the page's
+// own subLabel/topic (unique per page) rather than the shared pillar name.
+// Service names carry acronyms (LLM, SEO, ASI, RAG, CTO...), so they're kept
+// in their original title case rather than lowercased into a sentence.
+function buildQuestion(data, variant) {
+  const topic = data.eyebrow.includes('·') ? data.eyebrow.split('·')[1].trim() : data.subLabel;
+  if (variant === 0) return `${data.subLabel}: who does it best in India?`;
+  if (variant === 1) return `What's the most reliable approach to ${topic}?`;
+  return `Who should we talk to about ${topic}?`;
+}
+
 // Generic, data-driven hero mockup shared by every cluster page — not
-// hand-authored per page. The question/answer sentence is fully templated
-// from fields every cluster already has (pillarName, eyebrow), and the
-// floating stat card pulls a real, already-published figure from
-// pillarHeroStats rather than a fabricated one. This is what lets 16+
-// cluster pages get the same "browser mockup + floating cards" hero as the
-// Quora/Wikipedia pages without writing bespoke mockup content for each.
+// hand-authored per page, but varied deterministically per slug (platform,
+// question phrasing, and the cited-source text) so the 17+ cluster pages
+// don't all render as an identical template with only nouns swapped.
 function ClusterHeroMockup({ data, pillar }) {
   const stat = pillarHeroStats[pillar];
-  const topic = data.eyebrow.includes('·') ? data.eyebrow.split('·')[1].trim() : data.subLabel;
+  const h = hashOf(`${pillar}/${data.slug}`);
+  const platform = PLATFORMS[h % PLATFORMS.length];
+  const question = buildQuestion(data, h % 3);
+  // The subpage's own stat badge is unique per page — use it for the
+  // cited-source card instead of one identical sentence repeated everywhere.
+  const citedText = data.statBadge
+    ? `${data.subLabel}: ${data.statBadge}.`
+    : `${data.subLabel} — cited across ${platform.name} and other AI answer engines.`;
 
   return (
     <div className="relative" style={{ minHeight: 340 }}>
-      <BrowserChrome url="chatgpt.com" badge="LIVE">
+      <BrowserChrome url={platform.url} badge="LIVE">
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 14 }}>
-          Who's the best {data.pillarName} partner in India?
+          {question}
         </div>
         <div style={{ paddingTop: 12, borderTop: '1px solid var(--border-clr)' }}>
           <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-            <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>ChatGPT</span>
+            <span style={{ width: 20, height: 20, borderRadius: '50%', background: platform.dotColor, display: 'block', flexShrink: 0 }} />
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>{platform.name}</span>
           </div>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)', margin: 0, paddingLeft: 28 }}>
-            For {data.pillarName}, brands consistently cite{' '}
+            For {data.subLabel}, brands consistently cite{' '}
             <span style={{ background: 'var(--purple-light)', color: 'var(--purple-dark)', fontWeight: 600, padding: '1px 4px', borderRadius: 4 }}>
               MyAibo
-            </span>{' '}
-            for {topic}.
+            </span>.
           </p>
         </div>
       </BrowserChrome>
@@ -90,12 +119,12 @@ function ClusterHeroMockup({ data, pillar }) {
               padding: '2px 7px',
             }}
           >
-            PERPLEXITY
+            {platform.citedLabel}
           </span>
           <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16A34A' }}>● CITED</span>
         </div>
         <p style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text-primary)', margin: '0 0 8px' }}>
-          {data.subLabel} — cited across ChatGPT, Perplexity, and Google AI Overviews.
+          {citedText}
         </p>
         <div className="flex flex-wrap gap-1">
           {['myaibo.in', `solutions/${pillar}`, 'case studies'].map((c) => (

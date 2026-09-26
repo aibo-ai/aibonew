@@ -1,6 +1,8 @@
 import Hero from "@/components/sections/Hero";
 import Positioning from "@/components/sections/Positioning";
 import AIConsensus from "@/components/sections/AIConsensus";
+import AIVisibilityDashboard from "@/components/sections/AIVisibilityDashboard";
+import WordTicker from "@/components/sections/WordTicker";
 import MarketingServices from "@/components/sections/MarketingServices";
 import TechnologyServices from "@/components/sections/TechnologyServices";
 import WhyMyAibo from "@/components/sections/WhyMyAibo";
@@ -29,8 +31,15 @@ export default function HomePage() {
       />
       <main style={{ paddingTop: 64 }}>
         <Hero />
+        <div style={{ background: 'var(--off-white)', padding: '48px 40px' }}>
+          <WordTicker
+            label="Deep expertise across"
+            words={['FMCG', 'D2C', 'Logistics', 'Healthcare', 'FinTech', 'SaaS']}
+          />
+        </div>
         <Positioning />
         <AIConsensus />
+        <AIVisibilityDashboard />
         <MarketingServices />
         <TechnologyServices />
         <WhyMyAibo />

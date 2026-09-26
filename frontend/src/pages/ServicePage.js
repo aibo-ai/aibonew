@@ -17,28 +17,47 @@ import SEO from "@/components/SEO";
 import BrowserChrome from "@/components/sections/BrowserChrome";
 import FaqAccordion from "@/components/sections/FaqAccordion";
 
+function hashOf(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
+  return h;
+}
+
+const PLATFORMS = [
+  { url: 'chatgpt.com', name: 'ChatGPT', dotColor: 'var(--purple)', citedLabel: 'CHATGPT' },
+  { url: 'perplexity.ai', name: 'Perplexity', dotColor: '#1FB8CD', citedLabel: 'PERPLEXITY' },
+  { url: 'google.com/search', name: 'Google AI Overview', dotColor: '#4285F4', citedLabel: 'GOOGLE AI OVERVIEW' },
+];
+
 // Same generic, data-driven hero mockup pattern as ClusterPage — templated
 // from fields every pillar page already has, with a real published stat
-// from pillarHeroStats rather than per-page bespoke mockup content.
+// from pillarHeroStats. Platform and the "cited for" hook are varied per
+// pillar (hash of slug + that pillar's own eyebrow tagline) instead of one
+// identical sentence repeated across all 6 pillar pages.
 function PillarHeroMockup({ data, slug }) {
   const stat = pillarHeroStats[slug];
+  const platform = PLATFORMS[hashOf(slug) % PLATFORMS.length];
+  const rawHook = data.eyebrow.includes('·') ? data.eyebrow.split('·')[1].trim().replace(/\.$/, '') : 'measurable, compounding results';
+  // Only the first letter is lowercased (to sit naturally after "for") —
+  // the rest is left as-is so acronyms like AI/SEO aren't mangled into "ai"/"seo".
+  const hook = rawHook.charAt(0).toLowerCase() + rawHook.slice(1);
   return (
     <div className="relative" style={{ minHeight: 340 }}>
-      <BrowserChrome url="chatgpt.com" badge="LIVE">
+      <BrowserChrome url={platform.url} badge="LIVE">
         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 14 }}>
           Who's the best {data.pageTitle} partner in India?
         </div>
         <div style={{ paddingTop: 12, borderTop: '1px solid var(--border-clr)' }}>
           <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-            <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>ChatGPT</span>
+            <span style={{ width: 20, height: 20, borderRadius: '50%', background: platform.dotColor, display: 'block', flexShrink: 0 }} />
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>{platform.name}</span>
           </div>
           <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)', margin: 0, paddingLeft: 28 }}>
             For {data.pageTitle}, marketing and AI teams consistently cite{' '}
             <span style={{ background: 'var(--purple-light)', color: 'var(--purple-dark)', fontWeight: 600, padding: '1px 4px', borderRadius: 4 }}>
               MyAibo
             </span>{' '}
-            for measurable, compounding results.
+            for {hook}.
           </p>
         </div>
       </BrowserChrome>
@@ -92,12 +111,12 @@ function PillarHeroMockup({ data, slug }) {
               padding: '2px 7px',
             }}
           >
-            PERPLEXITY
+            {platform.citedLabel}
           </span>
           <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16A34A' }}>● CITED</span>
         </div>
         <p style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text-primary)', margin: '0 0 8px' }}>
-          {data.pageTitle} — cited across ChatGPT, Perplexity, and Google AI Overviews.
+          {data.pageTitle}: {data.results.metrics[0].metric} — {data.results.metrics[0].result}.
         </p>
         <div className="flex flex-wrap gap-1">
           {['myaibo.in', `solutions/${slug}`, 'case studies'].map((c) => (
