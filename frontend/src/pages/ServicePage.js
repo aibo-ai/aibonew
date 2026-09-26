@@ -14,8 +14,8 @@ import { whiteLabelData } from "@/data/whiteLabelData";
 import { fullStackData } from "@/data/fullStackData";
 import { pillarHeroStats } from "@/data/pillarHeroStats";
 import SEO from "@/components/SEO";
-import ClusterLinksBar from "@/components/sections/ClusterLinksBar";
 import BrowserChrome from "@/components/sections/BrowserChrome";
+import FaqAccordion from "@/components/sections/FaqAccordion";
 
 // Same generic, data-driven hero mockup pattern as ClusterPage — templated
 // from fields every pillar page already has, with a real published stat
@@ -217,6 +217,15 @@ export default function ServicePage() {
       { '@type': 'ListItem', position: 2, name: pillarDisplayNames[slug] || data.pageTitle, item: `https://www.myaibo.in/solutions/${slug}` },
     ],
   };
+  const faqLd = data.pillarFaq && data.pillarFaq.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: data.pillarFaq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  } : null;
 
   return (
     <>
@@ -231,6 +240,7 @@ export default function ServicePage() {
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
+        {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
       </Helmet>
       <main>
       {/* ─── HERO ─── */}
@@ -282,8 +292,97 @@ export default function ServicePage() {
         </div>
       </section>
 
-      {/* ─── CLUSTER DEEP-DIVE TABS (small, non-invasive strip) ─── */}
-      <ClusterLinksBar pillarSlug={slug} />
+      {/* ─── WHY THIS MATTERS ─── */}
+      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
+        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+          <div className="text-center mb-12">
+            <SectionLabel text={data.whyNow.label} centered />
+            <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
+              {data.whyNow.headline}
+            </h2>
+          </div>
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
+            {data.whyNow.stats.map((s, i) => {
+              const bg = ['white', 'purple', 'white', 'amber'][i % 4];
+              return (
+                <div
+                  key={`stat-${s.num}-${s.label}`}
+                  className="card-lift"
+                  style={{
+                    background: bg === 'purple' ? 'var(--purple-light)' : bg === 'amber' ? 'var(--amber-light)' : 'var(--white)',
+                    border: '1px solid var(--border-clr)',
+                    borderRadius: 18,
+                    padding: '22px 18px',
+                  }}
+                >
+                  <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>0{i + 1}</span>
+                  <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: bg === 'amber' ? '#92400E' : accentDark, display: 'block', lineHeight: 1.15, margin: '8px 0' }}>{s.num}</span>
+                  <span style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5, display: 'block' }}>{s.label}</span>
+                </div>
+              );
+            })}
+          </div>
+          {/* Context cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {data.whyNow.contextCards.map((c) => (
+              <div key={`ctx-${c.title}`} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
+                <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
+                <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── DEEP-DIVE SERVICE CARDS ─── */}
+      {data.deepDiveCards && data.deepDiveCards.length > 0 && (
+        <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
+          <div className="mx-auto" style={{ maxWidth: 1100 }}>
+            <div className="text-center mb-12">
+              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}>
+                Deep-Dive Services
+              </div>
+              <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
+                Go deeper on each capability.
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {data.deepDiveCards.map((c, i) => (
+                <Link
+                  key={c.slug}
+                  to={`/solutions/${slug}/${c.slug}`}
+                  className="card-lift"
+                  style={{
+                    display: 'block',
+                    background: 'var(--off-white)',
+                    border: '1px solid var(--border-clr)',
+                    borderRadius: 16,
+                    padding: 26,
+                    textDecoration: 'none',
+                  }}
+                >
+                  <div
+                    className="flex items-center justify-center mb-4"
+                    style={{ width: 36, height: 36, borderRadius: 12, background: 'var(--purple-light)', color: 'var(--purple-dark)', fontFamily: "'Fraunces', serif", fontSize: 14, fontWeight: 600 }}
+                  >
+                    0{i + 1}
+                  </div>
+                  <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 10px', lineHeight: 1.3 }}>
+                    {c.title}
+                  </h3>
+                  <p style={{ fontSize: 13.5, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 14px' }}>
+                    {c.body}
+                  </p>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: accentDark, borderTop: '1px solid var(--border-clr)', paddingTop: 12 }}>
+                    {c.stat}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ─── INTRO ─── */}
       <section id="intro" style={{ background: 'var(--white)', padding: '100px 40px' }}>
@@ -357,7 +456,14 @@ export default function ServicePage() {
                   {s.num}
                 </div>
                 <div className="flex-1">
-                  <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 6px' }}>{s.title}</h3>
+                  <div className="flex items-center gap-3 flex-wrap" style={{ margin: '0 0 6px' }}>
+                    <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{s.title}</h3>
+                    {s.timeframe && (
+                      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--purple-dark)', background: 'var(--purple-light)', borderRadius: 5, padding: '2px 8px' }}>
+                        {s.timeframe}
+                      </span>
+                    )}
+                  </div>
                   <p style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 8px' }}>{s.body}</p>
                   <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--purple-dark)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                     Deliverable: {s.deliverable}
@@ -381,49 +487,6 @@ export default function ServicePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.deliverables.cards.map((c, i) => (
               <div key={`del-${i}-${c.title}`} className="card-lift" style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
-                <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
-                <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── WHY NOW ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="text-center mb-12">
-            <SectionLabel text={data.whyNow.label} centered />
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
-              {data.whyNow.headline}
-            </h2>
-          </div>
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
-            {data.whyNow.stats.map((s, i) => {
-              const bg = ['white', 'purple', 'white', 'amber'][i % 4];
-              return (
-                <div
-                  key={`stat-${s.num}-${s.label}`}
-                  className="card-lift"
-                  style={{
-                    background: bg === 'purple' ? 'var(--purple-light)' : bg === 'amber' ? 'var(--amber-light)' : 'var(--white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 18,
-                    padding: '22px 18px',
-                  }}
-                >
-                  <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>0{i + 1}</span>
-                  <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: bg === 'amber' ? '#92400E' : accentDark, display: 'block', lineHeight: 1.15, margin: '8px 0' }}>{s.num}</span>
-                  <span style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5, display: 'block' }}>{s.label}</span>
-                </div>
-              );
-            })}
-          </div>
-          {/* Context cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {data.whyNow.contextCards.map((c) => (
-              <div key={`ctx-${c.title}`} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
                 <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
                 <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
               </div>
@@ -472,6 +535,23 @@ export default function ServicePage() {
           </div>
         </div>
       </section>
+
+      {/* ─── PILLAR FAQ ─── */}
+      {data.pillarFaq && data.pillarFaq.length > 0 && (
+        <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
+          <div className="mx-auto" style={{ maxWidth: 800 }}>
+            <div className="text-center mb-12">
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}>
+                FAQ
+              </div>
+              <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
+                Everything You Need to Know
+              </h2>
+            </div>
+            <FaqAccordion items={data.pillarFaq} />
+          </div>
+        </section>
+      )}
 
       {/* ─── FINAL CTA ─── */}
       <section style={{ background: 'var(--off-white)', padding: '64px 40px 80px' }}>

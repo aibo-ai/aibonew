@@ -34,13 +34,23 @@ export const aeoData = {
     label: 'Our Process',
     headline: 'Five steps to owning the answer.',
     steps: [
-      { num: '01', title: 'Query Intelligence Mapping', body: 'We identify every question your audience is actively asking using Google PAA data, Search Console queries, forum intelligence, and AI prompt analysis. We cluster these by intent and prioritise by snippet win-probability.', deliverable: 'Query Intent Map' },
-      { num: '02', title: 'Competitor Snippet Audit', body: 'We audit which answer boxes your competitors currently own in your category and identify the structural weaknesses in their content that we can exploit to displace them.', deliverable: 'Competitor Snippet Analysis' },
-      { num: '03', title: 'Answer Architecture', body: 'We redesign your content structure to match what answer engines look for: concise 40\u201360 word definitions, step-structured how-to content, comparison tables, and FAQ schemas that align with specific query formats.', deliverable: 'Content Restructuring Plan + Implementation' },
-      { num: '04', title: 'Schema & Markup Implementation', body: 'We implement FAQPage, HowToStep, QAPage, and Speakable schema markup across your site signalling to Google and voice assistants exactly which content is answer-ready.', deliverable: 'Schema Implementation' },
-      { num: '05', title: 'Track, Win, Defend', body: 'We monitor your snippet and PAA ownership weekly. When you win a box, we harden the content to defend it. When you lose one, we diagnose and recover. Position zero is dynamic \u2014 we treat it that way.', deliverable: 'Weekly Snippet Tracker + Monthly Performance Report' },
+      { num: '01', title: 'Query Intelligence Mapping', timeframe: 'Weeks 1\u20132 (typical)', body: 'We identify every question your audience is actively asking using Google PAA data, Search Console queries, forum intelligence, and AI prompt analysis. We cluster these by intent and prioritise by snippet win-probability.', deliverable: 'Query Intent Map' },
+      { num: '02', title: 'Competitor Snippet Audit', timeframe: 'Weeks 2\u20133 (typical)', body: 'We audit which answer boxes your competitors currently own in your category and identify the structural weaknesses in their content that we can exploit to displace them.', deliverable: 'Competitor Snippet Analysis' },
+      { num: '03', title: 'Answer Architecture', timeframe: 'Weeks 3\u20135 (typical)', body: 'We redesign your content structure to match what answer engines look for: concise 40\u201360 word definitions, step-structured how-to content, comparison tables, and FAQ schemas that align with specific query formats.', deliverable: 'Content Restructuring Plan + Implementation' },
+      { num: '04', title: 'Schema & Markup Implementation', timeframe: 'Weeks 5\u20137 (typical)', body: 'We implement FAQPage, HowToStep, QAPage, and Speakable schema markup across your site signalling to Google and voice assistants exactly which content is answer-ready.', deliverable: 'Schema Implementation' },
+      { num: '05', title: 'Track, Win, Defend', timeframe: 'Ongoing', body: 'We monitor your snippet and PAA ownership weekly. When you win a box, we harden the content to defend it. When you lose one, we diagnose and recover. Position zero is dynamic \u2014 we treat it that way.', deliverable: 'Weekly Snippet Tracker + Monthly Performance Report' },
     ],
   },
+  deepDiveCards: [
+    { title: 'LLM Bot Compliance & llms.txt', slug: 'llm-bot-compliance-llms-txt', body: 'Complete bot-compliance frameworks \u2014 llms.txt, bot-specific robots.txt, rate limiting, legal documentation \u2014 giving your team control and defensibility.', stat: 'Full crawler audit across every AI bot hitting your site' },
+    { title: 'Semantic FAQ & Knowledge Graph Schema', slug: 'semantic-faq-knowledge-graph-schema', body: 'Turns your existing content into machine-readable knowledge so AI Overviews, Perplexity, and any LLM can select, extract, and cite it precisely.', stat: 'Gains measurable within 60\u201390 days of re-architecture' },
+  ],
+  pillarFaq: [
+    { q: "What's the actual difference between AEO and SEO?", a: 'SEO gets you ranked; AEO gets you selected as the answer itself \u2014 a different, more valuable outcome since more than half of searches now resolve without a click at all.' },
+    { q: 'Do featured snippets still matter if AI Overviews are taking over?', a: 'Yes \u2014 they\u2019re closely related mechanics. The same content structure (concise answer blocks, schema, clear formatting) that wins a featured snippet is what AI Overviews and voice assistants pull from too.' },
+    { q: 'Can we lose a snippet once we win it?', a: 'Yes, which is why "Track, Win, Defend" is an ongoing phase, not a one-time project \u2014 snippet ownership is dynamic, and competitors actively contest it.' },
+    { q: 'How does this relate to your GEO and Zero-Click work?', a: "AEO focuses on structured answer boxes within traditional search (Google's own SERP features and voice); GEO and our Zero-Click & Synthetic Traffic work extend the same logic across AI chat platforms." },
+  ],
   deliverables: {
     label: 'The Deliverables',
     headline: 'Built to win every answer box in your category.',

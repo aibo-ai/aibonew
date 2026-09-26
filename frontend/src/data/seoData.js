@@ -37,13 +37,23 @@ export const seoData = {
     label: 'Our Process',
     headline: 'Technical first. Then content. Then authority.',
     steps: [
-      { num: '01', title: 'Technical Audit & Architecture', body: 'We conduct a full technical audit: Core Web Vitals, crawlability, indexation, site architecture, internal linking, page speed, mobile performance, structured data errors, and duplicate content. We fix the foundation before building anything on top.', deliverable: 'Technical SEO Audit + Fix Implementation' },
-      { num: '02', title: 'Keyword & Intent Architecture', body: 'We build a full keyword universe for your category, mapped to search intent (informational, navigational, commercial, transactional) and organised into topic clusters that establish topical authority, not just isolated rankings.', deliverable: 'Keyword Architecture Map' },
-      { num: '03', title: 'On-Page Optimisation', body: 'Every page gets optimised: title tags, meta descriptions, heading hierarchy, internal linking, content depth, and E-E-A-T signals. Pages with existing traffic are prioritised for compound gains first.', deliverable: 'On-Page Optimisation across all priority pages' },
-      { num: '04', title: 'Content Infrastructure', body: 'We build the content architecture that earns topical authority such as pillar pages, supporting cluster content, FAQ hubs, and comparison pages, all structured for both Google and AI engine ingestion.', deliverable: 'Content Pillar + Cluster Framework' },
-      { num: '05', title: 'Link Equity Building', body: 'We acquire authoritative, topically relevant backlinks through digital PR, expert contributions, and publisher outreach; the kind of links that move domain authority and that AI models recognise as trust signals.', deliverable: 'Monthly Link Building Report' },
+      { num: '01', title: 'Technical Audit & Architecture', timeframe: 'Weeks 1–2 (typical)', body: 'We conduct a full technical audit: Core Web Vitals, crawlability, indexation, site architecture, internal linking, page speed, mobile performance, structured data errors, and duplicate content. We fix the foundation before building anything on top.', deliverable: 'Technical SEO Audit + Fix Implementation' },
+      { num: '02', title: 'Keyword & Intent Architecture', timeframe: 'Weeks 2–4 (typical)', body: 'We build a full keyword universe for your category, mapped to search intent (informational, navigational, commercial, transactional) and organised into topic clusters that establish topical authority, not just isolated rankings.', deliverable: 'Keyword Architecture Map' },
+      { num: '03', title: 'On-Page Optimisation', timeframe: 'Weeks 4–5 (typical)', body: 'Every page gets optimised: title tags, meta descriptions, heading hierarchy, internal linking, content depth, and E-E-A-T signals. Pages with existing traffic are prioritised for compound gains first.', deliverable: 'On-Page Optimisation across all priority pages' },
+      { num: '04', title: 'Content Infrastructure', timeframe: 'Weeks 5–8 (typical)', body: 'We build the content architecture that earns topical authority such as pillar pages, supporting cluster content, FAQ hubs, and comparison pages, all structured for both Google and AI engine ingestion.', deliverable: 'Content Pillar + Cluster Framework' },
+      { num: '05', title: 'Link Equity Building', timeframe: 'Ongoing', body: 'We acquire authoritative, topically relevant backlinks through digital PR, expert contributions, and publisher outreach; the kind of links that move domain authority and that AI models recognise as trust signals.', deliverable: 'Monthly Link Building Report' },
     ],
   },
+  deepDiveCards: [
+    { title: 'Programmatic SEO Engine', slug: 'programmatic-seo-engine', body: 'Scale to thousands of high-intent landing pages without manual content production.', stat: 'Grows indexed pages from hundreds to tens of thousands within 6–12 months' },
+    { title: 'Topical Authority & Entity SEO', slug: 'topical-authority-entity-seo', body: 'Database-driven landing pages and entity architecture that build genuine category expertise, not just page count.', stat: 'Core-term rankings lift within 60–120 days after restructuring' },
+    { title: 'AI Agent Optimization', slug: 'ai-agent-optimization', body: 'Prepares your site for autonomous browsing bots — the buyer who never visits because their AI agent is visiting instead.', stat: '18–24 month first-mover window before this becomes table stakes' },
+  ],
+  pillarFaq: [
+    { q: 'Why does SEO still matter if AI answers are taking over search?', a: "Because SEO is the infrastructure GEO and AEO are built on — the technical authority and content architecture AI engines are trained on and cite from. It's also still 53% of all website traffic globally." },
+    { q: 'How is your programmatic SEO different from typical "AI content farm" approaches?', a: 'Ours is a data operation — one template and hundreds of records instead of hundreds of individually written articles — built with the entity and topical-authority architecture that keeps thin programmatic pages from triggering Google’s quality filters.' },
+    { q: 'What’s "AI Agent Optimization" and why does it belong under SEO?', a: 'It’s the newest layer: making your site legible to autonomous browsing agents (not just crawlers or LLMs), which is a structural/technical concern much like classic technical SEO.' },
+  ],
   deliverables: {
     label: 'The Deliverables',
     headline: 'Full-stack SEO. Nothing left to chance.',

@@ -27,6 +27,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo repositions enterprise brands as authoritative, consistently-cited entities inside LLM training pipelines and RAG stacks — through entity disambiguation, multi-source co-citation architecture, and semantic gap analysis against benchmark LLM outputs.',
     primaryCta: 'Book an LLMO Discovery Call',
+    statBadge: '500-prompt library run monthly on ChatGPT, Perplexity, and Gemini',
     aeoBox:
       "MyAibo's LLMO practice covers entity disambiguation across Wikipedia, Wikidata, and structured data sources; co-citation architecture across the publications LLMs weight highest; and continuous output auditing against a 500-prompt library run monthly on ChatGPT, Perplexity, and Gemini — turning LLM mention rate into a board-reportable KPI.",
     deepDive: {
@@ -71,6 +72,18 @@ export const clusterPages = [
       body: "Our Bengaluru GEO team runs continuous LLM benchmarks and works under NDA with SaaS, enterprise, and agency clients across North America, the UK, and the GCC.",
       finalCta: "Schedule Your LLM Visibility Audit with MyAibo's Engineering Team",
     },
+    relatedServices: {
+      note: "Part of our GEO pillar. Pairs directly with Perplexity, Gemini & ChatGPT Optimization (platform-specific citation tactics) and Wikipedia Page Creation & Management (the single highest-weight entity source most brands are missing).",
+      links: [
+        { pillar: 'geo', cluster: 'perplexity-gemini-chatgpt-optimization', label: 'Perplexity, Gemini & ChatGPT Optimization' },
+        { pillar: 'geo', cluster: 'wikipedia', label: 'Wikipedia Page Creation & Management' },
+      ],
+    },
+    faq: [
+      { q: "What's the difference between this and general GEO work?", a: 'This is the entity/citation-engineering layer specifically — the technical foundation the rest of our GEO program builds on.' },
+      { q: 'Which LLMs do you benchmark against?', a: 'ChatGPT, Perplexity, and Gemini are tested monthly as standard; other models can be added to the prompt library on request.' },
+      { q: 'Do we need existing press coverage for this to work?', a: 'It helps, but the entity-audit phase is designed to find and use whatever independent coverage already exists — including sources you may not know are being indexed.' },
+    ],
     targetKeywords: ['LLM optimization services', 'LLMO agency', 'brand entity optimization for AI'],
     meta: {
       title: 'LLM Optimization Company (LLMO) | MyAibo GEO Services',
@@ -87,6 +100,7 @@ export const clusterPages = [
     heroBody:
       "MyAibo builds platform-specific AI citation strategies for Perplexity, ChatGPT Search, and Google Gemini Overview — the three answer environments buyers check before visiting any vendor site. We map each platform's real retrieval architecture and position your content, entities, and structured data to be systematically selected as a source.",
     primaryCta: 'Get Your AI Citation Readiness Score',
+    statBadge: '300 queries per platform logged and scored at baseline',
     aeoBox:
       "Each AI platform retrieves differently: ChatGPT Search leans on Bing's index, Perplexity does live retrieval weighted toward freshness and source diversity, and Google AI Overviews follow Google's core ranking. MyAibo engineers platform-specific citation strategies — technical readiness, structured answer blocks, and freshness cadence — for each retrieval architecture.",
     deepDive: {
@@ -131,6 +145,18 @@ export const clusterPages = [
       body: "Our Bengaluru GEO team tracks each platform's retrieval shifts daily and works under NDA with SaaS companies, agencies, and enterprises across North America, the UK, and the GCC.",
       finalCta: 'Book a Platform-Specific AI Citation Strategy Session',
     },
+    relatedServices: {
+      note: 'Part of our GEO pillar. Works alongside LLM Optimization Company (entity-level foundation) and Zero-Click & Synthetic Traffic Strategy (measuring the resulting visibility).',
+      links: [
+        { pillar: 'geo', cluster: 'llmo-company', label: 'LLM Optimization Company' },
+        { pillar: 'geo', cluster: 'zero-click-search-synthetic-traffic', label: 'Zero-Click & Synthetic Traffic Strategy' },
+      ],
+    },
+    faq: [
+      { q: 'Why would three platforms need three different strategies?', a: 'Because they retrieve differently — Bing-index-based, live-retrieval, and Google-core-ranking-based approaches each reward different technical signals, so a single unified tactic under-serves at least two of the three.' },
+      { q: 'Do you track which specific queries we’re winning or losing?', a: 'Yes — the 300-query-per-platform baseline is re-run monthly, so gains and losses are visible platform-by-platform, not just as an aggregate score.' },
+      { q: 'What happens when a platform changes its retrieval method?', a: 'We treat each platform’s baseline as a living target — the monitoring phase is what catches drift and triggers a re-optimization pass rather than waiting for a full re-audit.' },
+    ],
     targetKeywords: ['Perplexity SEO agency', 'ChatGPT citation optimization', 'Google AI Overview optimization'],
     meta: {
       title: 'Perplexity, Gemini & ChatGPT Optimization | MyAibo GEO',
@@ -147,6 +173,7 @@ export const clusterPages = [
     heroBody:
       'Over 60% of Google searches now end without a click. MyAibo engineers zero-click visibility — positioning your brand inside the answer itself and tracking an AI Visibility Index across the synthetic search surfaces where commercial intent actually lives.',
     primaryCta: 'Audit Your Zero-Click Brand Exposure',
+    statBadge: '60%+ of Google searches now end without a click',
     aeoBox:
       "MyAibo measures and improves a brand's AI Visibility Index (AVI) — how often it appears as a cited entity across AI Overviews, Featured Snippets, answer panels, and knowledge cards, weighted by query intent. This solves the blind spot left by click-based attribution, which makes zero-click brand exposure invisible to most marketing teams.",
     deepDive: {
@@ -191,6 +218,18 @@ export const clusterPages = [
       body: 'Our Bengaluru GEO team tracks zero-click evolution daily under strict confidentiality, serving agencies and enterprise clients alike.',
       finalCta: 'Request a Zero-Click Visibility Strategy Engagement',
     },
+    relatedServices: {
+      note: 'Part of our GEO pillar. Complements Perplexity, Gemini & ChatGPT Optimization (platform tactics) and our AEO pillar (structured-answer capture on Google itself).',
+      links: [
+        { pillar: 'geo', cluster: 'perplexity-gemini-chatgpt-optimization', label: 'Perplexity, Gemini & ChatGPT Optimization' },
+        { pillar: 'aeo', cluster: null, label: 'AEO pillar' },
+      ],
+    },
+    faq: [
+      { q: 'What is the AI Visibility Index, exactly?', a: 'A single, board-reportable score combining prompt-library citation results (200–500 queries across ChatGPT, Perplexity, Gemini) with Search Console impression data — built because click-based metrics alone can’t see this channel.' },
+      { q: "Isn't this the same as AEO?", a: "Related but distinct — AEO focuses on structured answer boxes within Google itself (snippets, PAA); this tracks and builds visibility across AI chat/answer platforms as a category, including where Google's own AI Overviews behave more like a chat answer than a classic SERP feature." },
+      { q: "How do we know this is actually working if there's no click to measure?", a: "That's what the AVI exists to solve — it's a proxy metric built specifically because the outcome (being the cited answer) doesn't produce a click to track." },
+    ],
     targetKeywords: ['zero-click SEO strategy', 'AI Visibility Index', 'synthetic search engine marketing'],
     meta: {
       title: 'Zero-Click Search & Synthetic Traffic Strategy | MyAibo GEO',
@@ -373,6 +412,7 @@ export const clusterPages = [
     heroBody:
       'Most organizations have zero governance over what LLM crawlers scrape or exclude. MyAibo builds complete bot-compliance frameworks — llms.txt, bot-specific robots.txt, rate limiting, and legal documentation — giving your team both control and defensibility.',
     primaryCta: 'Request an AI Crawler Compliance Audit',
+    statBadge: 'Full crawler audit across every AI bot hitting your site',
     aeoBox:
       "MyAibo configures llms.txt alongside bot-specific robots.txt, HTTP headers, and server-level rate limiting — maximizing compliant indexing where you want citation and blocking unauthorized scraping where you don't, backed by legal-technical documentation.",
     deepDive: {
@@ -417,6 +457,17 @@ export const clusterPages = [
       body: 'Our Bengaluru AEO team tracks crawler protocol changes weekly for tech, media, and regulated-industry clients, all under NDA.',
       finalCta: 'Schedule Your AI Crawler Compliance Audit with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our AEO pillar. Complements Semantic FAQ & Knowledge Graph Schema — governance controls which bots can access your content; schema controls how well the ones you allow can use it.',
+      links: [
+        { pillar: 'aeo', cluster: 'semantic-faq-knowledge-graph-schema', label: 'Semantic FAQ & Knowledge Graph Schema' },
+      ],
+    },
+    faq: [
+      { q: 'Does blocking some AI crawlers hurt our GEO/AEO visibility?', a: 'No — the point is selective governance: we tier pages as crawlable, rate-limited, or blocked, so your best citable content stays open while proprietary or gated material doesn’t.' },
+      { q: 'Which crawlers do you configure for?', a: 'GPTBot, ClaudeBot, Google-Extended, PerplexityBot, and others are addressed individually rather than with one blanket directive, since each behaves differently.' },
+      { q: 'Is llms.txt actually respected by AI companies?', a: "Adoption varies by provider — it's an emerging, voluntary standard, which is exactly why it's paired here with server-level enforcement (rate limiting, IP blocking, legal documentation) rather than relied on alone." },
+    ],
     targetKeywords: ['how to configure llms.txt', 'AI crawler optimization', 'stop illegal AI scraping'],
     meta: {
       title: 'llms.txt Configuration & LLM Bot Compliance | MyAibo AEO',
@@ -433,6 +484,7 @@ export const clusterPages = [
     heroBody:
       "MyAibo turns your existing content into machine-readable knowledge — FAQ schema, HowTo markup, and full knowledge graph optimization — so Google's AI Overviews, Perplexity, and any LLM can select, extract, and cite your answers precisely.",
     primaryCta: 'Get a Structured Data Architecture Review',
+    statBadge: 'Measurable gains typically appear within 60–90 days of re-architecture',
     aeoBox:
       'MyAibo covers FAQPage and HowTo JSON-LD, Speakable schema, Q&A architecture, and knowledge graph entity alignment (Organization, Product, Service, Person with sameAs chains) — fixing content that answers buyer questions but lacks the schema layer machines need to find it.',
     deepDive: {
@@ -477,6 +529,18 @@ export const clusterPages = [
       body: 'Our Bengaluru team tracks Schema.org and Rich Results changes for B2B, e-commerce, and content-heavy brands needing structured data at scale.',
       finalCta: 'Book a Knowledge Graph & Schema Engineering Engagement',
     },
+    relatedServices: {
+      note: 'Part of our AEO pillar. Complements LLM Bot Compliance & llms.txt (access governance) and our SEO pillar (foundational content architecture this schema layer builds on).',
+      links: [
+        { pillar: 'aeo', cluster: 'llm-bot-compliance-llms-txt', label: 'LLM Bot Compliance & llms.txt' },
+        { pillar: 'seo', cluster: null, label: 'SEO pillar' },
+      ],
+    },
+    faq: [
+      { q: 'Do we need to rewrite our content, or just add schema?', a: 'Mostly the latter — this is primarily a markup and structuring pass on existing content, plus reformatting specific answer blocks to the 40–60 word extractable shape where needed.' },
+      { q: 'Will this help with voice assistants too?', a: 'Yes — Speakable schema is part of the implementation specifically for that surface.' },
+      { q: 'How is this different from your general AEO process?', a: "This subpage is the schema/markup execution layer; the AEO pillar's process also covers query research and competitor snippet auditing upstream of this work." },
+    ],
     targetKeywords: ['advanced FAQ schema setup', 'knowledge graph optimization', 'structured data for LLMs'],
     meta: {
       title: 'FAQ Schema & Knowledge Graph Engineering | MyAibo AEO',
@@ -495,6 +559,7 @@ export const clusterPages = [
     heroBody:
       "MyAibo builds production-grade programmatic SEO engines for SaaS and marketplaces — data modeling, template engineering, URL structure, automated linking, and indexation monitoring — delivering compounding traffic manual content teams can't reach.",
     primaryCta: 'Request a Programmatic SEO Architecture Session',
+    statBadge: 'Indexed pages typically grow from hundreds to tens of thousands within 6–12 months',
     aeoBox:
       'MyAibo builds relational databases powering dynamic landing pages (locations, integrations, comparisons, use-cases, features) with automated linking and crawl-optimized indexation, engineered to avoid the thin-content filters that sink most programmatic SEO.',
     deepDive: {
@@ -539,6 +604,17 @@ export const clusterPages = [
       body: "We've deployed these systems for SaaS companies across North America, Europe, and APAC, operating as an embedded engineering extension under NDA.",
       finalCta: 'Book a Programmatic SEO Architecture Workshop with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our SEO pillar. Pairs with Topical Authority & Entity SEO — the architecture that keeps large programmatic page sets from triggering quality filters.',
+      links: [
+        { pillar: 'seo', cluster: 'topical-authority-entity-seo', label: 'Topical Authority & Entity SEO' },
+      ],
+    },
+    faq: [
+      { q: "Won't thousands of programmatic pages get flagged as thin content?", a: "Not when they're built on genuine data differentiation and linked within a proper topical hierarchy — that's precisely what our Topical Authority & Entity SEO work is designed to prevent." },
+      { q: 'What kind of "data" powers these pages?', a: 'Whatever structured records your business already has or can source — product catalogs, location data, comparison attributes, integration lists — one template rendering many real, differentiated records.' },
+      { q: 'How fast does this actually move the needle?', a: "The indexation pipeline phase (weeks 7–8) is when pages start entering Google's index at scale; meaningful traffic typically follows within the 6–12 month page-growth window." },
+    ],
     targetKeywords: ['programmatic SEO setup for SaaS', 'scale landing pages with database tracking', 'programmatic keyword patterns'],
     meta: {
       title: 'Programmatic SEO Engine Development | MyAibo SEO',
@@ -555,6 +631,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo combines entity-based content architecture, database-driven page systems, and topical clustering — the signals search engines and AI summarizers use to detect genuine category expertise. We build the systems, not the spreadsheets.',
     primaryCta: 'Schedule a Topical Authority Audit',
+    statBadge: 'Core-term rankings typically lift within 60–120 days after restructuring',
     aeoBox:
       'MyAibo builds pillar-cluster hierarchies, entity disambiguation, and internal linking that reinforce rather than dilute topical authority — solving the common programmatic SEO failure of high page counts triggering quality filters.',
     deepDive: {
@@ -599,6 +676,17 @@ export const clusterPages = [
       body: 'We build PSEO infrastructure for SaaS companies, agencies, and marketplaces globally, as a technical SEO engineering firm operating under strict NDA.',
       finalCta: 'Book a PSEO Infrastructure Discovery Call',
     },
+    relatedServices: {
+      note: 'Part of our SEO pillar. Pairs with Programmatic SEO Engine (the page-generation system this architecture keeps from diluting authority).',
+      links: [
+        { pillar: 'seo', cluster: 'programmatic-seo-engine', label: 'Programmatic SEO Engine' },
+      ],
+    },
+    faq: [
+      { q: 'Is this just about adding more pages?', a: "No — the opposite emphasis, actually: it's about interconnection and hierarchy. A smaller, tightly-linked site structure outperforms a large, disconnected one." },
+      { q: 'What’s "entity SEO" in plain terms?', a: 'Making sure every named person, product, location, or concept on your site is clearly and consistently marked up, so search engines and AI systems recognize it as the same entity everywhere it appears.' },
+      { q: 'How does this interact with our programmatic pages?', a: 'This is the architecture layer that sits above programmatic page generation — it’s what determines whether thousands of new pages reinforce your authority or dilute it.' },
+    ],
     targetKeywords: ['programmatic SEO agency', 'programmatic SEO services', 'PSEO development infrastructure', 'database driven landing pages'],
     meta: {
       title: 'Topical Authority & Entity SEO | MyAibo SEO',
@@ -615,6 +703,7 @@ export const clusterPages = [
     heroBody:
       'Autonomous AI agents now browse, compare, and buy on behalf of humans. MyAibo makes your site legible and actionable to them — from MCP server setup to structured data agents can traverse unassisted.',
     primaryCta: 'Request an Agentic Web Readiness Assessment',
+    statBadge: '18–24 month first-mover window before agent-readiness becomes table stakes',
     aeoBox:
       "MyAibo's practice covers MCP server setup, structured data for machine traversal, an API-accessible data layer, and agentic search engine marketing that positions your brand as the preferred source for AI agents in your category.",
     deepDive: {
@@ -659,6 +748,17 @@ export const clusterPages = [
       body: 'We track MCP and agent-framework developments as a primary research priority for SaaS and enterprise clients, NDA-protected.',
       finalCta: 'Book an Agentic SEO Strategy Workshop with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our SEO pillar. Connects directly to our LLM Optimization Company work under GEO — both are about machine-readability, at different layers (page-level agents here, model-level citation there).',
+      links: [
+        { pillar: 'geo', cluster: 'llmo-company', label: 'LLM Optimization Company' },
+      ],
+    },
+    faq: [
+      { q: "What's an MCP server and why does my website need one?", a: 'It’s a standardized way for AI agents to access your catalog, pricing, and documentation as structured data rather than scraping rendered pages — the same idea as an API, purpose-built for agent access.' },
+      { q: "Is this relevant if we don't sell directly to consumers?", a: 'Yes — B2B procurement and research increasingly runs through agent-assisted workflows too, not just consumer shopping bots.' },
+      { q: 'How urgent is this really?', a: 'We frame it as an 18–24 month first-mover window — early enough that most competitors haven’t started, which is exactly the advantage.' },
+    ],
     targetKeywords: ['AI agent optimization', 'agentic search engine marketing', 'MCP server setup for SEO'],
     meta: {
       title: 'AI Agent Optimization & MCP Server Setup | MyAibo SEO',
@@ -737,6 +837,7 @@ export const clusterPages = [
     heroBody:
       "MyAibo is a data-driven B2B content agency building original research, primary data studies, and expert-attributed content — the formats Google's E-E-A-T framework and LLM citation engines favor. We build the data that makes your brand the primary source AI cites.",
     primaryCta: 'Request a Content Authority Audit',
+    statBadge: 'One well-executed report can drive 12–24 months of inbound links, media citations, and AI references',
     aeoBox:
       'MyAibo builds content around original data, first-hand expertise, and AI-summarization-ready structure — a durable data-asset program rather than a publishing cadence, each asset built to serve as a primary reference for 12–36 months.',
     deepDive: {
@@ -781,6 +882,17 @@ export const clusterPages = [
       body: 'Our content team pairs data science with B2B content expertise, delivering research assets rigorous enough for citation by AI systems and industry media, under NDA.',
       finalCta: 'Book a Data-Driven Content Strategy Workshop with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our Content Marketing pillar. Feeds directly into Multi-Channel B2B SaaS Growth Loops — original research is the highest-leverage asset type for the SEO-content-community loop.',
+      links: [
+        { pillar: 'content-marketing', cluster: 'multi-channel-b2b-saas-growth-loops', label: 'Multi-Channel B2B SaaS Growth Loops' },
+      ],
+    },
+    faq: [
+      { q: 'Do we need to run our own survey, or can you use existing data?', a: 'We can build from product-usage data you already have, but a dedicated survey or benchmark study is generally what earns the strongest, most citable original stat.' },
+      { q: 'How long does one research asset take start to finish?', a: 'Roughly 8 weeks from strategy through production (weeks 1–8 in our framework), with distribution and citation-building continuing for months after.' },
+      { q: "What's the actual payoff period on one report?", a: 'We see original research assets keep driving inbound links, media citations, and AI references for 12–24 months after publication.' },
+    ],
     targetKeywords: ['high E-E-A-T content creation', 'data-driven B2B content agency', 'content optimized for AI summarization'],
     meta: {
       title: 'Data-Driven Inbound & Original Research | MyAibo Content',
@@ -797,6 +909,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo engineers SaaS growth loops — content, distribution, SEO, and product touchpoints that compound acquisition rather than scaling linearly with spend.',
     primaryCta: 'Map Your SaaS Growth Loop Architecture',
+    statBadge: 'Breaks the structurally-rising-CAC pattern of linear marketing',
     aeoBox:
       'MyAibo designs closed-loop growth systems where content drives trial, usage generates proof, proof drives distribution, and distribution feeds back into content — mapping the loop architecture for your category and building its self-sustaining infrastructure.',
     deepDive: {
@@ -841,6 +954,17 @@ export const clusterPages = [
       body: 'We combine content strategy, technical SEO, and marketing automation for Series A–C SaaS companies under NDA.',
       finalCta: 'Book a SaaS Velocity Engine Design Workshop',
     },
+    relatedServices: {
+      note: 'Part of our Content Marketing pillar. Built on the assets Data-Driven Inbound & Original Research produces — original research is one of the strongest inputs into the SEO-content-community loop.',
+      links: [
+        { pillar: 'content-marketing', cluster: 'data-driven-inbound-original-research', label: 'Data-Driven Inbound & Original Research' },
+      ],
+    },
+    faq: [
+      { q: 'What exactly is a "growth loop" as opposed to a funnel?', a: 'A funnel ends; a loop feeds its own output back in as new input — content drives trial, usage generates proof, proof drives distribution, and distribution feeds back into content.' },
+      { q: 'Is this only for product-led SaaS companies?', a: 'The product-led loop specifically needs a product with shareable outputs, but the multi-channel distribution and SEO-content-community loops apply more broadly across B2B.' },
+      { q: 'How long until a loop is actually "compounding" on its own?', a: 'Loop activation (weeks 7–10) is the first measured cycle; the compounding effect — each cycle cheaper than the last — is what the ongoing optimization phase is built to track and reinforce.' },
+    ],
     targetKeywords: ['B2B SaaS growth strategy', 'product-led content marketing loops', 'SaaS velocity engine'],
     meta: {
       title: 'B2B SaaS Growth Loops & Multi-Channel Content | MyAibo',
@@ -859,6 +983,7 @@ export const clusterPages = [
     heroBody:
       "Most automation initiatives fail because the workflow underneath is broken. MyAibo's AIAA audit maps your process landscape and designs the automation architecture before any code is written.",
     primaryCta: 'Request an AIAA Operations Audit',
+    statBadge: 'Teams often discover 30–40% of "requires judgment" steps are actually rule-based and fully automatable',
     aeoBox:
       "MyAibo's AIAA audit covers process mining, task complexity classification, integration mapping, and automation ROI projection — producing a prioritized roadmap with a business case per target, addressing broken workflows before they're automated.",
     deepDive: {
@@ -903,6 +1028,18 @@ export const clusterPages = [
       body: 'We combine operations consulting with technical implementation, so audit findings are immediately actionable, under NDA globally.',
       finalCta: 'Book Your AIAA Operations Audit with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our AI Automations pillar. Feeds directly into Agentic Workflow & Multi-Agent Orchestration and Production-Grade n8n Automation — this audit is the recommended first step before either build path.',
+      links: [
+        { pillar: 'ai-automations', cluster: 'agentic-workflow-consulting', label: 'Agentic Workflow & Multi-Agent Orchestration' },
+        { pillar: 'ai-automations', cluster: 'n8n-automation-services', label: 'Production-Grade n8n Automation' },
+      ],
+    },
+    faq: [
+      { q: 'Do we need this audit if we already know what we want automated?', a: 'It’s worth doing anyway — the audit consistently surfaces that a meaningful share of "requires judgment" steps are actually rule-based, meaning the target list itself often changes.' },
+      { q: 'How long does the audit take?', a: 'Six weeks end to end, from workflow discovery through roadmap handoff, per our framework above.' },
+      { q: 'What do we get at the end of it?', a: 'A scored, prioritized roadmap with documented business cases for the top automation targets — a board-ready investment case, not just a list of ideas.' },
+    ],
     targetKeywords: ['AI Automation Agency solutions', 'AIAA operations audit', 'corporate workflow optimization'],
     meta: {
       title: 'AI Automation Agency Operations Audit | MyAibo',
@@ -919,6 +1056,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo designs multi-agent systems with CrewAI, LangChain, LangGraph, and custom frameworks — autonomous operations that plan, delegate, execute, and verify without sequential handoffs.',
     primaryCta: 'Request an Agentic Architecture Consultation',
+    statBadge: 'Well-architected systems turn hours-long analyst workflows into 45-minute autonomous runs',
     aeoBox:
       'MyAibo builds production multi-agent architectures across CrewAI, LangGraph, AutoGen, and LangChain, addressing loop completion, hallucination propagation, tool-call failures, and cost runaway through evaluation and monitoring infrastructure built into every deployment.',
     deepDive: {
@@ -963,6 +1101,17 @@ export const clusterPages = [
       body: 'We maintain hands-on expertise across CrewAI, LangGraph, AutoGen, and LangChain, deploying under NDA with full client code ownership.',
       finalCta: 'Book a Multi-Agent Architecture Workshop with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our AI Automations pillar. Best preceded by AIAA Operational Auditing to confirm which workflows genuinely warrant multi-agent complexity versus simpler automation.',
+      links: [
+        { pillar: 'ai-automations', cluster: 'aiaa-operational-auditing', label: 'AIAA Operational Auditing' },
+      ],
+    },
+    faq: [
+      { q: 'How is this different from a single AI chatbot or assistant?', a: 'A chatbot handles one isolated task per interaction; multi-agent systems plan, delegate across specialized agents, execute, and verify — running an entire operation rather than answering one question at a time.' },
+      { q: 'What stops these agents from making costly mistakes autonomously?', a: 'Production safeguards built in from day one — LLM-as-judge evaluation, circuit breakers, cost caps, and checkpoints — specifically to reach stable operation without a firefighting period.' },
+      { q: 'Which frameworks do you build on?', a: 'CrewAI, LangChain, LangGraph, and custom frameworks, selected based on the specific orchestration and memory requirements of your workflow.' },
+    ],
     targetKeywords: ['agentic AI solutions for enterprise', 'multi-agent workflows CrewAI LangChain', 'autonomous business operations'],
     meta: {
       title: 'Multi-Agent Workflow Consulting | MyAibo AI Automation',
@@ -979,6 +1128,7 @@ export const clusterPages = [
     heroBody:
       "MyAibo's n8n engineers deploy self-hosted, production-grade automation — the cost efficiency and data sovereignty of open source without the operational overhead of running it in-house.",
     primaryCta: 'Book an n8n Architecture Discovery Session',
+    statBadge: 'Teams typically retire 30–50% of manual data entry and classification within 90 days',
     aeoBox:
       'MyAibo designs multi-trigger n8n workflows, builds custom nodes, deploys self-hosted infrastructure with queue mode and horizontal scaling, and integrates AI/LLM capability via HTTP, LangChain, and custom code nodes.',
     deepDive: {
@@ -1023,6 +1173,18 @@ export const clusterPages = [
       body: 'We bring production engineering standards to open-source automation, with full source code ownership transferred to clients under NDA.',
       finalCta: "Hire MyAibo's n8n Workflow Developers — Book a Discovery Session",
     },
+    relatedServices: {
+      note: "Part of our AI Automations pillar. Often follows AIAA Operational Auditing; a lighter-weight alternative to full Agentic Workflow & Multi-Agent Orchestration for workflows that don't need multi-agent complexity.",
+      links: [
+        { pillar: 'ai-automations', cluster: 'aiaa-operational-auditing', label: 'AIAA Operational Auditing' },
+        { pillar: 'ai-automations', cluster: 'agentic-workflow-consulting', label: 'Agentic Workflow & Multi-Agent Orchestration' },
+      ],
+    },
+    faq: [
+      { q: 'We already have n8n running — why would we need this?', a: 'Most self-hosted n8n instances are built without production-grade error handling, monitoring, or scaling — exactly the gap this service addresses, often without needing to rebuild from scratch.' },
+      { q: 'Is self-hosted actually cheaper than a managed automation platform?', a: 'Self-hosting removes per-execution or per-seat platform fees and keeps your data under your own control — the tradeoff is needing the production infrastructure (queue mode, worker separation, backups) done properly, which is what we deploy.' },
+      { q: 'Can this include AI/LLM features, or is it just traditional automation?', a: 'Both — AI Agent nodes, LLM-powered extraction and routing, and RAG integration are a standard part of the build where the workflow calls for it.' },
+    ],
     targetKeywords: ['n8n workflow developers', 'hire self-hosted n8n consultants', 'open-source enterprise automation'],
     meta: {
       title: 'n8n Workflow Developers & Self-Hosted Automation | MyAibo',
@@ -1041,6 +1203,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo builds Next.js applications where AI is architected in from the start — generative UI, streaming responses, and LLM integration using the Vercel AI SDK, LangChain, and custom orchestration.',
     primaryCta: 'Start Your AI Application Build',
+    statBadge: 'Evaluation, fallback, and cost monitoring are designed in from sprint zero on every build',
     aeoBox:
       'MyAibo builds AI-native apps with Next.js App Router, Vercel AI SDK streaming, generative UI (streamUI(), createStreamableUI()), and production AI feature integration — with evaluation, fallback, and cost monitoring designed in from sprint zero.',
     deepDive: {
@@ -1085,6 +1248,17 @@ export const clusterPages = [
       body: 'We function as a co-founder-level engineering partner, with the full-stack depth and AI specialization to ship production-ready features, under NDA.',
       finalCta: 'Start Your AI Application Build with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our Full Stack pillar. Pairs with Enterprise RAG & Vector Database when the generative UI needs to draw on your private knowledge base rather than general model knowledge.',
+      links: [
+        { pillar: 'full-stack', cluster: 'enterprise-rag-vector-database-architecture', label: 'Enterprise RAG & Vector Database' },
+      ],
+    },
+    faq: [
+      { q: 'What is "generative UI," in plain terms?', a: 'Instead of the model only returning text, it can select and stream an actual UI component — a table, chart, or form — matched to what the user asked for, rendered directly in your app.' },
+      { q: 'Do we need to already be on Next.js?', a: 'This service is specifically built around the Next.js App Router and Vercel AI SDK; a different stack would need a different architecture approach.' },
+      { q: 'How do you catch it when an AI feature starts underperforming?', a: 'Evaluation pipelines and prompt regression testing are standard on every build, not an afterthought — issues surface through monitoring in the same sprint rather than being discovered by users first.' },
+    ],
     targetKeywords: ['AI native software engineers', 'generative UI component development', 'Next.js AI application build'],
     meta: {
       title: 'AI-Native & Generative UI Development | MyAibo Full Stack',
@@ -1101,6 +1275,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo engineers production RAG pipelines giving enterprise LLM apps accurate, secure access to private knowledge — document ingestion, chunking, vector database, retrieval, and citation-grounded generation.',
     primaryCta: 'Request a RAG Architecture Assessment',
+    statBadge: 'Hybrid retrieval typically lifts accuracy 15–25% over pure vector search',
     aeoBox:
       'MyAibo builds end-to-end RAG systems: ingestion, chunking strategy, embedding selection, vector database implementation (Pinecone, Weaviate, Qdrant, pgvector), hybrid dense+sparse retrieval, and permission-enforced retrieval — fixing the common failure of good recall but poor generation accuracy.',
     deepDive: {
@@ -1145,6 +1320,17 @@ export const clusterPages = [
       body: 'We build production-grade, enterprise-security-compliant RAG systems, not demos, deploying within your infrastructure under NDA with a built-in evaluation harness.',
       finalCta: 'Book a RAG Architecture Assessment with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our Full Stack pillar. Often paired with AI Solutions Integrator (ASI) when the private knowledge base lives inside legacy CRM/ERP systems rather than a document store.',
+      links: [
+        { pillar: 'full-stack', cluster: 'ai-solutions-integrator-operations', label: 'AI Solutions Integrator (ASI)' },
+      ],
+    },
+    faq: [
+      { q: 'Why would our RAG system retrieve the right documents but still get the answer wrong?', a: 'Almost always a retrieval quality problem beneath the surface — chunk boundaries, embedding fit, or missing re-ranking — which is why those decisions get the most attention in our process, not model selection.' },
+      { q: 'Which vector databases do you work with?', a: 'Pinecone, Weaviate, Qdrant, and pgvector are all supported — selection depends on your existing infrastructure and scale requirements.' },
+      { q: 'How do you handle sensitive or access-restricted documents?', a: 'Metadata-based permission filtering, VPC deployment, audit logging, and PII detection are built into the access-control architecture from the start, not added after a compliance review.' },
+    ],
     targetKeywords: ['custom RAG pipeline development', 'vector database implementation Pinecone', 'secure enterprise LLM access'],
     meta: {
       title: 'Enterprise RAG Pipelines & Vector Database | MyAibo Full Stack',
@@ -1161,6 +1347,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo connects LLM capability to the legacy systems and databases where your business data actually lives — middleware, API layers, and transformation pipelines, without migrating your existing infrastructure.',
     primaryCta: 'Request an ASI Technical Stack Consultation',
+    statBadge: 'Gets AI applications access to legacy data in weeks, not the years a full modernization would take',
     aeoBox:
       "MyAibo's ASI practice connects LLMs to Salesforce, HubSpot, SAP, Oracle, Dynamics, and legacy databases via REST/GraphQL middleware, CDC pipelines, and MCP servers — solving the freshness, permission, and rate-limiting issues that stall enterprise AI POCs.",
     deepDive: {
@@ -1205,6 +1392,17 @@ export const clusterPages = [
       body: 'We combine enterprise integration and AI architecture expertise, deploying within your security perimeter with full code ownership transferred, under NDA.',
       finalCta: 'Book an ASI Technical Stack Consultation with MyAibo',
     },
+    relatedServices: {
+      note: 'Part of our Full Stack pillar. Complements Enterprise RAG & Vector Database — ASI connects LLMs to structured systems of record, RAG connects them to unstructured knowledge.',
+      links: [
+        { pillar: 'full-stack', cluster: 'enterprise-rag-vector-database-architecture', label: 'Enterprise RAG & Vector Database' },
+      ],
+    },
+    faq: [
+      { q: 'Do we need to migrate off our legacy CRM/ERP for this to work?', a: 'No — that’s the specific point of ASI: connecting LLM capability to existing systems via middleware and transformation pipelines, without requiring migration.' },
+      { q: 'How long does a typical integration take?', a: 'Weeks, not the years a full modernization would take — our framework runs system inventory through production deployment across roughly 9 weeks before ongoing maintenance.' },
+      { q: 'Why build an MCP server specifically?', a: 'It positions your systems for agentic workflows 12–24 months out, when AI agents increasingly need to navigate enterprise systems autonomously rather than through one-off API calls.' },
+    ],
     targetKeywords: ['AI solutions integration company', 'connect LLMs to legacy CRMs', 'ASI technical stack consulting'],
     meta: {
       title: 'AI Solutions Integrator (ASI) Operations | MyAibo Full Stack',
@@ -1221,6 +1419,7 @@ export const clusterPages = [
     heroBody:
       'MyAibo provides fractional CTO and ML engineering leadership for AI startups that need senior architecture, hiring, and fundraising support — without the 12–18 month search and full-time cost of an executive hire.',
     primaryCta: 'Schedule a Fractional CTO Consultation',
+    statBadge: 'Typically serves companies at $500K–$5M ARR',
     aeoBox:
       'MyAibo provides fractional CTO/ML leadership covering architecture design, hiring, due-diligence prep, model evaluation, and MLOps — addressing the leadership gap between founding team and full-time CTO, typically $500K–$5M ARR.',
     deepDive: {
@@ -1265,6 +1464,17 @@ export const clusterPages = [
       body: 'Our Bengaluru team delivers embedded technical leadership at a price point pre-Series B companies can sustain, working across time zones under strict NDA.',
       finalCta: "Book Your Fractional CTO Consultation with MyAibo's Engineering Team",
     },
+    relatedServices: {
+      note: 'Part of our Full Stack pillar. Often engaged alongside a specific build (e.g. AI-Native & Generative UI Development) when a startup needs both hands-on architecture leadership and an execution team.',
+      links: [
+        { pillar: 'full-stack', cluster: 'ai-native-generative-ui-development', label: 'AI-Native & Generative UI Development' },
+      ],
+    },
+    faq: [
+      { q: 'At what stage should a startup consider this instead of hiring a full-time CTO?', a: 'Typically $500K–$5M ARR — early enough that a full-time executive hire (a 12–18 month search, $250K–$400K fully loaded) isn’t yet the right tradeoff, but past the point where architecture decisions are low-stakes.' },
+      { q: 'Does this replace our existing engineering team?', a: 'No — it adds senior leadership (architecture strategy, hiring standards, mentoring) above an existing team, and includes transition planning support if and when you’re ready for a full-time CTO.' },
+      { q: 'Can this help specifically with fundraising?', a: 'Yes — technical due diligence prep and direct participation in diligence calls are a core part of the engagement, aimed at closing rounds faster and from a stronger position.' },
+    ],
     targetKeywords: ['fractional CTO for AI startups', 'hire fractional machine learning engineer', 'on-demand technical leadership'],
     meta: {
       title: 'Fractional AI Engineering & CTO Services | MyAibo',

@@ -169,7 +169,7 @@ export default function Hero() {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4 mb-16">
+          <div className="flex flex-wrap gap-4 mb-8">
             <a
               href={BOOKING_URL}
               target="_blank"
@@ -188,6 +188,20 @@ export default function Hero() {
               View Case Studies
               <ArrowRight size={18} />
             </a>
+          </div>
+
+          {/* Hero stat badges */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mb-16">
+            {[
+              '62% of users now trust AI answers over page-1 links',
+              '3–5× return running GEO + AEO + SEO + Content as one system',
+              '100% IP ownership transferred on technical builds',
+            ].map((t) => (
+              <div key={t} className="flex items-center gap-2" style={{ maxWidth: 220 }}>
+                <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
+                <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-secondary)', lineHeight: 1.4 }}>{t}</span>
+              </div>
+            ))}
           </div>
 
           {/* Trusted by — scrolling logo ticker */}

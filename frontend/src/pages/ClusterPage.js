@@ -3,7 +3,7 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { ArrowRight, ArrowDown, ArrowUp, Check } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
-import { getCluster, getClustersForPillar, pillarMeta } from '@/data/clusterPagesData';
+import { getCluster, pillarMeta } from '@/data/clusterPagesData';
 import { pillarHeroStats } from '@/data/pillarHeroStats';
 import SEO from '@/components/SEO';
 import FaqAccordion from '@/components/sections/FaqAccordion';
@@ -165,7 +165,6 @@ export default function ClusterPage() {
     );
   }
 
-  const siblings = getClustersForPillar(pillar).filter((c) => c.slug !== cluster).slice(0, 3);
   const finalHeadline = FINAL_CTA_HEADLINES[`${pillar}/${cluster}`] || data.geography.headline;
 
   // JSON-LD structured data
@@ -246,6 +245,16 @@ export default function ClusterPage() {
               <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 28px', maxWidth: 560 }}>
                 {data.heroBody}
               </p>
+
+              {data.statBadge && (
+                <div
+                  className="inline-flex items-center gap-2 mb-6"
+                  style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 10, padding: '9px 16px', maxWidth: 540 }}
+                >
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--amber)', display: 'block', flexShrink: 0 }} />
+                  <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-primary)', lineHeight: 1.5 }}>{data.statBadge}</span>
+                </div>
+              )}
 
               <div className="flex flex-wrap gap-3">
                 <a
@@ -481,28 +490,23 @@ export default function ClusterPage() {
           </div>
         </section>
 
-        {/* ─── SIBLINGS: RELATED CLUSTER PAGES ─── */}
-        {siblings.length > 0 && (
+        {/* ─── RELATED SERVICES (curated cross-links from content spec) ─── */}
+        {data.relatedServices && data.relatedServices.links.length > 0 && (
           <section style={{ background: 'var(--off-white)', padding: '64px 40px' }}>
             <div className="mx-auto" style={{ maxWidth: 1100 }}>
-              <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
-                <h2
-                  style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}
-                >
-                  Continue exploring {data.pillarName}
-                </h2>
-                <Link
-                  to={`/solutions/${pillar}`}
-                  style={{ fontSize: 13, fontWeight: 500, color: 'var(--purple-dark)', textDecoration: 'none' }}
-                >
-                  See all &rarr;
-                </Link>
+              <div
+                style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}
+              >
+                Related Services
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {siblings.map((s) => (
+              <p style={{ fontSize: 15, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 24px', maxWidth: 760 }}>
+                {data.relatedServices.note}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {data.relatedServices.links.map((l) => (
                   <Link
-                    key={s.slug}
-                    to={`/solutions/${s.pillar}/${s.slug}`}
+                    key={`${l.pillar}-${l.cluster || 'pillar'}`}
+                    to={l.cluster ? `/solutions/${l.pillar}/${l.cluster}` : `/solutions/${l.pillar}`}
                     className="card-lift"
                     style={{
                       display: 'block',
@@ -516,12 +520,12 @@ export default function ClusterPage() {
                     <div
                       style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 8 }}
                     >
-                      {pillarMeta[s.pillar].short}
+                      {pillarMeta[l.pillar].short}
                     </div>
                     <h3
                       style={{ fontFamily: "'Fraunces', serif", fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px', lineHeight: 1.35 }}
                     >
-                      {s.subLabel}
+                      {l.label}
                     </h3>
                     <span
                       className="inline-flex items-center gap-1"

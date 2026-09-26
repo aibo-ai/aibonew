@@ -4,24 +4,28 @@ const marketingServices = [
     title: 'GEO',
     tagline: 'Generative Engine Optimisation',
     description: 'Be the brand AI recommends. We structure your digital presence so ChatGPT, Perplexity, Google SGE and Bing Copilot cite, quote and recommend you. Entity optimisation, schema markup, E-E-A-T signals, third-party platform seeding.',
+    anchorStat: '+340% average AI citation rate',
   },
   {
     number: '02',
     title: 'AEO',
     tagline: 'Answer Engine Optimisation',
     description: '68% of queries expect a direct answer with no click. We structure your content to win featured snippets, People Also Ask boxes, and voice answers — capturing position zero before your competition.',
+    anchorStat: '68% of queries expect a direct answer',
   },
   {
     number: '03',
     title: 'SEO',
     tagline: 'Search Engine Optimisation',
     description: 'The organic foundation everything builds on. Technical authority, keyword architecture, backlink equity: The infrastructure that AI engines are trained on and Google rewards long-term.',
+    anchorStat: '11× higher ROI than paid search over 3 years',
   },
   {
     number: '04',
     title: 'Content Marketing',
     tagline: 'Content that ranks, converts, and compounds.',
     description: 'Long-form articles, thought leadership, case studies, FAQs, and video scripts: Built equally for humans and AI engines. Every GEO citation, AEO answer and SEO ranking is powered by content.',
+    anchorStat: '3× more leads than outbound, at 62% lower cost',
   },
 ];
 
@@ -149,11 +153,26 @@ export default function MarketingServices() {
                     fontSize: 15,
                     lineHeight: 1.7,
                     color: 'var(--text-secondary)',
-                    margin: 0,
+                    margin: service.anchorStat ? '0 0 14px' : 0,
                   }}
                 >
                   {service.description}
                 </p>
+                {service.anchorStat && (
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: 'var(--purple-dark)',
+                      background: 'var(--purple-light)',
+                      borderRadius: 6,
+                      padding: '4px 10px',
+                    }}
+                  >
+                    {service.anchorStat}
+                  </span>
+                )}
               </div>
             </div>
           ))}

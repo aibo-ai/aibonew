@@ -35,12 +35,23 @@ export const geoData = {
     label: 'Our Process',
     headline: 'Four phases to AI authority.',
     steps: [
-      { num: '01', title: 'GEO Audit', body: 'We map your current brand entity across the web \u2014 Wikipedia, Wikidata, Google Knowledge Graph, Crunchbase, LinkedIn, and industry publications. We identify every place you\u2019re missing, contradicted, or underrepresented in the data AI models train on.', deliverable: 'GEO Readiness Report + Competitor Benchmarking' },
-      { num: '02', title: 'Architecture Build', body: 'We restructure your on-site content with schema markup (Organisation, FAQPage, HowTo, Article), optimise your structured data, and align your brand narrative to the citation patterns AI engines reward.', deliverable: 'Schema Implementation + Content Blueprint' },
-      { num: '03', title: 'Authority Seeding', body: 'We place your brand in the third-party sources AI models trust most like industry publications, Q&A platforms, expert directories, and authoritative blogs. On platforms like Reddit, Quora, Wikipedia, and LinkedIn, we build a deliberate, brand-safe presence that AI engines actively cite.', deliverable: 'Citation & Placement Campaign' },
-      { num: '04', title: 'Monitor & Compound', body: 'We run monthly AI citation audits across ChatGPT, Perplexity, Gemini, and SGE tracking recommendation frequency, sentiment, and competitor share-of-voice. Then we iterate to compound your authority quarter after quarter.', deliverable: 'Monthly GEO Performance Report + LLM Prompt Testing Report' },
+      { num: '01', title: 'GEO Audit', timeframe: 'Weeks 1\u20132 (typical)', body: 'We map your current brand entity across the web \u2014 Wikipedia, Wikidata, Google Knowledge Graph, Crunchbase, LinkedIn, and industry publications. We identify every place you\u2019re missing, contradicted, or underrepresented in the data AI models train on.', deliverable: 'GEO Readiness Report + Competitor Benchmarking' },
+      { num: '02', title: 'Architecture Build', timeframe: 'Weeks 3\u20135 (typical)', body: 'We restructure your on-site content with schema markup (Organisation, FAQPage, HowTo, Article), optimise your structured data, and align your brand narrative to the citation patterns AI engines reward.', deliverable: 'Schema Implementation + Content Blueprint' },
+      { num: '03', title: 'Authority Seeding', timeframe: 'Weeks 6\u201310 (typical)', body: 'We place your brand in the third-party sources AI models trust most like industry publications, Q&A platforms, expert directories, and authoritative blogs. On platforms like Reddit, Quora, Wikipedia, and LinkedIn, we build a deliberate, brand-safe presence that AI engines actively cite.', deliverable: 'Citation & Placement Campaign' },
+      { num: '04', title: 'Monitor & Compound', timeframe: 'Ongoing', body: 'We run monthly AI citation audits across ChatGPT, Perplexity, Gemini, and SGE tracking recommendation frequency, sentiment, and competitor share-of-voice. Then we iterate to compound your authority quarter after quarter.', deliverable: 'Monthly GEO Performance Report + LLM Prompt Testing Report' },
     ],
   },
+  deepDiveCards: [
+    { title: 'LLM Optimization Company', slug: 'llmo-company', body: 'Entity disambiguation, co-citation architecture, and continuous LLM output auditing that turns "mention rate" into a board-reportable KPI.', stat: '500-prompt monthly test library across ChatGPT, Perplexity, Gemini' },
+    { title: 'Perplexity, Gemini & ChatGPT Optimization', slug: 'perplexity-gemini-chatgpt-optimization', body: 'Platform-specific citation strategy \u2014 each engine retrieves differently, so each gets its own playbook.', stat: '300 queries per platform logged and scored at baseline' },
+    { title: 'Zero-Click & Synthetic Traffic Strategy', slug: 'zero-click-search-synthetic-traffic', body: "We track an AI Visibility Index across the surfaces where commercial intent lives now that clicks aren't the whole picture.", stat: '60%+ of Google searches now end without a click' },
+  ],
+  pillarFaq: [
+    { q: 'How is GEO different from SEO?', a: "SEO earns you a ranking; GEO earns you the citation inside an AI-generated answer, where there's no ranking list at all \u2014 just whichever sources the model decided to trust and quote." },
+    { q: 'How long before we see AI citations move?', a: 'Entity and schema fixes (phase 2) typically show up in citation audits within 60\u201390 days; third-party authority seeding (phase 3) compounds over 3\u20136 months.' },
+    { q: 'Do we need to redo this every time a new AI model launches?', a: 'No \u2014 the underlying work (clean entity data, structured content, third-party authority) is model-agnostic. New models tend to inherit citation patterns from the same sources the established ones already trust.' },
+    { q: 'Can GEO work alongside our existing SEO program?', a: 'Yes \u2014 GEO and SEO share infrastructure (schema, content architecture, authority signals). Clients running both together see materially better results than either alone, per our homepage integration data (3\u20135\u00d7 return running GEO+AEO+SEO+Content as one system).' },
+  ],
   deliverables: {
     label: 'The Deliverables',
     headline: "Everything needed to own AI\u2019s recommendations.",

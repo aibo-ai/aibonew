@@ -37,12 +37,23 @@ export const aiAutomationsData = {
     label: 'How It Works',
     headline: 'From audit to live agents in weeks.',
     steps: [
-      { num: '01', title: 'Discovery & Mapping', body: 'We map your current workflows and identify the highest-impact automation opportunities. No generic templates instead every recommendation is specific to your operations and prioritised by ROI.', deliverable: 'Automation Opportunity Map' },
-      { num: '02', title: 'Architecture & Design', body: 'We architect the agent logic, data flows, and integration points. You review and approve before anything is built. Every agent is designed for your processes, your data, and your edge cases.', deliverable: 'Agent Architecture Document' },
-      { num: '03', title: 'Build & Integrate', body: 'Two-week sprints. Working automations fast, iterated with your feedback. Each agent is trained on your specific processes and connected to your existing stack.', deliverable: 'Working AI Agents' },
-      { num: '04', title: 'Monitor & Optimise', body: 'Automations are live systems. We track performance and tune them as your business evolves, ensuring they get smarter over time, not stale.', deliverable: 'Performance Dashboard + Ongoing Tuning' },
+      { num: '01', title: 'Discovery & Mapping', timeframe: 'Weeks 1–2 (typical)', body: 'We map your current workflows and identify the highest-impact automation opportunities. No generic templates instead every recommendation is specific to your operations and prioritised by ROI.', deliverable: 'Automation Opportunity Map' },
+      { num: '02', title: 'Architecture & Design', timeframe: 'Weeks 2–3 (typical)', body: 'We architect the agent logic, data flows, and integration points. You review and approve before anything is built. Every agent is designed for your processes, your data, and your edge cases.', deliverable: 'Agent Architecture Document' },
+      { num: '03', title: 'Build & Integrate', timeframe: 'Two-week sprints', body: 'Two-week sprints. Working automations fast, iterated with your feedback. Each agent is trained on your specific processes and connected to your existing stack.', deliverable: 'Working AI Agents' },
+      { num: '04', title: 'Monitor & Optimise', timeframe: 'Ongoing', body: 'Automations are live systems. We track performance and tune them as your business evolves, ensuring they get smarter over time, not stale.', deliverable: 'Performance Dashboard + Ongoing Tuning' },
     ],
   },
+  deepDiveCards: [
+    { title: 'AIAA Operational Auditing', slug: 'aiaa-operational-auditing', body: 'Audits your operations before automating the wrong workflows — fixing the process first, since automation multiplies whatever it wraps.', stat: '30–40% of "requires judgment" steps often turn out to be fully automatable' },
+    { title: 'Agentic Workflow & Multi-Agent Orchestration', slug: 'agentic-workflow-consulting', body: 'Multi-agent systems that plan, delegate, execute, and verify without sequential handoffs.', stat: 'Well-architected systems turn hours-long analyst workflows into 45-minute autonomous runs' },
+    { title: 'Production-Grade n8n Automation', slug: 'n8n-automation-services', body: 'Self-hosted, production-grade n8n infrastructure — the cost efficiency of open source without the operational overhead.', stat: 'Teams typically retire 30–50% of manual data entry and classification within 90 days' },
+  ],
+  pillarFaq: [
+    { q: 'How do you decide what to automate first?', a: 'That’s the explicit job of the audit phase (see our AIAA Operational Auditing service below) — scoring candidates on feasibility, business impact, and ROI rather than automating whatever’s easiest or most requested.' },
+    { q: 'Will this replace people on our team?', a: 'The consistent framing across our case studies is capacity multiplication, not headcount reduction — e.g. 3× sales capacity without adding sales staff, freeing senior people from lowest-value work rather than replacing them.' },
+    { q: "What's the difference between this and the n8n or multi-agent subpages below?", a: 'This pillar page covers the end-to-end discovery-to-deployment process; the subpages go deep on specific build approaches — auditing before automating, multi-agent orchestration for complex operations, and n8n specifically for self-hosted infrastructure.' },
+    { q: 'How fast do we see results?', a: 'Build happens in two-week sprints with working software at every checkpoint — you see progress within weeks, not months, though full ROI (like the 96% scoring accuracy or 70% effort reduction) compounds as agents are tuned post-launch.' },
+  ],
   deliverables: {
     label: 'What We Automate',
     headline: 'Six automation domains. One integrated system.',
