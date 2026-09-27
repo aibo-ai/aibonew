@@ -16,6 +16,8 @@ import { pillarHeroStats } from "@/data/pillarHeroStats";
 import SEO from "@/components/SEO";
 import BrowserChrome from "@/components/sections/BrowserChrome";
 import FaqAccordion from "@/components/sections/FaqAccordion";
+import AuditScorecard from "@/components/sections/AuditScorecard";
+import VisibilitySnapshot from "@/components/sections/VisibilitySnapshot";
 
 function hashOf(str) {
   let h = 0;
@@ -353,6 +355,10 @@ export default function ServicePage() {
           </div>
         </div>
       </section>
+
+      {/* ─── REAL AUDIT PROOF (GEO/AEO only) ─── */}
+      {slug === 'geo' && <AuditScorecard />}
+      {slug === 'aeo' && <VisibilitySnapshot />}
 
       {/* ─── DEEP-DIVE SERVICE CARDS ─── */}
       {data.deepDiveCards && data.deepDiveCards.length > 0 && (
