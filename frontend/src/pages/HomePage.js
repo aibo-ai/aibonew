@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/Hero";
 import Positioning from "@/components/sections/Positioning";
+import WhyItMatters from "@/components/sections/WhyItMatters";
 import AIConsensus from "@/components/sections/AIConsensus";
 import AIVisibilityDashboard from "@/components/sections/AIVisibilityDashboard";
 import MarketingServices from "@/components/sections/MarketingServices";
@@ -31,6 +32,7 @@ export default function HomePage() {
       <main style={{ paddingTop: 64 }}>
         <Hero />
         <Positioning />
+        <WhyItMatters />
         <AIConsensus />
         <AIVisibilityDashboard />
         <MarketingServices />

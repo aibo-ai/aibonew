@@ -483,10 +483,15 @@ export default function ServicePage() {
                       </span>
                     )}
                   </div>
-                  <p style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 8px' }}>{s.body}</p>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--purple-dark)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                    Deliverable: {s.deliverable}
-                  </span>
+                  <p style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 12px' }}>{s.body}</p>
+                  <div>
+                    {s.deliverable.split(' + ').map((d) => (
+                      <div key={d} className="flex items-start gap-2" style={{ marginBottom: 4 }}>
+                        <Check size={13} style={{ color: 'var(--purple)', marginTop: 3, flexShrink: 0 }} />
+                        <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-primary)' }}>{d.trim()}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
