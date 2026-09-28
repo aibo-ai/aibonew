@@ -48,14 +48,14 @@ function HeroMockup() {
         </div>
       </div>
 
-      <div style={{ position: 'absolute', top: 0, right: -8, width: 172, background: 'var(--dark)', borderRadius: 16, padding: '14px 18px', boxShadow: '0 12px 30px rgba(15,10,30,.35)' }}>
-        <div style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 9.5, letterSpacing: '0.08em', color: 'rgba(255,255,255,.55)', marginBottom: 4 }}>
+      <div style={{ position: 'absolute', top: 0, right: -8, width: 172, background: 'var(--acc-soft)', border: '1px solid rgba(146,64,2,.15)', borderRadius: 16, padding: '14px 18px', boxShadow: '0 16px 30px -10px rgba(146,64,2,.35)' }}>
+        <div style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 9.5, letterSpacing: '0.08em', color: 'var(--acc-ink)', opacity: 0.75, marginBottom: 4 }}>
           AI CITATION RATE
         </div>
-        <div className="flex items-center gap-1" style={{ fontFamily: "'Fraunces', serif", fontSize: 28, fontWeight: 600, lineHeight: 1.1, color: '#fff' }}>
-          <span style={{ color: 'var(--acc)' }}>&#8593;</span> +340%
+        <div className="flex items-center gap-1" style={{ fontFamily: "'Fraunces', serif", fontSize: 28, fontWeight: 600, lineHeight: 1.1, color: 'var(--acc-ink)' }}>
+          <span>&#8593;</span> +340%
         </div>
-        <div style={{ fontFamily: "'DM Sans'", fontSize: 11, color: 'rgba(255,255,255,.6)' }}>avg. GEO client, 6mo</div>
+        <div style={{ fontFamily: "'DM Sans'", fontSize: 11, color: 'var(--acc-ink)', opacity: 0.75 }}>avg. GEO client, 6mo</div>
       </div>
 
       <div className="hidden md:block" style={{ position: 'absolute', left: -34, bottom: -26, zIndex: 5 }}>

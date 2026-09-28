@@ -190,8 +190,8 @@ export default function ClusterPage() {
         <section style={{ padding: '104px 32px', background: 'var(--dark)', color: '#fff' }}>
           <div className="mx-auto grid" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 48 }}>
             <div>
-              <SectionLabel text="The problem" dark />
-              <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 40, lineHeight: 1.05, fontStyle: 'italic', color: '#C9B2FA' }}>Why it breaks.</div>
+              <SectionLabel text="The problem" dark amber />
+              <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 40, lineHeight: 1.05, fontStyle: 'italic', color: 'var(--acc)' }}>Why it breaks.</div>
             </div>
             <div className="flex flex-col" style={{ gridColumn: 'span 2', gap: 20, maxWidth: 820 }}>
               <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(24px,2.5vw,32px)', lineHeight: 1.35, letterSpacing: '-0.3px' }}>{problemLead}</p>
@@ -217,7 +217,7 @@ export default function ClusterPage() {
                   <div className="flex flex-col" style={{ flex: '1.5 1 340px', gap: 12 }}>
                     <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15.5, lineHeight: 1.65, color: 'var(--text-secondary)' }}>{w.technical}</p>
                     {w.human && (
-                      <div className="flex" style={{ gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--purple-light)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14, lineHeight: 1.5, color: 'var(--purple-dark)' }}>
+                      <div className="flex" style={{ gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc-soft)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14, lineHeight: 1.5, color: 'var(--acc-ink)' }}>
                         <span>&rarr;</span><span>{w.human}</span>
                       </div>
                     )}
@@ -238,7 +238,9 @@ export default function ClusterPage() {
               </h2>
             </div>
             <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))', gap: 22 }}>
-              {data.blueprint.phases.map((f) => (
+              {data.blueprint.phases.map((f, i) => {
+                const isLast = i === data.blueprint.phases.length - 1;
+                return (
                 <div key={f.name} className="flex flex-col" style={{ gap: 14 }}>
                   <div className="flex items-center" style={{ gap: 10 }}>
                     <span className="flex-shrink-0" style={{ width: 14, height: 14, borderRadius: '50%', border: '3px solid var(--purple)', background: '#fff', boxShadow: '0 0 0 4px var(--purple-light)' }} />
@@ -246,12 +248,13 @@ export default function ClusterPage() {
                   </div>
                   <div className="flex flex-wrap items-center" style={{ gap: '8px 10px' }}>
                     <span className="flex-shrink-0" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>PHASE {String(f.num).padStart(2, '0')}</span>
-                    <span className="flex-shrink-0" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '4px 10px', borderRadius: 999, background: 'var(--dark)', color: '#fff' }}>{f.timeframe}</span>
+                    <span className="flex-shrink-0" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '4px 10px', borderRadius: 999, background: isLast ? 'var(--dark)' : 'var(--acc)', color: isLast ? '#fff' : 'var(--dark)' }}>{f.timeframe}</span>
                   </div>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, lineHeight: 1.22 }}>{f.name}</div>
                   <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{f.body}</p>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

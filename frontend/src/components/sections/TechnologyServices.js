@@ -3,7 +3,7 @@ import SectionLabel from './SectionLabel';
 
 const stats = [
   { value: '4–8 wks', label: 'to production-ready MVP' },
-  { value: '80%', label: 'process automation rate' },
+  { value: '80%', label: 'process automation rate', accent: true },
   { value: '10×', label: 'operational velocity' },
   { value: '5×', label: 'efficiency gains' },
   { value: '100%', label: 'IP ownership to client', accent: true },

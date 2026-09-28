@@ -45,28 +45,31 @@ export default function MarketingServices() {
         </div>
 
         <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 255px), 1fr))', gap: 16 }}>
-          {services.map((s) => (
-            <button
-              key={s.n}
-              onClick={() => navigate(`/solutions/${s.slug}`)}
-              className="text-left flex flex-col card-lift"
-              style={{ cursor: 'pointer', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 14, color: 'var(--text-primary)', minHeight: 380 }}
-            >
-              <div className="flex items-center justify-between">
-                <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--text-muted)' }}>{s.n} / {s.tag}</span>
-                <span className="flex items-center justify-center" style={{ width: 30, height: 30, borderRadius: '50%', border: '1px solid var(--border-clr)', color: 'var(--purple)' }}>&#8599;</span>
-              </div>
-              <div>
-                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 30, fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.5px' }}>{s.name}</div>
-                <div style={{ marginTop: 4, fontFamily: "'DM Sans'", fontSize: 13, color: 'var(--text-muted)' }}>{s.full}</div>
-              </div>
-              <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.copy}</p>
-              <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px dashed var(--border-clr)' }}>
-                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 36, fontWeight: 600, lineHeight: 1, color: 'var(--purple-dark)' }}>{s.stat}</div>
-                <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 13, lineHeight: 1.4, color: 'var(--text-secondary)' }}>{s.statText}</div>
-              </div>
-            </button>
-          ))}
+          {services.map((s, i) => {
+            const amberStat = i % 2 === 1;
+            return (
+              <button
+                key={s.n}
+                onClick={() => navigate(`/solutions/${s.slug}`)}
+                className="text-left flex flex-col card-lift"
+                style={{ cursor: 'pointer', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 14, color: 'var(--text-primary)', minHeight: 380 }}
+              >
+                <div className="flex items-center justify-between">
+                  <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--text-muted)' }}>{s.n} / {s.tag}</span>
+                  <span className="flex items-center justify-center" style={{ width: 30, height: 30, borderRadius: '50%', border: '1px solid var(--border-clr)', color: 'var(--purple)' }}>&#8599;</span>
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 30, fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.5px' }}>{s.name}</div>
+                  <div style={{ marginTop: 4, fontFamily: "'DM Sans'", fontSize: 13, color: 'var(--text-muted)' }}>{s.full}</div>
+                </div>
+                <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.copy}</p>
+                <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: amberStat ? '1px dashed rgba(146,64,2,.3)' : '1px dashed var(--border-clr)' }}>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 36, fontWeight: 600, lineHeight: 1, color: amberStat ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{s.stat}</div>
+                  <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 13, lineHeight: 1.4, color: 'var(--text-secondary)' }}>{s.statText}</div>
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         <div className="relative flex flex-wrap items-center justify-between" style={{ gap: 24, padding: '26px 30px', borderRadius: 16, background: 'var(--dark)', color: '#fff' }}>

@@ -2,33 +2,12 @@ import { BOOKING_URL } from '@/lib/constants';
 import { trackBookingClick } from '@/lib/analytics';
 import SectionLabel from './SectionLabel';
 
-const TICKER_ITEMS = [
-  'Boutique by design',
-  'AI-native across both practices',
-  'Outcome-driven, not hours-driven',
-  'Complete transparency',
-  'FMCG · D2C · Logistics · Healthcare · FinTech · SaaS',
-];
-
-// Ticker band + closing CTA — shared across every page template (home,
-// pillar, subpage). `ctaHeadline` is the h2 split into {a, b} where `b`
-// (the last clause) renders in italic amber; `page` is used for booking
-// analytics.
+// Closing CTA — shared across every page template (home, pillar, subpage).
+// `ctaA`/`ctaB` is the h2 split into {a, b} where `b` (the last clause)
+// renders in italic amber; `page` is used for booking analytics.
 export default function TickerCta({ ctaA, ctaB, page }) {
-  const items = [...TICKER_ITEMS, ...TICKER_ITEMS];
   return (
     <>
-      <div style={{ background: 'var(--acc)', color: 'var(--dark)', overflow: 'hidden', padding: '14px 0', borderTop: '1px solid rgba(15,10,30,0.1)' }}>
-        <div
-          className="flex"
-          style={{ gap: 40, width: 'max-content', animation: 'aibo-ticker 45s linear infinite', fontFamily: "'DM Sans'", fontSize: 15, fontWeight: 600, letterSpacing: '0.04em', whiteSpace: 'nowrap' }}
-        >
-          {items.map((t, i) => (
-            <span key={`${t}-${i}`}>&#10022; {t}</span>
-          ))}
-        </div>
-      </div>
-
       <section
         className="relative text-center"
         style={{

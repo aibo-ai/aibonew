@@ -181,21 +181,24 @@ export default function ServicePage() {
         <section style={{ padding: '104px 32px', background: '#fff', borderTop: '1px solid var(--border-clr)' }}>
           <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
             <div style={{ maxWidth: 720 }}>
-              <SectionLabel text="Why this matters" />
+              <SectionLabel text="Why this matters" amber />
               <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
                 The shift, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>in four numbers.</em>
               </h2>
             </div>
             <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
-              {data.whyNow.stats.map((w, i) => (
-                <div key={w.label} className="flex flex-col" style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 36, minHeight: 250 }}>
-                  <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')}</div>
-                  <div style={{ marginTop: 'auto' }}>
-                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 58, fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1.5px', color: 'var(--purple-dark)' }}>{w.num}</div>
-                    <div style={{ marginTop: 12, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 15, lineHeight: 1.5, color: 'var(--text-secondary)' }}>{w.label}</div>
+              {data.whyNow.stats.map((w, i) => {
+                const amberCell = i % 2 === 1;
+                return (
+                  <div key={w.label} className="flex flex-col" style={{ background: amberCell ? 'var(--acc-soft)' : 'var(--off-white)', border: amberCell ? '1px solid rgba(146,64,2,.15)' : '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 36, minHeight: 250 }}>
+                    <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: amberCell ? 'var(--acc-ink)' : 'var(--text-muted)', opacity: amberCell ? 0.7 : 1 }}>{String(i + 1).padStart(2, '0')}</div>
+                    <div style={{ marginTop: 'auto' }}>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 58, fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1.5px', color: amberCell ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{w.num}</div>
+                      <div style={{ marginTop: 12, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 15, lineHeight: 1.5, color: amberCell ? 'var(--acc-ink)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{w.label}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
@@ -225,9 +228,9 @@ export default function ServicePage() {
                   </div>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 600, lineHeight: 1.15, letterSpacing: '-0.3px' }}>{c.title}</div>
                   <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{c.body}</p>
-                  <div className="flex items-start" style={{ marginTop: 'auto', gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--purple-light)' }}>
-                    <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--purple)' }} />
-                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--purple-dark)' }}>{c.stat}</span>
+                  <div className="flex items-start" style={{ marginTop: 'auto', gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc-soft)' }}>
+                    <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--acc-ink)' }} />
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--acc-ink)' }}>{c.stat}</span>
                   </div>
                 </button>
               ))}
@@ -239,9 +242,9 @@ export default function ServicePage() {
         <section style={{ padding: '104px 32px', background: 'var(--dark)', color: '#fff' }}>
           <div className="mx-auto grid items-start" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))', gap: 56 }}>
             <div className="flex flex-col" style={{ gap: 22 }}>
-              <SectionLabel text="Our approach" dark />
+              <SectionLabel text="Our approach" dark amber />
               <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
-                {approachH2.a}<em style={{ color: '#C9B2FA', fontStyle: 'normal' }}>{approachH2.b}</em>
+                {approachH2.a}<em style={{ color: 'var(--acc)', fontStyle: 'normal' }}>{approachH2.b}</em>
               </h2>
               {data.intro.body.map((t, i) => (
                 <p key={`ap-${i}-${t.slice(0, 16)}`} style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 16.5, lineHeight: 1.7, color: 'rgba(255,255,255,.72)' }}>{t}</p>
@@ -250,7 +253,7 @@ export default function ServicePage() {
             <div style={{ background: 'var(--dark-mid)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 16, overflow: 'hidden' }}>
               <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 <div style={{ padding: '16px 20px', color: 'rgba(255,255,255,.55)' }}>{data.comparison.without.title}</div>
-                <div style={{ padding: '16px 20px', background: 'var(--purple)', color: '#fff' }}>{data.comparison.with.title}</div>
+                <div style={{ padding: '16px 20px', background: 'var(--acc)', color: 'var(--dark)' }}>{data.comparison.with.title}</div>
               </div>
               {compareRows.map((r) => (
                 <div key={r.a} className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', borderTop: '1px solid rgba(255,255,255,.08)' }}>
@@ -276,11 +279,13 @@ export default function ServicePage() {
               </h2>
             </div>
             <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 210px), 1fr))', gap: 14 }}>
-              {data.process.steps.map((s, i) => (
+              {data.process.steps.map((s, i) => {
+                const isLast = i === data.process.steps.length - 1;
+                return (
                 <div key={s.title} className="flex flex-col" style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: '24px 22px', gap: 14, minHeight: 330 }}>
                   <span style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>PHASE {String(i + 1).padStart(2, '0')}</span>
                   {s.timeframe && (
-                    <span className="self-start" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '4px 10px', borderRadius: 999, background: 'var(--dark)', color: '#fff' }}>{s.timeframe}</span>
+                    <span className="self-start" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '4px 10px', borderRadius: 999, background: isLast ? 'var(--dark)' : 'var(--acc)', color: isLast ? '#fff' : 'var(--dark)' }}>{s.timeframe}</span>
                   )}
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 21, fontWeight: 600, lineHeight: 1.2 }}>{s.title}</div>
                   <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.body}</p>
@@ -291,7 +296,8 @@ export default function ServicePage() {
                     </div>
                   )}
                 </div>
-              ))}
+                );
+              })}
             </div>
             <div className="text-center" style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
               &#10022; Then: review, optimise, and double down. &#10022;
@@ -326,19 +332,22 @@ export default function ServicePage() {
         <section style={{ padding: '104px 32px' }}>
           <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
             <div style={{ maxWidth: 720 }}>
-              <SectionLabel text="Proven outcomes" />
+              <SectionLabel text="Proven outcomes" amber />
               <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
                 Results that <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>compound.</em>
               </h2>
             </div>
             <div className="grid items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: 40 }}>
               <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: 1, background: 'var(--border-clr)', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden' }}>
-                {data.results.metrics.map((m) => (
-                  <div key={m.metric} style={{ background: '#fff', padding: '28px 24px' }}>
-                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 46, fontWeight: 600, lineHeight: 1, letterSpacing: '-1px', color: 'var(--purple-dark)' }}>{m.result}</div>
-                    <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14, lineHeight: 1.45, color: 'var(--text-secondary)' }}>{m.metric}</div>
-                  </div>
-                ))}
+                {data.results.metrics.map((m, i) => {
+                  const amberCell = i === 1 || i === 2;
+                  return (
+                    <div key={m.metric} style={{ background: amberCell ? 'var(--acc-soft)' : '#fff', padding: '28px 24px' }}>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 46, fontWeight: 600, lineHeight: 1, letterSpacing: '-1px', color: amberCell ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{m.result}</div>
+                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14, lineHeight: 1.45, color: amberCell ? 'var(--acc-ink)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{m.metric}</div>
+                    </div>
+                  );
+                })}
               </div>
               {data.results.testimonial && (
                 <PostIt quote rotate={-1.5} tapeRotate={2} author={data.results.testimonial.author}>

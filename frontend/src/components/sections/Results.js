@@ -42,12 +42,15 @@ export default function Results() {
           <div className="flex flex-col" style={{ background: 'var(--dark-mid)', color: '#fff', borderRadius: 20, padding: 34, gap: 24 }}>
             <div style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', color: '#A07AF0' }}>TECHNICAL RESULTS</div>
             <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '26px 18px' }}>
-              {technical.map((t) => (
-                <div key={t.text}>
-                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 48, fontWeight: 600, lineHeight: 1, color: '#C9B2FA' }}>{t.stat}</div>
-                  <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 14, color: 'rgba(255,255,255,.7)' }}>{t.text}</div>
-                </div>
-              ))}
+              {technical.map((t, i) => {
+                const amberStat = i === 1 || i === 3;
+                return (
+                  <div key={t.text}>
+                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 48, fontWeight: 600, lineHeight: 1, color: amberStat ? 'var(--acc)' : '#C9B2FA' }}>{t.stat}</div>
+                    <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 14, color: 'rgba(255,255,255,.7)' }}>{t.text}</div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

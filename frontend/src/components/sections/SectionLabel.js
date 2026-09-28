@@ -1,4 +1,6 @@
-export default function SectionLabel({ text, dark, centered, noRule }) {
+export default function SectionLabel({ text, dark, amber, centered, noRule }) {
+  const ruleColor = amber ? 'var(--acc)' : 'var(--purple)';
+  const textColor = amber ? (dark ? 'var(--acc)' : 'var(--acc-ink)') : (dark ? '#A07AF0' : 'var(--purple-dark)');
   return (
     <div
       className={`flex items-center gap-2 ${centered ? 'justify-center' : ''}`}
@@ -11,7 +13,7 @@ export default function SectionLabel({ text, dark, centered, noRule }) {
             width: 20,
             height: 2,
             borderRadius: 2,
-            background: 'var(--purple)',
+            background: ruleColor,
             flexShrink: 0,
           }}
         />
@@ -22,7 +24,7 @@ export default function SectionLabel({ text, dark, centered, noRule }) {
           fontWeight: 600,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
-          color: dark ? '#A07AF0' : 'var(--purple-dark)',
+          color: textColor,
         }}
       >
         {text}

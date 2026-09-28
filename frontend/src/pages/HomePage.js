@@ -32,7 +32,7 @@ export default function HomePage() {
         <TechnologyServices />
         <WhyMyAibo />
         <Results />
-        <TickerCta ctaA="Ready to grow on " ctaB="both fronts?" page="/" />
+        <TickerCta ctaA="Ready to " ctaB="start growing?" page="/" />
       </main>
     </>
   );
