@@ -1,16 +1,20 @@
 // Full-width client-logo marquee — its own section between the hero and
 // "Our Practice", not confined to the hero's left column. Greyscale at
 // .65 opacity, 40s linear loop, matching the Violet + Amber design spec.
+// Explicit per-logo heights — a uniform height reads very unevenly across
+// marks with different internal padding (a wordmark like OptimHire looks
+// big at 34px; a badge-style mark like Hansaplast looks tiny at the same
+// height), so these are tuned to look visually balanced side by side.
 const logos = [
-  { name: 'ITC', src: '/logos/itc.png' },
-  { name: 'Hansaplast', src: '/logos/hansaplast.png' },
-  { name: 'ElasticRun', src: '/logos/elasticrun.png' },
-  { name: 'OptimHire', src: '/logos/optimhire.png' },
-  { name: 'Trudiance', src: '/logos/trudiance.png' },
-  { name: 'Harmony', src: '/logos/harmony.png' },
-  { name: 'Iluvia', src: '/logos/iluvia.png' },
-  { name: 'Fego', src: '/logos/fego.png' },
-  { name: 'vPersonalize', src: '/logos/vpersonalize.png' },
+  { name: 'ITC', src: '/logos/itc.png', h: 40 },
+  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 64 },
+  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 50 },
+  { name: 'OptimHire', src: '/logos/optimhire.png', h: 30 },
+  { name: 'Trudiance', src: '/logos/trudiance.png', h: 50 },
+  { name: 'Harmony', src: '/logos/harmony.png', h: 44 },
+  { name: 'Iluvia', src: '/logos/iluvia.png', h: 38 },
+  { name: 'Fego', src: '/logos/fego.png', h: 36 },
+  { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 38 },
 ];
 
 export default function TrustedByTicker() {
@@ -44,7 +48,7 @@ export default function TrustedByTicker() {
               alt={`${logo.name} logo`}
               loading="lazy"
               draggable={false}
-              style={{ height: 34, width: 'auto', filter: 'grayscale(1)', opacity: 0.65, userSelect: 'none' }}
+              style={{ height: logo.h, maxHeight: 64, width: 'auto', filter: 'grayscale(1)', opacity: 0.65, userSelect: 'none' }}
             />
           ))}
         </div>

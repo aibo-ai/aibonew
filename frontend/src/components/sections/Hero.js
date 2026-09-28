@@ -58,7 +58,7 @@ function HeroMockup() {
         <div style={{ fontFamily: "'DM Sans'", fontSize: 11, color: 'var(--acc-ink)', opacity: 0.75 }}>avg. GEO client, 6mo</div>
       </div>
 
-      <div className="hidden md:block" style={{ position: 'absolute', left: -34, bottom: -26, zIndex: 5 }}>
+      <div className="hidden md:block" style={{ position: 'absolute', left: -34, bottom: -62, zIndex: 5 }}>
         <PostIt rotate={-4} width={200}>
           62% of users trust <u>this answer</u> over page-1 links &#8599;
         </PostIt>

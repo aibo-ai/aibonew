@@ -168,7 +168,7 @@ export default function ServicePage() {
                   ))}
                 </div>
                 {lastWhy && (
-                  <div className="hidden md:block" style={{ position: 'absolute', left: -40, bottom: -34, zIndex: 5 }}>
+                  <div className="hidden md:block" style={{ position: 'absolute', right: -50, bottom: -210, zIndex: 5 }}>
                     <PostIt rotate={-4} width={210} big={lastWhy.num}>{lastWhy.label.replace(/\.$/, '')}</PostIt>
                   </div>
                 )}
@@ -240,13 +240,13 @@ export default function ServicePage() {
 
         {/* ── OUR APPROACH (dark) ── */}
         <section style={{ padding: '104px 32px', background: 'var(--dark)', color: '#fff' }}>
-          <div className="mx-auto grid items-start" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))', gap: 56 }}>
+          <div className="mx-auto grid items-center" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))', gap: 56 }}>
             <div className="flex flex-col" style={{ gap: 22 }}>
               <SectionLabel text="Our approach" dark amber />
               <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
                 {approachH2.a}<em style={{ color: 'var(--acc)', fontStyle: 'normal' }}>{approachH2.b}</em>
               </h2>
-              {data.intro.body.map((t, i) => (
+              {data.intro.body.slice(0, 2).map((t, i) => (
                 <p key={`ap-${i}-${t.slice(0, 16)}`} style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 16.5, lineHeight: 1.7, color: 'rgba(255,255,255,.72)' }}>{t}</p>
               ))}
             </div>
@@ -341,9 +341,13 @@ export default function ServicePage() {
               <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: 1, background: 'var(--border-clr)', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden' }}>
                 {data.results.metrics.map((m, i) => {
                   const amberCell = i === 1 || i === 2;
+                  // Most results are short ("+178%"), but a few are longer
+                  // descriptive phrases ("4.2× improvement") that overflow
+                  // a fixed 46px display size — shrink those instead.
+                  const statFontSize = m.result.length > 10 ? 'clamp(22px, 2.6vw, 30px)' : 'clamp(30px, 3.4vw, 46px)';
                   return (
-                    <div key={m.metric} style={{ background: amberCell ? 'var(--acc-soft)' : '#fff', padding: '28px 24px' }}>
-                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 46, fontWeight: 600, lineHeight: 1, letterSpacing: '-1px', color: amberCell ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{m.result}</div>
+                    <div key={m.metric} style={{ background: amberCell ? 'var(--acc-soft)' : '#fff', padding: '28px 24px', minWidth: 0 }}>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: statFontSize, fontWeight: 600, lineHeight: 1.1, letterSpacing: '-1px', color: amberCell ? 'var(--acc-ink)' : 'var(--purple-dark)', overflowWrap: 'break-word' }}>{m.result}</div>
                       <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14, lineHeight: 1.45, color: amberCell ? 'var(--acc-ink)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{m.metric}</div>
                     </div>
                   );

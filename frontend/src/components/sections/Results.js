@@ -55,7 +55,7 @@ export default function Results() {
           </div>
         </div>
 
-        <div className="hidden md:block" style={{ position: 'absolute', right: -10, top: -30, zIndex: 5 }}>
+        <div className="hidden md:block" style={{ position: 'absolute', right: -10, bottom: -186, zIndex: 5 }}>
           <PostIt rotate={-3} tapeRotate={2} width={250} quote author="Bala S, CEO, vPersonalize">
             "52% conversion increase in three months? That's not just growth."
           </PostIt>
