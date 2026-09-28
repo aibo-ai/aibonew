@@ -27,6 +27,13 @@
   --text-muted: #7168A0;
   --amber: #F59E0B;
   --amber-light: #FEF3C7;
+  --coral: #FF5A3C;
+  --coral-light: #FFE4DC;
+
+  /* Accent system — Violet + Amber (chosen design direction) */
+  --acc: #F5A524;
+  --acc-soft: #FEF3C7;
+  --acc-ink: #92400E;
 
   --background: 260 47% 97%;
   --foreground: 255 50% 8%;

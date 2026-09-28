@@ -10,7 +10,7 @@ export default function ContactPage() {
         description="Ready to grow? Book a free 30-minute strategy session. No commitment — just clarity on your highest-impact marketing or technology move."
         path="/contact"
       />
-      <main style={{ paddingTop: 64 }} data-testid="contact-page">
+      <main data-testid="contact-page">
         {/* Hero */}
         <section className="hero-dotgrid" style={{ padding: '110px 40px 70px' }}>
           <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>

@@ -1,205 +1,84 @@
-const marketingServices = [
+import { useNavigate } from 'react-router-dom';
+import SectionLabel from './SectionLabel';
+
+const services = [
   {
-    number: '01',
-    title: 'GEO',
-    tagline: 'Generative Engine Optimisation',
-    description: 'Be the brand AI recommends. We structure your digital presence so ChatGPT, Perplexity, Google SGE and Bing Copilot cite, quote and recommend you. Entity optimisation, schema markup, E-E-A-T signals, third-party platform seeding.',
-    anchorStat: '+340% average AI citation rate',
+    n: '01', tag: 'GEO', name: 'GEO', full: 'Generative Engine Optimisation', slug: 'geo',
+    copy: 'Be the brand AI recommends. We structure your digital presence so ChatGPT, Perplexity, Google SGE and Bing Copilot cite, quote and recommend you.',
+    stat: '+340%', statText: 'average AI citation rate increase',
   },
   {
-    number: '02',
-    title: 'AEO',
-    tagline: 'Answer Engine Optimisation',
-    description: '68% of queries expect a direct answer with no click. We structure your content to win featured snippets, People Also Ask boxes, and voice answers — capturing position zero before your competition.',
-    anchorStat: '68% of queries expect a direct answer',
+    n: '02', tag: 'AEO', name: 'AEO', full: 'Answer Engine Optimisation', slug: 'aeo',
+    copy: 'We structure your content to win featured snippets, People Also Ask boxes, and voice answers.',
+    stat: '68%', statText: 'of queries expect a direct answer with no click',
   },
   {
-    number: '03',
-    title: 'SEO',
-    tagline: 'Search Engine Optimisation',
-    description: 'The organic foundation everything builds on. Technical authority, keyword architecture, backlink equity: The infrastructure that AI engines are trained on and Google rewards long-term.',
-    anchorStat: '11× higher ROI than paid search over 3 years',
+    n: '03', tag: 'SEO', name: 'SEO', full: 'Search Engine Optimisation', slug: 'seo',
+    copy: 'The organic foundation everything builds on. Technical authority, keyword architecture, backlink equity — the infrastructure AI engines are trained on.',
+    stat: '11×', statText: 'higher ROI than paid search over 3 years',
   },
   {
-    number: '04',
-    title: 'Content Marketing',
-    tagline: 'Content that ranks, converts, and compounds.',
-    description: 'Long-form articles, thought leadership, case studies, FAQs, and video scripts: Built equally for humans and AI engines. Every GEO citation, AEO answer and SEO ranking is powered by content.',
-    anchorStat: '3× more leads than outbound, at 62% lower cost',
+    n: '04', tag: 'CONTENT', name: 'Content Marketing', full: 'Content that ranks, converts, and compounds', slug: 'content-marketing',
+    copy: 'Long-form articles, thought leadership, case studies, FAQs, and video scripts — built equally for humans and AI engines.',
+    stat: '3×', statText: 'more leads than outbound, at 62% lower cost',
   },
 ];
 
 export default function MarketingServices() {
+  const navigate = useNavigate();
   return (
-    <section
-      id="marketing-services"
-      data-testid="marketing-services-section"
-      style={{
-        background: 'var(--white)',
-        padding: '100px 40px',
-      }}
-    >
-      <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: 'var(--purple-dark)',
-              marginBottom: 16,
-            }}
-          >
-            Marketing Services
+    <section id="marketing-services" data-testid="marketing-services-section" style={{ padding: '112px 32px', background: '#fff', borderTop: '1px solid var(--border-clr)' }}>
+      <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 48 }}>
+        <div className="flex flex-wrap items-end justify-between" style={{ gap: 32 }}>
+          <div style={{ maxWidth: 700 }}>
+            <SectionLabel text="Marketing Services" />
+            <h2 data-testid="marketing-headline" style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+              Be the answer on every surface, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>in every engine.</em>
+            </h2>
           </div>
-
-          <h2
-            data-testid="marketing-headline"
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontWeight: 600,
-              fontSize: 'clamp(32px, 4vw, 48px)',
-              letterSpacing: '-1.5px',
-              lineHeight: 1.15,
-              color: 'var(--text-primary)',
-              margin: '0 0 20px',
-            }}
-          >
-            Be the answer on every surface,{' '}
-            <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>in every engine.</em>
-          </h2>
-
-          <p
-            data-testid="marketing-description"
-            style={{
-              fontSize: 'clamp(16px, 2vw, 19px)',
-              fontWeight: 300,
-              lineHeight: 1.65,
-              color: 'var(--text-secondary)',
-              maxWidth: 780,
-              margin: '0 auto 12px',
-            }}
-          >
-            Search has changed: 62% of users now trust AI answers over page-1 links.
-          </p>
-
-          <p
-            style={{
-              fontSize: 16,
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              maxWidth: 780,
-              margin: '0 auto',
-            }}
-          >
-            We're built for where search is going — and where it already is.
-          </p>
+          <div className="flex items-center" style={{ gap: 18, maxWidth: 400, padding: '20px 24px', borderRadius: 16, background: 'var(--purple-light)' }}>
+            <div style={{ fontFamily: "'Fraunces', serif", fontSize: 52, fontWeight: 600, lineHeight: 0.9, color: 'var(--purple-dark)' }}>62%</div>
+            <div data-testid="marketing-description" style={{ fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14.5, lineHeight: 1.45, color: 'var(--text-primary)' }}>
+              of users now trust AI answers over page-1 links. Search has changed.
+            </div>
+          </div>
         </div>
 
-        {/* Services Grid */}
-        <div className="space-y-6 mb-12">
-          {marketingServices.map((service) => (
-            <div
-              key={service.number}
-              data-testid={`marketing-service-${service.title.toLowerCase()}`}
-              style={{
-                background: 'var(--off-white)',
-                border: '1px solid var(--border-clr)',
-                borderRadius: 16,
-                padding: '32px',
-                display: 'grid',
-                gridTemplateColumns: 'auto 1fr',
-                gap: 24,
-                alignItems: 'start',
-              }}
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 255px), 1fr))', gap: 16 }}>
+          {services.map((s) => (
+            <button
+              key={s.n}
+              onClick={() => navigate(`/solutions/${s.slug}`)}
+              className="text-left flex flex-col card-lift"
+              style={{ cursor: 'pointer', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 14, color: 'var(--text-primary)', minHeight: 380 }}
             >
-              <div
-                style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 20,
-                  fontWeight: 600,
-                  color: 'var(--purple)',
-                  minWidth: 40,
-                }}
-              >
-                {service.number}
+              <div className="flex items-center justify-between">
+                <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--text-muted)' }}>{s.n} / {s.tag}</span>
+                <span className="flex items-center justify-center" style={{ width: 30, height: 30, borderRadius: '50%', border: '1px solid var(--border-clr)', color: 'var(--purple)' }}>&#8599;</span>
               </div>
               <div>
-                <h3
-                  style={{
-                    fontFamily: "'Fraunces', serif",
-                    fontSize: 24,
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
-                    margin: '0 0 6px',
-                  }}
-                >
-                  {service.title}
-                </h3>
-                <div
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: 'var(--purple-dark)',
-                    margin: '0 0 12px',
-                  }}
-                >
-                  {service.tagline}
-                </div>
-                <p
-                  style={{
-                    fontSize: 15,
-                    lineHeight: 1.7,
-                    color: 'var(--text-secondary)',
-                    margin: service.anchorStat ? '0 0 14px' : 0,
-                  }}
-                >
-                  {service.description}
-                </p>
-                {service.anchorStat && (
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: 'var(--purple-dark)',
-                      background: 'var(--purple-light)',
-                      borderRadius: 6,
-                      padding: '4px 10px',
-                    }}
-                  >
-                    {service.anchorStat}
-                  </span>
-                )}
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 30, fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.5px' }}>{s.name}</div>
+                <div style={{ marginTop: 4, fontFamily: "'DM Sans'", fontSize: 13, color: 'var(--text-muted)' }}>{s.full}</div>
               </div>
-            </div>
+              <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.copy}</p>
+              <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: '1px dashed var(--border-clr)' }}>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 36, fontWeight: 600, lineHeight: 1, color: 'var(--purple-dark)' }}>{s.stat}</div>
+                <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 13, lineHeight: 1.4, color: 'var(--text-secondary)' }}>{s.statText}</div>
+              </div>
+            </button>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div
-          style={{
-            background: 'linear-gradient(135deg, var(--purple-light) 0%, rgba(237,229,252,0.5) 100%)',
-            border: '1px solid var(--purple)',
-            borderRadius: 16,
-            padding: '28px 32px',
-            textAlign: 'center',
-          }}
-        >
-          <p
-            style={{
-              fontSize: 16,
-              fontWeight: 500,
-              color: 'var(--text-primary)',
-              margin: 0,
-            }}
-          >
-            <strong>GEO + AEO + SEO + Content</strong> run as one integrated system.
-            <br />
-            Clients running all four see <strong>3–5× the return</strong> of single-service engagements.
-          </p>
+        <div className="relative flex flex-wrap items-center justify-between" style={{ gap: 24, padding: '26px 30px', borderRadius: 16, background: 'var(--dark)', color: '#fff' }}>
+          <div className="flex flex-wrap items-center" style={{ gap: 8, fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, letterSpacing: '0.06em' }}>
+            <span style={{ padding: '7px 12px', borderRadius: 999, background: 'rgba(255,255,255,.08)' }}>GEO</span>+
+            <span style={{ padding: '7px 12px', borderRadius: 999, background: 'rgba(255,255,255,.08)' }}>AEO</span>+
+            <span style={{ padding: '7px 12px', borderRadius: 999, background: 'rgba(255,255,255,.08)' }}>SEO</span>+
+            <span style={{ padding: '7px 12px', borderRadius: 999, background: 'rgba(255,255,255,.08)' }}>CONTENT</span>
+          </div>
+          <div style={{ fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 16, lineHeight: 1.5, color: 'rgba(255,255,255,.75)', maxWidth: 470 }}>
+            Run as one integrated system. Clients running all four see <b style={{ color: '#fff' }}>3&ndash;5&times; the return</b> of single-service engagements.
+          </div>
         </div>
       </div>
     </section>

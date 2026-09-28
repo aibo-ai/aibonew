@@ -1,130 +1,30 @@
-import { Sparkles, Zap, Layers, Target, Eye, Briefcase } from "lucide-react";
+import SectionLabel from './SectionLabel';
 
 const reasons = [
-  {
-    icon: Sparkles,
-    title: 'Boutique by Design',
-    description: 'Every engagement gets experienced hands, not a hand-off to someone who wasn\'t in the briefing.',
-  },
-  {
-    icon: Zap,
-    title: 'AI-Native Across Both Practices',
-    description: 'Our marketing team uses AI to build organic authority. Our tech team builds the AI systems themselves. No other agency bridges both practices at depth.',
-  },
-  {
-    icon: Layers,
-    title: 'Modular & Scalable',
-    description: 'Every service is designed to compound. Start with one, add others as you grow. The architecture supports it from day one, not retrofitted later.',
-  },
-  {
-    icon: Target,
-    title: 'Outcome-Driven, Not Hours-Driven',
-    description: 'Engagements are structured around measurable KPIs not retainer hours. We own the outcome. No black-box metrics. No hidden costs.',
-  },
-  {
-    icon: Eye,
-    title: 'Complete Transparency',
-    description: 'Every deliverable ties to a result you can verify independently. No surprises during development. We work by our ethos of complete clarity with clients.',
-  },
-  {
-    icon: Briefcase,
-    title: 'Deep Market Expertise',
-    description: 'Specialist knowledge in FMCG, D2C, Logistics, Healthcare, FinTech, SaaS and more.',
-  },
-];
+  ['Boutique by Design', "Every engagement gets experienced hands, not a hand-off to someone who wasn't in the briefing."],
+  ['AI-Native Across Both Practices', 'Our marketing team uses AI to build organic authority. Our tech team builds the AI systems themselves. No other agency bridges both practices at depth.'],
+  ['Modular & Scalable', 'Every service is designed to compound. Start with one, add others as you grow. The architecture supports it from day one, not retrofitted later.'],
+  ['Outcome-Driven, Not Hours-Driven', 'Engagements are structured around measurable KPIs, not retainer hours. We own the outcome. No black-box metrics, no hidden costs.'],
+  ['Complete Transparency', 'Every deliverable ties to a result you can verify independently. No surprises during development.'],
+  ['Deep Market Expertise', 'Specialist knowledge in FMCG, D2C, Logistics, Healthcare, FinTech, SaaS and more.'],
+].map((r, i) => ({ n: String(i + 1).padStart(2, '0'), title: r[0], text: r[1] }));
 
 export default function WhyMyAibo() {
   return (
-    <section
-      id="why-myaibo"
-      data-testid="why-myaibo-section"
-      style={{
-        background: 'var(--off-white)',
-        padding: '100px 40px',
-      }}
-    >
-      <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: 'var(--purple-dark)',
-              marginBottom: 16,
-            }}
-          >
-            Why MyAibo
-          </div>
-
-          <h2
-            data-testid="why-myaibo-headline"
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontWeight: 600,
-              fontSize: 'clamp(32px, 4vw, 48px)',
-              letterSpacing: '-1.5px',
-              lineHeight: 1.15,
-              color: 'var(--text-primary)',
-              margin: 0,
-            }}
-          >
-            Six reasons the best brands <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>choose us.</em>
+    <section style={{ padding: '112px 32px' }}>
+      <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 48 }}>
+        <div>
+          <SectionLabel text="Why MyAibo" />
+          <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+            Six reasons <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>clients stay.</em>
           </h2>
         </div>
-
-        {/* Reasons Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reasons.map((reason, idx) => (
-            <div
-              key={`reason-${reason.title || idx}`}
-              data-testid={`why-reason-${idx + 1}`}
-              style={{
-                background: 'var(--white)',
-                border: '1px solid var(--border-clr)',
-                borderRadius: 16,
-                padding: '32px 28px',
-              }}
-            >
-              <div
-                className="flex items-center justify-center mx-auto mb-5"
-                style={{
-                  width: 48,
-                  height: 48,
-                  background: 'var(--purple-light)',
-                  borderRadius: 16,
-                }}
-              >
-                <reason.icon size={24} style={{ color: 'var(--purple-dark)' }} />
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: "'Fraunces', serif",
-                  fontSize: 19,
-                  fontWeight: 600,
-                  color: 'var(--text-primary)',
-                  margin: '0 0 12px',
-                  textAlign: 'center',
-                }}
-              >
-                {reason.title}
-              </h3>
-
-              <p
-                style={{
-                  fontSize: 14,
-                  fontWeight: 300,
-                  lineHeight: 1.7,
-                  color: 'var(--text-secondary)',
-                  margin: 0,
-                  textAlign: 'center',
-                }}
-              >
-                {reason.description}
-              </p>
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 330px), 1fr))', borderTop: '1px solid var(--border-clr)', borderLeft: '1px solid var(--border-clr)', background: '#fff' }}>
+          {reasons.map((r) => (
+            <div key={r.n} className="flex flex-col" style={{ padding: 30, borderRight: '1px solid var(--border-clr)', borderBottom: '1px solid var(--border-clr)', gap: 12, minHeight: 220 }}>
+              <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--purple)' }}>{r.n}</div>
+              <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, lineHeight: 1.2 }}>{r.title}</div>
+              <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{r.text}</p>
             </div>
           ))}
         </div>

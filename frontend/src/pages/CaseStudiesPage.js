@@ -49,7 +49,7 @@ export default function CaseStudiesPage() {
         description={buildDescription(caseStudies)}
         path="/case-studies"
       />
-      <main style={{ paddingTop: 64 }}>
+      <main>
       {/* Hero Section */}
       <section
         className="hero-dotgrid"

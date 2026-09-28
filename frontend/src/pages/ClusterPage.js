@@ -1,145 +1,47 @@
 import { useEffect } from 'react';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { ArrowRight, ArrowDown, ArrowUp, Check } from 'lucide-react';
 import { BOOKING_URL } from '@/lib/constants';
 import { getCluster, pillarMeta } from '@/data/clusterPagesData';
-import { pillarHeroStats } from '@/data/pillarHeroStats';
+import { geoData } from '@/data/geoData';
+import { aeoData } from '@/data/aeoData';
+import { seoData } from '@/data/seoData';
+import { contentMarketingData } from '@/data/contentMarketingData';
+import { aiAutomationsData } from '@/data/aiAutomationsData';
+import { fullStackData } from '@/data/fullStackData';
 import SEO from '@/components/SEO';
-import FaqAccordion from '@/components/sections/FaqAccordion';
-import BrowserChrome from '@/components/sections/BrowserChrome';
+import SectionLabel from '@/components/sections/SectionLabel';
+import PostIt from '@/components/sections/PostIt';
+import FaqTwoColumn from '@/components/sections/FaqTwoColumn';
+import TickerCta from '@/components/sections/TickerCta';
+import { splitHeadline } from '@/lib/splitHeadline';
 
-// Deterministic hash so each page consistently gets the same "random" pick
-// (no layout shift between renders) without needing per-page authored config.
-function hashOf(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
-  return h;
+const pillarDataMap = {
+  geo: geoData, aeo: aeoData, seo: seoData,
+  'content-marketing': contentMarketingData, 'ai-automations': aiAutomationsData, 'full-stack': fullStackData,
+};
+const pillarShortMap = {
+  geo: 'GEO', aeo: 'AEO', seo: 'SEO', 'content-marketing': 'Content Marketing',
+  'ai-automations': 'AI Automation', 'full-stack': 'Full Stack',
+};
+
+function bigStat(text) {
+  if (!text) return '';
+  const N = '\\$?\\d[\\d.,]*[MKB]?';
+  const re = new RegExp('([<~≈+−]?' + N + '(?:\\s?[–-]\\s?' + N + ')?\\s?(?:%\\+?|×|\\+)?)((?:\\s|-)(?:days|weeks|months|month|minute))?');
+  const m = text.match(re);
+  return m ? (m[1].trim() + (m[2] || '')) : '';
 }
 
-const PLATFORMS = [
-  { url: 'chatgpt.com', name: 'ChatGPT', dotColor: 'var(--purple)', citedLabel: 'CHATGPT' },
-  { url: 'perplexity.ai', name: 'Perplexity', dotColor: '#1FB8CD', citedLabel: 'PERPLEXITY' },
-  { url: 'google.com/search', name: 'Google AI Overview', dotColor: '#4285F4', citedLabel: 'GOOGLE AI OVERVIEW' },
-];
-
-// Three distinct question shapes so pages don't all read as the same
-// mad-lib with just the pillar name swapped in — each keys off the page's
-// own subLabel/topic (unique per page) rather than the shared pillar name.
-// Service names carry acronyms (LLM, SEO, ASI, RAG, CTO...), so they're kept
-// in their original title case rather than lowercased into a sentence.
-function buildQuestion(data, variant) {
-  const topic = data.eyebrow.includes('·') ? data.eyebrow.split('·')[1].trim() : data.subLabel;
-  if (variant === 0) return `${data.subLabel}: who does it best in India?`;
-  if (variant === 1) return `What's the most reliable approach to ${topic}?`;
-  return `Who should we talk to about ${topic}?`;
-}
-
-// Generic, data-driven hero mockup shared by every cluster page — not
-// hand-authored per page, but varied deterministically per slug (platform,
-// question phrasing, and the cited-source text) so the 17+ cluster pages
-// don't all render as an identical template with only nouns swapped.
-function ClusterHeroMockup({ data, pillar }) {
-  const stat = pillarHeroStats[pillar];
-  const h = hashOf(`${pillar}/${data.slug}`);
-  const platform = PLATFORMS[h % PLATFORMS.length];
-  const question = buildQuestion(data, h % 3);
-  // The subpage's own stat badge is unique per page — use it for the
-  // cited-source card instead of one identical sentence repeated everywhere.
-  const citedText = data.statBadge
-    ? `${data.subLabel}: ${data.statBadge}.`
-    : `${data.subLabel} — cited across ${platform.name} and other AI answer engines.`;
-
-  return (
-    <div className="relative" style={{ minHeight: 340 }}>
-      <BrowserChrome url={platform.url} badge="LIVE">
-        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 14 }}>
-          {question}
-        </div>
-        <div style={{ paddingTop: 12, borderTop: '1px solid var(--border-clr)' }}>
-          <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-            <span style={{ width: 20, height: 20, borderRadius: '50%', background: platform.dotColor, display: 'block', flexShrink: 0 }} />
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>{platform.name}</span>
-          </div>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)', margin: 0, paddingLeft: 28 }}>
-            For {data.subLabel}, brands consistently cite{' '}
-            <span style={{ background: 'var(--purple-light)', color: 'var(--purple-dark)', fontWeight: 600, padding: '1px 4px', borderRadius: 4 }}>
-              MyAibo
-            </span>.
-          </p>
-        </div>
-      </BrowserChrome>
-
-      {stat && (
-        <div
-          className="absolute hidden md:block"
-          style={{
-            top: -22,
-            right: -20,
-            background: 'var(--dark)',
-            borderRadius: 16,
-            padding: '14px 18px',
-            boxShadow: '0 12px 30px rgba(15,10,30,0.35)',
-            width: 168,
-          }}
-        >
-          <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
-            {stat.label}
-          </div>
-          <div className="flex items-center gap-1" style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 600, color: '#fff' }}>
-            <ArrowUp size={16} color="#4ADE80" />
-            {stat.value}
-          </div>
-          <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.55)' }}>{stat.sub}</div>
-        </div>
-      )}
-
-      <div
-        className="absolute hidden md:block"
-        style={{
-          bottom: -28,
-          left: -24,
-          background: 'var(--white)',
-          border: '1px solid var(--border-clr)',
-          borderRadius: 16,
-          padding: 16,
-          boxShadow: '0 16px 36px rgba(15,10,30,0.22)',
-          width: 230,
-        }}
-      >
-        <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-          <span
-            style={{
-              fontSize: 9.5,
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              color: 'var(--purple-dark)',
-              background: 'var(--purple-light)',
-              borderRadius: 5,
-              padding: '2px 7px',
-            }}
-          >
-            {platform.citedLabel}
-          </span>
-          <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16A34A' }}>● CITED</span>
-        </div>
-        <p style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text-primary)', margin: '0 0 8px' }}>
-          {citedText}
-        </p>
-        <div className="flex flex-wrap gap-1">
-          {['myaibo.in', `solutions/${pillar}`, 'case studies'].map((c) => (
-            <span key={c} style={{ fontSize: 9.5, color: 'var(--text-muted)', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 4, padding: '2px 6px' }}>
-              ● {c}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+function firstSentence(t, max) {
+  t = t || '';
+  const m = t.match(/^(.+?[.!?])(\s|$)/);
+  let s = m ? m[1] : t;
+  if (s.length > max) s = s.slice(0, max).replace(/\s\S*$/, '') + '…';
+  return s;
 }
 
 // Per-cluster "Ready to…" headline shown in the final CTA section.
-// Keyed by `${pillar}/${cluster}` to keep the data file untouched.
 const FINAL_CTA_HEADLINES = {
   'geo/llmo-company': 'Ready to Be the Answer AI Gives — Not the Footnote?',
   'geo/perplexity-gemini-chatgpt-optimization': 'Ready to Get Cited Before Your Competitor Does?',
@@ -163,56 +65,54 @@ const FINAL_CTA_HEADLINES = {
   'full-stack/fractional-ai-engineering-cto': 'Ready for Senior AI Engineering Without a Full-Time Hire?',
 };
 
-const UNIVERSAL_CTA = 'Book Free Strategy Session';
-
-// Shared design tokens (already declared as CSS vars in index.css)
-// --purple, --purple-dark, --purple-light, --dark, --white, --off-white,
-// --border-clr, --text-primary, --text-secondary, --text-muted
-
 export default function ClusterPage() {
   const { pillar, cluster } = useParams();
+  const navigate = useNavigate();
   const data = getCluster(pillar, cluster);
   const pillarInfo = pillarMeta[pillar];
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pillar, cluster]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pillar, cluster]);
 
-  if (!pillarInfo) {
-    return <Navigate to="/" replace />;
-  }
+  if (!pillarInfo) return <Navigate to="/" replace />;
   if (!data) {
     return (
       <div style={{ padding: '160px 40px 80px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)' }}>
-          Page not found
-        </h1>
-        <Link to={`/solutions/${pillar}`} className="btn-purple inline-flex mt-6" style={{ padding: '12px 24px', fontSize: 14, marginTop: 24 }}>
-          Back to {pillarInfo.name}
-        </Link>
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)' }}>Page not found</h1>
+        <Link to={`/solutions/${pillar}`} className="btn-purple inline-flex mt-6" style={{ padding: '12px 24px', fontSize: 14, marginTop: 24 }}>Back to {pillarInfo.name}</Link>
       </div>
     );
   }
 
-  const finalHeadline = FINAL_CTA_HEADLINES[`${pillar}/${cluster}`] || data.geography.headline;
+  const pillarShort = pillarShortMap[pillar] || pillarInfo.short;
+  const h1 = splitHeadline(data.h1);
+  const finalHeadline = FINAL_CTA_HEADLINES[`${pillar}/${cluster}`] || `Ready to talk ${data.subLabel}?`;
+  const cta = splitHeadline(finalHeadline);
 
-  // JSON-LD structured data
+  const raw = data.statBadge || '';
+  const big = bigStat(raw);
+  const noMetric = !raw;
+  const problemLead = data.deepDive.question;
+  const problemRest = data.deepDive.framing;
+
+  const related = (data.relatedServices?.links || []).map((l) => {
+    const isPillar = !l.cluster;
+    const targetSub = isPillar ? pillarDataMap[l.pillar]?.subheadline : getCluster(l.pillar, l.cluster)?.heroBody;
+    return {
+      key: `${l.pillar}-${l.cluster || 'pillar'}`,
+      kind: isPillar ? 'PILLAR' : 'SERVICE',
+      label: l.label,
+      note: firstSentence(targetSub, 130),
+      go: () => navigate(l.cluster ? `/solutions/${l.pillar}/${l.cluster}` : `/solutions/${l.pillar}`),
+    };
+  });
+
   const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: data.subLabel,
-    serviceType: data.pillarName,
-    provider: {
-      '@type': 'Organization',
-      name: 'MyAibo',
-      url: 'https://myaibo.in',
-    },
-    description: data.meta.description,
-    areaServed: 'Global',
+    '@context': 'https://schema.org', '@type': 'Service', name: data.subLabel, serviceType: data.pillarName,
+    provider: { '@type': 'Organization', name: 'MyAibo', url: 'https://myaibo.in' },
+    description: data.meta.description, areaServed: 'Global',
   };
   const breadcrumbLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://myaibo.in/' },
       { '@type': 'ListItem', position: 2, name: 'Solutions', item: 'https://myaibo.in/solutions' },
@@ -221,13 +121,8 @@ export default function ClusterPage() {
     ],
   };
   const faqLd = data.faq && data.faq.length > 0 ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: data.faq.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: data.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   } : null;
 
   return (
@@ -240,390 +135,163 @@ export default function ClusterPage() {
       </Helmet>
 
       <main>
-        {/* ─── COMPONENT 1: HERO ─── */}
-        <section
-          className="relative hero-dotgrid"
-          style={{ padding: '150px 40px 90px', overflow: 'hidden' }}
-        >
-          <div className="relative z-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center" style={{ maxWidth: 1180 }}>
-            <div>
-              {/* Breadcrumb */}
-              <nav aria-label="Breadcrumb" className="mb-5" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-                <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-                <span className="mx-2">/</span>
-                <Link to={`/solutions/${pillar}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{data.pillarName}</Link>
-                <span className="mx-2">/</span>
-                <span style={{ color: 'var(--purple-dark)' }}>{data.subLabel}</span>
-              </nav>
+        {/* ── HERO ── */}
+        <section className="relative hero-dotgrid" style={{ padding: '40px 32px 104px' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <nav aria-label="Breadcrumb" className="flex flex-wrap" style={{ gap: 8, fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13, color: 'var(--text-muted)' }}>
+              <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
+              <span>/</span>
+              <Link to={`/solutions/${pillar}`} style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>{pillarShort}</Link>
+              <span>/</span>
+              <span style={{ color: 'var(--text-primary)' }}>{data.subLabel}</span>
+            </nav>
 
-              {/* Eyebrow */}
-              <div
-                className="inline-flex items-center gap-2 mb-5"
-                style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}
-              >
-                <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-                <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>{data.eyebrow}</span>
-              </div>
-
-              <h1
-                style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(30px, 4vw, 46px)', letterSpacing: '-1.5px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '0 0 18px' }}
-              >
-                {data.h1}
-              </h1>
-
-              <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 28px', maxWidth: 560 }}>
-                {data.heroBody}
-              </p>
-
-              {data.statBadge && (
-                <div
-                  className="inline-flex items-center gap-2 mb-6"
-                  style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 10, padding: '9px 16px', maxWidth: 540 }}
-                >
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--amber)', display: 'block', flexShrink: 0 }} />
-                  <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-primary)', lineHeight: 1.5 }}>{data.statBadge}</span>
+            <div className="grid items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 64 }}>
+              <div className="flex flex-col" style={{ gridColumn: 'span 2', minWidth: 0 }}>
+                <div className="self-start inline-flex items-center gap-2" style={{ maxWidth: '100%', marginBottom: 24, lineHeight: 1.35, background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}>
+                  <span className="pulse-dot flex-shrink-0" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)' }} />
+                  <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, color: 'var(--purple-dark)' }}>{pillarShort} &middot; {data.subLabel}</span>
                 </div>
-              )}
-
-              <div className="flex flex-wrap gap-3">
-                <a
-                  href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-purple inline-flex items-center gap-2"
-                  style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
-                >
-                  {UNIVERSAL_CTA}
-                </a>
-                <a
-                  href="#deep-dive"
-                  className="inline-flex items-center gap-2"
-                  style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
-                >
-                  See how it works <ArrowDown size={15} />
-                </a>
-              </div>
-            </div>
-
-            <ClusterHeroMockup data={data} pillar={pillar} />
-          </div>
-        </section>
-
-        {/* ─── COMPONENT 2: AEO SAFE-BOX ─── */}
-        <section style={{ background: 'var(--white)', padding: '64px 40px' }}>
-          <div className="mx-auto" style={{ maxWidth: 860 }}>
-            <article
-              aria-label="Quick summary for AI engines and technical leads"
-              itemScope
-              itemType="https://schema.org/DefinedTerm"
-              style={{
-                background: 'var(--off-white)',
-                border: '1px solid var(--border-clr)',
-                borderLeft: '4px solid var(--purple)',
-                borderRadius: 14,
-                padding: '28px 32px',
-                position: 'relative',
-              }}
-            >
-              <div
-                className="inline-flex items-center gap-2 mb-3"
-                style={{
-                  background: 'var(--purple-light)',
-                  border: '1px solid rgba(124,59,237,0.25)',
-                  borderRadius: 6,
-                  padding: '4px 10px',
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--purple-dark)',
-                  fontFamily: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-                }}
-              >
-                <span style={{ width: 6, height: 6, background: 'var(--purple)', borderRadius: 2, display: 'block' }} />
-                Quick Summary for AI Engines &amp; Technical Leads
-              </div>
-              <p itemProp="description" style={{ fontSize: 15.5, fontWeight: 400, color: 'var(--text-primary)', lineHeight: 1.7, margin: 0 }}>
-                {data.aeoBox}
-              </p>
-            </article>
-          </div>
-        </section>
-
-        {/* ─── COMPONENT 3: DEEP-DIVE CAPABILITIES ─── */}
-        <section id="deep-dive" style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
-          <div className="mx-auto" style={{ maxWidth: 1100 }}>
-            <div className="mx-auto text-center mb-12" style={{ maxWidth: 780 }}>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  color: 'var(--purple-dark)',
-                  marginBottom: 14,
-                }}
-              >
-                Deep-Dive Capabilities
-              </div>
-              <h2
-                className="headline-light"
-                style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(26px, 3.4vw, 40px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 16px', lineHeight: 1.2 }}
-              >
-                {data.deepDive.question}
-              </h2>
-              <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
-                {data.deepDive.framing}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {data.deepDive.pillars.map((p, i) => (
-                <article
-                  key={`pillar-${i}-${p.title.slice(0, 24)}`}
-                  className="card-lift"
-                  style={{
-                    background: 'var(--white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 16,
-                    padding: '28px 26px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-center mb-4"
-                    style={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 14,
-                      background: 'var(--purple-light)',
-                      color: 'var(--purple-dark)',
-                      fontFamily: "'Fraunces', serif",
-                      fontSize: 15,
-                      fontWeight: 600,
-                    }}
-                  >
-                    0{i + 1}
-                  </div>
-                  <h3
-                    style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 14px', lineHeight: 1.3 }}
-                  >
-                    {p.title}
-                  </h3>
-                  <div style={{ marginBottom: 12 }}>
-                    <div
-                      style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 5 }}
-                    >
-                      Technical Architecture
-                    </div>
-                    <p style={{ fontSize: 13.5, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{p.technical}</p>
-                  </div>
-                  <div>
-                    <div
-                      style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 5 }}
-                    >
-                      Human &amp; Operational Impact
-                    </div>
-                    <p style={{ fontSize: 13.5, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{p.human}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── COMPONENT 4: METRIC-DRIVEN BLUEPRINT ─── */}
-        <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
-          <div className="mx-auto" style={{ maxWidth: 1100 }}>
-            <div className="text-center mb-12">
-              <div
-                style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}
-              >
-                Metric-Driven Blueprint
-              </div>
-              <h2
-                className="headline-light"
-                style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(26px, 3.4vw, 40px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.2 }}
-              >
-                {data.blueprint.title}
-              </h2>
-            </div>
-
-            {/* Horizontal stepper on desktop, vertical on mobile */}
-            <ol className="grid grid-cols-1 md:grid-cols-4 gap-5" style={{ padding: 0, margin: 0, listStyle: 'none' }}>
-              {data.blueprint.phases.map((phase, i) => (
-                <li
-                  key={`phase-${phase.num}-${phase.name.slice(0, 20)}`}
-                  className="relative"
-                  style={{
-                    background: 'var(--off-white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 16,
-                    padding: '24px 22px',
-                    position: 'relative',
-                  }}
-                >
-                  <div
-                    className="flex items-center gap-3 mb-3"
-                  >
-                    <div
-                      className="flex items-center justify-center"
-                      style={{
-                        width: 34,
-                        height: 34,
-                        borderRadius: '50%',
-                        background: 'var(--purple)',
-                        color: '#fff',
-                        fontFamily: "'Fraunces', serif",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {phase.num}
-                    </div>
-                    <div
-                      style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--purple-dark)' }}
-                    >
-                      {phase.timeframe}
-                    </div>
-                  </div>
-                  <h3
-                    style={{ fontFamily: "'Fraunces', serif", fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px', lineHeight: 1.3 }}
-                  >
-                    {phase.name}
-                  </h3>
-                  <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: 0 }}>{phase.body}</p>
-                  {/* Connector arrow (desktop only, not for last item) */}
-                  {i < data.blueprint.phases.length - 1 && (
-                    <div
-                      aria-hidden
-                      className="hidden md:flex"
-                      style={{
-                        position: 'absolute',
-                        right: -18,
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: 'var(--purple)',
-                        opacity: 0.55,
-                        zIndex: 1,
-                      }}
-                    >
-                      <ArrowRight size={22} />
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        {/* ─── RELATED SERVICES (curated cross-links from content spec) ─── */}
-        {data.relatedServices && data.relatedServices.links.length > 0 && (
-          <section style={{ background: 'var(--off-white)', padding: '64px 40px' }}>
-            <div className="mx-auto" style={{ maxWidth: 1100 }}>
-              <div
-                style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}
-              >
-                Related Services
-              </div>
-              <p style={{ fontSize: 15, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 24px', maxWidth: 760 }}>
-                {data.relatedServices.note}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {data.relatedServices.links.map((l) => (
-                  <Link
-                    key={`${l.pillar}-${l.cluster || 'pillar'}`}
-                    to={l.cluster ? `/solutions/${l.pillar}/${l.cluster}` : `/solutions/${l.pillar}`}
-                    className="card-lift"
-                    style={{
-                      display: 'block',
-                      background: 'var(--white)',
-                      border: '1px solid var(--border-clr)',
-                      borderRadius: 16,
-                      padding: '22px 22px',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    <div
-                      style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 8 }}
-                    >
-                      {pillarMeta[l.pillar].short}
-                    </div>
-                    <h3
-                      style={{ fontFamily: "'Fraunces', serif", fontSize: 16, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px', lineHeight: 1.35 }}
-                    >
-                      {l.label}
-                    </h3>
-                    <span
-                      className="inline-flex items-center gap-1"
-                      style={{ fontSize: 13, fontWeight: 500, color: 'var(--purple-dark)' }}
-                    >
-                      Read more <ArrowRight size={13} />
-                    </span>
+                <h1 style={{ margin: '0 0 24px', fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(34px,4vw,54px)', lineHeight: 1.12, letterSpacing: '-1.5px' }}>
+                  {h1.a}<em style={{ fontWeight: 300, fontStyle: 'italic', color: 'var(--purple-dark)' }}>{h1.b}</em>
+                </h1>
+                <p style={{ margin: '0 0 34px', maxWidth: 640, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 18, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{data.heroBody}</p>
+                <div className="flex flex-wrap" style={{ gap: 14 }}>
+                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center" style={{ maxWidth: '100%', padding: '14px 26px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, lineHeight: 1.35, textDecoration: 'none' }}>
+                    {data.primaryCta}
+                  </a>
+                  <Link to={`/solutions/${pillar}`} className="inline-flex items-center" style={{ whiteSpace: 'nowrap', padding: '16px 28px', borderRadius: 8, background: '#fff', border: '1px solid var(--border-clr)', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, textDecoration: 'none' }}>
+                    All {pillarShort} services &rarr;
                   </Link>
-                ))}
+                </div>
+              </div>
+
+              <div className="relative justify-self-center" style={{ width: '100%', maxWidth: 330 }}>
+                <PostIt rotate={2.5} tapeRotate={-3} big={!noMetric && big ? big : undefined}>
+                  {noMetric ? (
+                    <>
+                      <div style={{ font: "700 30px/1 'Caveat',cursive", color: 'var(--acc-ink)', marginBottom: 10 }}>what's inside:</div>
+                      {data.deepDive.pillars.slice(0, 3).map((w) => (
+                        <div key={w.title} className="flex" style={{ gap: 8, padding: '6px 0', font: "600 22px/1.1 'Caveat',cursive", color: 'var(--text-primary)' }}>
+                          <span>&#10003;</span><span>{w.title}</span>
+                        </div>
+                      ))}
+                    </>
+                  ) : (
+                    raw.replace(/\.$/, '')
+                  )}
+                </PostIt>
               </div>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
-        {/* ─── FAQ ─── */}
-        {data.faq && data.faq.length > 0 && (
-          <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
-            <div className="mx-auto" style={{ maxWidth: 800 }}>
-              <div className="text-center mb-12">
-                <div
-                  style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}
-                >
-                  FAQ
+        {/* ── THE PROBLEM (dark) ── */}
+        <section style={{ padding: '104px 32px', background: 'var(--dark)', color: '#fff' }}>
+          <div className="mx-auto grid" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 48 }}>
+            <div>
+              <SectionLabel text="The problem" dark />
+              <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 40, lineHeight: 1.05, fontStyle: 'italic', color: '#C9B2FA' }}>Why it breaks.</div>
+            </div>
+            <div className="flex flex-col" style={{ gridColumn: 'span 2', gap: 20, maxWidth: 820 }}>
+              <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(24px,2.5vw,32px)', lineHeight: 1.35, letterSpacing: '-0.3px' }}>{problemLead}</p>
+              <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 17, lineHeight: 1.7, color: 'rgba(255,255,255,.7)' }}>{problemRest}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── WHAT WE DO ── */}
+        <section style={{ padding: '104px 32px' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 36 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text="What we do" />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                The work, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>in detail.</em>
+              </h2>
+            </div>
+            <div className="flex flex-col" style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden' }}>
+              {data.deepDive.pillars.map((w, i) => (
+                <div key={w.title} className="flex flex-wrap" style={{ gap: '18px 36px', padding: 30, borderBottom: i < data.deepDive.pillars.length - 1 ? '1px solid var(--border-clr)' : 'none' }}>
+                  <div style={{ flex: '0 0 44px', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, color: 'var(--purple)' }}>{String(i + 1).padStart(2, '0')}</div>
+                  <div style={{ flex: '1 1 260px', fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, lineHeight: 1.2 }}>{w.title}</div>
+                  <div className="flex flex-col" style={{ flex: '1.5 1 340px', gap: 12 }}>
+                    <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15.5, lineHeight: 1.65, color: 'var(--text-secondary)' }}>{w.technical}</p>
+                    {w.human && (
+                      <div className="flex" style={{ gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--purple-light)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14, lineHeight: 1.5, color: 'var(--purple-dark)' }}>
+                        <span>&rarr;</span><span>{w.human}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <h2
-                  className="headline-light"
-                  style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(26px, 3.4vw, 40px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.2 }}
-                >
-                  Everything You Need to Know
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── OUR FRAMEWORK ── */}
+        <section style={{ padding: '104px 32px', background: '#fff', borderTop: '1px solid var(--border-clr)' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 48 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text="Our framework" />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                Four phases, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>week by week.</em>
+              </h2>
+            </div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))', gap: 22 }}>
+              {data.blueprint.phases.map((f) => (
+                <div key={f.name} className="flex flex-col" style={{ gap: 14 }}>
+                  <div className="flex items-center" style={{ gap: 10 }}>
+                    <span className="flex-shrink-0" style={{ width: 14, height: 14, borderRadius: '50%', border: '3px solid var(--purple)', background: '#fff', boxShadow: '0 0 0 4px var(--purple-light)' }} />
+                    <span className="flex-1" style={{ height: 1, background: 'var(--border-clr)' }} />
+                  </div>
+                  <div className="flex flex-wrap items-center" style={{ gap: '8px 10px' }}>
+                    <span className="flex-shrink-0" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>PHASE {String(f.num).padStart(2, '0')}</span>
+                    <span className="flex-shrink-0" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '4px 10px', borderRadius: 999, background: 'var(--dark)', color: '#fff' }}>{f.timeframe}</span>
+                  </div>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 20, fontWeight: 600, lineHeight: 1.22 }}>{f.name}</div>
+                  <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{f.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── RELATED SERVICES ── */}
+        {related.length > 0 && (
+          <section style={{ padding: '104px 32px' }}>
+            <div className="relative mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 36 }}>
+              <div style={{ maxWidth: 720 }}>
+                <SectionLabel text="Related services" />
+                <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                  Works best <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>together.</em>
                 </h2>
               </div>
-              <FaqAccordion items={data.faq} />
+              <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: 16 }}>
+                {related.map((r) => (
+                  <button
+                    key={r.key}
+                    onClick={r.go}
+                    className="text-left flex flex-col card-lift"
+                    style={{ cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 24, gap: 12, color: 'var(--text-primary)', minHeight: 200 }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10.5, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 5, background: 'var(--purple-light)', color: 'var(--purple-dark)' }}>{r.kind}</span>
+                      <span style={{ color: 'var(--purple)' }}>&#8599;</span>
+                    </div>
+                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 21, fontWeight: 600, lineHeight: 1.2 }}>{r.label}</div>
+                    <div style={{ marginTop: 'auto', fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14, lineHeight: 1.55, color: 'var(--text-secondary)' }}>{r.note}</div>
+                  </button>
+                ))}
+              </div>
+              <div className="hidden md:block" style={{ position: 'absolute', right: 20, top: -76, zIndex: 5 }}>
+                <PostIt rotate={4} tapeRotate={-3} width={190}>modular: start here, plug in the rest &#8595;</PostIt>
+              </div>
             </div>
           </section>
         )}
 
-        {/* ─── COMPONENT 5: GEOGRAPHY + FINAL CTA ─── */}
-        <section
-          className="relative"
-          style={{ background: 'var(--dark)', padding: '100px 40px', overflow: 'hidden' }}
-        >
-          <div
-            className="absolute pointer-events-none"
-            style={{ width: 560, height: 560, top: -140, left: -160, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,59,237,0.18) 0%, transparent 68%)' }}
-          />
-          <div className="relative z-10 mx-auto text-center" style={{ maxWidth: 720 }}>
-            <div
-              style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple)', marginBottom: 16 }}
-            >
-              Get Started
-            </div>
-            <h2
-              style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 'clamp(26px, 3.4vw, 38px)', letterSpacing: '-0.6px', color: '#fff', margin: '0 0 28px', lineHeight: 1.2 }}
-            >
-              {finalHeadline}
-            </h2>
-            <div className="flex justify-center flex-wrap gap-3">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-purple inline-flex items-center gap-2"
-                style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
-              >
-                {UNIVERSAL_CTA}
-              </a>
-            </div>
-          </div>
-        </section>
+        <FaqTwoColumn key={`${pillar}-${cluster}`} items={data.faq} intro="The questions buyers ask us most about this service." />
+        <TickerCta ctaA={cta.a} ctaB={cta.b} page={`/solutions/${pillar}/${cluster}`} />
       </main>
     </>
   );

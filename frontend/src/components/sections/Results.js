@@ -1,230 +1,61 @@
-import { TrendingUp, Target, DollarSign, Repeat } from "lucide-react";
+import SectionLabel from './SectionLabel';
+import PostIt from './PostIt';
 
-const marketingResults = [
-  {
-    icon: TrendingUp,
-    value: '+180%',
-    label: 'AI citation rate',
-    sublabel: 'GEO, 6 months',
-  },
-  {
-    icon: Target,
-    value: '156%',
-    label: 'website conversion rate increase',
-    sublabel: '',
-  },
-  {
-    icon: DollarSign,
-    value: '−63%',
-    label: 'reduction in customer acquisition cost',
-    sublabel: '',
-  },
-  {
-    icon: Repeat,
-    value: '92%',
-    label: 'growth in repeat purchase rate',
-    sublabel: '',
-  },
+const marketing = [
+  { stat: '+180%', text: 'AI citation rate (GEO, 6 months)' },
+  { stat: '156%', text: 'website conversion rate increase' },
+  { stat: '−63%', text: 'reduction in customer acquisition cost' },
+  { stat: '92%', text: 'growth in repeat purchase rate' },
 ];
 
-const technicalResults = [
-  {
-    value: '80%',
-    label: 'data workflows automated',
-  },
-  {
-    value: '5×',
-    label: 'efficiency gains from automation',
-  },
-  {
-    value: '4–8 weeks',
-    label: 'to production-ready MVP',
-  },
-  {
-    value: '100%',
-    label: 'IP ownership transferred to client',
-  },
+const technical = [
+  { stat: '80%', text: 'data workflows automated' },
+  { stat: '5×', text: 'efficiency gains from automation' },
+  { stat: '4–8 wks', text: 'to production-ready MVP' },
+  { stat: '100%', text: 'IP ownership transferred to client' },
 ];
 
 export default function Results() {
   return (
-    <section
-      id="results"
-      data-testid="results-section"
-      style={{
-        background: 'var(--white)',
-        padding: '100px 40px',
-      }}
-    >
-      <div className="mx-auto" style={{ maxWidth: 1100 }}>
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 600,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: 'var(--purple-dark)',
-              marginBottom: 16,
-            }}
-          >
-            Proven Results
-          </div>
-
-          <h2
-            data-testid="results-headline"
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontWeight: 300,
-              fontSize: 'clamp(32px, 4vw, 48px)',
-              letterSpacing: '-1.5px',
-              lineHeight: 1.15,
-              color: 'var(--text-primary)',
-              margin: 0,
-            }}
-          >
-            Results that <em style={{ color: 'var(--purple-dark)' }}>speak for themselves.</em>
+    <section style={{ padding: '0 32px 112px' }}>
+      <div className="relative mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 40 }}>
+        <div>
+          <SectionLabel text="Proven Results" />
+          <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px, 4vw, 52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+            Results across <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>both practices.</em>
           </h2>
         </div>
 
-        {/* Marketing Results */}
-        <div className="mb-12">
-          <h3
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: 22,
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              margin: '0 0 24px',
-              textAlign: 'center',
-            }}
-          >
-            Marketing Results
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {marketingResults.map((result, idx) => {
-              const accent = ['white', 'purple', 'white', 'amber'][idx % 4];
-              return (
-                <div
-                  key={`mkt-${result.value || idx}`}
-                  data-testid={`marketing-result-${idx + 1}`}
-                  className="card-lift"
-                  style={{
-                    background: accent === 'purple' ? 'var(--purple-light)' : accent === 'amber' ? 'var(--amber-light)' : 'var(--white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 18,
-                    padding: '24px 22px',
-                  }}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>0{idx + 1}</span>
-                    <result.icon size={18} style={{ color: accent === 'amber' ? '#92400E' : 'var(--purple-dark)' }} />
-                  </div>
-
-                  <div
-                    style={{
-                      fontFamily: "'Fraunces', serif",
-                      fontSize: 'clamp(28px, 3.5vw, 36px)',
-                      fontWeight: 600,
-                      color: accent === 'amber' ? '#92400E' : 'var(--purple-dark)',
-                      margin: '0 0 8px',
-                      lineHeight: 1,
-                    }}
-                  >
-                    {result.value}
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: 13.5,
-                      fontWeight: 500,
-                      color: 'var(--text-primary)',
-                      margin: '0 0 4px',
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {result.label}
-                  </div>
-
-                  {result.sublabel && (
-                    <div
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 400,
-                        color: 'var(--text-muted)',
-                        margin: 0,
-                      }}
-                    >
-                      {result.sublabel}
-                    </div>
-                  )}
+        <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))', gap: 16 }}>
+          <div className="flex flex-col" style={{ background: 'var(--purple)', color: '#fff', borderRadius: 20, padding: 34, gap: 24 }}>
+            <div style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', color: 'rgba(255,255,255,.75)' }}>MARKETING RESULTS</div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '26px 18px' }}>
+              {marketing.map((m) => (
+                <div key={m.text}>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 48, fontWeight: 600, lineHeight: 1 }}>{m.stat}</div>
+                  <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 14, color: 'rgba(255,255,255,.8)' }}>{m.text}</div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col" style={{ background: 'var(--dark-mid)', color: '#fff', borderRadius: 20, padding: 34, gap: 24 }}>
+            <div style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', color: '#A07AF0' }}>TECHNICAL RESULTS</div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: '26px 18px' }}>
+              {technical.map((t) => (
+                <div key={t.text}>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 48, fontWeight: 600, lineHeight: 1, color: '#C9B2FA' }}>{t.stat}</div>
+                  <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 14, color: 'rgba(255,255,255,.7)' }}>{t.text}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Technical Results */}
-        <div>
-          <h3
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: 22,
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              margin: '0 0 24px',
-              textAlign: 'center',
-            }}
-          >
-            Technical Results
-          </h3>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
-            {technicalResults.map((result, idx) => {
-              const accent = ['white', 'purple', 'white', 'amber'][idx % 4];
-              return (
-                <div
-                  key={`tech-${result.value || idx}`}
-                  data-testid={`technical-result-${idx + 1}`}
-                  className="card-lift"
-                  style={{
-                    background: accent === 'purple' ? 'var(--purple-light)' : accent === 'amber' ? 'var(--amber-light)' : 'var(--white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 18,
-                    padding: '24px 20px',
-                    textAlign: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "'Fraunces', serif",
-                      fontSize: 'clamp(24px, 3vw, 32px)',
-                      fontWeight: 600,
-                      color: accent === 'amber' ? '#92400E' : 'var(--purple-dark)',
-                      margin: '0 0 8px',
-                      lineHeight: 1,
-                    }}
-                  >
-                    {result.value}
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: 13,
-                      fontWeight: 500,
-                      color: 'var(--text-secondary)',
-                      margin: 0,
-                      lineHeight: 1.4,
-                    }}
-                  >
-                    {result.label}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        <div className="hidden md:block" style={{ position: 'absolute', right: -10, top: -30, zIndex: 5 }}>
+          <PostIt rotate={-3} tapeRotate={2} width={250} quote author="Bala S, CEO, vPersonalize">
+            "52% conversion increase in three months? That's not just growth."
+          </PostIt>
         </div>
       </div>
     </section>

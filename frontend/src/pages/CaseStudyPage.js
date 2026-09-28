@@ -36,7 +36,7 @@ export default function CaseStudyPage() {
 
   if (loading) {
     return (
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <div style={{ textAlign: 'center', padding: '120px 20px', color: 'var(--text-muted)' }}>
           Loading...
         </div>
@@ -46,7 +46,7 @@ export default function CaseStudyPage() {
 
   if (error || !study) {
     return (
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <div style={{ textAlign: 'center', padding: '120px 20px' }}>
           <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, color: 'var(--text-primary)', marginBottom: 16 }}>
             Case study not found
@@ -93,7 +93,7 @@ export default function CaseStudyPage() {
         image={study.featured_image}
       />
       <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <section className="hero-dotgrid" style={{ padding: '90px 40px 60px' }}>
           <div className="mx-auto" style={{ maxWidth: 800 }}>
             {study.service && (

@@ -1,136 +1,23 @@
 import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { ArrowDown, ArrowRight, ArrowUp, Check, X } from "lucide-react";
 import SectionLabel from "@/components/sections/SectionLabel";
+import PostIt from "@/components/sections/PostIt";
+import FaqTwoColumn from "@/components/sections/FaqTwoColumn";
+import TickerCta from "@/components/sections/TickerCta";
+import AuditScorecard from "@/components/sections/AuditScorecard";
+import VisibilitySnapshot from "@/components/sections/VisibilitySnapshot";
 import { BOOKING_URL } from "@/lib/constants";
 import { trackBookingClick } from "@/lib/analytics";
+import { splitHeadline } from "@/lib/splitHeadline";
+import { getClustersForPillar } from "@/data/clusterPagesData";
 import { geoData } from "@/data/geoData";
 import { aeoData } from "@/data/aeoData";
 import { seoData } from "@/data/seoData";
 import { contentMarketingData } from "@/data/contentMarketingData";
 import { aiAutomationsData } from "@/data/aiAutomationsData";
-import { whiteLabelData } from "@/data/whiteLabelData";
 import { fullStackData } from "@/data/fullStackData";
-import { pillarHeroStats } from "@/data/pillarHeroStats";
 import SEO from "@/components/SEO";
-import BrowserChrome from "@/components/sections/BrowserChrome";
-import FaqAccordion from "@/components/sections/FaqAccordion";
-import AuditScorecard from "@/components/sections/AuditScorecard";
-import VisibilitySnapshot from "@/components/sections/VisibilitySnapshot";
-
-function hashOf(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) h = (h * 31 + str.charCodeAt(i)) >>> 0;
-  return h;
-}
-
-const PLATFORMS = [
-  { url: 'chatgpt.com', name: 'ChatGPT', dotColor: 'var(--purple)', citedLabel: 'CHATGPT' },
-  { url: 'perplexity.ai', name: 'Perplexity', dotColor: '#1FB8CD', citedLabel: 'PERPLEXITY' },
-  { url: 'google.com/search', name: 'Google AI Overview', dotColor: '#4285F4', citedLabel: 'GOOGLE AI OVERVIEW' },
-];
-
-// Same generic, data-driven hero mockup pattern as ClusterPage — templated
-// from fields every pillar page already has, with a real published stat
-// from pillarHeroStats. Platform and the "cited for" hook are varied per
-// pillar (hash of slug + that pillar's own eyebrow tagline) instead of one
-// identical sentence repeated across all 6 pillar pages.
-function PillarHeroMockup({ data, slug }) {
-  const stat = pillarHeroStats[slug];
-  const platform = PLATFORMS[hashOf(slug) % PLATFORMS.length];
-  const rawHook = data.eyebrow.includes('·') ? data.eyebrow.split('·')[1].trim().replace(/\.$/, '') : 'measurable, compounding results';
-  // Only the first letter is lowercased (to sit naturally after "for") —
-  // the rest is left as-is so acronyms like AI/SEO aren't mangled into "ai"/"seo".
-  const hook = rawHook.charAt(0).toLowerCase() + rawHook.slice(1);
-  return (
-    <div className="relative" style={{ minHeight: 340 }}>
-      <BrowserChrome url={platform.url} badge="LIVE">
-        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 14 }}>
-          Who's the best {data.pageTitle} partner in India?
-        </div>
-        <div style={{ paddingTop: 12, borderTop: '1px solid var(--border-clr)' }}>
-          <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-            <span style={{ width: 20, height: 20, borderRadius: '50%', background: platform.dotColor, display: 'block', flexShrink: 0 }} />
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--text-primary)' }}>{platform.name}</span>
-          </div>
-          <p style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--text-secondary)', margin: 0, paddingLeft: 28 }}>
-            For {data.pageTitle}, marketing and AI teams consistently cite{' '}
-            <span style={{ background: 'var(--purple-light)', color: 'var(--purple-dark)', fontWeight: 600, padding: '1px 4px', borderRadius: 4 }}>
-              MyAibo
-            </span>{' '}
-            for {hook}.
-          </p>
-        </div>
-      </BrowserChrome>
-
-      {stat && (
-        <div
-          className="absolute hidden md:block"
-          style={{
-            top: -22,
-            right: -20,
-            background: 'var(--dark)',
-            borderRadius: 16,
-            padding: '14px 18px',
-            boxShadow: '0 12px 30px rgba(15,10,30,0.35)',
-            width: 168,
-          }}
-        >
-          <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>
-            {stat.label}
-          </div>
-          <div className="flex items-center gap-1" style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 600, color: '#fff' }}>
-            <ArrowUp size={16} color="#4ADE80" />
-            {stat.value}
-          </div>
-          <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,0.55)' }}>{stat.sub}</div>
-        </div>
-      )}
-
-      <div
-        className="absolute hidden md:block"
-        style={{
-          bottom: -28,
-          left: -24,
-          background: 'var(--white)',
-          border: '1px solid var(--border-clr)',
-          borderRadius: 16,
-          padding: 16,
-          boxShadow: '0 16px 36px rgba(15,10,30,0.22)',
-          width: 230,
-        }}
-      >
-        <div className="flex items-center gap-2" style={{ marginBottom: 8 }}>
-          <span
-            style={{
-              fontSize: 9.5,
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              color: 'var(--purple-dark)',
-              background: 'var(--purple-light)',
-              borderRadius: 5,
-              padding: '2px 7px',
-            }}
-          >
-            {platform.citedLabel}
-          </span>
-          <span style={{ fontSize: 9.5, fontWeight: 700, color: '#16A34A' }}>● CITED</span>
-        </div>
-        <p style={{ fontSize: 12, lineHeight: 1.6, color: 'var(--text-primary)', margin: '0 0 8px' }}>
-          {data.pageTitle}: {data.results.metrics[0].metric} — {data.results.metrics[0].result}.
-        </p>
-        <div className="flex flex-wrap gap-1">
-          {['myaibo.in', `solutions/${slug}`, 'case studies'].map((c) => (
-            <span key={c} style={{ fontSize: 9.5, color: 'var(--text-muted)', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 4, padding: '2px 6px' }}>
-              ● {c}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 const seoMetaData = {
   geo: {
@@ -158,11 +45,6 @@ const seoMetaData = {
     description: "Production-grade AI agents for lead capture, support, outreach, and ops workflows. Cut manual effort by 70% without adding headcount.",
     keywords: ['AI automation services', 'AI agents', 'custom AI ML solutions', 'AI ML solutions'],
   },
-  'white-label': {
-    title: "White Label AI Platform Development | MyAibo",
-    description: "Launch a fully branded AI product in under 10 weeks. NDA-secured, multi-tenant, reseller-ready — 100% your IP, zero vendor attribution.",
-    keywords: ['white label AI platform', 'white label development'],
-  },
   'full-stack': {
     title: "Full Stack Development — Built to Last | MyAibo",
     description: "Web apps, AI-integrated products, e-commerce platforms, and APIs built front to back. Modern stacks, zero technical debt, 100% IP ownership.",
@@ -171,445 +53,305 @@ const seoMetaData = {
 };
 
 const dataMap = {
-  geo: geoData,
-  aeo: aeoData,
-  seo: seoData,
-  'content-marketing': contentMarketingData,
-  'ai-automations': aiAutomationsData,
-  'white-label': whiteLabelData,
-  'full-stack': fullStackData,
+  geo: geoData, aeo: aeoData, seo: seoData,
+  'content-marketing': contentMarketingData, 'ai-automations': aiAutomationsData, 'full-stack': fullStackData,
 };
 
-const pillarDisplayNames = {
-  geo: 'GEO',
-  aeo: 'AEO',
-  seo: 'SEO',
-  'content-marketing': 'Content Marketing',
-  'ai-automations': 'AI Automations',
-  'white-label': 'White Label',
-  'full-stack': 'Full Stack Development',
+const pillarShort = {
+  geo: 'GEO', aeo: 'AEO', seo: 'SEO', 'content-marketing': 'Content Marketing',
+  'ai-automations': 'AI Automation', 'full-stack': 'Full Stack',
 };
 
 export default function ServicePage() {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const data = dataMap[slug];
   const seoMeta = seoMetaData[slug];
-  const isTech = data?.type === 'technology';
-  const accentColor = isTech ? 'var(--amber)' : 'var(--purple)';
-  const accentDark = isTech ? '#B45309' : 'var(--purple-dark)';
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [slug]);
+  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
   if (!data) {
     return (
       <div style={{ padding: '160px 40px 80px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)' }}>
-          Page not found
-        </h1>
-        <Link to="/" className="btn-purple inline-flex mt-6" style={{ padding: '12px 24px', fontSize: 14 }}>
-          Back to Home
-        </Link>
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)' }}>Page not found</h1>
+        <Link to="/" className="btn-purple inline-flex mt-6" style={{ padding: '12px 24px', fontSize: 14 }}>Back to Home</Link>
       </div>
     );
   }
 
-  // JSON-LD structured data — same pattern already used on ClusterPage.js,
-  // now applied to the pillar pages too (these get the most search traffic).
+  const short = pillarShort[slug] || data.pageTitle;
+  const isTech = data.type === 'technology';
+  const practice = isTech ? 'Technology' : 'Marketing';
+  const h1 = splitHeadline(data.headline);
+  const approachH2 = splitHeadline(data.intro.headline);
+  const ctaHeadline = data.finalCta.headline || `Ready to grow with ${short}?`;
+  const cta = splitHeadline(ctaHeadline);
+
+  const allClusters = getClustersForPillar(slug);
+  const compareRows = data.comparison.without.items.map((a, i) => ({ a, b: data.comparison.with.items[i] }));
+  const lastWhy = data.whyNow.stats[data.whyNow.stats.length - 1];
+
   const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: pillarDisplayNames[slug] || data.pageTitle,
-    serviceType: data.pageTitle,
-    provider: {
-      '@type': 'Organization',
-      name: 'MyAibo',
-      url: 'https://www.myaibo.in',
-    },
-    areaServed: 'India',
-    description: seoMeta?.description,
+    '@context': 'https://schema.org', '@type': 'Service', name: short, serviceType: data.pageTitle,
+    provider: { '@type': 'Organization', name: 'MyAibo', url: 'https://www.myaibo.in' },
+    areaServed: 'India', description: seoMeta?.description,
   };
   const breadcrumbLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.myaibo.in/' },
-      { '@type': 'ListItem', position: 2, name: pillarDisplayNames[slug] || data.pageTitle, item: `https://www.myaibo.in/solutions/${slug}` },
+      { '@type': 'ListItem', position: 2, name: short, item: `https://www.myaibo.in/solutions/${slug}` },
     ],
   };
   const faqLd = data.pillarFaq && data.pillarFaq.length > 0 ? {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: data.pillarFaq.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: data.pillarFaq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   } : null;
 
   return (
     <>
-      {seoMeta && (
-        <SEO
-          title={seoMeta.title}
-          description={seoMeta.description}
-          path={`/solutions/${slug}`}
-          keywords={seoMeta.keywords}
-        />
-      )}
+      {seoMeta && <SEO title={seoMeta.title} description={seoMeta.description} path={`/solutions/${slug}`} keywords={seoMeta.keywords} />}
       <Helmet>
         <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>
         {faqLd && <script type="application/ld+json">{JSON.stringify(faqLd)}</script>}
       </Helmet>
+
       <main>
-      {/* ─── HERO ─── */}
-      <section
-        className="relative hero-dotgrid"
-        style={{ padding: '150px 40px 90px', overflow: 'hidden' }}
-      >
-        <div className="relative z-10 mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center" style={{ maxWidth: 1180 }}>
-          <div>
-            {/* Breadcrumb */}
-            <div className="mb-5" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+        {/* ── HERO ── */}
+        <section className="relative hero-dotgrid" style={{ padding: '40px 32px 104px' }}>
+          <div className="relative mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <div className="flex" style={{ gap: 8, fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13, color: 'var(--text-muted)' }}>
               <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-              <span className="mx-2">/</span>
-              <span style={{ color: 'var(--purple-dark)' }}>{data.pageTitle}</span>
+              <span>/</span><span>Solutions</span><span>/</span>
+              <span style={{ color: 'var(--text-primary)' }}>{short}</span>
             </div>
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 mb-5" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}>
-              <span className="pulse-dot" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', display: 'block', flexShrink: 0 }} />
-              <span style={{ color: 'var(--purple-dark)', fontSize: 12, fontWeight: 600 }}>{data.eyebrow}</span>
-            </div>
-            <h1 style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(32px, 4.4vw, 52px)', letterSpacing: '-1.5px', color: 'var(--text-primary)', lineHeight: 1.1, margin: '0 0 18px' }}>
-              {data.headline}
-            </h1>
-            <p style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 28px', maxWidth: 540 }}>
-              {data.subheadline}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-purple"
-                style={{ padding: '13px 24px', fontSize: 15, fontWeight: 500 }}
-                onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'hero' })}
-              >
-                Book Free Strategy Session
-              </a>
-              <a
-                href="#intro"
-                className="inline-flex items-center gap-2"
-                style={{ padding: '12px 22px', fontSize: 15, fontWeight: 500, color: 'var(--text-primary)', border: '1px solid var(--border-clr)', borderRadius: 8, textDecoration: 'none', background: 'var(--white)' }}
-              >
-                {data.ctaSecondary} <ArrowDown size={15} />
-              </a>
-            </div>
-          </div>
 
-          <PillarHeroMockup data={data} slug={slug} />
-        </div>
-      </section>
-
-      {/* ─── WHY THIS MATTERS ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="text-center mb-12">
-            <SectionLabel text={data.whyNow.label} centered />
-            <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
-              {data.whyNow.headline}
-            </h2>
-          </div>
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14">
-            {data.whyNow.stats.map((s, i) => {
-              const bg = ['white', 'purple', 'white', 'amber'][i % 4];
-              return (
-                <div
-                  key={`stat-${s.num}-${s.label}`}
-                  className="card-lift"
-                  style={{
-                    background: bg === 'purple' ? 'var(--purple-light)' : bg === 'amber' ? 'var(--amber-light)' : 'var(--white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 18,
-                    padding: '22px 18px',
-                  }}
-                >
-                  <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>0{i + 1}</span>
-                  <span style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: bg === 'amber' ? '#92400E' : accentDark, display: 'block', lineHeight: 1.15, margin: '8px 0' }}>{s.num}</span>
-                  <span style={{ fontSize: 12.5, color: 'var(--text-secondary)', lineHeight: 1.5, display: 'block' }}>{s.label}</span>
+            <div className="grid items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 460px), 1fr))', gap: 64 }}>
+              <div className="flex flex-col">
+                <div className="self-start inline-flex items-center gap-2" style={{ maxWidth: '100%', marginBottom: 24, lineHeight: 1.35, background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.3)', borderRadius: 20, padding: '5px 14px' }}>
+                  <span className="pulse-dot flex-shrink-0" style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)' }} />
+                  <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, color: 'var(--purple-dark)' }}>{practice} &middot; {data.pageTitle}</span>
                 </div>
-              );
-            })}
-          </div>
-          {/* Context cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {data.whyNow.contextCards.map((c) => (
-              <div key={`ctx-${c.title}`} style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
-                <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
-                <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
+                <h1 style={{ margin: '0 0 24px', fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(40px,5vw,64px)', lineHeight: 1.1, letterSpacing: '-2px' }}>
+                  {h1.a}
+                  <span style={{ background: 'var(--acc)', color: 'var(--dark)', padding: '0 12px 4px', borderRadius: 10, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }}>{h1.b}</span>
+                </h1>
+                <p style={{ margin: '0 0 34px', maxWidth: 560, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 18, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{data.subheadline}</p>
+                <div className="flex flex-wrap" style={{ gap: 14 }}>
+                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center" style={{ whiteSpace: 'nowrap', padding: '16px 30px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, textDecoration: 'none' }} onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'hero' })}>
+                    Book Free Strategy Session
+                  </a>
+                  <Link to="/case-studies" className="inline-flex items-center" style={{ whiteSpace: 'nowrap', padding: '16px 28px', borderRadius: 8, background: '#fff', border: '1px solid var(--border-clr)', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, textDecoration: 'none' }}>
+                    View Case Studies &rarr;
+                  </Link>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ─── REAL AUDIT PROOF (GEO/AEO only) ─── */}
-      {slug === 'geo' && <AuditScorecard />}
-      {slug === 'aeo' && <VisibilitySnapshot />}
-
-      {/* ─── DEEP-DIVE SERVICE CARDS ─── */}
-      {data.deepDiveCards && data.deepDiveCards.length > 0 && (
-        <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
-          <div className="mx-auto" style={{ maxWidth: 1100 }}>
-            <div className="text-center mb-12">
-              <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}>
-                Deep-Dive Services
+              <div className="relative" style={{ padding: '10px 0 30px' }}>
+                <div style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, boxShadow: '0 30px 60px -20px rgba(15,10,30,.25)', overflow: 'hidden' }}>
+                  <div className="flex items-center justify-between" style={{ padding: '14px 20px', background: 'var(--off-white)', borderBottom: '1px solid var(--border-clr)' }}>
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10.5, letterSpacing: '0.1em', color: 'var(--text-muted)' }}>IN THIS PRACTICE</span>
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--purple-dark)' }}>{allClusters.length} services</span>
+                  </div>
+                  {allClusters.map((c, i) => (
+                    <button
+                      key={c.slug}
+                      onClick={() => navigate(`/solutions/${slug}/${c.slug}`)}
+                      className="w-full flex items-center text-left"
+                      style={{ gap: 14, padding: '16px 20px', background: 'none', border: 0, borderBottom: i < allClusters.length - 1 ? '1px solid var(--border-clr)' : 'none', color: 'var(--text-primary)', cursor: 'pointer' }}
+                    >
+                      <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')}</span>
+                      <span className="flex-1" style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 15.5, lineHeight: 1.3 }}>{c.subLabel}</span>
+                      <span style={{ color: 'var(--purple)' }}>&rarr;</span>
+                    </button>
+                  ))}
+                </div>
+                {lastWhy && (
+                  <div className="hidden md:block" style={{ position: 'absolute', left: -40, bottom: -34, zIndex: 5 }}>
+                    <PostIt rotate={-4} width={210} big={lastWhy.num}>{lastWhy.label.replace(/\.$/, '')}</PostIt>
+                  </div>
+                )}
               </div>
-              <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
-                Go deeper on each capability.
+            </div>
+          </div>
+        </section>
+
+        {/* ── WHY THIS MATTERS ── */}
+        <section style={{ padding: '104px 32px', background: '#fff', borderTop: '1px solid var(--border-clr)' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text="Why this matters" />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                The shift, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>in four numbers.</em>
               </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {data.deepDiveCards.map((c, i) => (
-                <Link
-                  key={c.slug}
-                  to={`/solutions/${slug}/${c.slug}`}
-                  className="card-lift"
-                  style={{
-                    display: 'block',
-                    background: 'var(--off-white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 16,
-                    padding: 26,
-                    textDecoration: 'none',
-                  }}
-                >
-                  <div
-                    className="flex items-center justify-center mb-4"
-                    style={{ width: 36, height: 36, borderRadius: 12, background: 'var(--purple-light)', color: 'var(--purple-dark)', fontFamily: "'Fraunces', serif", fontSize: 14, fontWeight: 600 }}
-                  >
-                    0{i + 1}
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))', gap: 16 }}>
+              {data.whyNow.stats.map((w, i) => (
+                <div key={w.label} className="flex flex-col" style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 36, minHeight: 250 }}>
+                  <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')}</div>
+                  <div style={{ marginTop: 'auto' }}>
+                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 58, fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1.5px', color: 'var(--purple-dark)' }}>{w.num}</div>
+                    <div style={{ marginTop: 12, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 15, lineHeight: 1.5, color: 'var(--text-secondary)' }}>{w.label}</div>
                   </div>
-                  <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 10px', lineHeight: 1.3 }}>
-                    {c.title}
-                  </h3>
-                  <p style={{ fontSize: 13.5, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.6, margin: '0 0 14px' }}>
-                    {c.body}
-                  </p>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: accentDark, borderTop: '1px solid var(--border-clr)', paddingTop: 12 }}>
-                    {c.stat}
-                  </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
         </section>
-      )}
 
-      {/* ─── INTRO ─── */}
-      <section id="intro" style={{ background: 'var(--white)', padding: '100px 40px' }}>
-        <div className="mx-auto" style={{ maxWidth: 800 }}>
-          <SectionLabel text={data.intro.label} />
-          <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 20px', lineHeight: 1.15 }}>
-            {data.intro.headline}
-          </h2>
-          {data.intro.body.map((p, i) => (
-            <p key={`intro-${i}-${p.slice(0, 20)}`} style={{ fontSize: 16, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.7, margin: '0 0 14px' }}>{p}</p>
-          ))}
-          {/* Callout */}
-          <div className="mt-8 flex gap-5 items-start" style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 16, padding: '24px 28px' }}>
-            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 42, fontWeight: 600, color: accentColor, lineHeight: 1, flexShrink: 0 }}>
-              {data.intro.calloutStat}
-            </span>
-            <p style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>
-              {data.intro.calloutText}
-            </p>
-          </div>
-        </div>
-      </section>
+        {(slug === 'geo' || slug === 'aeo') && (slug === 'geo' ? <AuditScorecard /> : <VisibilitySnapshot />)}
 
-      {/* ─── BEFORE vs AFTER ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
-        <div className="mx-auto grid grid-cols-1 md:grid-cols-2 gap-6" style={{ maxWidth: 900 }}>
-          {/* Without */}
-          <div style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
-            <div className="flex items-center gap-2 mb-5">
-              <X size={18} style={{ color: 'var(--text-muted)' }} />
-              <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
-                {data.comparison.without.title}
-              </h3>
-            </div>
-            {data.comparison.without.items.map((item, i) => (
-              <div key={`without-${i}-${item.slice(0, 20)}`} className="flex items-start gap-3 mb-3">
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--text-muted)', marginTop: 7, flexShrink: 0 }} />
-                <span style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.55 }}>{item}</span>
-              </div>
-            ))}
-          </div>
-          {/* With */}
-          <div style={{ background: 'var(--dark)', borderRadius: 16, padding: 28 }}>
-            <div className="flex items-center gap-2 mb-5">
-              <Check size={18} style={{ color: '#A07AF0' }} />
-              <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: '#fff', margin: 0 }}>
-                {data.comparison.with.title}
-              </h3>
-            </div>
-            {data.comparison.with.items.map((item, i) => (
-              <div key={`with-${i}-${item.slice(0, 20)}`} className="flex items-start gap-3 mb-3">
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--purple)', marginTop: 7, flexShrink: 0 }} />
-                <span style={{ fontSize: 14, fontWeight: 300, color: 'rgba(255,255,255,0.72)', lineHeight: 1.55 }}>{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PROCESS ─── */}
-      <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
-        <div className="mx-auto" style={{ maxWidth: 800 }}>
-          <SectionLabel text={data.process.label} />
-          <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 36px', lineHeight: 1.15 }}>
-            {data.process.headline}
-          </h2>
-          <div className="space-y-6">
-            {data.process.steps.map((s) => (
-              <div key={s.num} className="flex gap-5" style={{ borderLeft: '2px solid var(--purple)', paddingLeft: 24 }}>
-                <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--purple-light)', fontFamily: "'Fraunces', serif", fontSize: 14, fontWeight: 600, color: 'var(--purple-dark)' }}>
-                  {s.num}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 flex-wrap" style={{ margin: '0 0 6px' }}>
-                    <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>{s.title}</h3>
-                    {s.timeframe && (
-                      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--purple-dark)', background: 'var(--purple-light)', borderRadius: 5, padding: '2px 8px' }}>
-                        {s.timeframe}
-                      </span>
-                    )}
-                  </div>
-                  <p style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: '0 0 12px' }}>{s.body}</p>
-                  <div>
-                    {s.deliverable.split(' + ').map((d) => (
-                      <div key={d} className="flex items-start gap-2" style={{ marginBottom: 4 }}>
-                        <Check size={13} style={{ color: 'var(--purple)', marginTop: 3, flexShrink: 0 }} />
-                        <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--text-primary)' }}>{d.trim()}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── DELIVERABLES ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '100px 40px' }}>
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="text-center mb-10">
-            <SectionLabel text={data.deliverables.label} centered />
-            <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
-              {data.deliverables.headline}
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {data.deliverables.cards.map((c, i) => (
-              <div key={`del-${i}-${c.title}`} className="card-lift" style={{ background: 'var(--white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 28 }}>
-                <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: 17, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px' }}>{c.title}</h3>
-                <p style={{ fontSize: 13, fontWeight: 300, color: 'var(--text-secondary)', lineHeight: 1.65, margin: 0 }}>{c.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── RESULTS ─── */}
-      <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
-        <div className="mx-auto" style={{ maxWidth: 900 }}>
-          <div className="text-center mb-10">
-            <SectionLabel text={data.results.label} centered />
-            <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
-              {data.results.headline}
-            </h2>
-          </div>
-          {/* Metrics table */}
-          <div style={{ background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden', marginBottom: 32 }}>
-            <div className="grid grid-cols-2" style={{ borderBottom: '1px solid var(--border-clr)', padding: '14px 28px', background: 'var(--white)' }}>
-              <span style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>Metric</span>
-              <span style={{ fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)' }}>Result</span>
-            </div>
-            {data.results.metrics.map((m, i) => (
-              <div key={`metric-${m.metric}`} className="grid grid-cols-2" style={{ padding: '14px 28px', borderBottom: i < data.results.metrics.length - 1 ? '1px solid var(--border-clr)' : 'none' }}>
-                <span style={{ fontSize: 14, fontWeight: 300, color: 'var(--text-secondary)' }}>{m.metric}</span>
-                <span style={{ fontFamily: "'Fraunces', serif", fontSize: 18, fontWeight: 600, color: accentDark }}>{m.result}</span>
-              </div>
-            ))}
-          </div>
-          {/* Testimonial */}
-          <div style={{ background: 'var(--purple-light)', border: '1px solid rgba(124,59,237,0.2)', borderRadius: 16, padding: 28 }}>
-            <span style={{ fontFamily: "'Fraunces', serif", fontSize: 28, color: 'var(--purple)', display: 'block', marginBottom: 6, lineHeight: 1 }}>&ldquo;</span>
-            <p style={{ fontSize: 15, fontWeight: 300, color: 'var(--text-primary)', lineHeight: 1.7, fontStyle: 'italic', margin: '0 0 16px' }}>
-              {data.results.testimonial.quote}
-            </p>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(124,59,237,0.2)', color: 'var(--purple-dark)', fontSize: 13, fontWeight: 600, flexShrink: 0 }}>
-                {data.results.testimonial.initials}
-              </div>
-              <div>
-                <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', margin: 0 }}>{data.results.testimonial.author}</p>
-                <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: 0 }}>{data.results.testimonial.role}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PILLAR FAQ ─── */}
-      {data.pillarFaq && data.pillarFaq.length > 0 && (
-        <section style={{ background: 'var(--white)', padding: '100px 40px' }}>
-          <div className="mx-auto" style={{ maxWidth: 800 }}>
-            <div className="text-center mb-12">
-              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 14 }}>
-                FAQ
-              </div>
-              <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: 0, lineHeight: 1.15 }}>
-                Everything You Need to Know
+        {/* ── WHAT WE DO ── */}
+        <section style={{ padding: '104px 32px' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text="What we do" />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                A complete {short} stack, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>run end-to-end.</em>
               </h2>
             </div>
-            <FaqAccordion items={data.pillarFaq} />
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 16 }}>
+              {(data.deepDiveCards || []).map((c, i) => (
+                <button
+                  key={c.slug}
+                  onClick={() => navigate(`/solutions/${slug}/${c.slug}`)}
+                  className="text-left flex flex-col card-lift"
+                  style={{ cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 14, color: 'var(--text-primary)', minHeight: 300 }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')} / SERVICE</span>
+                    <span className="flex items-center justify-center" style={{ marginLeft: 'auto', width: 30, height: 30, borderRadius: '50%', border: '1px solid var(--border-clr)', color: 'var(--purple)' }}>&#8599;</span>
+                  </div>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 600, lineHeight: 1.15, letterSpacing: '-0.3px' }}>{c.title}</div>
+                  <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{c.body}</p>
+                  <div className="flex items-start" style={{ marginTop: 'auto', gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--purple-light)' }}>
+                    <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--purple)' }} />
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--purple-dark)' }}>{c.stat}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </section>
-      )}
 
-      {/* ─── FINAL CTA ─── */}
-      <section style={{ background: 'var(--off-white)', padding: '64px 40px 80px' }}>
-        <div className="mx-auto text-center" style={{ maxWidth: 500 }}>
-          <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--purple-dark)', display: 'block', marginBottom: 16 }}>
-            Get Started
-          </span>
-          <h2 className="headline-light" style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-1px', color: 'var(--text-primary)', margin: '0 0 32px', lineHeight: 1.15 }}>
-            {data.finalCta.headline}
-          </h2>
-          <div className="flex justify-center mb-3">
-            <a
-              href={BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-purple inline-flex"
-              style={{ padding: '14px 28px', fontSize: 15, fontWeight: 500 }}
-              onClick={() => trackBookingClick({ page: `/solutions/${slug}`, placement: 'final_cta' })}
-            >
-              Book Free Strategy Session
-            </a>
+        {/* ── OUR APPROACH (dark) ── */}
+        <section style={{ padding: '104px 32px', background: 'var(--dark)', color: '#fff' }}>
+          <div className="mx-auto grid items-start" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))', gap: 56 }}>
+            <div className="flex flex-col" style={{ gap: 22 }}>
+              <SectionLabel text="Our approach" dark />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                {approachH2.a}<em style={{ color: '#C9B2FA', fontStyle: 'normal' }}>{approachH2.b}</em>
+              </h2>
+              {data.intro.body.map((t, i) => (
+                <p key={`ap-${i}-${t.slice(0, 16)}`} style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 16.5, lineHeight: 1.7, color: 'rgba(255,255,255,.72)' }}>{t}</p>
+              ))}
+            </div>
+            <div style={{ background: 'var(--dark-mid)', border: '1px solid rgba(255,255,255,.1)', borderRadius: 16, overflow: 'hidden' }}>
+              <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <div style={{ padding: '16px 20px', color: 'rgba(255,255,255,.55)' }}>{data.comparison.without.title}</div>
+                <div style={{ padding: '16px 20px', background: 'var(--purple)', color: '#fff' }}>{data.comparison.with.title}</div>
+              </div>
+              {compareRows.map((r) => (
+                <div key={r.a} className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', borderTop: '1px solid rgba(255,255,255,.08)' }}>
+                  <div className="flex" style={{ padding: '16px 20px', gap: 10, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.5, color: 'rgba(255,255,255,.6)' }}>
+                    <span className="flex-shrink-0" style={{ color: 'rgba(255,255,255,.35)' }}>&#10005;</span><span>{r.a}</span>
+                  </div>
+                  <div className="flex" style={{ padding: '16px 20px', gap: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14.5, lineHeight: 1.5, color: '#fff', background: 'rgba(124,59,237,.12)' }}>
+                    <span className="flex-shrink-0" style={{ color: 'var(--acc)' }}>&#10003;</span><span>{r.b}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 12 }}>
-            Free &middot; No commitment &middot; 30 minutes
-          </p>
-        </div>
-      </section>
-    </main>
+        </section>
+
+        {/* ── OUR PROCESS ── */}
+        <section style={{ padding: '104px 32px' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text="Our process" />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                From first audit <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>to cited default.</em>
+              </h2>
+            </div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 210px), 1fr))', gap: 14 }}>
+              {data.process.steps.map((s, i) => (
+                <div key={s.title} className="flex flex-col" style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: '24px 22px', gap: 14, minHeight: 330 }}>
+                  <span style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 11, letterSpacing: '0.08em', color: 'var(--text-muted)' }}>PHASE {String(i + 1).padStart(2, '0')}</span>
+                  {s.timeframe && (
+                    <span className="self-start" style={{ whiteSpace: 'nowrap', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '4px 10px', borderRadius: 999, background: 'var(--dark)', color: '#fff' }}>{s.timeframe}</span>
+                  )}
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 21, fontWeight: 600, lineHeight: 1.2 }}>{s.title}</div>
+                  <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.body}</p>
+                  {s.deliverable && (
+                    <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px dashed var(--border-clr)' }}>
+                      <div style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10, letterSpacing: '0.1em', color: 'var(--text-muted)' }}>DELIVERABLE</div>
+                      <div style={{ marginTop: 4, fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.4, color: 'var(--purple-dark)' }}>{s.deliverable}</div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="text-center" style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>
+              &#10022; Then: review, optimise, and double down. &#10022;
+            </div>
+          </div>
+        </section>
+
+        {/* ── DELIVERABLES ── */}
+        <section style={{ padding: '104px 32px', background: '#fff', borderTop: '1px solid var(--border-clr)' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text={data.deliverables.label} />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                What you <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>walk away with.</em>
+              </h2>
+            </div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 330px), 1fr))', borderTop: '1px solid var(--border-clr)', borderLeft: '1px solid var(--border-clr)' }}>
+              {data.deliverables.cards.map((c, i) => (
+                <div key={c.title} className="flex flex-col" style={{ padding: 26, borderRight: '1px solid var(--border-clr)', borderBottom: '1px solid var(--border-clr)', gap: 10 }}>
+                  <div className="flex items-baseline" style={{ gap: 10 }}>
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--purple)' }}>{String(i + 1).padStart(2, '0')}</span>
+                    <span style={{ fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 600, lineHeight: 1.25 }}>{c.title}</span>
+                  </div>
+                  <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{c.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── PROVEN OUTCOMES ── */}
+        <section style={{ padding: '104px 32px' }}>
+          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
+            <div style={{ maxWidth: 720 }}>
+              <SectionLabel text="Proven outcomes" />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
+                Results that <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>compound.</em>
+              </h2>
+            </div>
+            <div className="grid items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: 40 }}>
+              <div className="grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0,1fr))', gap: 1, background: 'var(--border-clr)', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden' }}>
+                {data.results.metrics.map((m) => (
+                  <div key={m.metric} style={{ background: '#fff', padding: '28px 24px' }}>
+                    <div style={{ fontFamily: "'Fraunces', serif", fontSize: 46, fontWeight: 600, lineHeight: 1, letterSpacing: '-1px', color: 'var(--purple-dark)' }}>{m.result}</div>
+                    <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14, lineHeight: 1.45, color: 'var(--text-secondary)' }}>{m.metric}</div>
+                  </div>
+                ))}
+              </div>
+              {data.results.testimonial && (
+                <PostIt quote rotate={-1.5} tapeRotate={2} author={data.results.testimonial.author}>
+                  &ldquo;{data.results.testimonial.quote}&rdquo;
+                </PostIt>
+              )}
+            </div>
+          </div>
+        </section>
+
+        <FaqTwoColumn key={slug} items={data.pillarFaq} intro="Here's what founders and marketing leads ask us most." />
+        <TickerCta ctaA={cta.a} ctaB={cta.b} page={`/solutions/${slug}`} />
+      </main>
     </>
   );
 }

@@ -6,10 +6,10 @@
 // engagement, not invented.
 export default function AuditScorecard() {
   const stats = [
-    { value: '0%', label: 'Visibility on unbranded category prompts' },
-    { value: '0 / 5', label: 'Topic clusters with any citation at all' },
-    { value: '100', label: 'Category-intent prompts tested' },
-    { value: '6,700+', label: 'AI citations analyzed to build the audit' },
+    { value: '0%', label: 'Visibility on unbranded category prompts', color: '#F87171' },
+    { value: '0 / 5', label: 'Topic clusters with any citation at all', color: '#F87171' },
+    { value: '100', label: 'Category-intent prompts tested', color: '#fff' },
+    { value: '6,700+', label: 'AI citations analyzed to build the audit', color: 'var(--acc)' },
   ];
 
   const topics = [
@@ -23,11 +23,14 @@ export default function AuditScorecard() {
     <section style={{ background: 'var(--dark)', padding: '90px 40px' }}>
       <div className="mx-auto" style={{ maxWidth: 980 }}>
         <div className="mx-auto text-center mb-12" style={{ maxWidth: 680 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--purple)', marginBottom: 14 }}>
+          <div
+            className="inline-flex items-center gap-2"
+            style={{ background: 'var(--acc)', color: 'var(--dark)', borderRadius: 20, padding: '5px 14px', fontFamily: "'DM Sans'", fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}
+          >
             From an Actual MyAibo GEO Audit
           </div>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 'clamp(26px, 3.4vw, 38px)', letterSpacing: '-0.6px', color: '#fff', margin: '0 0 12px', lineHeight: 1.2 }}>
-            Invisible where buyers actually ask.
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(28px, 3.4vw, 42px)', letterSpacing: '-1px', color: '#fff', margin: '0 0 12px', lineHeight: 1.15 }}>
+            Invisible where <em style={{ color: '#C9B2FA', fontStyle: 'normal' }}>buyers actually ask.</em>
           </h2>
           <p style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.55)', margin: 0 }}>
             A recent audit for a B2B SaaS platform — anonymized. This is the gap most brands don’t know they have.
@@ -52,7 +55,7 @@ export default function AuditScorecard() {
                   borderRight: i < 3 ? '1px solid rgba(255,255,255,0.1)' : 'none',
                 }}
               >
-                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{s.value}</div>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 600, color: s.color, lineHeight: 1 }}>{s.value}</div>
                 <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.5)', marginTop: 8, lineHeight: 1.4 }}>{s.label}</div>
               </div>
             ))}

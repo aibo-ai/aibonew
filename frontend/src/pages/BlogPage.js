@@ -31,7 +31,7 @@ export default function BlogPage() {
 
   if (loading) {
     return (
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <div style={{ textAlign: 'center', padding: '120px 20px', color: 'var(--text-muted)' }}>
           Loading...
         </div>
@@ -41,7 +41,7 @@ export default function BlogPage() {
 
   if (error || !blog) {
     return (
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <div style={{ textAlign: 'center', padding: '120px 20px' }}>
           <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, color: 'var(--text-primary)', marginBottom: 16 }}>
             Post not found
@@ -97,7 +97,7 @@ export default function BlogPage() {
         image={blog.featured_image}
       />
       <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
-      <main style={{ paddingTop: 64 }}>
+      <main>
         {/* Hero */}
         <section className="hero-dotgrid" style={{ padding: '90px 40px 60px' }}>
           <div className="mx-auto" style={{ maxWidth: 800 }}>

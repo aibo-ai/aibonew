@@ -1,16 +1,11 @@
 import Hero from "@/components/sections/Hero";
+import TrustedByTicker from "@/components/sections/TrustedByTicker";
 import Positioning from "@/components/sections/Positioning";
-import WhyItMatters from "@/components/sections/WhyItMatters";
-import AIConsensus from "@/components/sections/AIConsensus";
-import AIVisibilityDashboard from "@/components/sections/AIVisibilityDashboard";
 import MarketingServices from "@/components/sections/MarketingServices";
 import TechnologyServices from "@/components/sections/TechnologyServices";
 import WhyMyAibo from "@/components/sections/WhyMyAibo";
 import Results from "@/components/sections/Results";
-import CaseStudies from "@/components/sections/CaseStudies";
-import LatestInsights from "@/components/sections/LatestInsights";
-import Testimonials from "@/components/sections/Testimonials";
-import FinalCTA from "@/components/sections/FinalCTA";
+import TickerCta from "@/components/sections/TickerCta";
 import SEO from "@/components/SEO";
 
 export default function HomePage() {
@@ -29,20 +24,15 @@ export default function HomePage() {
           'answer engine optimization',
         ]}
       />
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <Hero />
+        <TrustedByTicker />
         <Positioning />
-        <WhyItMatters />
-        <AIConsensus />
-        <AIVisibilityDashboard />
         <MarketingServices />
         <TechnologyServices />
         <WhyMyAibo />
         <Results />
-        <CaseStudies />
-        <LatestInsights />
-        <Testimonials />
-        <FinalCTA />
+        <TickerCta ctaA="Ready to grow on " ctaB="both fronts?" page="/" />
       </main>
     </>
   );

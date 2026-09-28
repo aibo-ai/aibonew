@@ -31,7 +31,7 @@ export default function BlogsPage() {
         description="Expert perspectives on GEO, AEO, SEO, AI automation, and full-stack development from the team building systems that actually compound."
         path="/blogs"
       />
-      <main style={{ paddingTop: 64 }}>
+      <main>
         <section className="hero-dotgrid" style={{ padding: '110px 40px 70px' }}>
           <div className="mx-auto text-center" style={{ maxWidth: 1100 }}>
             <div

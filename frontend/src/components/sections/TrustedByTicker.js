@@ -1,124 +1,54 @@
-import { useEffect, useRef } from 'react';
-
-/**
- * TrustedByTicker
- * Infinite, seamless horizontal marquee of client logos.
- * Duplicates the logo array so the animation loops without a visible seam.
- * Pauses on hover for user readability.
- */
-
-// Logo order requested by the client:
-// 1. ITC   2. Hansaplast   3. ElasticRun   4. OptimHire
-// 5. Trudiance   6. Harmony   7. Iluvia   8. Fego   9. vPersonalize
-//
-// All logos are rendered as unified dark silhouettes via `filter:
-// brightness(0)` so the ticker looks like one design system rather than
-// 9 mismatched brand palettes (the light hero background needs dark
-// silhouettes, not the white-on-dark inversion this used to use).
-// `w` is each logo's rendered width at its display height `h`, calculated
-// from the compressed asset's real aspect ratio — set explicitly so the
-// browser can reserve layout space before the image loads (prevents CLS).
+// Full-width client-logo marquee — its own section between the hero and
+// "Our Practice", not confined to the hero's left column. Greyscale at
+// .65 opacity, 40s linear loop, matching the Violet + Amber design spec.
 const logos = [
-  { name: 'ITC',          src: '/logos/itc.png',          h: 44, w: 57,  invert: true },
-  { name: 'Hansaplast',   src: '/logos/hansaplast.png',   h: 84, w: 84,  invert: true },
-  { name: 'ElasticRun',   src: '/logos/elasticrun.png',   h: 60, w: 110, invert: true },
-  { name: 'OptimHire',    src: '/logos/optimhire.png',    h: 32, w: 156, invert: true },
-  { name: 'Trudiance',    src: '/logos/trudiance.png',    h: 60, w: 60,  invert: true },
-  { name: 'Harmony',      src: '/logos/harmony.png',      h: 58, w: 58,  invert: true },
-  { name: 'Iluvia',       src: '/logos/iluvia.png',       h: 50, w: 100, invert: true },
-  { name: 'Fego',         src: '/logos/fego.png',         h: 46, w: 89,  invert: true },
-  { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 48, w: 48,  invert: true },
+  { name: 'ITC', src: '/logos/itc.png' },
+  { name: 'Hansaplast', src: '/logos/hansaplast.png' },
+  { name: 'ElasticRun', src: '/logos/elasticrun.png' },
+  { name: 'OptimHire', src: '/logos/optimhire.png' },
+  { name: 'Trudiance', src: '/logos/trudiance.png' },
+  { name: 'Harmony', src: '/logos/harmony.png' },
+  { name: 'Iluvia', src: '/logos/iluvia.png' },
+  { name: 'Fego', src: '/logos/fego.png' },
+  { name: 'vPersonalize', src: '/logos/vpersonalize.png' },
 ];
 
 export default function TrustedByTicker() {
-  const trackRef = useRef(null);
-
-  // Adjust animation duration proportional to combined logo count so speed
-  // stays consistent as more logos are added.
-  useEffect(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    // ~4.5s per logo — slow and readable
-    el.style.setProperty('--ticker-duration', `${logos.length * 4.5}s`);
-  }, []);
-
-  const items = [...logos, ...logos]; // duplicated for seamless loop
+  const items = [...logos, ...logos];
 
   return (
-    <div data-testid="hero-clients" style={{ marginTop: 8 }}>
+    <section
+      data-testid="hero-clients"
+      className="flex items-center"
+      style={{ background: '#fff', borderTop: '1px solid var(--border-clr)', borderBottom: '1px solid var(--border-clr)', padding: '26px 0', gap: 32, overflow: 'hidden' }}
+    >
       <div
-        className="text-center"
-        style={{
-          fontSize: 12,
-          fontWeight: 600,
-          textTransform: 'uppercase',
-          letterSpacing: '0.08em',
-          color: 'var(--text-muted)',
-          marginBottom: 20,
-        }}
+        className="flex-shrink-0"
+        style={{ paddingLeft: 32, fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)' }}
       >
         Trusted by
       </div>
-
       <div
-        className="ticker-viewport"
-        aria-label="Client logo carousel"
+        className="flex-1"
         style={{
-          position: 'relative',
           overflow: 'hidden',
-          maskImage:
-            'linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%)',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent 0, black 6%, black 94%, transparent 100%)',
-          padding: '4px 0',
+          WebkitMaskImage: 'linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)',
+          maskImage: 'linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)',
         }}
       >
-        <div
-          ref={trackRef}
-          className="ticker-track"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 64,
-            width: 'max-content',
-            animation: 'aibo-ticker var(--ticker-duration, 36s) linear infinite',
-          }}
-        >
+        <div className="flex items-center" style={{ gap: 56, width: 'max-content', animation: 'aibo-ticker 40s linear infinite' }}>
           {items.map((logo, i) => (
-            <div
+            <img
               key={`${logo.name}-${i}`}
-              title={logo.name}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-                height: 72,
-                minWidth: 130,
-                padding: '0 8px',
-              }}
-            >
-              <img
-                src={logo.src}
-                alt={`${logo.name} logo`}
-                loading="lazy"
-                draggable={false}
-                width={logo.w}
-                height={logo.h}
-                style={{
-                  height: logo.h,
-                  maxHeight: '100%',
-                  width: 'auto',
-                  objectFit: 'contain',
-                  filter: logo.invert ? 'brightness(0)' : 'none',
-                  opacity: logo.invert ? 0.55 : 1,
-                  userSelect: 'none',
-                }}
-              />
-            </div>
+              src={logo.src}
+              alt={`${logo.name} logo`}
+              loading="lazy"
+              draggable={false}
+              style={{ height: 34, width: 'auto', filter: 'grayscale(1)', opacity: 0.65, userSelect: 'none' }}
+            />
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
