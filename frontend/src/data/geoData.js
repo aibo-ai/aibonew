@@ -45,6 +45,7 @@ export const geoData = {
     { title: 'LLM Optimization Company', slug: 'llmo-company', body: 'Entity disambiguation, co-citation architecture, and continuous LLM output auditing that turns "mention rate" into a board-reportable KPI.', stat: '500-prompt monthly test library across ChatGPT, Perplexity, Gemini' },
     { title: 'Perplexity, Gemini & ChatGPT Optimization', slug: 'perplexity-gemini-chatgpt-optimization', body: 'Platform-specific citation strategy \u2014 each engine retrieves differently, so each gets its own playbook.', stat: '300 queries per platform logged and scored at baseline' },
     { title: 'Zero-Click & Synthetic Traffic Strategy', slug: 'zero-click-search-synthetic-traffic', body: "We track an AI Visibility Index across the surfaces where commercial intent lives now that clicks aren't the whole picture.", stat: '60%+ of Google searches now end without a click' },
+    { title: 'Reddit Community Seeding', slug: 'reddit-community-seeding', body: 'Reddit-led GEO \u2014 the specific platform driving over half of all social-platform AI citations right now.', stat: "Reddit = 46.7% of Perplexity's citations" },
   ],
   pillarFaq: [
     { q: 'How is GEO different from SEO?', a: "SEO earns you a ranking; GEO earns you the citation inside an AI-generated answer, where there's no ranking list at all \u2014 just whichever sources the model decided to trust and quote." },

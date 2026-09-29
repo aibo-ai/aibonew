@@ -130,9 +130,9 @@ function MenuButton({ label, open, onClick }) {
       onClick={onClick}
       aria-expanded={open}
       className="flex items-center flex-shrink-0"
-      style={{ gap: 6, whiteSpace: 'nowrap', height: 36, padding: '0 14px', borderRadius: 8, border: 0, background: open ? '#EDE5FC' : 'transparent', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14.5, cursor: 'pointer' }}
+      style={{ gap: 7, whiteSpace: 'nowrap', height: 42, padding: '0 16px', borderRadius: 8, border: 0, background: open ? '#EDE5FC' : 'transparent', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 16.5, cursor: 'pointer' }}
     >
-      {label} <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{open ? '▲' : '▼'}</span>
+      {label} <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>{open ? '▲' : '▼'}</span>
     </button>
   );
 }
@@ -181,7 +181,7 @@ export default function Navigation() {
           <div className="relative flex-shrink-0">
             <MenuButton label="Solutions" open={openMenu === 'solutions'} onClick={toggle('solutions')} />
             {openMenu === 'solutions' && (
-              <div className="absolute" style={{ top: 46, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
+              <div className="absolute" style={{ top: 50, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
                 <SolutionsDropdown onNavigate={closeAll} />
               </div>
             )}
@@ -189,7 +189,7 @@ export default function Navigation() {
           <div className="relative flex-shrink-0">
             <MenuButton label="Resources" open={openMenu === 'resources'} onClick={toggle('resources')} />
             {openMenu === 'resources' && (
-              <div className="absolute" style={{ top: 46, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
+              <div className="absolute" style={{ top: 50, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
                 <ResourcesDropdown onNavigate={closeAll} />
               </div>
             )}
@@ -199,7 +199,7 @@ export default function Navigation() {
               key={l.label}
               to={l.to}
               className="flex"
-              style={{ height: 36, padding: '0 14px', alignItems: 'center', flexShrink: 0, whiteSpace: 'nowrap', textDecoration: 'none', fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14.5, color: 'var(--text-secondary)' }}
+              style={{ height: 42, padding: '0 16px', alignItems: 'center', flexShrink: 0, whiteSpace: 'nowrap', textDecoration: 'none', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 16.5, color: 'var(--text-primary)' }}
             >
               {l.label}
             </Link>

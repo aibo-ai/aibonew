@@ -245,6 +245,71 @@ export const clusterPages = [
   },
   {
     pillar: 'geo',
+    slug: 'reddit-community-seeding',
+    pillarName: 'Generative Engine Optimization',
+    subLabel: 'Reddit Community Seeding',
+    eyebrow: 'Generative Engine Optimization · Reddit-Led GEO',
+    h1: 'Reddit Is the Source Layer AI Search Runs On. Is Your Brand In It?',
+    heroBody:
+      "Perplexity pulls 46.7% of its citations from Reddit. Google AI Overviews, ChatGPT, and Gemini aren't far behind. If your brand isn't part of the Reddit conversation in your category, you're invisible to the fastest-growing share of search — the answer, not the ad.",
+    primaryCta: 'Get a free Reddit visibility audit for your category',
+    statBadge: "Reddit = 46.7% of Perplexity's citations",
+    deepDive: {
+      question:
+        "AI answer engines don't cite marketing copy. They cite first-hand experience — a detailed comment with 50+ upvotes, written by someone who sounds like they actually used the product, sitting in a thread that's still getting traffic.",
+      framing:
+        "Across ChatGPT, Perplexity, Google AI Overviews, and Gemini, Reddit now accounts for more than half of all social-platform citations, and that share grew month over month in the most recent measured period. Comments outperform top-level posts by a wide margin — on Perplexity it's 78% comments to 22% posts. None of that inventory exists on your website. It exists in threads you're not part of yet.",
+      pillars: [
+        {
+          title: 'Subreddit and query mapping',
+          technical: 'We identify the specific subreddits and question patterns in your category where AI engines are already pulling answers from.',
+        },
+        {
+          title: 'Compliant community participation',
+          technical:
+            "Real answers, written by people with genuine domain knowledge, following each subreddit's actual posting rules — no bought accounts, no karma farming, no vote manipulation.",
+          human: 'This matters doubly for regulated categories (BFSI, insurance, healthcare) where a banned account or a subreddit blacklist is a real business risk.',
+        },
+        {
+          title: 'Long-form, citation-shaped answers',
+          technical: 'We write to the shape the research shows gets cited most, not to word-count filler.',
+        },
+        {
+          title: 'Citation tracking',
+          technical:
+            "We monitor which threads and comments actually get pulled into ChatGPT, Perplexity, and AI Overview answers for your target queries, and double down on what's working.",
+        },
+      ],
+    },
+    blueprint: {
+      title: 'Our 4-Phase Reddit Community Seeding Framework',
+      phases: [
+        { num: 1, name: 'Landscape audit', timeframe: 'Weeks 1–2', body: 'Map subreddits, existing threads, and competitor mentions already shaping AI answers in your category. Flag compliance constraints per subreddit before writing a single word.' },
+        { num: 2, name: 'Foundation building', timeframe: 'Weeks 3–6', body: 'Establish genuine, rules-compliant community presence — deliberately slower, since Reddit and AI engines both penalize anything that looks manufactured.' },
+        { num: 3, name: 'Citation-targeted seeding', timeframe: 'Weeks 6–12', body: 'Answer real questions in the threads most likely to be pulled by AI engines.' },
+        { num: 4, name: 'Monitoring and compounding', timeframe: 'Ongoing', body: 'Track citations across ChatGPT, Perplexity, Gemini, and AI Overviews; reinforce threads already earning visibility.' },
+      ],
+    },
+    relatedServices: {
+      note: 'Part of our GEO pillar. Works alongside Wikipedia Page Creation & Management (same AI-citation-source family) and Community & UGC Search Amplification (complementary — Reddit for AI-answer visibility, Quora/reviews for classic search and late-stage intent).',
+      links: [
+        { pillar: 'geo', cluster: 'wikipedia', label: 'Wikipedia Page Creation & Management' },
+        { pillar: 'seo', cluster: 'community-ugc-search-amplification', label: 'Community & UGC Search Amplification' },
+      ],
+    },
+    faq: [
+      { q: 'Is this the same as buying upvotes or fake accounts?', a: "No — and we won't do it. Vote manipulation and bought accounts get flagged by Reddit and stripped of any AI-citation value anyway." },
+      { q: 'How long before we see AI citations?', a: 'Foundation-building (genuine community standing before seeding starts) takes 4–6 weeks before that clock even starts; the research shows a roughly two-week average lag between a highly-upvoted comment and its first LLM citation after that.' },
+      { q: "What if our category doesn't have relevant subreddits?", a: 'Most B2B and consumer categories have more Reddit activity than brands assume — the audit phase exists specifically to find where, even if it’s adjacent communities rather than a subreddit named after your category.' },
+    ],
+    targetKeywords: ['Reddit community seeding', 'Reddit marketing for AI search', 'Reddit GEO agency', 'Reddit AI citations'],
+    meta: {
+      title: 'Reddit Community Seeding for AI Search | MyAibo GEO',
+      description: "Perplexity pulls 46.7% of its citations from Reddit. MyAibo runs compliant, citation-shaped Reddit participation so your brand is part of the answers AI search gives.",
+    },
+  },
+  {
+    pillar: 'geo',
     slug: 'quora-content-seeding',
     pillarName: 'Generative Engine Optimization',
     subLabel: 'Quora & Review-Platform Content Seeding',
