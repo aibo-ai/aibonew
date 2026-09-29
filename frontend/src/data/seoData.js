@@ -71,9 +71,9 @@ export const seoData = {
     headline: 'Organic authority is the asset that lasts.',
     stats: [
       { num: '11\u00d7', label: 'SEO ROI versus paid search over a 3-year period' },
-      { num: '53%', label: 'Share of all website traffic that comes from organic search globally' },
+      { num: '53%', label: 'Share of all website traffic that comes from organic search' },
       { num: '+156%', label: 'Average website conversion rate increase for MyAibo SEO clients' },
-      { num: '18 mo', label: 'Typical compounding horizon where SEO outperforms all paid channels' },
+      { num: '18 mo', label: 'Typical compounding horizon where SEO outperforms all paid' },
     ],
     contextCards: [
       { title: 'Paid Stops. SEO Compounds.', body: 'Every rupee spent on paid search generates traffic only while the campaign runs. Every hour invested in SEO builds an asset that generates returns for months and years. The math always favours organic given time.' },
