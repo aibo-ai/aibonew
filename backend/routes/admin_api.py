@@ -1,3 +1,4 @@
+import re
 import uuid
 import bcrypt
 import jwt
@@ -126,6 +127,16 @@ class BlogUpdate(BlogCreate):
     pass
 
 
+def slugify(value: Optional[str]) -> str:
+    """URL-safe slug: lowercase, alphanumerics joined by single hyphens.
+
+    Admin-entered slugs are free text, so stray spaces or pasted labels
+    (e.g. 'five-ai-engines-same-question Meta title ') used to produce URLs
+    that browsers trim and the exact-match lookup could never resolve.
+    """
+    return re.sub(r'[^a-z0-9]+', '-', (value or '').lower()).strip('-')
+
+
 def row_to_blog(row: Any) -> Dict[str, Any]:
     """Convert an asyncpg Record to a JSON-safe dict."""
     d: Dict[str, Any] = dict(row)
@@ -153,7 +164,7 @@ async def create_blog(data: BlogCreate, _: Dict[str, Any] = Depends(require_admi
             INSERT INTO blogs (id,title,slug,excerpt,content,author,category,tags,
                                published,featured_image,published_at,created_at,updated_at)
             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
-        """, blog_id, data.title, data.slug, data.excerpt, data.content,
+        """, blog_id, data.title, slugify(data.slug or data.title), data.excerpt, data.content,
              data.author or 'MyAibo Team', data.category, data.tags or [],
              data.published, data.featured_image, data.published_at, now, now)
         row = await conn.fetchrow('SELECT * FROM blogs WHERE id=$1', blog_id)
@@ -179,7 +190,7 @@ async def update_blog(blog_id: str, data: BlogUpdate, _: Dict[str, Any] = Depend
             UPDATE blogs SET title=$2,slug=$3,excerpt=$4,content=$5,author=$6,
                 category=$7,tags=$8,published=$9,featured_image=$10,
                 published_at=$11,updated_at=$12 WHERE id=$1
-        """, blog_id, data.title, data.slug, data.excerpt, data.content,
+        """, blog_id, data.title, slugify(data.slug or data.title), data.excerpt, data.content,
              data.author or 'MyAibo Team', data.category, data.tags or [],
              data.published, data.featured_image, data.published_at, now)
         row = await conn.fetchrow('SELECT * FROM blogs WHERE id=$1', blog_id)
@@ -300,7 +311,14 @@ async def public_blogs() -> List[Dict[str, Any]]:
         rows = await conn.fetch(
             'SELECT * FROM blogs WHERE published=TRUE ORDER BY COALESCE(published_at,created_at) DESC'
         )
-    return [row_to_blog(r) for r in rows]
+    return [public_blog(r) for r in rows]
+
+
+def public_blog(row: Any) -> Dict[str, Any]:
+    """Public view of a post, always exposing the normalized slug used in URLs."""
+    d = row_to_blog(row)
+    d['slug'] = slugify(d.get('slug')) or d.get('id')
+    return d
 
 
 @router.get('/public/blogs/{slug}')
@@ -308,9 +326,14 @@ async def public_blog_by_slug(slug: str) -> Dict[str, Any]:
     pool = await get_pool()
     async with pool.acquire() as conn:
         row = await conn.fetchrow('SELECT * FROM blogs WHERE slug=$1 AND published=TRUE', slug)
+        if not row:
+            # Legacy rows may hold un-normalized slugs; match on the normalized form.
+            wanted = slugify(slug)
+            rows = await conn.fetch('SELECT * FROM blogs WHERE published=TRUE')
+            row = next((r for r in rows if slugify(r['slug']) == wanted), None)
     if not row:
         raise HTTPException(404, 'Blog not found')
-    return row_to_blog(row)
+    return public_blog(row)
 
 
 @router.get('/public/case-studies')

@@ -74,7 +74,10 @@ async function getBlogRoutes() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const blogs = await res.json();
     const slugs = Array.isArray(blogs) ? blogs : blogs.blogs || [];
-    return slugs.map((b) => `/blog/${b.slug}`);
+    // Same normalization as src/lib/slug.js and the backend, so legacy slugs
+    // with stray spaces still get a clean, reachable route.
+    const slugify = (v) => String(v || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return slugs.map((b) => `/blog/${slugify(b.slug) || b.id}`);
   } catch (err) {
     // Don't fail the whole build if the CMS is briefly unreachable —
     // just skip dynamic routes and prerender everything else.
@@ -160,18 +163,20 @@ async function prerenderRoute(browser, route) {
     await page.waitForSelector("title", { state: "attached" });
     let html = await page.content();
 
-    // Helmet appends a page-specific <meta name="description"> but has no
-    // knowledge of the generic one already baked into index.html, so both
-    // end up in the document. Keep only the Helmet one when both exist.
-    const descTags = [
-      ...html.matchAll(/<meta name="description"[^>]*>/g),
+    // Helmet appends page-specific description / Open Graph / Twitter tags
+    // but has no knowledge of the generic defaults baked into index.html, so
+    // both end up in the document — and share crawlers read the first one,
+    // which made every page preview as the homepage. Wherever Helmet set its
+    // own version of a tag, drop the generic default.
+    const metaTags = [
+      ...html.matchAll(/<meta (?:name|property)="(description|og:[^"]+|twitter:[^"]+)"[^>]*>/g),
     ];
-    if (descTags.length > 1) {
-      const genericTag = descTags.find(
-        (m) => !m[0].includes('data-react-helmet')
-      );
-      if (genericTag) {
-        html = html.replace(genericTag[0], "");
+    const helmetKeys = new Set(
+      metaTags.filter((m) => m[0].includes("data-react-helmet")).map((m) => m[1])
+    );
+    for (const m of metaTags) {
+      if (helmetKeys.has(m[1]) && !m[0].includes("data-react-helmet")) {
+        html = html.replace(m[0], "");
       }
     }
 

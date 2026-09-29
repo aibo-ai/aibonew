@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ChevronLeft, Plus, Edit, Trash2, X, Save, Eye, EyeOff, Bold, Italic, Underline as UnderlineIcon, Link as LinkIcon, List, AlignLeft, AlignCenter, AlignRight, Heading1, Heading2, Type, Upload, ImageIcon } from 'lucide-react';
 import { adminGet, adminMutate, AdminAuthError } from '@/lib/adminApi';
+import { slugify } from '@/lib/slug';
 
 const EMPTY_BLOG = {
   title: '', slug: '', excerpt: '', content: '',
@@ -10,9 +11,6 @@ const EMPTY_BLOG = {
   meta_title: '', meta_description: '',
 };
 
-function slugify(text) {
-  return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim();
-}
 
 // ── Rich Text Editor ─────────────────────────────────────────────────────────
 

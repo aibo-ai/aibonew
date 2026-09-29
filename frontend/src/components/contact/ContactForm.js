@@ -152,6 +152,7 @@ export default function ContactForm() {
         border: '1px solid var(--border-clr)',
         borderRadius: 16,
         padding: 40,
+        boxShadow: '0 30px 60px -20px rgba(15,10,30,.18)',
       }}
     >
       <h3
@@ -165,9 +166,13 @@ export default function ContactForm() {
       >
         Send us a message
       </h3>
-      <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 28px', lineHeight: 1.6 }}>
+      <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.6 }}>
         Tell us about your business and what you're trying to achieve. We'll come back with a clear plan.
       </p>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, margin: '0 0 28px', padding: '6px 12px', borderRadius: 999, background: 'var(--acc-soft)', color: 'var(--acc-ink)', fontSize: 12.5, fontWeight: 600 }}>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--acc-ink)' }} />
+        We reply within one business day
+      </div>
 
       {status === 'error' && (
         <div

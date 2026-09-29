@@ -17,6 +17,7 @@ const AdminLogin = lazy(() => import("@/pages/AdminLogin"));
 const AdminDashboard = lazy(() => import("@/pages/AdminDashboard"));
 const BlogManagement = lazy(() => import("@/pages/BlogManagement"));
 const CaseStudyManagement = lazy(() => import("@/pages/CaseStudyManagement"));
+const NotFoundPage = lazy(() => import("@/pages/NotFoundPage"));
 
 function App() {
   return (
@@ -108,6 +109,18 @@ function App() {
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/blogs" element={<BlogManagement />} />
             <Route path="/admin/case-studies" element={<CaseStudyManagement />} />
+
+            {/* Common near-miss URLs */}
+            <Route path="/blog" element={<Navigate to="/blogs" replace />} />
+            <Route path="/case-study" element={<Navigate to="/case-studies" replace />} />
+
+            <Route path="*" element={
+              <>
+                <Navigation />
+                <NotFoundPage />
+                <Footer />
+              </>
+            } />
           </Routes>
         </Suspense>
       </BrowserRouter>

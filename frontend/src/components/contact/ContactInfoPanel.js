@@ -28,17 +28,17 @@ const linkStyle = {
 export default function ContactInfoPanel() {
   return (
     <div data-testid="contact-info-panel">
-      <h2
+      <h3
         style={{
           fontFamily: "'Fraunces', serif",
-          fontSize: 32,
+          fontSize: 26,
           fontWeight: 600,
           color: 'var(--text-primary)',
           margin: '0 0 24px',
         }}
       >
         Contact Information
-      </h2>
+      </h3>
 
       <div className="space-y-6">
         {/* Email */}
@@ -56,8 +56,8 @@ export default function ContactInfoPanel() {
 
         {/* LinkedIn */}
         <div className="flex items-start gap-4">
-          <div style={iconWrapStyle}>
-            <Linkedin size={22} style={{ color: 'var(--purple-dark)' }} />
+          <div style={{ ...iconWrapStyle, background: 'var(--acc-soft)' }}>
+            <Linkedin size={22} style={{ color: 'var(--acc-ink)' }} />
           </div>
           <div>
             <div style={labelStyle}>LinkedIn</div>
@@ -80,6 +80,8 @@ export default function ContactInfoPanel() {
           marginTop: 48,
           padding: 28,
           background: 'var(--dark)',
+          backgroundImage: 'radial-gradient(rgba(160,122,240,.22) 1px, transparent 1px)',
+          backgroundSize: '24px 24px',
           borderRadius: 16,
         }}
       >
@@ -92,7 +94,7 @@ export default function ContactInfoPanel() {
             margin: '0 0 12px',
           }}
         >
-          Prefer to talk directly?
+          Prefer to <em style={{ color: 'var(--acc)', fontStyle: 'normal' }}>talk directly?</em>
         </p>
         <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', margin: '0 0 20px', lineHeight: 1.6 }}>
           Book a free 30-minute strategy session. No commitment required.
@@ -103,11 +105,11 @@ export default function ContactInfoPanel() {
           rel="noopener noreferrer"
           className="btn-purple inline-flex items-center gap-2"
           data-testid="contact-book-button"
-          style={{ padding: '12px 24px', fontSize: 14, fontWeight: 500, textDecoration: 'none' }}
+          style={{ padding: '12px 24px', fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 0 0 4px rgba(245,165,36,.18)' }}
         >
           Book Free Strategy Session
         </a>
-        <div style={{ marginTop: 12, fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>
+        <div style={{ marginTop: 12, fontSize: 12, letterSpacing: '0.04em', color: 'var(--acc)', opacity: 0.85 }}>
           Free · No commitment · 30 minutes
         </div>
       </div>

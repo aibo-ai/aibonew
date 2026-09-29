@@ -91,27 +91,70 @@ function SolutionsDropdown({ onNavigate }) {
   );
 }
 
+// Mirrors the live site's nav: Solutions ▾ · Resources ▾ · About Us · Contact Us
+const RESOURCES = [
+  { label: 'Blogs', to: '/blogs', note: 'Insights on GEO, AEO, SEO and AI engineering' },
+  { label: 'Case Studies', to: '/case-studies', note: 'Real client outcomes across both practices' },
+];
+
 const NAV_LINKS = [
-  { label: 'Case Studies', to: '/case-studies' },
-  { label: 'Insights', to: '/blogs', wide: true },
-  { label: 'About Us', to: '/about', wide: true },
+  { label: 'About Us', to: '/about' },
   { label: 'Contact Us', to: '/contact' },
 ];
 
+function ResourcesDropdown({ onNavigate }) {
+  return (
+    <div
+      className="flex flex-col"
+      style={{ width: 300, background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 14, boxShadow: '0 30px 60px -20px rgba(15,10,30,.3)', padding: 8, gap: 2 }}
+    >
+      {RESOURCES.map((r) => (
+        <Link
+          key={r.to}
+          to={r.to}
+          onClick={onNavigate}
+          className="flex flex-col"
+          style={{ gap: 3, padding: '12px 14px', borderRadius: 10, textDecoration: 'none', color: 'var(--text-primary)' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--off-white)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}
+        >
+          <span style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 17, lineHeight: 1.2 }}>{r.label}</span>
+          <span style={{ fontFamily: "'DM Sans'", fontSize: 13, lineHeight: 1.4, color: 'var(--text-muted)' }}>{r.note}</span>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function MenuButton({ label, open, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-expanded={open}
+      className="flex items-center flex-shrink-0"
+      style={{ gap: 6, whiteSpace: 'nowrap', height: 36, padding: '0 14px', borderRadius: 8, border: 0, background: open ? '#EDE5FC' : 'transparent', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14.5, cursor: 'pointer' }}
+    >
+      {label} <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{open ? '▲' : '▼'}</span>
+    </button>
+  );
+}
+
 export default function Navigation() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null); // 'solutions' | 'resources' | null
   const [mobileOpen, setMobileOpen] = useState(false);
   const rootRef = useRef(null);
 
   useEffect(() => {
     function onClick(e) {
-      if (rootRef.current && !rootRef.current.contains(e.target)) setMenuOpen(false);
+      if (rootRef.current && !rootRef.current.contains(e.target)) setOpenMenu(null);
     }
     document.addEventListener('mousedown', onClick);
     return () => document.removeEventListener('mousedown', onClick);
   }, []);
 
-  const closeAll = () => { setMenuOpen(false); setMobileOpen(false); };
+  const closeAll = () => { setOpenMenu(null); setMobileOpen(false); };
+  const toggle = (name) => (e) => { e.stopPropagation(); setOpenMenu((v) => (v === name ? null : name)); };
 
   return (
     <header
@@ -136,20 +179,28 @@ export default function Navigation() {
           <img src="/myaibo-logo.png" alt="MyAibo" style={{ position: 'absolute', height: 120, width: 120, top: -43, left: -10 }} />
         </Link>
 
-        <nav className="hidden md:flex items-center flex-1" style={{ gap: 2, minWidth: 0, overflow: 'hidden', whiteSpace: 'nowrap' }}>
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); setMenuOpen((v) => !v); }}
-            className="flex items-center flex-shrink-0"
-            style={{ gap: 6, whiteSpace: 'nowrap', height: 36, padding: '0 14px', borderRadius: 8, border: 0, background: menuOpen ? '#EDE5FC' : 'transparent', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14.5, cursor: 'pointer' }}
-          >
-            Solutions <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{menuOpen ? '▲' : '▼'}</span>
-          </button>
+        <nav className="hidden lg:flex items-center justify-end flex-1" style={{ gap: 2, minWidth: 0, whiteSpace: 'nowrap' }}>
+          <div className="relative flex-shrink-0">
+            <MenuButton label="Solutions" open={openMenu === 'solutions'} onClick={toggle('solutions')} />
+            {openMenu === 'solutions' && (
+              <div className="absolute" style={{ top: 46, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
+                <SolutionsDropdown onNavigate={closeAll} />
+              </div>
+            )}
+          </div>
+          <div className="relative flex-shrink-0">
+            <MenuButton label="Resources" open={openMenu === 'resources'} onClick={toggle('resources')} />
+            {openMenu === 'resources' && (
+              <div className="absolute" style={{ top: 46, left: '50%', transform: 'translateX(-50%)', zIndex: 10 }}>
+                <ResourcesDropdown onNavigate={closeAll} />
+              </div>
+            )}
+          </div>
           {NAV_LINKS.map((l) => (
             <Link
               key={l.label}
               to={l.to}
-              className={l.wide ? 'hidden xl:flex' : 'flex'}
+              className="flex"
               style={{ height: 36, padding: '0 14px', alignItems: 'center', flexShrink: 0, whiteSpace: 'nowrap', textDecoration: 'none', fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14.5, color: 'var(--text-secondary)' }}
             >
               {l.label}
@@ -161,7 +212,7 @@ export default function Navigation() {
           href={BOOKING_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex flex-shrink-0 items-center"
+          className="hidden lg:inline-flex flex-shrink-0 items-center"
           style={{ whiteSpace: 'nowrap', height: 42, padding: '0 20px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 14.5, textDecoration: 'none' }}
           onClick={() => trackBookingClick({ page: 'nav', placement: 'header' })}
         >
@@ -170,7 +221,7 @@ export default function Navigation() {
 
         <button
           type="button"
-          className="md:hidden"
+          className="lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
           aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
           style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: 8, marginLeft: 'auto' }}
@@ -179,21 +230,12 @@ export default function Navigation() {
         </button>
       </div>
 
-      {menuOpen && (
-        <div className="hidden md:block absolute" style={{ top: 62, left: 0, right: 0, pointerEvents: 'none' }}>
-          <div className="mx-auto" style={{ maxWidth: 1240, padding: '0 32px' }}>
-            <div style={{ marginLeft: 128, pointerEvents: 'auto' }}>
-              <SolutionsDropdown onNavigate={closeAll} />
-            </div>
-          </div>
-        </div>
-      )}
-
       {mobileOpen && (
-        <div className="md:hidden" style={{ borderTop: '1px solid var(--border-clr)', background: '#fff', padding: 16 }}>
+        <div className="lg:hidden" style={{ borderTop: '1px solid var(--border-clr)', background: '#fff', padding: 16 }}>
           <SolutionsDropdown onNavigate={closeAll} />
           <div className="flex flex-col" style={{ gap: 2, marginTop: 12 }}>
-            {NAV_LINKS.map((l) => (
+            <div style={{ padding: '10px 12px 4px', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Resources</div>
+            {[...RESOURCES, ...NAV_LINKS].map((l) => (
               <Link
                 key={l.label}
                 to={l.to}

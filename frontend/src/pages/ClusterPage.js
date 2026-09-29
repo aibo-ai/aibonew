@@ -15,6 +15,7 @@ import PostIt from '@/components/sections/PostIt';
 import FaqTwoColumn from '@/components/sections/FaqTwoColumn';
 import TickerCta from '@/components/sections/TickerCta';
 import { splitHeadline } from '@/lib/splitHeadline';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 const pillarDataMap = {
   geo: geoData, aeo: aeoData, seo: seoData,
@@ -74,14 +75,7 @@ export default function ClusterPage() {
   useEffect(() => { window.scrollTo(0, 0); }, [pillar, cluster]);
 
   if (!pillarInfo) return <Navigate to="/" replace />;
-  if (!data) {
-    return (
-      <div style={{ padding: '160px 40px 80px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)' }}>Page not found</h1>
-        <Link to={`/solutions/${pillar}`} className="btn-purple inline-flex mt-6" style={{ padding: '12px 24px', fontSize: 14, marginTop: 24 }}>Back to {pillarInfo.name}</Link>
-      </div>
-    );
-  }
+  if (!data) return <NotFoundPage />;
 
   const pillarShort = pillarShortMap[pillar] || pillarInfo.short;
   const h1 = splitHeadline(data.h1);

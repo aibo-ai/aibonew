@@ -18,6 +18,7 @@ import { contentMarketingData } from "@/data/contentMarketingData";
 import { aiAutomationsData } from "@/data/aiAutomationsData";
 import { fullStackData } from "@/data/fullStackData";
 import SEO from "@/components/SEO";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 const seoMetaData = {
   geo: {
@@ -70,14 +71,7 @@ export default function ServicePage() {
 
   useEffect(() => { window.scrollTo(0, 0); }, [slug]);
 
-  if (!data) {
-    return (
-      <div style={{ padding: '160px 40px 80px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)' }}>Page not found</h1>
-        <Link to="/" className="btn-purple inline-flex mt-6" style={{ padding: '12px 24px', fontSize: 14 }}>Back to Home</Link>
-      </div>
-    );
-  }
+  if (!data) return <NotFoundPage />;
 
   const short = pillarShort[slug] || data.pageTitle;
   const isTech = data.type === 'technology';
@@ -168,7 +162,7 @@ export default function ServicePage() {
                   ))}
                 </div>
                 {lastWhy && (
-                  <div className="hidden md:block" style={{ position: 'absolute', right: -50, bottom: -210, zIndex: 5 }}>
+                  <div className="hidden md:block" style={{ position: 'absolute', right: -50, top: 'calc(100% - 32px)', zIndex: 5 }}>
                     <PostIt rotate={-4} width={210} big={lastWhy.num}>{lastWhy.label.replace(/\.$/, '')}</PostIt>
                   </div>
                 )}

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { BACKEND_URL } from '@/lib/constants';
 import { clusterPages } from '@/data/clusterPagesData';
+import { blogPath } from '@/lib/slug';
+import SectionLabel from '@/components/sections/SectionLabel';
 
 // Maps a blog's category to the most relevant /solutions/ PILLAR page.
 // Matched by substring so new categories degrade gracefully instead of
@@ -121,47 +123,32 @@ export default function RelatedPosts({ currentBlog }) {
   if (loading) return null;
 
   return (
-    <section style={{ background: 'var(--off-white)', padding: '64px 40px 80px' }}>
-      <div className="mx-auto" style={{ maxWidth: 800 }}>
+    <section style={{ background: 'var(--off-white)', borderTop: '1px solid var(--border-clr)', padding: '96px 32px 104px' }}>
+      <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 32 }}>
         {related.length > 0 && (
           <>
-            <h2
-              style={{ fontFamily: "'Fraunces', serif", fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 20px' }}
-            >
-              Related reading
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" style={{ marginBottom: solution ? 32 : 0 }}>
-              {related.map((post) => (
+            <div>
+              <SectionLabel text="Keep reading" amber />
+              <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(30px,3.6vw,44px)', lineHeight: 1.1, letterSpacing: '-1.3px' }}>
+                Related <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>reading.</em>
+              </h2>
+            </div>
+            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 16 }}>
+              {related.map((post, i) => (
                 <Link
                   key={post.slug}
-                  to={`/blog/${post.slug}`}
-                  className="card-lift"
-                  style={{
-                    display: 'block',
-                    background: 'var(--white)',
-                    border: '1px solid var(--border-clr)',
-                    borderRadius: 12,
-                    padding: '18px 18px',
-                    textDecoration: 'none',
-                  }}
+                  to={blogPath(post)}
+                  className="flex flex-col card-lift"
+                  style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 24, gap: 12, textDecoration: 'none', color: 'var(--text-primary)' }}
                 >
                   {post.category && (
-                    <div
-                      style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--purple-dark)', marginBottom: 8 }}
-                    >
+                    <span className="self-start" style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: i % 2 === 1 ? 'var(--acc-soft)' : 'var(--purple-light)', color: i % 2 === 1 ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>
                       {post.category}
-                    </div>
+                    </span>
                   )}
-                  <h3
-                    style={{ fontFamily: "'Fraunces', serif", fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 8px', lineHeight: 1.35 }}
-                  >
-                    {post.title}
-                  </h3>
-                  <span
-                    className="inline-flex items-center gap-1"
-                    style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--purple-dark)' }}
-                  >
-                    Read more <ArrowRight size={12} />
+                  <h3 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontSize: 19, fontWeight: 600, lineHeight: 1.3 }}>{post.title}</h3>
+                  <span className="inline-flex items-center gap-1" style={{ marginTop: 'auto', fontFamily: "'DM Sans'", fontSize: 13.5, fontWeight: 600, color: 'var(--purple-dark)' }}>
+                    Read more <ArrowRight size={13} />
                   </span>
                 </Link>
               ))}
@@ -170,41 +157,27 @@ export default function RelatedPosts({ currentBlog }) {
         )}
 
         {solution && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: 12,
-              background: 'var(--purple-light)',
-              border: '1px solid rgba(124,59,237,0.25)',
-              borderRadius: 12,
-              padding: '18px 22px',
-            }}
-          >
-            <span style={{ fontSize: 14, color: 'var(--text-primary)' }}>
-              Want help with this? See our <strong>{solution.label}</strong>.
+          <div className="flex flex-wrap items-center justify-between" style={{ gap: 16, background: 'var(--acc-soft)', border: '1px solid rgba(146,64,14,.15)', borderRadius: 16, padding: '22px 26px' }}>
+            <span style={{ fontFamily: "'DM Sans'", fontSize: 15.5, color: 'var(--acc-ink)' }}>
+              Want help with this? See our <strong style={{ fontWeight: 700 }}>{solution.label}</strong>.
             </span>
             <Link
               to={solution.path}
               className="inline-flex items-center gap-1"
-              style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--purple-dark)', textDecoration: 'none', whiteSpace: 'nowrap' }}
+              style={{ padding: '12px 20px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontSize: 14, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}
             >
-              Learn more <ArrowRight size={13} />
+              Learn more <ArrowRight size={14} />
             </Link>
           </div>
         )}
 
-        <div style={{ textAlign: 'center', marginTop: 28 }}>
-          <Link
-            to="/case-studies"
-            className="inline-flex items-center gap-1"
-            style={{ fontSize: 13.5, fontWeight: 500, color: 'var(--text-secondary)', textDecoration: 'none' }}
-          >
-            See these results in client work &rarr;
-          </Link>
-        </div>
+        <Link
+          to="/case-studies"
+          className="self-center inline-flex items-center gap-1"
+          style={{ fontFamily: "'DM Sans'", fontSize: 14, fontWeight: 500, color: 'var(--text-secondary)', textDecoration: 'none' }}
+        >
+          See these results in client work &rarr;
+        </Link>
       </div>
     </section>
   );

@@ -2,19 +2,21 @@
 // "Our Practice", not confined to the hero's left column. Greyscale at
 // .65 opacity, 40s linear loop, matching the Violet + Amber design spec.
 // Explicit per-logo heights — a uniform height reads very unevenly across
-// marks with different internal padding (a wordmark like OptimHire looks
-// big at 34px; a badge-style mark like Hansaplast looks tiny at the same
-// height), so these are tuned to look visually balanced side by side.
+// marks of different shapes (a long wordmark like vPersonalize looks huge at
+// 40px; a badge like Trudiance looks tiny), so these are tuned to look
+// visually balanced side by side. Hansaplast, ElasticRun and Trudiance are
+// cropped to their visible content, and Trudiance's pale gold line art is
+// re-inked dark so it survives the greyscale/opacity treatment.
 const logos = [
   { name: 'ITC', src: '/logos/itc.png', h: 40 },
-  { name: 'Hansaplast', src: '/logos/hansaplast.png', h: 64 },
-  { name: 'ElasticRun', src: '/logos/elasticrun.png', h: 50 },
+  { name: 'Hansaplast', src: '/logos/hansaplast-v2.png', h: 54 },
+  { name: 'ElasticRun', src: '/logos/elasticrun-v2.png', h: 46 },
   { name: 'OptimHire', src: '/logos/optimhire.png', h: 30 },
-  { name: 'Trudiance', src: '/logos/trudiance.png', h: 50 },
+  { name: 'Trudiance', src: '/logos/trudiance-v2.png', h: 70 },
   { name: 'Harmony', src: '/logos/harmony.png', h: 44 },
   { name: 'Iluvia', src: '/logos/iluvia.png', h: 38 },
   { name: 'Fego', src: '/logos/fego.png', h: 36 },
-  { name: 'vPersonalize', src: '/logos/vpersonalize.png', h: 38 },
+  { name: 'vPersonalize', src: '/logos/vpersonalize-v2.png', h: 26 },
 ];
 
 export default function TrustedByTicker() {
@@ -48,7 +50,7 @@ export default function TrustedByTicker() {
               alt={`${logo.name} logo`}
               loading="lazy"
               draggable={false}
-              style={{ height: logo.h, maxHeight: 64, width: 'auto', filter: 'grayscale(1)', opacity: 0.65, userSelect: 'none' }}
+              style={{ height: logo.h, maxHeight: 72, width: 'auto', filter: 'grayscale(1)', opacity: 0.65, userSelect: 'none' }}
             />
           ))}
         </div>
