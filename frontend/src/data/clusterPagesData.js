@@ -96,15 +96,15 @@ export const clusterPages = [
     pillarName: 'Generative Engine Optimization',
     subLabel: 'Perplexity, Gemini & ChatGPT Optimization',
     eyebrow: 'Generative Engine Optimization · Platform-Specific AI Citation Strategy',
-    h1: 'Get Cited on Perplexity, ChatGPT Search, and Google AI Overviews — Before Your Competitor Does',
+    h1: 'Get Cited on Perplexity, ChatGPT Search, Google AI Overviews, and Claude — Before Your Competitor Does',
     heroBody:
-      "MyAibo builds platform-specific AI citation strategies for Perplexity, ChatGPT Search, and Google Gemini Overview — the three answer environments buyers check before visiting any vendor site. We map each platform's real retrieval architecture and position your content, entities, and structured data to be systematically selected as a source.",
+      "MyAibo builds platform-specific AI citation strategies for Perplexity, ChatGPT Search, Google Gemini Overview, and Claude — the four answer environments buyers check before visiting any vendor site. We map each platform's real retrieval architecture and position your content, entities, and structured data to be systematically selected as a source.",
     primaryCta: 'Get Your AI Citation Readiness Score',
     statBadge: '300 queries per platform logged and scored at baseline',
     aeoBox:
-      "Each AI platform retrieves differently: ChatGPT Search leans on Bing's index, Perplexity does live retrieval weighted toward freshness and source diversity, and Google AI Overviews follow Google's core ranking. MyAibo engineers platform-specific citation strategies — technical readiness, structured answer blocks, and freshness cadence — for each retrieval architecture.",
+      "Each AI platform retrieves differently: ChatGPT Search leans on Bing's index, Perplexity does live retrieval weighted toward freshness and source diversity, Google AI Overviews follow Google's core ranking, and Claude runs web search on demand, fetching and quoting live pages when a question needs current sources. MyAibo engineers platform-specific citation strategies — technical readiness, structured answer blocks, and freshness cadence — for each retrieval architecture.",
     deepDive: {
-      question: 'Why Are Three Different AI Platforms Citing Three Different Competitors Instead of You?',
+      question: 'Why Are Four Different AI Platforms Citing Four Different Competitors Instead of You?',
       framing:
         'Optimizing for one AI platform does not optimize for the others. Each has its own index, retrieval logic, and freshness weighting, and buyers now check two or three before shortlisting.',
       pillars: [
@@ -114,6 +114,13 @@ export const clusterPages = [
             'We run a technical SEO audit (Core Web Vitals, crawlability, semantic HTML), implement FAQPage/HowTo schema on intent-matched pages, and build 40–60 word answer blocks under question-format headings, plus Speakable schema and internal-linking consolidation.',
           human:
             'Appearing in AI Overviews delivers zero-click brand impressions at scale — discovery-layer branding with no ad spend required.',
+        },
+        {
+          title: 'Claude Web Search & Citation Optimization',
+          technical:
+            "We confirm Anthropic's crawlers — Claude-SearchBot for search indexing and Claude-User for user-triggered page fetches — can reach your key pages through robots.txt and llms.txt, then structure those pages as self-contained, quotable passages with explicit sources, clear authorship, and dated claims that Claude's web search can retrieve and cite inline.",
+          human:
+            'Claude is heavily used for research-heavy professional work — technical evaluations, vendor comparisons, due diligence — so being the source it cites puts your brand in front of buyers at the moment they are building a shortlist.',
         },
         {
           title: 'Perplexity Source Authority & Real-Time Citation Optimization',
@@ -136,7 +143,7 @@ export const clusterPages = [
       phases: [
         { num: 1, name: 'Platform Citation Baseline', timeframe: 'Week 1', body: '300 queries per platform, logged and scored for current citation rate, accuracy, and displacement opportunity.' },
         { num: 2, name: 'Technical Readiness & Crawler Access', timeframe: 'Weeks 2–3', body: 'Fix robots.txt / llms.txt gaps, Core Web Vitals issues, and semantic HTML deficiencies; deploy JSON-LD templates.' },
-        { num: 3, name: 'Content & Entity Deployment', timeframe: 'Weeks 4–8', body: 'Publish platform-specific content — answer pages for Overviews, freshness content for Perplexity, entity-dense pages for ChatGPT/Bing — with restructured internal linking.' },
+        { num: 3, name: 'Content & Entity Deployment', timeframe: 'Weeks 4–8', body: 'Publish platform-specific content — answer pages for Overviews, quotable source passages for Claude, freshness content for Perplexity, entity-dense pages for ChatGPT/Bing — with restructured internal linking.' },
         { num: 4, name: 'Continuous Citation Monitoring', timeframe: 'Ongoing', body: 'Monthly re-runs of the query library; prioritize updates by the largest citation gaps.' },
       ],
     },
@@ -153,14 +160,14 @@ export const clusterPages = [
       ],
     },
     faq: [
-      { q: 'Why would three platforms need three different strategies?', a: 'Because they retrieve differently — Bing-index-based, live-retrieval, and Google-core-ranking-based approaches each reward different technical signals, so a single unified tactic under-serves at least two of the three.' },
+      { q: 'Why would each platform need its own strategy?', a: 'Because they retrieve differently — Bing-index-based, live-retrieval, Google-core-ranking-based, and Claude’s on-demand web search each reward different technical signals, so a single unified tactic under-serves most of them.' },
       { q: 'Do you track which specific queries we’re winning or losing?', a: 'Yes — the 300-query-per-platform baseline is re-run monthly, so gains and losses are visible platform-by-platform, not just as an aggregate score.' },
       { q: 'What happens when a platform changes its retrieval method?', a: 'We treat each platform’s baseline as a living target — the monitoring phase is what catches drift and triggers a re-optimization pass rather than waiting for a full re-audit.' },
     ],
-    targetKeywords: ['Perplexity SEO agency', 'ChatGPT citation optimization', 'Google AI Overview optimization'],
+    targetKeywords: ['Perplexity SEO agency', 'ChatGPT citation optimization', 'Google AI Overview optimization', 'Claude citation optimization'],
     meta: {
       title: 'Perplexity, Gemini & ChatGPT Optimization | MyAibo GEO',
-      description: 'Get cited on Perplexity, ChatGPT Search, and Google AI Overviews. MyAibo engineers platform-specific AI citation strategies matched to each retrieval architecture.',
+      description: 'Get cited on Perplexity, ChatGPT Search, Google AI Overviews, and Claude. MyAibo engineers platform-specific AI citation strategies matched to each retrieval architecture.',
     },
   },
   {
