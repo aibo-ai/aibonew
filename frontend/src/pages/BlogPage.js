@@ -59,7 +59,7 @@ export default function BlogPage() {
     return (
       <main className="hero-dotgrid">
         <div className="mx-auto flex flex-col items-center" style={{ maxWidth: 640, padding: '120px 32px 140px', textAlign: 'center', gap: 18 }}>
-          <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc-soft)', color: 'var(--acc-ink)' }}>404</span>
+          <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc)', color: 'var(--dark)' }}>404</span>
           <h1 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(34px,4vw,48px)', lineHeight: 1.1, letterSpacing: '-1.3px' }}>
             Post <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>not found.</em>
           </h1>
@@ -184,7 +184,7 @@ export default function BlogPage() {
                 <Link to="/blogs" className="inline-flex items-center" style={{ gap: 6, fontFamily: "'DM Sans'", fontSize: 14, fontWeight: 600, color: 'var(--purple-dark)', textDecoration: 'none' }}>
                   <ArrowLeft size={15} /> All posts
                 </Link>
-                <span style={{ padding: '6px 12px', borderRadius: 999, background: 'var(--acc-soft)', color: 'var(--acc-ink)', fontFamily: "'DM Sans'", fontSize: 12.5, fontWeight: 600 }}>
+                <span style={{ padding: '6px 12px', borderRadius: 999, background: 'var(--acc)', color: 'var(--dark)', fontFamily: "'DM Sans'", fontSize: 12.5, fontWeight: 600 }}>
                   Written by {blog.author || 'MyAibo Team'}
                 </span>
               </div>
@@ -193,7 +193,7 @@ export default function BlogPage() {
         </section>
 
         <RelatedPosts currentBlog={blog} />
-        <TickerCta ctaA="Ready to " ctaB="start growing?" page={`/blog/${slugify(blog.slug) || slug}`} />
+        <TickerCta page={`/blog/${slugify(blog.slug) || slug}`} />
       </main>
     </>
   );

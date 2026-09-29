@@ -42,30 +42,6 @@ function firstSentence(t, max) {
   return s;
 }
 
-// Per-cluster "Ready to…" headline shown in the final CTA section.
-const FINAL_CTA_HEADLINES = {
-  'geo/llmo-company': 'Ready to Be the Answer AI Gives — Not the Footnote?',
-  'geo/perplexity-gemini-chatgpt-optimization': 'Ready to Get Cited Before Your Competitor Does?',
-  'geo/zero-click-search-synthetic-traffic': 'Ready to Win the Searches Nobody Clicks Through On?',
-  'geo/quora-content-seeding': 'Ready to Own the Quora Threads Your Buyers Are Already Reading?',
-  'geo/wikipedia': 'Ready to Close the Wikipedia Gap Before Someone Else Fills It?',
-  'aeo/llm-bot-compliance-llms-txt': 'Ready to Let AI Crawlers In — On Your Terms?',
-  'aeo/semantic-faq-knowledge-graph-schema': 'Ready to Make Your Content Machine-Readable?',
-  'seo/programmatic-seo-engine': 'Ready to Scale Content Without Scaling Headcount?',
-  'seo/topical-authority-entity-seo': 'Ready to Own the Category, Not Just the Keywords?',
-  'seo/ai-agent-optimization': 'Ready to Rank for the Agents Doing the Browsing Now?',
-  'seo/community-ugc-search-amplification': 'Ready to Let Your Community Do the Ranking?',
-  'content-marketing/data-driven-inbound-original-research': 'Ready to Publish the Research Everyone Else Cites?',
-  'content-marketing/multi-channel-b2b-saas-growth-loops': 'Ready to Grow on All Fronts?',
-  'ai-automations/aiaa-operational-auditing': "Ready to Find Out What Your Automations Are Actually Costing You?",
-  'ai-automations/agentic-workflow-consulting': 'Ready to Put Multiple Agents to Work in One System?',
-  'ai-automations/n8n-automation-services': "Ready for Automations That Don't Break in Production?",
-  'full-stack/ai-native-generative-ui-development': 'Ready to Ship an Interface That Thinks With the User?',
-  'full-stack/enterprise-rag-vector-database-architecture': 'Ready to Give Your AI a Memory It Can Trust?',
-  'full-stack/ai-solutions-integrator-operations': 'Ready to Stop Duct-Taping Your AI Stack Together?',
-  'full-stack/fractional-ai-engineering-cto': 'Ready for Senior AI Engineering Without a Full-Time Hire?',
-};
-
 export default function ClusterPage() {
   const { pillar, cluster } = useParams();
   const navigate = useNavigate();
@@ -79,8 +55,6 @@ export default function ClusterPage() {
 
   const pillarShort = pillarShortMap[pillar] || pillarInfo.short;
   const h1 = splitHeadline(data.h1);
-  const finalHeadline = FINAL_CTA_HEADLINES[`${pillar}/${cluster}`] || `Ready to talk ${data.subLabel}?`;
-  const cta = splitHeadline(finalHeadline);
 
   const raw = data.statBadge || '';
   const big = bigStat(raw);
@@ -211,7 +185,7 @@ export default function ClusterPage() {
                   <div className="flex flex-col" style={{ flex: '1.5 1 340px', gap: 12 }}>
                     <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15.5, lineHeight: 1.65, color: 'var(--text-secondary)' }}>{w.technical}</p>
                     {w.human && (
-                      <div className="flex" style={{ gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc-soft)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14, lineHeight: 1.5, color: 'var(--acc-ink)' }}>
+                      <div className="flex" style={{ gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc)', fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 14, lineHeight: 1.5, color: 'var(--dark)' }}>
                         <span>&rarr;</span><span>{w.human}</span>
                       </div>
                     )}
@@ -288,7 +262,7 @@ export default function ClusterPage() {
         )}
 
         <FaqTwoColumn key={`${pillar}-${cluster}`} items={data.faq} intro="The questions buyers ask us most about this service." />
-        <TickerCta ctaA={cta.a} ctaB={cta.b} page={`/solutions/${pillar}/${cluster}`} />
+        <TickerCta page={`/solutions/${pillar}/${cluster}`} />
       </main>
     </>
   );

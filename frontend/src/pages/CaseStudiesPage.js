@@ -45,7 +45,7 @@ function CaseStudyCard({ study }) {
       <div className="flex flex-col" style={{ padding: 'clamp(28px, 4vw, 40px)', gap: 16 }}>
         <div className="flex flex-wrap items-center" style={{ gap: 8 }}>
           {study.industry && (
-            <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: 'var(--acc-soft)', color: 'var(--acc-ink)' }}>{study.industry}</span>
+            <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: 'var(--acc)', color: 'var(--dark)' }}>{study.industry}</span>
           )}
           {study.service && (
             <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: 'var(--purple-light)', color: 'var(--purple-dark)' }}>{study.service}</span>
@@ -158,7 +158,7 @@ export default function CaseStudiesPage() {
           </div>
         </section>
 
-        <TickerCta ctaA="Ready to " ctaB="start growing?" page="/case-studies" />
+        <TickerCta page="/case-studies" />
       </main>
     </>
   );

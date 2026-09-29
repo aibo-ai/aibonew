@@ -38,7 +38,7 @@ export default function Positioning() {
 
         <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 440px), 1fr))', gap: 20 }}>
           <div className="flex flex-col" style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 20, padding: 40, gap: 20 }}>
-            <div className="self-start" style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10.5, letterSpacing: '0.1em', padding: '5px 10px', borderRadius: 6, background: 'var(--acc-soft)', color: 'var(--acc-ink)' }}>
+            <div className="self-start" style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10.5, letterSpacing: '0.1em', padding: '5px 10px', borderRadius: 6, background: 'var(--acc)', color: 'var(--dark)' }}>
               MARKETING
             </div>
             <h3 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 34, lineHeight: 1.1, letterSpacing: '-1px' }}>

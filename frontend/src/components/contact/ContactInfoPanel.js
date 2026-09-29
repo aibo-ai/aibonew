@@ -56,8 +56,8 @@ export default function ContactInfoPanel() {
 
         {/* LinkedIn */}
         <div className="flex items-start gap-4">
-          <div style={{ ...iconWrapStyle, background: 'var(--acc-soft)' }}>
-            <Linkedin size={22} style={{ color: 'var(--acc-ink)' }} />
+          <div style={{ ...iconWrapStyle, background: 'var(--acc)' }}>
+            <Linkedin size={22} style={{ color: 'var(--dark)' }} />
           </div>
           <div>
             <div style={labelStyle}>LinkedIn</div>

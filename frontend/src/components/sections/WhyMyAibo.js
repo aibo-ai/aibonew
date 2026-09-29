@@ -22,7 +22,7 @@ export default function WhyMyAibo() {
         <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 330px), 1fr))', borderTop: '1px solid var(--border-clr)', borderLeft: '1px solid var(--border-clr)', background: '#fff' }}>
           {reasons.map((r, i) => (
             <div key={r.n} className="flex flex-col" style={{ padding: 30, borderRight: '1px solid var(--border-clr)', borderBottom: '1px solid var(--border-clr)', gap: 12, minHeight: 220 }}>
-              <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: i % 2 === 1 ? 'var(--acc-ink)' : 'var(--purple)' }}>{r.n}</div>
+              <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: i % 2 === 1 ? 'var(--dark)' : 'var(--purple)' }}>{r.n}</div>
               <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, lineHeight: 1.2 }}>{r.title}</div>
               <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{r.text}</p>
             </div>

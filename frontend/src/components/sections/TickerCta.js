@@ -2,10 +2,10 @@ import { BOOKING_URL } from '@/lib/constants';
 import { trackBookingClick } from '@/lib/analytics';
 import SectionLabel from './SectionLabel';
 
-// Closing CTA — shared across every page template (home, pillar, subpage).
-// `ctaA`/`ctaB` is the h2 split into {a, b} where `b` (the last clause)
-// renders in italic amber; `page` is used for booking analytics.
-export default function TickerCta({ ctaA, ctaB, page }) {
+// Closing CTA — shared across every page. The headline is deliberately the
+// same everywhere ("Ready to start growing?"); `page` is used for booking
+// analytics.
+export default function TickerCta({ page }) {
   return (
     <>
       <section
@@ -21,8 +21,7 @@ export default function TickerCta({ ctaA, ctaB, page }) {
         <div className="relative mx-auto flex flex-col items-center" style={{ maxWidth: 900, gap: 26 }}>
           <SectionLabel text="Get Started" dark />
           <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(36px,5vw,64px)', lineHeight: 1.08, letterSpacing: '-2px' }}>
-            {ctaA}
-            <em style={{ color: 'var(--acc)', fontStyle: 'normal' }}>{ctaB}</em>
+            Ready to <em style={{ color: 'var(--acc)', fontStyle: 'normal' }}>start growing?</em>
           </h2>
           <a
             href={BOOKING_URL}

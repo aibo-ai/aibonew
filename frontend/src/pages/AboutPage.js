@@ -101,15 +101,15 @@ export default function AboutPage() {
                     key={stat.label}
                     data-testid={`stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}
                     className="flex flex-col"
-                    style={{ background: amber ? 'var(--acc-soft)' : 'var(--off-white)', border: amber ? '1px solid rgba(146,64,14,.15)' : '1px solid var(--border-clr)', borderRadius: 16, padding: 28, gap: 36, minHeight: 210 }}
+                    style={{ background: amber ? 'var(--acc)' : 'var(--off-white)', border: amber ? '1px solid var(--acc)' : '1px solid var(--border-clr)', borderRadius: 16, padding: 28, gap: 36, minHeight: 210 }}
                   >
                     <div className="flex items-center justify-between">
-                      <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: amber ? 'var(--acc-ink)' : 'var(--text-muted)', opacity: amber ? 0.75 : 1 }}>0{i + 1}</span>
-                      <stat.icon size={20} style={{ color: amber ? 'var(--acc-ink)' : 'var(--purple-dark)' }} />
+                      <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: amber ? 'var(--dark)' : 'var(--text-muted)', opacity: amber ? 0.75 : 1 }}>0{i + 1}</span>
+                      <stat.icon size={20} style={{ color: amber ? 'var(--dark)' : 'var(--purple-dark)' }} />
                     </div>
                     <div>
-                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(44px,4.4vw,56px)', fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1px', color: amber ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{stat.value}</div>
-                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontSize: 15, fontWeight: 500, color: amber ? 'var(--acc-ink)' : 'var(--text-secondary)' }}>{stat.label}</div>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(44px,4.4vw,56px)', fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1px', color: amber ? 'var(--dark)' : 'var(--purple-dark)' }}>{stat.value}</div>
+                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontSize: 15, fontWeight: 500, color: amber ? 'var(--dark)' : 'var(--text-secondary)' }}>{stat.label}</div>
                     </div>
                   </div>
                 );
@@ -154,7 +154,7 @@ export default function AboutPage() {
                         <h3 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 600, lineHeight: 1.15 }}>{founder.name}</h3>
                         <div className="flex flex-wrap items-center" style={{ gap: 8 }}>
                           <span style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#A07AF0' }}>{founder.role}</span>
-                          <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '3px 10px', borderRadius: 999, background: 'var(--acc-soft)', color: 'var(--acc-ink)' }}>{founder.background}</span>
+                          <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, padding: '3px 10px', borderRadius: 999, background: 'var(--acc)', color: 'var(--dark)' }}>{founder.background}</span>
                         </div>
                       </div>
                     </div>
@@ -176,7 +176,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <TickerCta ctaA="Ready to " ctaB="start growing?" page="/about" />
+        <TickerCta page="/about" />
       </main>
     </>
   );

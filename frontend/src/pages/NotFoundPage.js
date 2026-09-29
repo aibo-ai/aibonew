@@ -16,7 +16,7 @@ export default function NotFoundPage() {
         <meta name="robots" content="noindex" />
       </Helmet>
       <div className="mx-auto flex flex-col items-center" style={{ maxWidth: 680, padding: '120px 32px 140px', textAlign: 'center', gap: 20 }}>
-        <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc-soft)', color: 'var(--acc-ink)' }}>404</span>
+        <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc)', color: 'var(--dark)' }}>404</span>
         <h1 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(38px,5vw,60px)', lineHeight: 1.1, letterSpacing: '-1.8px' }}>
           This page{' '}
           <span style={{ background: 'var(--acc)', color: 'var(--dark)', padding: '0 12px 4px', borderRadius: 10, boxDecorationBreak: 'clone', WebkitBoxDecorationBreak: 'clone' }}>doesn&rsquo;t exist.</span>

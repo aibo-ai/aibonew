@@ -195,7 +195,7 @@ body {
 .prose ol { list-style: decimal; }
 .prose ol > li::marker { color: var(--purple-dark); font-weight: 600; }
 .prose li + li { margin-top: 0.5em; }
-.prose blockquote { margin-left: 0; padding: 18px 22px; border-left: 4px solid var(--acc); background: var(--acc-soft); border-radius: 0 12px 12px 0; font-family: 'Fraunces', serif; font-style: italic; font-size: 1.1em; line-height: 1.55; color: var(--acc-ink); }
+.prose blockquote { margin-left: 0; padding: 18px 22px; border-left: 4px solid var(--acc); background: var(--off-white); border-radius: 0 12px 12px 0; font-family: 'Fraunces', serif; font-style: italic; font-size: 1.1em; line-height: 1.55; color: var(--text-primary); }
 .prose img { border-radius: 14px; margin-left: auto; margin-right: auto; }
 .prose hr { border: 0; border-top: 1px solid var(--border-clr); margin: 2.5em 0; }
 .prose code { font-size: 0.88em; padding: 2px 6px; border-radius: 5px; background: var(--purple-light); color: var(--purple-dark); }

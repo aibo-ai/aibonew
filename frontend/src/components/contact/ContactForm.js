@@ -169,8 +169,8 @@ export default function ContactForm() {
       <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.6 }}>
         Tell us about your business and what you're trying to achieve. We'll come back with a clear plan.
       </p>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, margin: '0 0 28px', padding: '6px 12px', borderRadius: 999, background: 'var(--acc-soft)', color: 'var(--acc-ink)', fontSize: 12.5, fontWeight: 600 }}>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--acc-ink)' }} />
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, margin: '0 0 28px', padding: '6px 12px', borderRadius: 999, background: 'var(--acc)', color: 'var(--dark)', fontSize: 12.5, fontWeight: 600 }}>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--dark)' }} />
         We reply within one business day
       </div>
 

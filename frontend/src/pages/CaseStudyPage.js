@@ -48,7 +48,7 @@ export default function CaseStudyPage() {
     return (
       <main className="hero-dotgrid">
         <div className="mx-auto flex flex-col items-center" style={{ maxWidth: 640, padding: '120px 32px 140px', textAlign: 'center', gap: 18 }}>
-          <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc-soft)', color: 'var(--acc-ink)' }}>404</span>
+          <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc)', color: 'var(--dark)' }}>404</span>
           <h1 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(34px,4vw,48px)', lineHeight: 1.1, letterSpacing: '-1.3px' }}>
             Case study <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>not found.</em>
           </h1>
@@ -142,9 +142,9 @@ export default function CaseStudyPage() {
                 {headline.map(([key, value], i) => {
                   const amber = i % 2 === 1;
                   return (
-                    <div key={key} style={{ background: amber ? 'var(--acc-soft)' : '#fff', padding: '30px 26px', minWidth: 0 }}>
-                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: String(value).length > 10 ? 'clamp(24px,2.6vw,32px)' : 'clamp(40px,4.4vw,56px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-1px', color: amber ? 'var(--acc-ink)' : 'var(--purple-dark)', overflowWrap: 'break-word' }}>{String(value)}</div>
-                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontSize: 14.5, color: amber ? 'var(--acc-ink)' : 'var(--text-secondary)', textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</div>
+                    <div key={key} style={{ background: amber ? 'var(--acc)' : '#fff', padding: '30px 26px', minWidth: 0 }}>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: String(value).length > 10 ? 'clamp(24px,2.6vw,32px)' : 'clamp(40px,4.4vw,56px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-1px', color: amber ? 'var(--dark)' : 'var(--purple-dark)', overflowWrap: 'break-word' }}>{String(value)}</div>
+                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontSize: 14.5, color: amber ? 'var(--dark)' : 'var(--text-secondary)', textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</div>
                     </div>
                   );
                 })}
@@ -178,9 +178,9 @@ export default function CaseStudyPage() {
                   </div>
                 )}
                 {study.result && (
-                  <div className="flex flex-col" style={{ background: 'var(--acc-soft)', border: '1px solid rgba(146,64,14,.15)', borderRadius: 20, padding: 'clamp(26px,3.5vw,38px)', gap: 16 }}>
+                  <div className="flex flex-col" style={{ background: 'var(--acc)', border: '1px solid var(--acc)', borderRadius: 20, padding: 'clamp(26px,3.5vw,38px)', gap: 16 }}>
                     <SectionLabel text="The result" amber />
-                    <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 20, lineHeight: 1.55, color: 'var(--acc-ink)', whiteSpace: 'pre-line' }}>{study.result}</p>
+                    <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 20, lineHeight: 1.55, color: 'var(--dark)', whiteSpace: 'pre-line' }}>{study.result}</p>
                   </div>
                 )}
               </div>
@@ -194,7 +194,7 @@ export default function CaseStudyPage() {
           </section>
         )}
 
-        <TickerCta ctaA="Want results " ctaB="like these?" page={`/case-study/${id}`} />
+        <TickerCta page={`/case-study/${id}`} />
       </main>
     </>
   );

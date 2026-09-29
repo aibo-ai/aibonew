@@ -1,6 +1,6 @@
 export default function SectionLabel({ text, dark, amber, centered, noRule }) {
   const ruleColor = amber ? 'var(--acc)' : 'var(--purple)';
-  const textColor = amber ? (dark ? 'var(--acc)' : 'var(--acc-ink)') : (dark ? '#A07AF0' : 'var(--purple-dark)');
+  const textColor = amber ? (dark ? 'var(--acc)' : 'var(--dark)') : (dark ? '#A07AF0' : 'var(--purple-dark)');
   return (
     <div
       className={`flex items-center gap-2 ${centered ? 'justify-center' : ''}`}

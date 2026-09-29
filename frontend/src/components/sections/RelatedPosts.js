@@ -142,7 +142,7 @@ export default function RelatedPosts({ currentBlog }) {
                   style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 24, gap: 12, textDecoration: 'none', color: 'var(--text-primary)' }}
                 >
                   {post.category && (
-                    <span className="self-start" style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: i % 2 === 1 ? 'var(--acc-soft)' : 'var(--purple-light)', color: i % 2 === 1 ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>
+                    <span className="self-start" style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: i % 2 === 1 ? 'var(--acc)' : 'var(--purple-light)', color: i % 2 === 1 ? 'var(--dark)' : 'var(--purple-dark)' }}>
                       {post.category}
                     </span>
                   )}
@@ -157,8 +157,8 @@ export default function RelatedPosts({ currentBlog }) {
         )}
 
         {solution && (
-          <div className="flex flex-wrap items-center justify-between" style={{ gap: 16, background: 'var(--acc-soft)', border: '1px solid rgba(146,64,14,.15)', borderRadius: 16, padding: '22px 26px' }}>
-            <span style={{ fontFamily: "'DM Sans'", fontSize: 15.5, color: 'var(--acc-ink)' }}>
+          <div className="flex flex-wrap items-center justify-between" style={{ gap: 16, background: 'var(--acc)', border: '1px solid var(--acc)', borderRadius: 16, padding: '22px 26px' }}>
+            <span style={{ fontFamily: "'DM Sans'", fontSize: 15.5, color: 'var(--dark)' }}>
               Want help with this? See our <strong style={{ fontWeight: 700 }}>{solution.label}</strong>.
             </span>
             <Link

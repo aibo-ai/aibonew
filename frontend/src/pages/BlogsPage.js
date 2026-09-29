@@ -25,7 +25,7 @@ function CategoryPill({ category, amber }) {
   return (
     <span
       className="self-start"
-      style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: amber ? 'var(--acc-soft)' : 'var(--purple-light)', color: amber ? 'var(--acc-ink)' : 'var(--purple-dark)' }}
+      style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: amber ? 'var(--acc)' : 'var(--purple-light)', color: amber ? 'var(--dark)' : 'var(--purple-dark)' }}
     >
       {category}
     </span>
@@ -169,7 +169,7 @@ export default function BlogsPage() {
           </div>
         </section>
 
-        <TickerCta ctaA="Ready to " ctaB="start growing?" page="/blogs" />
+        <TickerCta page="/blogs" />
       </main>
     </>
   );

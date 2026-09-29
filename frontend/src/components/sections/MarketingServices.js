@@ -66,8 +66,8 @@ export default function MarketingServices() {
                   <div style={{ marginTop: 4, fontFamily: "'DM Sans'", fontSize: 13, color: 'var(--text-muted)' }}>{s.full}</div>
                 </div>
                 <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.copy}</p>
-                <div style={{ alignSelf: 'start', marginTop: 16, paddingTop: 16, borderTop: amberStat ? '1px dashed rgba(146,64,2,.3)' : '1px dashed var(--border-clr)' }}>
-                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 36, fontWeight: 600, lineHeight: 1, color: amberStat ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{s.stat}</div>
+                <div style={{ alignSelf: 'start', marginTop: 16, paddingTop: 16, borderTop: amberStat ? '1px dashed var(--border-clr)' : '1px dashed var(--border-clr)' }}>
+                  <div style={{ fontFamily: "'Fraunces', serif", fontSize: 36, fontWeight: 600, lineHeight: 1, color: amberStat ? 'var(--dark)' : 'var(--purple-dark)' }}>{s.stat}</div>
                   <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 13, lineHeight: 1.4, color: 'var(--text-secondary)' }}>{s.statText}</div>
                 </div>
               </button>

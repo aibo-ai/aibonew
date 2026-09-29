@@ -78,8 +78,6 @@ export default function ServicePage() {
   const practice = isTech ? 'Technology' : 'Marketing';
   const h1 = splitHeadline(data.headline);
   const approachH2 = splitHeadline(data.intro.headline);
-  const ctaHeadline = data.finalCta.headline || `Ready to grow with ${short}?`;
-  const cta = splitHeadline(ctaHeadline);
 
   const allClusters = getClustersForPillar(slug);
   const compareRows = data.comparison.without.items.map((a, i) => ({ a, b: data.comparison.with.items[i] }));
@@ -184,11 +182,11 @@ export default function ServicePage() {
               {data.whyNow.stats.map((w, i) => {
                 const amberCell = i % 2 === 1;
                 return (
-                  <div key={w.label} className="flex flex-col" style={{ background: amberCell ? 'var(--acc-soft)' : 'var(--off-white)', border: amberCell ? '1px solid rgba(146,64,2,.15)' : '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 36, minHeight: 250 }}>
-                    <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: amberCell ? 'var(--acc-ink)' : 'var(--text-muted)', opacity: amberCell ? 0.7 : 1 }}>{String(i + 1).padStart(2, '0')}</div>
+                  <div key={w.label} className="flex flex-col" style={{ background: amberCell ? 'var(--acc)' : 'var(--off-white)', border: amberCell ? '1px solid var(--acc)' : '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 36, minHeight: 250 }}>
+                    <div style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: amberCell ? 'var(--dark)' : 'var(--text-muted)', opacity: amberCell ? 0.7 : 1 }}>{String(i + 1).padStart(2, '0')}</div>
                     <div style={{ marginTop: 'auto' }}>
-                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 58, fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1.5px', color: amberCell ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{w.num}</div>
-                      <div style={{ marginTop: 12, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 15, lineHeight: 1.5, color: amberCell ? 'var(--acc-ink)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{w.label}</div>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 58, fontWeight: 600, lineHeight: 0.95, letterSpacing: '-1.5px', color: amberCell ? 'var(--dark)' : 'var(--purple-dark)' }}>{w.num}</div>
+                      <div style={{ marginTop: 12, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 15, lineHeight: 1.5, color: amberCell ? 'var(--dark)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{w.label}</div>
                     </div>
                   </div>
                 );
@@ -225,9 +223,9 @@ export default function ServicePage() {
                   </div>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 600, lineHeight: 1.15, letterSpacing: '-0.3px' }}>{c.title}</div>
                   <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{c.body}</p>
-                  <div className="flex items-start" style={{ alignSelf: 'start', marginTop: 6, gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc-soft)' }}>
-                    <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--acc-ink)' }} />
-                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--acc-ink)' }}>{c.stat}</span>
+                  <div className="flex items-start" style={{ alignSelf: 'start', marginTop: 6, gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc)' }}>
+                    <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--dark)' }} />
+                    <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--dark)' }}>{c.stat}</span>
                   </div>
                 </button>
               ))}
@@ -343,9 +341,9 @@ export default function ServicePage() {
                   // a fixed 46px display size — shrink those instead.
                   const statFontSize = m.result.length > 10 ? 'clamp(22px, 2.6vw, 30px)' : 'clamp(30px, 3.4vw, 46px)';
                   return (
-                    <div key={m.metric} style={{ background: amberCell ? 'var(--acc-soft)' : '#fff', padding: '28px 24px', minWidth: 0 }}>
-                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: statFontSize, fontWeight: 600, lineHeight: 1.1, letterSpacing: '-1px', color: amberCell ? 'var(--acc-ink)' : 'var(--purple-dark)', overflowWrap: 'break-word' }}>{m.result}</div>
-                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14, lineHeight: 1.45, color: amberCell ? 'var(--acc-ink)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{m.metric}</div>
+                    <div key={m.metric} style={{ background: amberCell ? 'var(--acc)' : '#fff', padding: '28px 24px', minWidth: 0 }}>
+                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: statFontSize, fontWeight: 600, lineHeight: 1.1, letterSpacing: '-1px', color: amberCell ? 'var(--dark)' : 'var(--purple-dark)', overflowWrap: 'break-word' }}>{m.result}</div>
+                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 14, lineHeight: 1.45, color: amberCell ? 'var(--dark)' : 'var(--text-secondary)', opacity: amberCell ? 0.85 : 1 }}>{m.metric}</div>
                     </div>
                   );
                 })}
@@ -360,7 +358,7 @@ export default function ServicePage() {
         </section>
 
         <FaqTwoColumn key={slug} items={data.pillarFaq} intro="Here's what founders and marketing leads ask us most." />
-        <TickerCta ctaA={cta.a} ctaB={cta.b} page={`/solutions/${slug}`} />
+        <TickerCta page={`/solutions/${slug}`} />
       </main>
     </>
   );
