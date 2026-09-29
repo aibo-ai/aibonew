@@ -84,9 +84,6 @@ function SolutionsDropdown({ onNavigate }) {
           </div>
         );
       })}
-      <div style={{ margin: '8px 6px 4px', padding: '12px 6px 4px', borderTop: '1px solid var(--border-clr)', fontFamily: "'DM Sans'", fontSize: 12.5, lineHeight: 1.5, color: 'var(--text-muted)' }}>
-        Click a pillar name to visit its overview page, or tap the arrow to see its deep-dive services.
-      </div>
     </div>
   );
 }
