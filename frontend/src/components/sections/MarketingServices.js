@@ -10,17 +10,17 @@ const services = [
   {
     n: '02', tag: 'AEO', name: 'AEO', full: 'Answer Engine Optimisation', slug: 'aeo',
     copy: 'We structure your content to win featured snippets, People Also Ask boxes, and voice answers.',
-    stat: '68%', statText: 'of queries expect a direct answer with no click',
+    stat: '68%', statText: 'of queries expect a direct answer',
   },
   {
     n: '03', tag: 'SEO', name: 'SEO', full: 'Search Engine Optimisation', slug: 'seo',
     copy: 'The organic foundation everything builds on. Technical authority, keyword architecture, backlink equity — the infrastructure AI engines are trained on.',
-    stat: '11×', statText: 'higher ROI than paid search over 3 years',
+    stat: '11×', statText: 'higher ROI than paid search',
   },
   {
     n: '04', tag: 'CONTENT', name: 'Content Marketing', full: 'Content that ranks, converts, and compounds', slug: 'content-marketing',
     copy: 'Long-form articles, thought leadership, case studies, FAQs, and video scripts — built equally for humans and AI engines.',
-    stat: '3×', statText: 'more leads than outbound, at 62% lower cost',
+    stat: '3×', statText: 'more leads than outbound',
   },
 ];
 
@@ -44,6 +44,9 @@ export default function MarketingServices() {
           </div>
         </div>
 
+        {/* Each card is a 4-row subgrid (label · name · copy · stat), so the
+            dashed stat divider lines up across every card in a row no matter
+            how long each card's copy is. */}
         <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 255px), 1fr))', gap: 16 }}>
           {services.map((s, i) => {
             const amberStat = i % 2 === 1;
@@ -51,8 +54,8 @@ export default function MarketingServices() {
               <button
                 key={s.n}
                 onClick={() => navigate(`/solutions/${s.slug}`)}
-                className="text-left flex flex-col card-lift"
-                style={{ cursor: 'pointer', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 14, color: 'var(--text-primary)', minHeight: 380 }}
+                className="text-left card-lift"
+                style={{ display: 'grid', gridRow: 'span 4', gridTemplateRows: 'subgrid', rowGap: 14, alignContent: 'start', cursor: 'pointer', background: 'var(--off-white)', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, color: 'var(--text-primary)' }}
               >
                 <div className="flex items-center justify-between">
                   <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--text-muted)' }}>{s.n} / {s.tag}</span>
@@ -63,7 +66,7 @@ export default function MarketingServices() {
                   <div style={{ marginTop: 4, fontFamily: "'DM Sans'", fontSize: 13, color: 'var(--text-muted)' }}>{s.full}</div>
                 </div>
                 <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14.5, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{s.copy}</p>
-                <div style={{ marginTop: 'auto', paddingTop: 16, borderTop: amberStat ? '1px dashed rgba(146,64,2,.3)' : '1px dashed var(--border-clr)' }}>
+                <div style={{ alignSelf: 'start', marginTop: 16, paddingTop: 16, borderTop: amberStat ? '1px dashed rgba(146,64,2,.3)' : '1px dashed var(--border-clr)' }}>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 36, fontWeight: 600, lineHeight: 1, color: amberStat ? 'var(--acc-ink)' : 'var(--purple-dark)' }}>{s.stat}</div>
                   <div style={{ marginTop: 6, fontFamily: "'DM Sans'", fontSize: 13, lineHeight: 1.4, color: 'var(--text-secondary)' }}>{s.statText}</div>
                 </div>
