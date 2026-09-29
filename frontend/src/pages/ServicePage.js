@@ -208,13 +208,16 @@ export default function ServicePage() {
                 A complete {short} stack, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>run end-to-end.</em>
               </h2>
             </div>
-            <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: 16 }}>
+            {/* Four cards read as a 2×2 grid instead of 3 + an orphan. Each card is
+                a 4-row subgrid (label · title · body · stat) so titles, copy and
+                the amber stat pill line up across a row. */}
+            <div className="grid" style={{ gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${(data.deepDiveCards || []).length === 4 ? 440 : 320}px), 1fr))`, gap: 16 }}>
               {(data.deepDiveCards || []).map((c, i) => (
                 <button
                   key={c.slug}
                   onClick={() => navigate(`/solutions/${slug}/${c.slug}`)}
-                  className="text-left flex flex-col card-lift"
-                  style={{ cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, gap: 14, color: 'var(--text-primary)', minHeight: 300 }}
+                  className="text-left card-lift"
+                  style={{ display: 'grid', gridRow: 'span 4', gridTemplateRows: 'subgrid', rowGap: 14, alignContent: 'start', cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, color: 'var(--text-primary)' }}
                 >
                   <div className="flex items-center gap-2">
                     <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')} / SERVICE</span>
@@ -222,7 +225,7 @@ export default function ServicePage() {
                   </div>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 24, fontWeight: 600, lineHeight: 1.15, letterSpacing: '-0.3px' }}>{c.title}</div>
                   <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{c.body}</p>
-                  <div className="flex items-start" style={{ marginTop: 'auto', gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc-soft)' }}>
+                  <div className="flex items-start" style={{ alignSelf: 'start', marginTop: 6, gap: 10, padding: '12px 14px', borderRadius: 10, background: 'var(--acc-soft)' }}>
                     <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--acc-ink)' }} />
                     <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--acc-ink)' }}>{c.stat}</span>
                   </div>
