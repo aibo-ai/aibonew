@@ -459,12 +459,6 @@ export const clusterPages = [
         "A generic Wikipedia consultant typically clears the policy bar but stops there, writing for human readers only, with no attention to how the article gets structured for AI systems to parse, and no tracking once it's published.",
       ],
       after: ["This sits at the intersection of two disciplines: Wikipedia's own compliance requirements and the structural work that determines whether an LLM actually pulls from the article once it exists."],
-      pointsLead: 'Practically, this looks like:',
-      points: [
-        { title: 'Policy compliance', text: 'Disclosed and neutral from day one, not retrofitted after a deletion notice.' },
-        { title: 'Content structuring for GEO/AEO', text: 'Written to be favorably parsed by LLMs, not just to survive human review.' },
-        { title: 'Downstream tracking', text: 'We watch search visibility and AI citation frequency after publication. Most engagements stop at "the page is live."' },
-      ],
     },
     geography: {
       headline: "Wikipedia Compliance Work from Bengaluru. Built for Investors, Journalists, and AI Systems.",
