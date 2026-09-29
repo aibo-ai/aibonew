@@ -263,6 +263,7 @@ export const clusterPages = [
         {
           title: 'Subreddit and query mapping',
           technical: 'We identify the specific subreddits and question patterns in your category where AI engines are already pulling answers from.',
+          human: 'Effort goes only where AI engines are already looking — the threads shaping answers in your category, not simply the subreddits with the biggest member counts.',
         },
         {
           title: 'Compliant community participation',
@@ -273,11 +274,13 @@ export const clusterPages = [
         {
           title: 'Long-form, citation-shaped answers',
           technical: 'We write to the shape the research shows gets cited most, not to word-count filler.',
+          human: "Comments outperform top-level posts as a citation source — on Perplexity it's 78% comments to 22% posts — so a well-shaped answer in the right thread is the unit that actually gets cited.",
         },
         {
           title: 'Citation tracking',
           technical:
             "We monitor which threads and comments actually get pulled into ChatGPT, Perplexity, and AI Overview answers for your target queries, and double down on what's working.",
+          human: 'With a roughly two-week average lag between a highly-upvoted comment and its first LLM citation, tracking shows early what is working — turning community work into an AI-visibility number you can report on.',
         },
       ],
     },
