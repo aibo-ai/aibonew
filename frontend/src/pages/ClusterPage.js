@@ -61,6 +61,9 @@ export default function ClusterPage() {
   const noMetric = !raw;
   const problemLead = data.deepDive.question;
   const problemRest = data.deepDive.framing;
+  const frameworkH2 = data.blueprint.h2 ? splitHeadline(data.blueprint.h2) : null;
+  const extra = data.extraSection;
+  const extraH2 = extra ? splitHeadline(extra.h2) : null;
 
   const related = (data.relatedServices?.links || []).map((l) => {
     const isPillar = !l.cluster;
@@ -159,7 +162,7 @@ export default function ClusterPage() {
           <div className="mx-auto grid" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 48 }}>
             <div>
               <SectionLabel text="The problem" dark amber />
-              <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 40, lineHeight: 1.05, fontStyle: 'italic', color: 'var(--acc)' }}>Why it breaks.</div>
+              <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: data.problemTitle ? 'clamp(28px,2.8vw,36px)' : 40, lineHeight: 1.12, fontStyle: 'italic', color: 'var(--acc)', textWrap: 'balance' }}>{data.problemTitle || 'Why it breaks.'}</div>
             </div>
             <div className="flex flex-col" style={{ gridColumn: 'span 2', gap: 20, maxWidth: 820 }}>
               <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(24px,2.5vw,32px)', lineHeight: 1.35, letterSpacing: '-0.3px' }}>{problemLead}</p>
@@ -202,7 +205,11 @@ export default function ClusterPage() {
             <div style={{ maxWidth: 720 }}>
               <SectionLabel text="Our framework" />
               <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(32px,4vw,52px)', lineHeight: 1.1, letterSpacing: '-1.5px' }}>
-                Four phases, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>week by week.</em>
+                {frameworkH2 ? (
+                  <>{frameworkH2.a}<em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>{frameworkH2.b}</em></>
+                ) : (
+                  <>Four phases, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>week by week.</em></>
+                )}
               </h2>
             </div>
             <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 230px), 1fr))', gap: 22 }}>
@@ -226,6 +233,55 @@ export default function ClusterPage() {
             </div>
           </div>
         </section>
+
+        {/* ── EXTRA (optional, per page) ── */}
+        {extra && (
+          <section style={{ padding: '104px 32px', background: 'var(--dark)', color: '#fff' }}>
+            <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 40 }}>
+              <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: '28px 56px', alignItems: 'start' }}>
+                <div>
+                  <SectionLabel text={extra.label} dark amber />
+                  <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(30px,3.6vw,46px)', lineHeight: 1.1, letterSpacing: '-1.3px' }}>
+                    {extraH2.a}<em style={{ color: 'var(--acc)', fontStyle: 'normal' }}>{extraH2.b}</em>
+                  </h2>
+                </div>
+                <div className="flex flex-col" style={{ gap: 18 }}>
+                  {(extra.paragraphs || []).map((t) => (
+                    <p key={t.slice(0, 24)} style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 17, lineHeight: 1.7, color: 'rgba(255,255,255,.72)' }}>{t}</p>
+                  ))}
+                  {extra.failures && (
+                    <div className="flex flex-col" style={{ gap: 12 }}>
+                      {extra.failures.map((t, i) => (
+                        <div key={t.slice(0, 24)} className="flex" style={{ gap: 16, padding: '18px 20px', borderRadius: 14, background: 'var(--dark-mid)', border: '1px solid rgba(255,255,255,.1)' }}>
+                          <span className="flex-shrink-0" style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 13, color: '#A07AF0' }}>{String(i + 1).padStart(2, '0')}</span>
+                          <span style={{ fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 15.5, lineHeight: 1.65, color: 'rgba(255,255,255,.85)' }}>{t}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {(extra.after || []).map((t) => (
+                    <p key={t.slice(0, 24)} style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 17, lineHeight: 1.7, color: 'rgba(255,255,255,.72)' }}>{t}</p>
+                  ))}
+                </div>
+              </div>
+              {extra.points && (
+                <div className="flex flex-col" style={{ gap: 18 }}>
+                  {extra.pointsLead && (
+                    <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 22, lineHeight: 1.2 }}>{extra.pointsLead}</div>
+                  )}
+                  <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 16 }}>
+                    {extra.points.map((pt) => (
+                      <div key={pt.title} className="flex flex-col" style={{ gap: 10, padding: 24, borderRadius: 16, background: 'var(--acc)', color: 'var(--dark)' }}>
+                        <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 19, lineHeight: 1.25 }}>{pt.title}</div>
+                        <div style={{ fontFamily: "'DM Sans'", fontWeight: 400, fontSize: 15, lineHeight: 1.55 }}>{pt.text}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* ── RELATED SERVICES ── */}
         {related.length > 0 && (

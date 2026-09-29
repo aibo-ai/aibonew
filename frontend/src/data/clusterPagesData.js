@@ -251,14 +251,15 @@ export const clusterPages = [
     eyebrow: 'Generative Engine Optimization · Reddit-Led GEO',
     h1: 'Reddit Is the Source Layer AI Search Runs On. Is Your Brand In It?',
     heroBody:
-      "Perplexity pulls 46.7% of its citations from Reddit. Google AI Overviews, ChatGPT, and Gemini aren't far behind. If your brand isn't part of the Reddit conversation in your category, you're invisible to the fastest-growing share of search — the answer, not the ad.",
+      "LLM tools pull at least 15% of their citations from Reddit, often far more. If your company isn't part of the Reddit conversation in your category, you don't exist in the fastest-growing layer of search — the one where being the answer beats being the ad.",
     primaryCta: 'Get a free Reddit visibility audit for your category',
     statBadge: "Reddit = 46.7% of Perplexity's citations",
+    problemTitle: 'Your Landing Page Was Never Going to Win This',
     deepDive: {
       question:
-        "AI answer engines don't cite marketing copy. They cite first-hand experience — a detailed comment with 50+ upvotes, written by someone who sounds like they actually used the product, sitting in a thread that's still getting traffic.",
+        "AI answer engines don't cite marketing copy. They cite first-hand experience, a detailed comment with upvotes, written by someone who sounds like they actually used the product.",
       framing:
-        "Across ChatGPT, Perplexity, Google AI Overviews, and Gemini, Reddit now accounts for more than half of all social-platform citations, and that share grew month over month in the most recent measured period. Comments outperform top-level posts by a wide margin — on Perplexity it's 78% comments to 22% posts. None of that inventory exists on your website. It exists in threads you're not part of yet.",
+        "Across LLMs, Reddit now accounts for more than half of all social platform citations. None of that inventory exists on your website. It exists in threads you're not part of yet.",
       pillars: [
         {
           title: 'Subreddit and query mapping',
@@ -274,7 +275,7 @@ export const clusterPages = [
         {
           title: 'Long-form, citation-shaped answers',
           technical: 'We write to the shape the research shows gets cited most, not to word-count filler.',
-          human: "Comments outperform top-level posts as a citation source — on Perplexity it's 78% comments to 22% posts — so a well-shaped answer in the right thread is the unit that actually gets cited.",
+          human: 'Long-form, experience-based answers are what AI engines prefer to quote — so one well-shaped answer in the right thread is the unit that actually gets cited.',
         },
         {
           title: 'Citation tracking',
@@ -285,12 +286,20 @@ export const clusterPages = [
       ],
     },
     blueprint: {
-      title: 'Our 4-Phase Reddit Community Seeding Framework',
+      title: 'Our 4-Phase Reddit GEO Framework',
+      h2: 'Our 4-Phase Reddit GEO Framework',
       phases: [
-        { num: 1, name: 'Landscape audit', timeframe: 'Weeks 1–2', body: 'Map subreddits, existing threads, and competitor mentions already shaping AI answers in your category. Flag compliance constraints per subreddit before writing a single word.' },
-        { num: 2, name: 'Foundation building', timeframe: 'Weeks 3–6', body: 'Establish genuine, rules-compliant community presence — deliberately slower, since Reddit and AI engines both penalize anything that looks manufactured.' },
-        { num: 3, name: 'Citation-targeted seeding', timeframe: 'Weeks 6–12', body: 'Answer real questions in the threads most likely to be pulled by AI engines.' },
-        { num: 4, name: 'Monitoring and compounding', timeframe: 'Ongoing', body: 'Track citations across ChatGPT, Perplexity, Gemini, and AI Overviews; reinforce threads already earning visibility.' },
+        { num: 1, name: 'Landscape audit', timeframe: 'Weeks 1–2', body: 'Map the subreddits, existing threads, and competitor mentions already shaping AI answers in your category. Flag compliance constraints per subreddit before writing a single word.' },
+        { num: 2, name: 'Foundation building', timeframe: 'Weeks 3–6', body: 'Establish genuine, rules-compliant community presence. This phase is slower on purpose. Reddit and AI engines both penalize anything that looks manufactured.' },
+        { num: 3, name: 'Citation-targeted seeding', timeframe: 'Weeks 6–12', body: 'Answer real questions in the threads most likely to be pulled by AI engines, prioritizing recency (content from the last 30 days gets an early citation boost) and depth (long-form, experience-based answers).' },
+        { num: 4, name: 'Monitoring and compounding', timeframe: 'Ongoing', body: 'Track citations across LLMs. Reinforce threads that are already earning visibility.' },
+      ],
+    },
+    extraSection: {
+      label: 'How it fits',
+      h2: 'Why This Complements Your GEO and AEO Work',
+      paragraphs: [
+        "This isn't a separate initiative from your other AI-visibility work; it's the layer underneath it. Your AEO work wins the structured answer boxes. Your broader GEO programme builds citation-worthy pages. Reddit seeding builds the first-hand-experience layer that AI engines increasingly prefer over branded content entirely.",
       ],
     },
     relatedServices: {
@@ -301,14 +310,16 @@ export const clusterPages = [
       ],
     },
     faq: [
-      { q: 'Is this the same as buying upvotes or fake accounts?', a: "No — and we won't do it. Vote manipulation and bought accounts get flagged by Reddit and stripped of any AI-citation value anyway." },
-      { q: 'How long before we see AI citations?', a: 'Foundation-building (genuine community standing before seeding starts) takes 4–6 weeks before that clock even starts; the research shows a roughly two-week average lag between a highly-upvoted comment and its first LLM citation after that.' },
-      { q: "What if our category doesn't have relevant subreddits?", a: 'Most B2B and consumer categories have more Reddit activity than brands assume — the audit phase exists specifically to find where, even if it’s adjacent communities rather than a subreddit named after your category.' },
+      { q: 'Is this the same as buying upvotes or fake accounts?', a: "No, and we won't do it. Vote manipulation and bought accounts get flagged by Reddit and stripped of any AI-citation value anyway, since both platforms and AI crawlers weigh authentic engagement. Everything we do follows each subreddit's actual posting and self-promotion rules." },
+      { q: 'How long before we see AI citations?', a: 'The research shows a roughly two-week average lag between a highly-upvoted comment and its first LLM citation, but foundation-building (getting genuine community standing before seeding starts) takes 4–6 weeks before that clock even starts.' },
+      { q: 'Do you write the content, or do we?', a: 'We write it, but every answer is reviewed against your product reality and, for regulated clients, your compliance requirements before it goes anywhere.' },
+      { q: "What if our category doesn't have relevant subreddits?", a: "Most B2B and consumer categories have more Reddit activity than brands assume. The audit phase exists specifically to find where, even if it's adjacent communities rather than a subreddit named after your category." },
+      { q: 'How is this different from Reddit ads?', a: "Reddit Ads buy placement; this builds organic, citation-eligible presence that keeps compounding long after any campaign budget stops. They're not mutually exclusive, but they serve different goals." },
     ],
     targetKeywords: ['Reddit community seeding', 'Reddit marketing for AI search', 'Reddit GEO agency', 'Reddit AI citations'],
     meta: {
       title: 'Reddit Community Seeding for AI Search | MyAibo GEO',
-      description: "Perplexity pulls 46.7% of its citations from Reddit. MyAibo runs compliant, citation-shaped Reddit participation so your brand is part of the answers AI search gives.",
+      description: 'LLM tools pull at least 15% of their citations from Reddit, often far more. MyAibo runs compliant, citation-shaped Reddit participation so your company is part of the answers AI search gives.',
     },
   },
   {
@@ -317,16 +328,18 @@ export const clusterPages = [
     pillarName: 'Generative Engine Optimization',
     subLabel: 'Quora & Review-Platform Content Seeding',
     eyebrow: 'Generative Engine Optimization · Quora & Review-Platform Visibility',
-    h1: 'Quora Has 400 Million Buyers Doing Research. Is Your Brand In Those Threads?',
+    h1: 'Quora Has 400 Million Buyers Doing Research.',
     heroBody:
-      "Quora isn't winning the AI-citation race the way Reddit is right now — we'll tell you that straight, not sell you a stat that doesn't hold up. What it still has: 100 million users in India alone, a college-educated, higher-income user base, and a habit of showing up in Google's featured snippets and \"People Also Ask\" boxes for the exact comparison and decision-stage questions your buyers are typing in.",
+      "In India alone, Quora has over 100M users with a strong college-educated and higher-income audience. It also performs well on Google for comparison and decision-stage questions, making it a valuable channel for reaching buyers at key moments.",
     primaryCta: 'Get a Free Quora & Review-Platform Visibility Audit',
     aeoBox:
       "MyAibo runs Quora and review-platform (G2 and category equivalents) content seeding — question and thread mapping, compliant answer and review drafting, and competitive share-of-voice tracking — targeted at the comparison and decision-stage queries where 100M+ Indian Quora users and high-intent B2B buyers actually research. This runs as a complement to Reddit-led GEO work, not a replacement: Reddit for AI-answer citation, Quora and reviews for classic Google search and late-stage buyer intent.",
+    problemTitle: 'Your Buyers Are Reading Quora Threads Before They Read Your Pricing Page',
     deepDive: {
-      question: "Why Is a Competitor's Name Showing Up in the Quora Threads Ranking for Your Category — And Not Yours?",
+      question:
+        "Quora answers 99% of the questions asked on it, gets roughly 3,000–5,000 new questions a day, and its users spend that time in a specific mode: comparing, researching, and deciding.",
       framing:
-        "Quora answers 99% of the questions asked on it and fields 3,000–5,000 new questions a day, from users in a research-and-compare mindset — over half report household income above $100K, concentrated in the 25–34 bracket squarely in the researching-before-buying stage. If a competitor's name is showing up in the threads ranking for your category's comparison queries and yours isn't, that's lost consideration, not just lost traffic.",
+        "If a competitor's name is showing up in the Quora threads that rank for your category's comparison queries and yours isn't, that's lost consideration, not just lost traffic.",
       pillars: [
         {
           title: 'Question & Thread Mapping',
@@ -352,12 +365,20 @@ export const clusterPages = [
       ],
     },
     blueprint: {
-      title: 'Our 4-Phase Community-Led SEO Framework',
+      title: 'Our 4-Phase Community-Led Framework',
+      h2: 'Our 4-Phase Community-Led Framework',
       phases: [
         { num: 1, name: 'Landscape Audit', timeframe: 'Weeks 1–2', body: 'Map existing Quora threads, review platform coverage, and competitor share-of-voice for your category\'s highest-intent queries.' },
         { num: 2, name: 'Strategy Development', timeframe: 'Weeks 2–4', body: 'Prioritize the threads and platforms with the best ranking opportunity and highest buyer intent, not just the highest traffic.' },
         { num: 3, name: 'Execution', timeframe: 'Weeks 4–10', body: 'Seed genuine, policy-compliant answers and reviews, written to actually answer the question rather than pivot to a pitch.' },
         { num: 4, name: 'Ongoing Monitoring', timeframe: 'Continuous', body: 'Track rankings, snippet ownership, and competitive movement, and refresh or extend answers that are losing ground.' },
+      ],
+    },
+    extraSection: {
+      label: 'Our take',
+      h2: 'An Honest Note on Where This Fits',
+      paragraphs: [
+        'What Quora still does well is classic search visibility and reaching a specific, high-intent, decision-stage audience that many competitors have stopped investing in because they chased the AI-citation story instead. For most of our clients, this runs as a complement to other GEO work, not a replacement for it.',
       ],
     },
     geography: {
@@ -366,26 +387,10 @@ export const clusterPages = [
       finalCta: 'Request Your Quora & Review-Platform Visibility Audit',
     },
     faq: [
-      {
-        q: 'Is Quora still worth investing in if AI engines are citing it less?',
-        a: "For AI citations specifically, less than Reddit right now — we'll say that plainly. For classic Google search and reaching a high-intent, high-income research audience, yes; that hasn't changed.",
-      },
-      {
-        q: 'Do you write fake reviews or use bot accounts?',
-        a: "No. Everything is real answers and reviews from people with genuine category knowledge, following each platform's actual content policies.",
-      },
-      {
-        q: 'How does this differ from Quora Ads?',
-        a: 'Ads buy placement and traffic for as long as you pay; this builds organic answers and review presence that keep ranking and earning traffic after the work is done.',
-      },
-      {
-        q: 'Can this help with featured snippets specifically?',
-        a: 'Yes — Quora answers are frequently pulled into Google\'s featured snippets and People Also Ask boxes for comparison and "how does X work" queries, and that\'s a specific target of the seeding strategy.',
-      },
-      {
-        q: "What's the difference between this and your GEO service?",
-        a: 'GEO (and the dedicated Reddit-style work) targets being cited inside AI-generated answers. This page targets ranking and visibility inside classic Google search results and Quora itself — related goals and different mechanics.',
-      },
+      { q: 'Is Quora still worth investing in if AI engines are citing it less?', a: "For AI citations specifically, less than Reddit right now; we'll say that plainly. For classic Google search and GEO citations and reaching a high-intent, high-income research audience, yes; that hasn't changed." },
+      { q: 'Do you write fake reviews or use bot accounts?', a: "No. Everything is real answers and reviews from people with genuine category knowledge, following each platform's actual content policies." },
+      { q: 'How does this differ from Quora Ads?', a: 'Ads buy placement and traffic for as long as you pay; this builds organic answers and review presence that keep ranking and earning traffic after the work is done.' },
+      { q: 'Can this help with featured snippets specifically?', a: 'Yes, Quora answers are frequently pulled into Google\'s featured snippets and People Also Ask boxes for comparison and "how does X work" queries, and that\'s a specific target of the seeding strategy.' },
     ],
     targetKeywords: ['Quora marketing agency', 'Quora content seeding', 'G2 review management', 'Quora SEO strategy'],
     meta: {
@@ -401,14 +406,16 @@ export const clusterPages = [
     eyebrow: 'Generative Engine Optimization · Wikipedia Notability & Article Management',
     h1: "Your Company Clears Wikipedia's Bar for Notability. It Still Doesn't Have a Page.",
     heroBody:
-      "Wikipedia is the single most-cited unstructured source on the open web — and increasingly, the reference layer AI systems consult before a customer, investor, or journalist ever reaches your site. Nearly half of ChatGPT's top-cited sources trace back to Wikipedia. If your company or founder doesn't have a compliant, properly sourced article, that space isn't empty — it's either missing entirely or being filled by whoever gets there first.",
+      "Wikipedia is the single most-cited unstructured source on the open web — and increasingly, the reference layer AI systems consult before a customer, investor, or journalist ever reaches your site. If your company or founder doesn't have a compliant, properly sourced article, that space isn't empty. It's either missing entirely or being filled by whoever gets there first.",
     primaryCta: 'Get a Free Wikipedia Notability Assessment',
     aeoBox:
       "MyAibo builds and manages compliant Wikipedia articles — notability and source audits against Wikipedia's notability guideline for organizations (WP:NCORP), neutral citation-backed drafting, formal paid-contributor disclosure, and submission through Articles for Creation for independent volunteer review — plus ongoing vandalism monitoring and AI-citation tracking after publication. Nearly half of ChatGPT's top-cited sources trace back to Wikipedia, making a properly sourced article the highest-authority third-party asset a brand can hold.",
+    problemTitle: "An Information Vacuum Doesn't Stay Empty",
     deepDive: {
-      question: "Why Doesn't a Generic Wikipedia Consultant — or an Internal Team — Get This Done Safely?",
+      question:
+        "Plenty of established, well-covered companies with decades of operating history and extensive press coverage have no Wikipedia article at all, often for no better reason than nobody owned the task.",
       framing:
-        "A recent audit for an NSE-listed healthcare network — India's largest dedicated cancer care provider, 30+ centers, 400+ oncologists, 35 years of operating history — found no Wikipedia article at all, despite its own founder already having one that references the company extensively. The gap wasn't a notability problem. It was simply a task nobody owned — and it's read as a signal by exactly the people doing due diligence: investors, accreditation bodies, journalists, and now AI systems.",
+        "And if you don't fill this gap with a neutral, well-sourced article, it eventually gets filled by someone else: a competitor's framing, an outdated stub, or a disgruntled edit that nobody is watching.",
       pillars: [
         {
           title: 'Policy Compliance, Disclosed From Day One',
@@ -435,11 +442,28 @@ export const clusterPages = [
     },
     blueprint: {
       title: 'Our 4-Phase Framework',
+      h2: 'Our 4-Phase Framework',
       phases: [
         { num: 1, name: 'Notability & Source Audit', timeframe: 'Weeks 1–2', body: 'Compile and verify independent coverage, confirm the notability bar is cleared, and flag sourcing gaps before drafting starts.' },
         { num: 2, name: 'Draft & Structure', timeframe: 'Weeks 2–4', body: "Write a neutral, encyclopedic article with every claim tied to an independent citation; internal review against Wikipedia's verifiability and NPOV policies before it goes anywhere." },
         { num: 3, name: 'Disclosure & Submission', timeframe: 'Weeks 4–5', body: "Formal paid-editor disclosure, submission for independent review, and iteration with volunteer editors until it's accepted." },
         { num: 4, name: 'Ongoing Management', timeframe: 'Retainer', body: 'Vandalism monitoring, periodic sourced updates, and quarterly reporting on article views, referring-domain visibility, and any AI-citation shifts traceable back to the article.' },
+      ],
+    },
+    extraSection: {
+      label: 'Why not DIY',
+      h2: "Why This Isn't a DIY Task",
+      paragraphs: ['An internal marketing or IT team writing this directly usually fails in a few ways:'],
+      failures: [
+        "A promotional tone gets it deleted under Wikipedia's advertising policy within days, a permanent conflict-of-interest flag gets attached even if it survives, or the notability and sourcing weren't nailed down first and the whole draft gets rejected.",
+        "A generic Wikipedia consultant typically clears the policy bar but stops there, writing for human readers only, with no attention to how the article gets structured for AI systems to parse, and no tracking once it's published.",
+      ],
+      after: ["This sits at the intersection of two disciplines: Wikipedia's own compliance requirements and the structural work that determines whether an LLM actually pulls from the article once it exists."],
+      pointsLead: 'Practically, this looks like:',
+      points: [
+        { title: 'Policy compliance', text: 'Disclosed and neutral from day one, not retrofitted after a deletion notice.' },
+        { title: 'Content structuring for GEO/AEO', text: 'Written to be favorably parsed by LLMs, not just to survive human review.' },
+        { title: 'Downstream tracking', text: 'We watch search visibility and AI citation frequency after publication. Most engagements stop at "the page is live."' },
       ],
     },
     geography: {
@@ -448,26 +472,11 @@ export const clusterPages = [
       finalCta: 'Book Your Wikipedia Notability Assessment',
     },
     faq: [
-      {
-        q: 'Can you guarantee my company gets a Wikipedia page?',
-        a: "No, and anyone who guarantees it isn't being straight with you — Wikipedia articles are reviewed and accepted by independent volunteer editors, not bought. What we guarantee is a properly sourced, policy-compliant draft that gives it the best realistic chance, and we won't take on the audit-phase work if the notability bar clearly isn't cleared.",
-      },
-      {
-        q: 'Is this the same as paying someone to edit Wikipedia secretly?',
-        a: "No — and that approach gets articles deleted, since undisclosed paid editing is explicitly against Wikipedia's terms of use. Every article we work on carries a formal paid-contributor disclosure.",
-      },
-      {
-        q: "What if we already have a page and it's outdated or inaccurate?",
-        a: "The same disclosed, sourced-edit process applies to updates as to new articles — we don't silently edit, and neither should anyone working on your behalf.",
-      },
-      {
-        q: 'How is this different from your GEO/AEO services generally?',
-        a: 'Your broader GEO program builds citation-worthy content across your own properties. This is specific to the single highest-authority third-party source AI systems already trust by default — different mechanics, same underlying goal of being described accurately wherever AI systems look.',
-      },
-      {
-        q: 'What happens if the article gets vandalized or someone adds inaccurate information later?',
-        a: "That's what the ongoing management phase covers — active monitoring for unsourced edits or factual drift, with any correction made through Wikipedia's own proper channels.",
-      },
+      { q: 'Can you guarantee my company gets a Wikipedia page?', a: "No, and anyone who guarantees it isn't being straight with you. Wikipedia articles are reviewed and accepted by independent volunteer editors, not bought. What we guarantee is a properly sourced, policy-compliant draft that gives it the best realistic chance, and we won't take on the audit-phase work if the notability bar clearly isn't cleared." },
+      { q: 'Is this the same as paying someone to edit Wikipedia secretly?', a: "No, and that approach gets articles deleted, since undisclosed paid editing is explicitly against Wikipedia's terms of use. Every article we work on carries a formal paid-contributor disclosure." },
+      { q: "What if we already have a page and it's outdated or inaccurate?", a: "The same disclosed, sourced-edit process applies to updates as to new articles. We don't silently edit, and neither should anyone working on your behalf." },
+      { q: 'How is this different from your GEO/AEO services generally?', a: 'Your broader GEO program builds citation-worthy content across your own properties. This is specific to the single highest-authority third-party source AI systems already trust by default: different mechanics, same underlying goal of being described accurately wherever AI systems look.' },
+      { q: 'What happens if the article gets vandalized or someone adds inaccurate information later?', a: "That's what the ongoing management phase covers: active monitoring for unsourced edits or factual drift, with any correction made through Wikipedia's own proper channels." },
     ],
     targetKeywords: ['Wikipedia page creation service', 'Wikipedia notability consultant', 'corporate Wikipedia article writing', 'Wikipedia SEO for AI citation'],
     meta: {
