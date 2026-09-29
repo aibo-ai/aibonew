@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { BOOKING_URL } from '@/lib/constants';
+import { trackBookingClick } from '@/lib/analytics';
 import { getCluster, pillarMeta } from '@/data/clusterPagesData';
 import { geoData } from '@/data/geoData';
 import { aeoData } from '@/data/aeoData';
@@ -128,8 +129,8 @@ export default function ClusterPage() {
                 </h1>
                 <p style={{ margin: '0 0 34px', maxWidth: 640, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 18, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{data.heroBody}</p>
                 <div className="flex flex-wrap" style={{ gap: 14 }}>
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center" style={{ maxWidth: '100%', padding: '14px 26px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, lineHeight: 1.35, textDecoration: 'none' }}>
-                    {data.primaryCta}
+                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center" style={{ whiteSpace: 'nowrap', padding: '16px 30px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, textDecoration: 'none' }} onClick={() => trackBookingClick({ page: `/solutions/${pillar}/${cluster}`, placement: 'hero' })}>
+                    Book Free Strategy Session
                   </a>
                   <Link to={`/solutions/${pillar}`} className="inline-flex items-center" style={{ whiteSpace: 'nowrap', padding: '16px 28px', borderRadius: 8, background: '#fff', border: '1px solid var(--border-clr)', color: 'var(--text-primary)', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 16, textDecoration: 'none' }}>
                     All {pillarShort} services &rarr;

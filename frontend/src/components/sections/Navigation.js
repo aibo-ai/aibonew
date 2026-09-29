@@ -174,7 +174,7 @@ export default function Navigation() {
           className="flex items-center"
           style={{ flexShrink: 0 }}
         >
-          <img src="/myaibo-logo-v2.png" alt="MyAibo" width={141} height={40} style={{ display: 'block', height: 40, width: 'auto' }} />
+          <img src="/myaibo-logo-v3.png" alt="MyAibo" width={141} height={40} style={{ display: 'block', height: 40, width: 'auto' }} />
         </Link>
 
         <nav className="hidden lg:flex items-center justify-end flex-1" style={{ gap: 2, minWidth: 0, whiteSpace: 'nowrap' }}>
