@@ -76,7 +76,7 @@ export const clusterPages = [
       note: "Part of our GEO pillar. Pairs directly with Perplexity, Gemini & ChatGPT Optimization (platform-specific citation tactics) and Wikipedia Page Creation & Management (the single highest-weight entity source most brands are missing).",
       links: [
         { pillar: 'geo', cluster: 'perplexity-gemini-chatgpt-optimization', label: 'Perplexity, Gemini & ChatGPT Optimization' },
-        { pillar: 'geo', cluster: 'wikipedia', label: 'Wikipedia Page Creation & Management' },
+        { pillar: 'geo', cluster: 'wikipedia-page-creation', label: 'Wikipedia Page Creation & Management' },
       ],
     },
     faq: [
@@ -305,7 +305,7 @@ export const clusterPages = [
     relatedServices: {
       note: 'Part of our GEO pillar. Works alongside Wikipedia Page Creation & Management (same AI-citation-source family) and Community & UGC Search Amplification (complementary — Reddit for AI-answer visibility, Quora/reviews for classic search and late-stage intent).',
       links: [
-        { pillar: 'geo', cluster: 'wikipedia', label: 'Wikipedia Page Creation & Management' },
+        { pillar: 'geo', cluster: 'wikipedia-page-creation', label: 'Wikipedia Page Creation & Management' },
         { pillar: 'seo', cluster: 'community-ugc-search-amplification', label: 'Community & UGC Search Amplification' },
       ],
     },
@@ -400,7 +400,7 @@ export const clusterPages = [
   },
   {
     pillar: 'geo',
-    slug: 'wikipedia',
+    slug: 'wikipedia-page-creation',
     pillarName: 'Generative Engine Optimization',
     subLabel: 'Wikipedia Page Creation & Management',
     eyebrow: 'Generative Engine Optimization · Wikipedia Notability & Article Management',

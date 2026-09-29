@@ -15,7 +15,7 @@ export const pillars = [
       { slug: 'zero-click-search-synthetic-traffic', name: 'Zero-Click Search & Synthetic Traffic' },
       { slug: 'reddit-community-seeding', name: 'Reddit Community Seeding' },
       { slug: 'quora-content-seeding', name: 'Quora & Review-Platform Content Seeding' },
-      { slug: 'wikipedia', name: 'Wikipedia Page Creation & Management' },
+      { slug: 'wikipedia-page-creation', name: 'Wikipedia Page Creation & Management' },
     ],
   },
   {

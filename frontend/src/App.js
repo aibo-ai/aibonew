@@ -75,6 +75,9 @@ function App() {
               </>
             } />
 
+            {/* The Wikipedia subpage moved to a descriptive slug */}
+            <Route path="/solutions/geo/wikipedia" element={<Navigate to="/solutions/geo/wikipedia-page-creation" replace />} />
+
             {/* Redirect the removed White Label pillar to Full Stack Development */}
             <Route path="/solutions/white-label" element={<Navigate to="/solutions/full-stack" replace />} />
             <Route path="/solutions/white-label/*" element={<Navigate to="/solutions/full-stack" replace />} />
