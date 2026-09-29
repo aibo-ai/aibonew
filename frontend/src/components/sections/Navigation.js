@@ -166,14 +166,15 @@ export default function Navigation() {
         borderBottom: '1px solid var(--border-clr)',
       }}
     >
-      <div className="mx-auto flex items-center" style={{ maxWidth: 1240, padding: '0 32px', height: 68, gap: 24 }}>
+      <div className="mx-auto flex items-center" style={{ maxWidth: 1240, padding: '0 32px', height: 76, gap: 24 }}>
         <Link
           to="/"
           onClick={closeAll}
           aria-label="MyAibo home"
-          style={{ flexShrink: 0, width: 104, height: 34, overflow: 'hidden', position: 'relative', display: 'block' }}
+          className="flex items-center"
+          style={{ flexShrink: 0 }}
         >
-          <img src="/myaibo-logo.png" alt="MyAibo" style={{ position: 'absolute', height: 120, width: 120, top: -43, left: -10 }} />
+          <img src="/myaibo-logo-v2.png" alt="MyAibo" width={141} height={40} style={{ display: 'block', height: 40, width: 'auto' }} />
         </Link>
 
         <nav className="hidden lg:flex items-center justify-end flex-1" style={{ gap: 2, minWidth: 0, whiteSpace: 'nowrap' }}>

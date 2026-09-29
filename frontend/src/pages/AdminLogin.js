@@ -48,10 +48,7 @@ if (response.ok) {
       <div style={{ width: '100%', maxWidth: 460 }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div style={{ fontFamily: "'Fraunces', serif", fontSize: 28, fontWeight: 600, letterSpacing: '-0.5px', marginBottom: 8 }}>
-            <span style={{ color: 'var(--purple)' }}>My</span>
-            <span style={{ color: 'var(--purple-dark)' }}>Aibo</span>
-          </div>
+          <img src="/myaibo-logo-v2.png" alt="MyAibo" width={169} height={48} style={{ display: 'block', height: 48, width: 'auto', margin: '0 auto 20px' }} />
           <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: 32, fontWeight: 300, color: 'var(--text-primary)', margin: '0 0 8px' }}>
             Admin Portal
           </h1>

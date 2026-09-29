@@ -29,7 +29,7 @@
       ]
     },
     {
-      "source": "/(myaibo-logo.png|myaibo-logo-white.png|og-default.png|favicon.ico)",
+      "source": "/(myaibo-logo.png|myaibo-logo-v2.png|myaibo-logo-white.png|og-default.png|favicon.ico)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=604800" }
       ]
