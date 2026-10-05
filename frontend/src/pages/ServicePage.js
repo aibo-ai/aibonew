@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import SectionLabel from "@/components/sections/SectionLabel";
 import PostIt from "@/components/sections/PostIt";
@@ -65,7 +65,6 @@ const pillarShort = {
 
 export default function ServicePage() {
   const { slug } = useParams();
-  const navigate = useNavigate();
   const data = dataMap[slug];
   const seoMeta = seoMetaData[slug];
 
@@ -147,16 +146,16 @@ export default function ServicePage() {
                     <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--purple-dark)' }}>{allClusters.length} services</span>
                   </div>
                   {allClusters.map((c, i) => (
-                    <button
+                    <Link
                       key={c.slug}
-                      onClick={() => navigate(`/solutions/${slug}/${c.slug}`)}
+                      to={`/solutions/${slug}/${c.slug}`}
                       className="w-full flex items-center text-left"
-                      style={{ gap: 14, padding: '16px 20px', background: 'none', border: 0, borderBottom: i < allClusters.length - 1 ? '1px solid var(--border-clr)' : 'none', color: 'var(--text-primary)', cursor: 'pointer' }}
+                      style={{ gap: 14, padding: '16px 20px', background: 'none', border: 0, borderBottom: i < allClusters.length - 1 ? '1px solid var(--border-clr)' : 'none', color: 'var(--text-primary)', cursor: 'pointer', textDecoration: 'none' }}
                     >
                       <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')}</span>
                       <span className="flex-1" style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 15.5, lineHeight: 1.3 }}>{c.subLabel}</span>
                       <span style={{ color: 'var(--purple)' }}>&rarr;</span>
-                    </button>
+                    </Link>
                   ))}
                 </div>
                 {lastWhy && (
@@ -211,11 +210,11 @@ export default function ServicePage() {
                 the amber stat pill line up across a row. */}
             <div className="grid" style={{ gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${(data.deepDiveCards || []).length === 4 ? 440 : 320}px), 1fr))`, gap: 16 }}>
               {(data.deepDiveCards || []).map((c, i) => (
-                <button
+                <Link
                   key={c.slug}
-                  onClick={() => navigate(`/solutions/${slug}/${c.slug}`)}
+                  to={`/solutions/${slug}/${c.slug}`}
                   className="text-left card-lift"
-                  style={{ display: 'grid', gridRow: 'span 4', gridTemplateRows: 'subgrid', rowGap: 14, alignContent: 'start', cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, color: 'var(--text-primary)' }}
+                  style={{ display: 'grid', gridRow: 'span 4', gridTemplateRows: 'subgrid', rowGap: 14, alignContent: 'start', cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 26, color: 'var(--text-primary)', textDecoration: 'none' }}
                 >
                   <div className="flex items-center gap-2">
                     <span style={{ fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 12, letterSpacing: '0.06em', color: 'var(--text-muted)' }}>{String(i + 1).padStart(2, '0')} / SERVICE</span>
@@ -227,7 +226,7 @@ export default function ServicePage() {
                     <span className="flex-shrink-0" style={{ width: 6, height: 6, marginTop: 7, borderRadius: '50%', background: 'var(--dark)' }} />
                     <span style={{ fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13.5, lineHeight: 1.45, color: 'var(--dark)' }}>{c.stat}</span>
                   </div>
-                </button>
+                </Link>
               ))}
             </div>
           </div>

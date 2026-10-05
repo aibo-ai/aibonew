@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { BOOKING_URL } from '@/lib/constants';
 import { trackBookingClick } from '@/lib/analytics';
@@ -45,7 +45,6 @@ function firstSentence(t, max) {
 
 export default function ClusterPage() {
   const { pillar, cluster } = useParams();
-  const navigate = useNavigate();
   const data = getCluster(pillar, cluster);
   const pillarInfo = pillarMeta[pillar];
 
@@ -74,7 +73,7 @@ export default function ClusterPage() {
       kind: isPillar ? 'PILLAR' : 'SERVICE',
       label: l.label,
       note: firstSentence(targetSub, 130),
-      go: () => navigate(l.cluster ? `/solutions/${l.pillar}/${l.cluster}` : `/solutions/${l.pillar}`),
+      to: l.cluster ? `/solutions/${l.pillar}/${l.cluster}` : `/solutions/${l.pillar}`,
     };
   });
 
@@ -296,11 +295,11 @@ export default function ClusterPage() {
               </div>
               <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))', gap: 16 }}>
                 {related.map((r) => (
-                  <button
+                  <Link
                     key={r.key}
-                    onClick={r.go}
+                    to={r.to}
                     className="text-left flex flex-col card-lift"
-                    style={{ cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 24, gap: 12, color: 'var(--text-primary)', minHeight: 200 }}
+                    style={{ cursor: 'pointer', background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 16, padding: 24, gap: 12, color: 'var(--text-primary)', minHeight: 200, textDecoration: 'none' }}
                   >
                     <div className="flex items-center justify-between">
                       <span style={{ fontFamily: "'DM Sans'", fontWeight: 700, fontSize: 10.5, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 5, background: 'var(--purple-light)', color: 'var(--purple-dark)' }}>{r.kind}</span>
@@ -308,7 +307,7 @@ export default function ClusterPage() {
                     </div>
                     <div style={{ fontFamily: "'Fraunces', serif", fontSize: 21, fontWeight: 600, lineHeight: 1.2 }}>{r.label}</div>
                     <div style={{ marginTop: 'auto', fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 14, lineHeight: 1.55, color: 'var(--text-secondary)' }}>{r.note}</div>
-                  </button>
+                  </Link>
                 ))}
               </div>
               <div className="hidden md:block" style={{ position: 'absolute', right: 20, top: -76, zIndex: 5 }}>

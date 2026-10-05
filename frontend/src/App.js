@@ -78,6 +78,10 @@ function App() {
             {/* The Wikipedia subpage moved to a descriptive slug */}
             <Route path="/solutions/geo/wikipedia" element={<Navigate to="/solutions/geo/wikipedia-page-creation" replace />} />
 
+            {/* The SEO community/UGC page was retired; Quora & review-platform work
+                now lives under GEO. Mirrors the 301 in vercel.json. */}
+            <Route path="/solutions/seo/community-ugc-search-amplification" element={<Navigate to="/solutions/geo/quora-content-seeding" replace />} />
+
             {/* Redirect the removed White Label pillar to Full Stack Development */}
             <Route path="/solutions/white-label" element={<Navigate to="/solutions/full-stack" replace />} />
             <Route path="/solutions/white-label/*" element={<Navigate to="/solutions/full-stack" replace />} />

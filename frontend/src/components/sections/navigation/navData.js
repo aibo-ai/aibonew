@@ -37,7 +37,6 @@ export const pillars = [
       { slug: 'programmatic-seo-engine', name: 'Programmatic SEO Engine' },
       { slug: 'topical-authority-entity-seo', name: 'Topical Authority & Entity SEO' },
       { slug: 'ai-agent-optimization', name: 'AI Agent Optimization' },
-      { slug: 'community-ugc-search-amplification', name: 'Community & UGC Search Amplification' },
     ],
   },
   {

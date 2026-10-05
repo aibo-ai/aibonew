@@ -6,7 +6,11 @@
     { "source": "/solutions/ai-ml/:path*", "destination": "/solutions/ai-automations", "permanent": true },
     { "source": "/solutions/white-label", "destination": "/solutions/full-stack", "permanent": true },
     { "source": "/solutions/geo/wikipedia", "destination": "/solutions/geo/wikipedia-page-creation", "permanent": true },
-    { "source": "/solutions/white-label/:path*", "destination": "/solutions/full-stack", "permanent": true }
+    { "source": "/solutions/white-label/:path*", "destination": "/solutions/full-stack", "permanent": true },
+    { "source": "/solutions/seo/community-ugc-search-amplification", "destination": "/solutions/geo/quora-content-seeding", "permanent": true },
+    { "source": "/blog/:junk/blog/:slug", "destination": "/blog/:slug", "permanent": true },
+    { "source": "/blog", "destination": "/blogs", "permanent": true },
+    { "source": "/case-study", "destination": "/case-studies", "permanent": true }
   ],
   "rewrites": [
     { "source": "/api/cms/:path*", "destination": "/api/cms/index.ts" },
@@ -14,7 +18,13 @@
     { "source": "/social-intelligence", "destination": "https://socialintelligence-psi.vercel.app/" },
     { "source": "/social-intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/:path*" },
     { "source": "/Yippee-Intelligence/:path*", "destination": "https://socialintelligence-psi.vercel.app/Yippee-Intelligence/:path*" },
-    { "source": "/((?!api).*)", "destination": "/index.html" }
+    { "source": "/(about|blogs|case-studies|contact)", "destination": "/index.html" },
+    { "source": "/blog/:slug", "destination": "/index.html" },
+    { "source": "/case-study/:id", "destination": "/index.html" },
+    { "source": "/solutions/:pillar(geo|aeo|seo|content-marketing|ai-automations|full-stack)", "destination": "/index.html" },
+    { "source": "/solutions/:pillar(geo|aeo|seo|content-marketing|ai-automations|full-stack)/:cluster", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin/:path*", "destination": "/index.html" }
   ],
   "headers": [
     {

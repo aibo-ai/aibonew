@@ -5,6 +5,7 @@ on:
     branches:
       - conflict_090426_1618
       - main
+      - new-design
     paths:
       - "frontend/src/**"
       - "frontend/scripts/prerender.js"

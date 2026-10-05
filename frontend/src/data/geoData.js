@@ -46,6 +46,8 @@ export const geoData = {
     { title: 'Perplexity, Gemini & ChatGPT Optimization', slug: 'perplexity-gemini-chatgpt-optimization', body: 'Platform-specific citation strategy \u2014 each engine retrieves differently, so each gets its own playbook.', stat: '300 queries per platform logged and scored at baseline' },
     { title: 'Zero-Click & Synthetic Traffic Strategy', slug: 'zero-click-search-synthetic-traffic', body: "We track an AI Visibility Index across the surfaces where commercial intent lives now that clicks aren't the whole picture.", stat: '60%+ of Google searches now end without a click' },
     { title: 'Reddit Community Seeding', slug: 'reddit-community-seeding', body: 'Reddit-led GEO \u2014 the specific platform driving over half of all social-platform AI citations right now.', stat: "Reddit = 46.7% of Perplexity's citations" },
+    { title: 'Quora & Review-Platform Content Seeding', slug: 'quora-content-seeding', body: 'Quora and review-platform presence for the comparison and decision-stage questions your buyers research before they ever reach your pricing page.', stat: '400M Quora users globally, 100M+ in India' },
+    { title: 'Wikipedia Page Creation & Management', slug: 'wikipedia-page-creation', body: 'Compliant, disclosed Wikipedia page creation and management for the single highest-authority third-party source AI systems already trust by default.', stat: "Wikipedia \u2248 47.9% of ChatGPT's top-10 source share" },
   ],
   pillarFaq: [
     { q: 'How is GEO different from SEO?', a: "SEO earns you a ranking; GEO earns you the citation inside an AI-generated answer, where there's no ranking list at all \u2014 just whichever sources the model decided to trust and quote." },

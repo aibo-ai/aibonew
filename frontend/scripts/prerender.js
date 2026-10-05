@@ -48,6 +48,8 @@ const PROD_API = process.env.PRERENDER_API_ORIGIN || "https://www.myaibo.in";
 const ORIGIN_PUBLIC = "https://www.myaibo.in";
 
 const STATIC_ROUTES = ["/", "/about", "/blogs", "/case-studies", "/contact"];
+// Any path no React Router route matches; rendered to build/404.html.
+const NOT_FOUND_PROBE = "/__prerender-not-found";
 const PILLARS = [
   "geo",
   "aeo",
@@ -152,7 +154,7 @@ function startServer() {
   });
 }
 
-async function prerenderRoute(browser, route) {
+async function prerenderRoute(browser, route, outFile) {
   const page = await browser.newPage();
   try {
     await page.goto(`${ORIGIN}${route}`, {
@@ -180,9 +182,11 @@ async function prerenderRoute(browser, route) {
       }
     }
 
-    const outDir = route === "/" ? BUILD_DIR : path.join(BUILD_DIR, route);
-    fs.mkdirSync(outDir, { recursive: true });
-    fs.writeFileSync(path.join(outDir, "index.html"), html);
+    const target =
+      outFile ||
+      path.join(route === "/" ? BUILD_DIR : path.join(BUILD_DIR, route), "index.html");
+    fs.mkdirSync(path.dirname(target), { recursive: true });
+    fs.writeFileSync(target, html);
     console.log(`[prerender] OK   ${route}`);
   } finally {
     await page.close();
@@ -244,6 +248,19 @@ async function main() {
       failures += 1;
       console.error(`[prerender] FAIL ${route}: ${err.message}`);
     }
+  }
+
+  // Static 404 page. vercel.json only rewrites real route shapes to the SPA
+  // shell, so any other path falls through to Vercel's 404 handling, which
+  // serves build/404.html with a genuine 404 status (instead of the old
+  // catch-all that answered every junk URL with 200 + the homepage shell —
+  // a soft 404). Rendered from a path no route matches, so React Router
+  // shows NotFoundPage (which also sets robots=noindex).
+  try {
+    await prerenderRoute(browser, NOT_FOUND_PROBE, path.join(BUILD_DIR, "404.html"));
+  } catch (err) {
+    failures += 1;
+    console.error(`[prerender] FAIL 404.html: ${err.message}`);
   }
 
   await browser.close();

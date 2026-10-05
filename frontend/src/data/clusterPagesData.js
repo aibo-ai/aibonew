@@ -16,7 +16,7 @@ export const pillarMeta = {
 };
 
 export const clusterPages = [
-  // ─────────────────────────── GEO (5) ───────────────────────────
+  // ─────────────────────────── GEO (6) ───────────────────────────
   {
     pillar: 'geo',
     slug: 'llmo-company',
@@ -303,10 +303,10 @@ export const clusterPages = [
       ],
     },
     relatedServices: {
-      note: 'Part of our GEO pillar. Works alongside Wikipedia Page Creation & Management (same AI-citation-source family) and Community & UGC Search Amplification (complementary — Reddit for AI-answer visibility, Quora/reviews for classic search and late-stage intent).',
+      note: 'Part of our GEO pillar. Works alongside Wikipedia Page Creation & Management (same AI-citation-source family) and Quora & Review-Platform Content Seeding (complementary — Reddit for AI-answer visibility, Quora/reviews for classic search and late-stage intent).',
       links: [
         { pillar: 'geo', cluster: 'wikipedia-page-creation', label: 'Wikipedia Page Creation & Management' },
-        { pillar: 'seo', cluster: 'community-ugc-search-amplification', label: 'Community & UGC Search Amplification' },
+        { pillar: 'geo', cluster: 'quora-content-seeding', label: 'Quora & Review-Platform Content Seeding' },
       ],
     },
     faq: [
@@ -382,9 +382,16 @@ export const clusterPages = [
       ],
     },
     geography: {
-      headline: 'Community-Led SEO from Bengaluru. Built for Buyers Who Compare Before They Buy.',
+      headline: 'Community-Led Visibility from Bengaluru. Built for Buyers Who Compare Before They Buy.',
       body: 'Our Bengaluru team runs Quora and review-platform seeding under strict content-policy compliance for SaaS, D2C, and B2B clients across India, North America, and the UK.',
       finalCta: 'Request Your Quora & Review-Platform Visibility Audit',
+    },
+    relatedServices: {
+      note: 'Part of our GEO pillar. Complements Reddit Community Seeding (Reddit for AI-answer visibility, Quora and reviews for classic search and late-stage buyer intent) and Wikipedia Page Creation & Management (the other third-party source AI systems already trust).',
+      links: [
+        { pillar: 'geo', cluster: 'reddit-community-seeding', label: 'Reddit Community Seeding' },
+        { pillar: 'geo', cluster: 'wikipedia-page-creation', label: 'Wikipedia Page Creation & Management' },
+      ],
     },
     faq: [
       { q: 'Is Quora still worth investing in if AI engines are citing it less?', a: "For AI citations specifically, less than Reddit right now; we'll say that plainly. For classic Google search and GEO citations and reaching a high-intent, high-income research audience, yes; that hasn't changed." },
@@ -464,6 +471,13 @@ export const clusterPages = [
       headline: "Wikipedia Compliance Work from Bengaluru. Built for Investors, Journalists, and AI Systems.",
       body: 'Our Bengaluru team runs notability audits and disclosed article management for listed companies, funded startups, and founders across India, North America, and the UK.',
       finalCta: 'Book Your Wikipedia Notability Assessment',
+    },
+    relatedServices: {
+      note: 'Part of our GEO pillar. Works alongside Reddit Community Seeding and Quora & Review-Platform Content Seeding, the same family of third-party sources AI systems cite by default.',
+      links: [
+        { pillar: 'geo', cluster: 'reddit-community-seeding', label: 'Reddit Community Seeding' },
+        { pillar: 'geo', cluster: 'quora-content-seeding', label: 'Quora & Review-Platform Content Seeding' },
+      ],
     },
     faq: [
       { q: 'Can you guarantee my company gets a Wikipedia page?', a: "No, and anyone who guarantees it isn't being straight with you. Wikipedia articles are reviewed and accepted by independent volunteer editors, not bought. What we guarantee is a properly sourced, policy-compliant draft that gives it the best realistic chance, and we won't take on the audit-phase work if the notability bar clearly isn't cleared." },
@@ -626,7 +640,7 @@ export const clusterPages = [
     },
   },
 
-  // ─────────────────────────── SEO (4) ───────────────────────────
+  // ─────────────────────────── SEO (3) ───────────────────────────
   {
     pillar: 'seo',
     slug: 'programmatic-seo-engine',
@@ -841,66 +855,6 @@ export const clusterPages = [
     meta: {
       title: 'AI Agent Optimization & MCP Server Setup | MyAibo SEO',
       description: 'MyAibo prepares your website for autonomous AI agents — MCP servers, machine-traversal structured data, and agentic search engine marketing built for the agent era.',
-    },
-  },
-  {
-    pillar: 'seo',
-    slug: 'community-ugc-search-amplification',
-    pillarName: 'Search Engine Optimization',
-    subLabel: 'Community & UGC Search Amplification',
-    eyebrow: 'Search Engine Optimization · Community & UGC Amplification',
-    h1: 'Reddit SEO Services and UGC Search Strategy: Dominate the Community-Led Search Results Your Buyers Actually Trust',
-    heroBody:
-      'Google and LLM citation preferences now elevate Reddit, Quora, G2, and niche forums above brand pages. MyAibo builds authentic UGC presence and Reddit SEO programs that position you favorably in the community content AI treats as high-trust evidence.',
-    primaryCta: 'Request a Community Search Presence Audit',
-    aeoBox:
-      'MyAibo builds authentic community engagement, expert positioning, and UGC/review optimization across Reddit, Quora, and review platforms — the sources Google and LLMs now weight as high-trust co-citation, without synthetic or policy-violating tactics.',
-    deepDive: {
-      question: 'Why Are Reddit Threads and G2 Reviews Outranking Your $50,000 Landing Pages for Your Most Competitive Keywords?',
-      framing:
-        "Google's Helpful Content updates reward first-hand experience content over brand-produced pages. A Reddit thread with 47 practitioners will usually beat a vendor comparison page.",
-      pillars: [
-        {
-          title: 'Reddit SEO & Community Authority Building',
-          technical:
-            'We identify relevant subreddits and high-traffic threads, then run an expert-positioning program of genuinely useful answers, original data, and AMAs — brand association as a byproduct, not the pitch.',
-          human:
-            'Ranking Reddit threads generate high-trust referral traffic for years and build outbound prospect trust.',
-        },
-        {
-          title: 'User-Generated Content Optimization & Review Platform Architecture',
-          technical:
-            'We build review solicitation workflows tied to product milestones, AggregateRating/Review schema, and optimized G2, Capterra, and Trustpilot profiles, prioritized by which platforms feed AI Overview citations.',
-          human:
-            'Well-managed review presence is increasingly a prerequisite for AI citation and lowers buyer skepticism.',
-        },
-        {
-          title: 'Community Content Intelligence & Competitive Share-of-Voice',
-          technical:
-            'We monitor Reddit, Quora, G2, and forums for brand and competitor mentions, with sentiment analysis and monthly share-of-voice reporting against your top 3 competitors.',
-          human:
-            'Gives product and marketing teams a real-time signal feed and surfaces competitor vulnerabilities.',
-        },
-      ],
-    },
-    blueprint: {
-      title: 'Our 4-Phase Community-Led SEO Framework',
-      phases: [
-        { num: 1, name: 'Community Landscape Audit', timeframe: 'Week 1', body: 'Map top platforms, high-traffic threads, and current brand sentiment vs. competitors.' },
-        { num: 2, name: 'Platform Strategy & Content Architecture', timeframe: 'Weeks 2–3', body: 'Plan subreddit engagement, review optimization, and UGC workflows.' },
-        { num: 3, name: 'Program Launch & Content Execution', timeframe: 'Weeks 4–8', body: 'Launch engagement, review solicitation, and profile optimization.' },
-        { num: 4, name: 'Share-of-Voice Monitoring & Program Scaling', timeframe: 'Ongoing', body: 'Monthly reporting and new-platform evaluation.' },
-      ],
-    },
-    geography: {
-      headline: 'Community Intelligence Operated from Bengaluru. Brand Trust Built Globally.',
-      body: 'We monitor and engage global communities across time zones, building programs that hold up to both platform scrutiny and buyer trust.',
-      finalCta: 'Book a Community-Led Search Strategy Session',
-    },
-    targetKeywords: ['UGC SEO strategy', 'community led search marketing', 'Reddit SEO services', 'user generated content optimization'],
-    meta: {
-      title: 'Reddit SEO & UGC Search Amplification | MyAibo SEO',
-      description: 'MyAibo builds authentic Reddit, Quora, and review-platform presence — the community content Google and LLMs weight as high-trust co-citation.',
     },
   },
 

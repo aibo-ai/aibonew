@@ -5,6 +5,7 @@ import MarketingServices from "@/components/sections/MarketingServices";
 import TechnologyServices from "@/components/sections/TechnologyServices";
 import WhyMyAibo from "@/components/sections/WhyMyAibo";
 import Results from "@/components/sections/Results";
+import LatestInsights from "@/components/sections/LatestInsights";
 import TickerCta from "@/components/sections/TickerCta";
 import SEO from "@/components/SEO";
 
@@ -32,6 +33,7 @@ export default function HomePage() {
         <TechnologyServices />
         <WhyMyAibo />
         <Results />
+        <LatestInsights />
         <TickerCta page="/" />
       </main>
     </>
