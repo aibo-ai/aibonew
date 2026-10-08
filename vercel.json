@@ -24,7 +24,8 @@
     { "source": "/solutions/:pillar(geo|aeo|seo|content-marketing|ai-automations|full-stack)", "destination": "/index.html" },
     { "source": "/solutions/:pillar(geo|aeo|seo|content-marketing|ai-automations|full-stack)/:cluster", "destination": "/index.html" },
     { "source": "/admin", "destination": "/index.html" },
-    { "source": "/admin/:path*", "destination": "/index.html" }
+    { "source": "/admin/:path*", "destination": "/index.html" },
+    { "source": "/((?!api/).*)", "destination": "/api/not-found" }
   ],
   "headers": [
     {
