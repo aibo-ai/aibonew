@@ -90,6 +90,16 @@ async function getBlogRoutes() {
   }
 }
 
+// Case studies bundled in src/data/caseStudiesData.js. Parsed from source for
+// the same reason as getClusterRoutes, and always present even if the CMS is down.
+function getStaticCaseStudyRoutes() {
+  const src = fs.readFileSync(
+    path.join(ROOT, "src/data/caseStudiesData.js"),
+    "utf8"
+  );
+  return [...src.matchAll(/^\s*id:\s*'([^']+)',/gm)].map(([, id]) => `/case-study/${id}`);
+}
+
 async function getCaseStudyRoutes() {
   try {
     const res = await fetch(`${PROD_API}/api/admin/public/case-studies`);
@@ -111,6 +121,7 @@ async function getRoutes() {
     ...PILLARS.map((p) => `/solutions/${p}`),
     ...getClusterRoutes(),
     ...(await getBlogRoutes()),
+    ...getStaticCaseStudyRoutes(),
     ...(await getCaseStudyRoutes()),
   ];
   return [...new Set(routes)];

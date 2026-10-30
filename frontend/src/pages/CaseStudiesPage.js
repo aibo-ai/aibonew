@@ -5,6 +5,7 @@ import SEO from '@/components/SEO';
 import SectionLabel from '@/components/sections/SectionLabel';
 import TickerCta from '@/components/sections/TickerCta';
 import { BACKEND_URL } from '@/lib/constants';
+import { STATIC_CASE_STUDIES } from '@/data/caseStudiesData';
 
 const FALLBACK_DESCRIPTION =
   'Real client outcomes across marketing and technology — GEO, AEO, SEO, content, automation, and full-stack development. See the full results.';
@@ -69,7 +70,7 @@ function CaseStudyCard({ study }) {
           <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '24px 20px' }}>
             {stats.map(([k, v], i) => (
               <div key={k}>
-                <div style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(38px, 4vw, 52px)', fontWeight: 600, lineHeight: 1, color: i % 2 === 0 ? 'var(--acc)' : '#C9B2FA' }}>{v}</div>
+                <div style={{ fontFamily: "'Fraunces', serif", fontSize: String(v).length > 6 ? 'clamp(28px, 2.8vw, 36px)' : 'clamp(38px, 4vw, 52px)', fontWeight: 600, lineHeight: 1.05, color: i % 2 === 0 ? 'var(--acc)' : '#C9B2FA' }}>{v}</div>
                 <div style={{ marginTop: 8, fontFamily: "'DM Sans'", fontSize: 14, color: 'rgba(255,255,255,.72)' }}>{metricLabel(k)}</div>
               </div>
             ))}
@@ -86,14 +87,14 @@ function CaseStudyCard({ study }) {
 }
 
 export default function CaseStudiesPage() {
-  const [caseStudies, setCaseStudies] = useState([]);
+  const [cmsCaseStudies, setCmsCaseStudies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCaseStudies = useCallback(async () => {
     try {
       const response = await fetch(`${BACKEND_URL}/admin/public/case-studies`);
       const data = await response.json();
-      setCaseStudies(Array.isArray(data) ? data : []);
+      setCmsCaseStudies(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('[CaseStudiesPage] Failed to fetch case studies:', error);
     } finally {
@@ -104,6 +105,11 @@ export default function CaseStudiesPage() {
   useEffect(() => {
     fetchCaseStudies();
   }, [fetchCaseStudies]);
+
+  // Bundled case studies render immediately (and in the prerendered HTML);
+  // CMS entries join them once the fetch lands.
+  const staticIds = new Set(STATIC_CASE_STUDIES.map((cs) => cs.id));
+  const caseStudies = [...STATIC_CASE_STUDIES, ...cmsCaseStudies.filter((cs) => !staticIds.has(String(cs.id)))];
 
   return (
     <>
@@ -146,7 +152,7 @@ export default function CaseStudiesPage() {
                 Results we can <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>show you.</em>
               </h2>
             </div>
-            {loading ? (
+            {loading && caseStudies.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>Loading case studies&hellip;</div>
             ) : caseStudies.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>No case studies available yet</div>
