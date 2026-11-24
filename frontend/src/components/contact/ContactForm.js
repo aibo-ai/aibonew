@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { CheckCircle, AlertCircle, Loader } from 'lucide-react';
 import { BACKEND_URL } from '@/lib/constants';
 import { trackLeadFormSubmit } from '@/lib/analytics';
+
+// The contact form, laid out as the "Print room" letter: a white sheet with an
+// amber stamp. Styles live in components/print/company/contact.css.
 
 const SERVICES = [
   'Generative Engine Optimization (GEO)',
@@ -15,31 +17,9 @@ const SERVICES = [
 
 const EMPTY_FORM = { name: '', email: '', company: '', service_interest: '', message: '' };
 
-const inputStyle = {
-  width: '100%',
-  padding: '12px 16px',
-  borderRadius: 8,
-  border: '1px solid var(--border-clr)',
-  fontSize: 15,
-  color: 'var(--text-primary)',
-  background: 'var(--white)',
-  outline: 'none',
-  transition: 'border-color 0.2s',
-  boxSizing: 'border-box',
-};
-
-const labelStyle = {
-  display: 'block',
-  fontSize: 13,
-  fontWeight: 600,
-  color: 'var(--text-primary)',
-  marginBottom: 6,
-};
-
-const focusHandlers = {
-  onFocus: (e) => (e.target.style.borderColor = 'var(--purple-dark)'),
-  onBlur: (e) => (e.target.style.borderColor = 'var(--border-clr)'),
-};
+function Stamp() {
+  return <img className="stamp" src="/print/company/contact-stamp.webp" width="300" height="360" loading="lazy" alt="" />;
+}
 
 export default function ContactForm() {
   const [form, setForm] = useState(EMPTY_FORM);
@@ -88,55 +68,12 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div
-        data-testid="contact-form-success"
-        style={{
-          background: 'var(--white)',
-          border: '1px solid var(--border-clr)',
-          borderRadius: 16,
-          padding: 40,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: 320,
-            textAlign: 'center',
-            gap: 16,
-          }}
-        >
-          <CheckCircle size={52} style={{ color: '#22c55e' }} />
-          <h3
-            style={{
-              fontFamily: "'Fraunces', serif",
-              fontSize: 26,
-              fontWeight: 600,
-              color: 'var(--text-primary)',
-              margin: 0,
-            }}
-          >
-            Message received.
-          </h3>
-          <p style={{ fontSize: 15, color: 'var(--text-secondary)', margin: 0, maxWidth: 320, lineHeight: 1.6 }}>
-            We'll be in touch within one business day. You can also book a call directly above.
-          </p>
-          <button
-            onClick={() => setStatus('idle')}
-            data-testid="contact-form-send-another"
-            style={{
-              marginTop: 8,
-              background: 'none',
-              border: '1px solid var(--border-clr)',
-              borderRadius: 8,
-              padding: '10px 20px',
-              fontSize: 14,
-              color: 'var(--text-secondary)',
-              cursor: 'pointer',
-            }}
-          >
+      <div className="card letter sent" data-testid="contact-form-success" role="status">
+        <Stamp />
+        <h4>Message received.</h4>
+        <p className="intro">We'll be in touch within one business day. You can also book a call directly.</p>
+        <div className="actions" style={{ marginTop: 'var(--pr-s4)' }}>
+          <button type="button" className="btn btn-ghost" onClick={() => setStatus('idle')} data-testid="contact-form-send-another">
             Send another message
           </button>
         </div>
@@ -144,117 +81,69 @@ export default function ContactForm() {
     );
   }
 
+  const loading = status === 'loading';
+
   return (
-    <div
-      data-testid="contact-form"
-      style={{
-        background: 'var(--white)',
-        border: '1px solid var(--border-clr)',
-        borderRadius: 16,
-        padding: 40,
-        boxShadow: '0 30px 60px -20px rgba(15,10,30,.18)',
-      }}
-    >
-      <h3
-        style={{
-          fontFamily: "'Fraunces', serif",
-          fontSize: 26,
-          fontWeight: 600,
-          color: 'var(--text-primary)',
-          margin: '0 0 8px',
-        }}
-      >
-        Send us a message
-      </h3>
-      <p style={{ fontSize: 14, color: 'var(--text-secondary)', margin: '0 0 16px', lineHeight: 1.6 }}>
-        Tell us about your business and what you're trying to achieve. We'll come back with a clear plan.
-      </p>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, margin: '0 0 28px', padding: '6px 12px', borderRadius: 999, background: 'var(--acc)', color: 'var(--dark)', fontSize: 12.5, fontWeight: 600 }}>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--dark)' }} />
-        We reply within one business day
-      </div>
+    <form className="card letter" onSubmit={handleSubmit} data-testid="contact-form" aria-labelledby="h-letter">
+      <Stamp />
+      <h4 id="h-letter">Send us a message</h4>
+      <p className="intro">Tell us about your business and what you're trying to achieve. We'll come back with a clear plan.</p>
+      <p className="reply">We reply within one business day</p>
 
       {status === 'error' && (
-        <div
-          data-testid="contact-form-error"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            padding: '12px 16px',
-            background: '#fef2f2',
-            border: '1px solid #fecaca',
-            borderRadius: 8,
-            marginBottom: 20,
-          }}
-        >
-          <AlertCircle size={18} style={{ color: '#ef4444', flexShrink: 0 }} />
-          <p style={{ margin: 0, fontSize: 14, color: '#dc2626' }}>{errorMsg}</p>
-        </div>
+        <p className="form-error" role="alert" data-testid="contact-form-error">{errorMsg}</p>
       )}
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-        {/* Name & Email row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label style={labelStyle}>
-              Full Name <span style={{ color: '#ef4444' }}>*</span>
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="Arjun Mehta"
-              required
-              data-testid="contact-form-name-input"
-              style={inputStyle}
-              {...focusHandlers}
-            />
-          </div>
-          <div>
-            <label style={labelStyle}>
-              Email Address <span style={{ color: '#ef4444' }}>*</span>
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="arjun@yourcompany.com"
-              required
-              data-testid="contact-form-email-input"
-              style={inputStyle}
-              {...focusHandlers}
-            />
-          </div>
-        </div>
-
-        {/* Company */}
-        <div>
-          <label style={labelStyle}>Company / Brand Name</label>
+      <div className="form">
+        <div className="field">
+          <label htmlFor="cf-name">Full Name <b>*</b></label>
           <input
+            id="cf-name"
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Arjun Mehta"
+            autoComplete="name"
+            required
+            data-testid="contact-form-name-input"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="cf-email">Email Address <b>*</b></label>
+          <input
+            id="cf-email"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="arjun@yourcompany.com"
+            autoComplete="email"
+            required
+            data-testid="contact-form-email-input"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="cf-company">Company / Brand Name</label>
+          <input
+            id="cf-company"
             type="text"
             name="company"
             value={form.company}
             onChange={handleChange}
             placeholder="Your company name"
+            autoComplete="organization"
             data-testid="contact-form-company-input"
-            style={inputStyle}
-            {...focusHandlers}
           />
         </div>
-
-        {/* Service Interest */}
-        <div>
-          <label style={labelStyle}>What are you interested in?</label>
+        <div className="field">
+          <label htmlFor="cf-interest">What are you interested in?</label>
           <select
+            id="cf-interest"
             name="service_interest"
             value={form.service_interest}
             onChange={handleChange}
             data-testid="contact-form-service-select"
-            style={{ ...inputStyle, cursor: 'pointer', appearance: 'auto' }}
-            {...focusHandlers}
           >
             <option value="">Select a service (optional)</option>
             {SERVICES.map((s) => (
@@ -262,13 +151,10 @@ export default function ContactForm() {
             ))}
           </select>
         </div>
-
-        {/* Message */}
-        <div>
-          <label style={labelStyle}>
-            Message <span style={{ color: '#ef4444' }}>*</span>
-          </label>
+        <div className="field full">
+          <label htmlFor="cf-message">Message <b>*</b></label>
           <textarea
+            id="cf-message"
             name="message"
             value={form.message}
             onChange={handleChange}
@@ -276,43 +162,15 @@ export default function ContactForm() {
             required
             rows={5}
             data-testid="contact-form-message-input"
-            style={{ ...inputStyle, resize: 'vertical', minHeight: 120 }}
-            {...focusHandlers}
           />
         </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={status === 'loading'}
-          className="btn-purple"
-          data-testid="contact-form-submit-button"
-          style={{
-            padding: '14px 28px',
-            fontSize: 15,
-            fontWeight: 500,
-            cursor: status === 'loading' ? 'not-allowed' : 'pointer',
-            opacity: status === 'loading' ? 0.8 : 1,
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 8,
-          }}
-        >
-          {status === 'loading' ? (
-            <>
-              <Loader size={16} style={{ animation: 'spin 1s linear infinite' }} />
-              Sending…
-            </>
-          ) : (
-            'Send Message'
-          )}
-        </button>
-
-        <p style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>
-          We respond to every message within one business day.
-        </p>
-      </form>
-    </div>
+        <div className="actions">
+          <button type="submit" className="btn btn-primary btn-lg" disabled={loading} data-testid="contact-form-submit-button">
+            {loading ? (<><span className="spin" aria-hidden="true" /> Sending…</>) : 'Send Message'}
+          </button>
+          <span className="note">We respond to every message within one business day.</span>
+        </div>
+      </div>
+    </form>
   );
 }

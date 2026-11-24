@@ -1,12 +1,12 @@
-import Hero from "@/components/sections/Hero";
-import TrustedByTicker from "@/components/sections/TrustedByTicker";
-import Positioning from "@/components/sections/Positioning";
-import MarketingServices from "@/components/sections/MarketingServices";
-import TechnologyServices from "@/components/sections/TechnologyServices";
-import WhyMyAibo from "@/components/sections/WhyMyAibo";
-import Results from "@/components/sections/Results";
-import LatestInsights from "@/components/sections/LatestInsights";
-import TickerCta from "@/components/sections/TickerCta";
+import HomeHero from "@/components/sections/home/HomeHero";
+import HomePractice from "@/components/sections/home/HomePractice";
+import HomeMarketing from "@/components/sections/home/HomeMarketing";
+import HomeTechnology from "@/components/sections/home/HomeTechnology";
+import HomeWhy from "@/components/sections/home/HomeWhy";
+import HomeResults from "@/components/sections/home/HomeResults";
+import HomeInsights from "@/components/sections/home/HomeInsights";
+import HomeCta from "@/components/sections/home/HomeCta";
+import "@/components/sections/home/home.css";
 import SEO from "@/components/SEO";
 
 export default function HomePage() {
@@ -25,16 +25,15 @@ export default function HomePage() {
           'answer engine optimization',
         ]}
       />
-      <main>
-        <Hero />
-        <TrustedByTicker />
-        <Positioning />
-        <MarketingServices />
-        <TechnologyServices />
-        <WhyMyAibo />
-        <Results />
-        <LatestInsights />
-        <TickerCta page="/" />
+      <main className="ph">
+        <HomeHero />
+        <HomePractice />
+        <HomeMarketing />
+        <HomeTechnology />
+        <HomeWhy />
+        <HomeResults />
+        <HomeInsights />
+        <HomeCta />
       </main>
     </>
   );

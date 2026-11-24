@@ -1,0 +1,125 @@
+/* Solutions pillar pages (/solutions/:slug), "Print room" design.
+   Shared rules under .pr.pg-pillar; each pillar's printed hero figure and
+   "Why this matters" layout under .pr.pl-<slug>. */
+
+/* ── shared ── */
+.pr.pg-pillar .hero-row{margin-top:var(--pr-s4);row-gap:var(--pr-s5)}
+.pr.pg-pillar .hero-copy{min-width:0}
+.pr.pg-pillar .hero .display{margin-top:var(--pr-s2)}
+.pr.pg-pillar .hero figure{margin:0}
+.pr.pg-pillar .audit-card{margin-top:var(--pr-s6)}
+.pr.pg-pillar .audit-card .audit-stats{margin-top:0}
+.pr.pg-pillar .audit-bars-title{margin-top:var(--pr-s6);font-size:15px;font-weight:500}
+
+/* ── GEO: ripple rings from one amber dot; numbers sit on their own rings ── */
+.pr.pl-geo .hero-row{align-items:center}
+.pr.pl-geo .hero-copy{grid-column:1/span 6}
+.pr.pl-geo .rings{grid-column:7/span 6;min-width:0;position:relative}
+.pr.pl-geo .rings img{width:100%;height:auto;display:block}
+.pr.pl-geo .rings .bigstat{position:absolute;left:0;bottom:0}
+.pr.pl-geo .rings .bigstat .stat-n{color:var(--pr-accent)}
+.pr.pl-geo .ring-four{margin-top:var(--pr-s6);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--pr-gutter)}
+.pr.pl-geo .ring{aspect-ratio:1;border-radius:50%;border:3px solid var(--pr-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12%;min-width:0}
+.pr.pl-geo .ring:nth-child(2){border-width:6px}
+.pr.pl-geo .ring:nth-child(3){border-width:12px}
+.pr.pl-geo .ring:nth-child(4){border:0;background:var(--pr-accent);color:var(--pr-white)}
+.pr.pl-geo .ring:nth-child(4) .stat-c{color:var(--pr-white)}
+.pr.pl-geo .ring .stat-n{font-size:clamp(32px,3vw,44px)}
+.pr.pl-geo .ring .stat-c{font-size:13px;max-width:18ch}
+
+/* ── AEO: an answer box lifted above faded result rows; numbers as answer boxes ── */
+.pr.pl-aeo .hero-row{align-items:center}
+.pr.pl-aeo .hero-copy{grid-column:1/span 6}
+.pr.pl-aeo .zero{grid-column:7/span 6;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center}
+.pr.pl-aeo .zero img{width:min(440px,100%);height:auto}
+.pr.pl-aeo .zero .bigstat{margin-top:var(--pr-s2);text-align:center;align-items:center}
+.pr.pl-aeo .zero .bigstat .stat-n{color:var(--pr-accent)}
+.pr.pl-aeo .zero .bigstat .stat-c{max-width:28ch}
+.pr.pl-aeo .boxes{margin-top:var(--pr-s6);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--pr-gutter)}
+.pr.pl-aeo .box{padding:var(--pr-s4);border-radius:var(--pr-r-sm);background:var(--pr-white);box-shadow:0 1px 2px var(--pr-shadow),0 14px 32px var(--pr-shadow-soft);display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--pr-s3);align-items:center;min-width:0}
+.pr.pl-aeo .box .stat-n{font-size:clamp(36px,3.4vw,52px);color:var(--pr-accent)}
+.pr.pl-aeo .box .stat-c{margin:0;color:var(--pr-muted-light)}
+.pr.pl-aeo .box .n{grid-column:1/-1;color:var(--pr-muted-light)}
+
+/* ── SEO: ink strata; the four numbers climb the layers ── */
+.pr.pl-seo .hero-row{align-items:end;row-gap:var(--pr-s4)}
+.pr.pl-seo .hero-copy{grid-column:1/span 7}
+.pr.pl-seo .hero-big{grid-column:9/span 4;min-width:0}
+.pr.pl-seo .hero-big .stat-n{font-size:clamp(56px,6vw,88px);color:var(--pr-accent)}
+.pr.pl-seo .strata{position:relative;margin-top:var(--pr-s6)}
+.pr.pl-seo .strata img{width:100%;height:auto;display:block}
+.pr.pl-seo .strata-in{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:end;padding:0 var(--pr-pad) 5%;column-gap:var(--pr-gutter)}
+.pr.pl-seo .strata-in .stat{color:var(--pr-white);padding-bottom:calc(var(--k) * 9%);min-width:0}
+.pr.pl-seo .strata-in .stat-n{color:var(--pr-white);margin-top:var(--pr-s1)}
+.pr.pl-seo .strata-in .stat-c,.pr.pl-seo .strata-in .n{color:var(--pr-white)}
+
+/* ── Content Marketing: three overprinted sheets; numbers as four sheets ── */
+.pr.pl-content-marketing .hero-row{align-items:start}
+.pr.pl-content-marketing .hero-copy{grid-column:1/span 7;padding-top:var(--pr-s5)}
+.pr.pl-content-marketing .lobes{grid-column:9/span 4;min-width:0;position:relative}
+.pr.pl-content-marketing .lobes img{width:100%;height:auto;display:block}
+.pr.pl-content-marketing .lobes .bigstat{margin-top:var(--pr-s3)}
+.pr.pl-content-marketing .lobes .bigstat .stat-n{color:var(--pr-accent)}
+.pr.pl-content-marketing .sheets{margin-top:var(--pr-s6);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--pr-gutter)}
+.pr.pl-content-marketing .sheet{background:var(--pr-white);padding:var(--pr-s4);min-height:260px;min-width:0;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 1px 2px var(--pr-shadow),0 14px 32px var(--pr-shadow-soft)}
+.pr.pl-content-marketing .sheet .stat-n{color:var(--pr-accent)}
+.pr.pl-content-marketing .sheet .stat-c,.pr.pl-content-marketing .sheet .n{color:var(--pr-muted-light)}
+
+/* ── AI Automation: a 24/7 dial; three numbers under coloured rules ── */
+.pr.pl-ai-automations .hero-row{align-items:end}
+.pr.pl-ai-automations .hero-copy{grid-column:1/span 6}
+.pr.pl-ai-automations .dial{grid-column:7/span 6;min-width:0;position:relative}
+.pr.pl-ai-automations .dial img{width:100%;height:auto;display:block}
+.pr.pl-ai-automations .dial .bigstat{margin:var(--pr-s3) auto 0;align-items:center;text-align:center}
+.pr.pl-ai-automations .dial .bigstat .stat-n{color:var(--pr-accent)}
+.pr.pl-ai-automations .arc{margin-top:var(--pr-s6);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--pr-s5) var(--pr-s6);align-items:start}
+.pr.pl-ai-automations .arc .stat{padding-top:var(--pr-s3);border-top:6px solid var(--pr-plum);min-width:0}
+.pr.pl-ai-automations .arc .stat:nth-child(2){border-top-color:var(--pr-accent)}
+.pr.pl-ai-automations .arc .stat:nth-child(3){border-top-color:var(--pr-amber)}
+.pr.pl-ai-automations .arc .stat-n{margin-top:var(--pr-s1)}
+
+/* ── Full Stack: a block-print building; numbers stacked as floors ── */
+.pr.pl-full-stack .hero-row{align-items:start}
+.pr.pl-full-stack .hero-copy{grid-column:1/span 7;padding-top:var(--pr-s5)}
+.pr.pl-full-stack .bld{grid-column:9/span 4;min-width:0;position:relative}
+.pr.pl-full-stack .bld img{width:100%;height:auto;display:block}
+.pr.pl-full-stack .bld .bigstat{margin-top:var(--pr-s3)}
+.pr.pl-full-stack .bld .bigstat .stat-n{color:var(--pr-accent)}
+.pr.pl-full-stack .floors{margin-top:var(--pr-s6);display:grid;grid-template-columns:minmax(0,1fr)}
+.pr.pl-full-stack .floor{display:grid;grid-template-columns:80px minmax(0,2fr) minmax(0,3fr);gap:var(--pr-gutter);align-items:center;padding:var(--pr-s4);color:var(--pr-white)}
+.pr.pl-full-stack .floor:nth-child(1){background:var(--pr-accent)}
+.pr.pl-full-stack .floor:nth-child(2){background-color:var(--pr-plum)}
+.pr.pl-full-stack .floor:nth-child(3){background:var(--pr-grey);color:var(--pr-midnight)}
+.pr.pl-full-stack .floor:nth-child(4){background-color:var(--pr-midnight)}
+.pr.pl-full-stack .floor .n{color:var(--pr-white)}
+.pr.pl-full-stack .floor .stat-n{font-size:clamp(36px,3.4vw,52px)}
+.pr.pl-full-stack .floor .stat-c{color:var(--pr-white);max-width:40ch;margin:0}
+.pr.pl-full-stack .floor:nth-child(3) .n,.pr.pl-full-stack .floor:nth-child(3) .stat-c{color:var(--pr-midnight)}
+
+@media (max-width:900px){
+  .pr.pg-pillar .hero-copy,
+  .pr.pl-geo .rings,.pr.pl-aeo .zero,.pr.pl-seo .hero-big,.pr.pl-content-marketing .lobes,
+  .pr.pl-ai-automations .dial,.pr.pl-full-stack .bld{grid-column:1/-1}
+  .pr.pl-geo .rings .bigstat{position:static;margin-top:var(--pr-s3)}
+  .pr.pl-geo .ring-four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pr.pl-aeo .boxes{grid-template-columns:minmax(0,1fr)}
+  .pr.pl-seo .strata-in{position:static;grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--pr-s4);padding:var(--pr-s4) 0 0}
+  .pr.pl-seo .strata-in .stat{color:var(--pr-ink);padding-bottom:0}
+  .pr.pl-seo .strata-in .stat-n,.pr.pl-seo .strata-in .n{color:var(--pr-ink)}
+  .pr.pl-seo .strata-in .stat-c{color:var(--pr-ink-muted)}
+  .pr.pl-content-marketing .lobes{width:min(360px,80%)}
+  .pr.pl-content-marketing .sheets{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pr.pl-ai-automations .arc{grid-template-columns:minmax(0,1fr)}
+  .pr.pl-full-stack .bld{width:min(320px,70%)}
+  .pr.pl-full-stack .floor{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  .pr.pl-geo .ring-four{gap:var(--pr-s2)}
+  .pr.pl-geo .ring{padding:8%}
+  .pr.pl-geo .ring:nth-child(3){border-width:8px}
+  .pr.pl-geo .ring .stat-c{line-height:1.35}
+  .pr.pl-geo .ring .stat-n{font-size:clamp(24px,7vw,32px)}
+  .pr.pl-geo .ring .stat-c{font-size:12px}
+  .pr.pl-content-marketing .sheets{grid-template-columns:minmax(0,1fr)}
+  .pr.pl-content-marketing .sheet{min-height:0;gap:var(--pr-s3)}
+}

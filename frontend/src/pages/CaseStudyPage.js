@@ -1,10 +1,37 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Building2, ArrowLeft } from 'lucide-react';
 import SEO from '@/components/SEO';
-import SectionLabel from '@/components/sections/SectionLabel';
-import TickerCta from '@/components/sections/TickerCta';
+import { PrintPage, Crumb, SecHead, Statement, CtaSection } from '@/components/print';
+import {
+  metricLabel,
+  splitMetrics,
+  paragraphs,
+  proseAndBullets,
+  toStep,
+  beforeAfter,
+} from '@/components/print/company/caseStudy';
 import { BACKEND_URL } from '@/lib/constants';
+import '@/components/print/company/cases.css';
+import '@/components/print/company/shared.css';
+
+function ArrowLeft() {
+  return <svg className="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4" /></svg>;
+}
+
+// "What we did": leading untitled paragraphs introduce the work, the rest are
+// numbered steps (a short first line without a full stop becomes the step title).
+function splitSolution(text) {
+  const all = paragraphs(text).map(toStep);
+  let i = 0;
+  while (i < all.length && !all[i].title) i += 1;
+  let intro = all.slice(0, i).map((s) => s.body);
+  let steps = all.slice(i);
+  if (steps.length === 0 && intro.length > 2) {
+    steps = intro.slice(1).map((body) => ({ title: '', body }));
+    intro = intro.slice(0, 1);
+  }
+  return { intro, steps };
+}
 
 export default function CaseStudyPage() {
   const { id } = useParams();
@@ -38,30 +65,30 @@ export default function CaseStudyPage() {
 
   if (loading) {
     return (
-      <main className="hero-dotgrid" style={{ minHeight: '60vh' }}>
-        <div style={{ textAlign: 'center', padding: '140px 20px', fontFamily: "'DM Sans'", color: 'var(--text-muted)' }}>Loading&hellip;</div>
-      </main>
+      <PrintPage className="pg-case">
+        <section className="pr-state" role="status">
+          <div className="wrap"><p className="lead">Loading&hellip;</p></div>
+        </section>
+      </PrintPage>
     );
   }
 
   if (error || !study) {
     return (
-      <main className="hero-dotgrid">
-        <div className="mx-auto flex flex-col items-center" style={{ maxWidth: 640, padding: '120px 32px 140px', textAlign: 'center', gap: 18 }}>
-          <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', borderRadius: 5, background: 'var(--acc)', color: 'var(--dark)' }}>404</span>
-          <h1 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(34px,4vw,48px)', lineHeight: 1.1, letterSpacing: '-1.3px' }}>
-            Case study <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>not found.</em>
-          </h1>
-          <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 17, color: 'var(--text-secondary)' }}>It may have moved or been unpublished.</p>
-          <Link to="/case-studies" className="inline-flex items-center" style={{ marginTop: 8, gap: 8, padding: '14px 24px', borderRadius: 8, background: 'var(--purple)', color: '#fff', fontFamily: "'DM Sans'", fontWeight: 600, fontSize: 15, textDecoration: 'none' }}>
-            <ArrowLeft size={16} /> Back to case studies
-          </Link>
-        </div>
-      </main>
+      <PrintPage className="pg-case">
+        <section className="pr-state" aria-labelledby="h-nf">
+          <div className="wrap">
+            <p className="kicker">404</p>
+            <h1 className="display" id="h-nf">Case study not found.</h1>
+            <p className="lead">It may have moved or been unpublished.</p>
+            <div className="actions">
+              <Link className="btn btn-primary btn-lg" to="/case-studies">Back to case studies</Link>
+            </div>
+          </div>
+        </section>
+      </PrintPage>
     );
   }
-
-  const metrics = study.metrics && typeof study.metrics === 'object' ? Object.entries(study.metrics) : [];
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -80,11 +107,14 @@ export default function CaseStudyPage() {
     mainEntityOfPage: { '@type': 'WebPage', '@id': `https://www.myaibo.in/case-study/${id}` },
   };
 
-  const headline = metrics.filter(([k]) => k !== 'timeframe');
-  const timeframe = study.metrics && study.metrics.timeframe;
-  const pill = (text, amber) => (
-    <span style={{ padding: '4px 10px', fontFamily: "'DM Sans'", fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderRadius: 5, background: amber ? 'var(--acc)' : 'var(--purple-light)', color: amber ? 'var(--dark)' : 'var(--purple-dark)' }}>{text}</span>
-  );
+  const { stats, timeframe } = splitMetrics(study.metrics);
+  const discs = beforeAfter(stats);
+  const challenge = paragraphs(study.challenge);
+  const solution = splitSolution(study.solution);
+  const outcome = proseAndBullets(study.result);
+  const hasOutcome = outcome.prose.length > 0 || outcome.bullets.length > 0 || Boolean(study.content);
+  const kicker = [study.industry, study.service].filter(Boolean).join(' · ');
+  const page = `/case-study/${id}`;
 
   return (
     <>
@@ -95,107 +125,135 @@ export default function CaseStudyPage() {
         image={study.featured_image}
       />
       <script type="application/ld+json">{JSON.stringify(structuredData)}</script>
-      <main>
-        {/* ── HERO ── */}
-        <section className="relative hero-dotgrid" style={{ padding: '40px 32px 88px' }}>
-          <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 44 }}>
-            <nav aria-label="Breadcrumb" className="flex flex-wrap" style={{ gap: 8, fontFamily: "'DM Sans'", fontWeight: 500, fontSize: 13, color: 'var(--text-muted)' }}>
-              <Link to="/" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Home</Link>
-              <span>/</span>
-              <Link to="/case-studies" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Case Studies</Link>
-              <span>/</span>
-              <span style={{ color: 'var(--text-primary)' }}>{study.client || study.title}</span>
-            </nav>
-            <div className="flex flex-col" style={{ maxWidth: 900, gap: 22 }}>
-              <div className="flex flex-wrap" style={{ gap: 8 }}>
-                {study.industry && pill(study.industry, true)}
-                {study.service && pill(study.service, false)}
+      <PrintPage className="pg-case">
+        {/* Hero: the headline beside two printed discs (or the study's own image) */}
+        <section className="hero-cd" aria-labelledby="h-hero">
+          <div className="wrap">
+            <Crumb items={[{ label: 'Home', to: '/' }, { label: 'Case studies', to: '/case-studies' }, { label: study.industry || study.client || study.title }]} />
+            <div className="row">
+              <div className="hero-copy">
+                {kicker && <p className="kicker">{kicker}</p>}
+                <h1 className="display" id="h-hero">{study.title}</h1>
+                {study.excerpt && <p className="lead">{study.excerpt}</p>}
+                <dl className="meta">
+                  {study.industry && <div><dt>Industry</dt><dd>{study.industry}</dd></div>}
+                  {study.service && <div><dt>Service</dt><dd>{study.service}</dd></div>}
+                  <div><dt>Client</dt><dd>{study.client || 'Confidential'}</dd></div>
+                </dl>
               </div>
-              <h1 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 600, fontSize: 'clamp(34px,4.6vw,58px)', lineHeight: 1.1, letterSpacing: '-1.8px' }}>{study.title}</h1>
-              {study.excerpt && <p style={{ margin: 0, maxWidth: 720, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 19, lineHeight: 1.6, color: 'var(--text-secondary)' }}>{study.excerpt}</p>}
-              {study.client && (
-                <div className="flex items-center" style={{ gap: 8, fontFamily: "'DM Sans'", fontSize: 14, color: 'var(--text-muted)' }}>
-                  <Building2 size={15} /> <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{study.client}</span>
-                </div>
-              )}
+              <figure className="discs">
+                {study.featured_image ? (
+                  <img className="photo" src={study.featured_image} alt={study.title} />
+                ) : (
+                  <>
+                    <img
+                      className="print"
+                      src="/print/company/case-discs.webp"
+                      width="1300"
+                      height="760"
+                      alt={discs ? `A small grey disc and a purple disc twice its size: ${discs.a} to ${discs.b}.` : 'A small grey disc and a purple disc twice its size.'}
+                    />
+                    {discs && (
+                      <>
+                        <span className="lab a" aria-hidden="true">{discs.a}</span>
+                        <span className="lab b" aria-hidden="true">{discs.b}</span>
+                      </>
+                    )}
+                  </>
+                )}
+              </figure>
             </div>
           </div>
         </section>
 
-        {study.featured_image && (
-          <div style={{ padding: '0 32px', background: 'linear-gradient(var(--off-white) 50%, #fff 50%)' }}>
-            <img src={study.featured_image} alt={study.title} className="mx-auto" style={{ display: 'block', width: '100%', maxWidth: 1180, maxHeight: 520, aspectRatio: '1.875 / 1', objectFit: 'cover', borderRadius: 20, boxShadow: '0 30px 60px -20px rgba(15,10,30,.25)' }} />
-          </div>
-        )}
-
-        {/* ── KEY RESULTS ── */}
-        {headline.length > 0 && (
-          <section style={{ padding: '88px 32px', background: '#fff', borderTop: '1px solid var(--border-clr)' }}>
-            <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 32 }}>
-              <div>
-                <SectionLabel text="Key results" amber />
-                <h2 style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(30px,3.6vw,44px)', lineHeight: 1.1, letterSpacing: '-1.3px' }}>
-                  The numbers{timeframe ? <>, <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}>in {timeframe}.</em></> : <em style={{ color: 'var(--purple-dark)', fontStyle: 'normal' }}> that moved.</em>}
-                </h2>
-              </div>
-              <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 1, background: 'var(--border-clr)', border: '1px solid var(--border-clr)', borderRadius: 16, overflow: 'hidden' }}>
-                {headline.map(([key, value], i) => {
-                  const amber = i % 2 === 1;
-                  return (
-                    <div key={key} style={{ background: amber ? 'var(--acc)' : '#fff', padding: '30px 26px', minWidth: 0 }}>
-                      <div style={{ fontFamily: "'Fraunces', serif", fontSize: String(value).length > 10 ? 'clamp(24px,2.6vw,32px)' : 'clamp(40px,4.4vw,56px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-1px', color: amber ? 'var(--dark)' : 'var(--purple-dark)', overflowWrap: 'break-word' }}>{String(value)}</div>
-                      <div style={{ marginTop: 10, fontFamily: "'DM Sans'", fontSize: 14.5, color: amber ? 'var(--dark)' : 'var(--text-secondary)', textTransform: 'capitalize' }}>{key.replace(/_/g, ' ')}</div>
-                    </div>
-                  );
-                })}
+        {/* Results: the headline metrics */}
+        {stats.length > 0 && (
+          <section className="sec paper-white" id="results" aria-labelledby="h-results">
+            <div className="wrap">
+              <SecHead id="h-results" name="Results" lead="The numbers," pay={timeframe ? `in ${timeframe}.` : 'that moved.'} />
+              <div className="results4">
+                {stats.map(([k, v]) => (
+                  <div className="stat" key={k}>
+                    <p className="stat-n">{v}</p>
+                    <p className="stat-c">{metricLabel(k)}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
         )}
 
-        {/* ── CHALLENGE (dark) ── */}
-        {study.challenge && (
-          <section style={{ padding: '96px 32px', background: 'var(--dark)', color: '#fff' }}>
-            <div className="mx-auto grid" style={{ maxWidth: 1180, gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: 48 }}>
-              <div>
-                <SectionLabel text="The challenge" dark amber />
-                <div style={{ fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 40, lineHeight: 1.05, fontStyle: 'italic', color: 'var(--acc)' }}>Where it stood.</div>
+        {/* The challenge */}
+        {challenge.length > 0 && (
+          <section className="sec" id="challenge" aria-labelledby="h-ch">
+            <div className="wrap">
+              <div className="row">
+                <h2 className="sec-name side" id="h-ch">The challenge</h2>
+                <div className="main">
+                  <h3 className="statement">Where it stood.</h3>
+                  <div className="cs-prose">
+                    {challenge.map((p, i) => <p key={i}>{p}</p>)}
+                  </div>
+                </div>
               </div>
-              <p style={{ gridColumn: 'span 2', margin: 0, maxWidth: 820, fontFamily: "'Fraunces', serif", fontWeight: 300, fontSize: 'clamp(21px,2.2vw,28px)', lineHeight: 1.45, whiteSpace: 'pre-line' }}>{study.challenge}</p>
             </div>
           </section>
         )}
 
-        {/* ── SOLUTION + RESULT ── */}
-        {(study.solution || study.result || study.content) && (
-          <section style={{ padding: '96px 32px 104px' }}>
-            <div className="mx-auto flex flex-col" style={{ maxWidth: 1180, gap: 40 }}>
-              <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: 20 }}>
-                {study.solution && (
-                  <div className="flex flex-col" style={{ background: '#fff', border: '1px solid var(--border-clr)', borderRadius: 20, padding: 'clamp(26px,3.5vw,38px)', gap: 16 }}>
-                    <SectionLabel text="The solution" />
-                    <p style={{ margin: 0, fontFamily: "'DM Sans'", fontWeight: 300, fontSize: 17, lineHeight: 1.75, color: 'var(--text-primary)', whiteSpace: 'pre-line' }}>{study.solution}</p>
-                  </div>
-                )}
-                {study.result && (
-                  <div className="flex flex-col" style={{ background: 'var(--acc)', border: '1px solid var(--acc)', borderRadius: 20, padding: 'clamp(26px,3.5vw,38px)', gap: 16 }}>
-                    <SectionLabel text="The result" amber />
-                    <p style={{ margin: 0, fontFamily: "'Fraunces', serif", fontWeight: 400, fontSize: 20, lineHeight: 1.55, color: 'var(--dark)', whiteSpace: 'pre-line' }}>{study.result}</p>
-                  </div>
-                )}
-              </div>
-              {study.content && (
-                <article className="prose mx-auto" style={{ maxWidth: 760, fontSize: 17.5, lineHeight: 1.8, color: 'var(--text-primary)' }} dangerouslySetInnerHTML={{ __html: study.content }} />
+        {/* What we did */}
+        {(solution.intro.length > 0 || solution.steps.length > 0) && (
+          <section className="sec paper-white" id="did" aria-labelledby="h-did">
+            <div className="wrap">
+              <SecHead id="h-did" name="What we did" lead="The" pay="solution">
+                {solution.intro.map((p, i) => <p className="intro" key={i}>{p}</p>)}
+              </SecHead>
+              {solution.steps.length > 0 && (
+                <div className="steps">
+                  {solution.steps.map((s, i) => (
+                    <article className="step" key={i}>
+                      <p className="n">{String(i + 1).padStart(2, '0')}</p>
+                      {s.title && <h4>{s.title}</h4>}
+                      <p>{s.body}</p>
+                    </article>
+                  ))}
+                </div>
               )}
-              <Link to="/case-studies" className="self-start inline-flex items-center" style={{ gap: 6, fontFamily: "'DM Sans'", fontSize: 14, fontWeight: 600, color: 'var(--purple-dark)', textDecoration: 'none' }}>
-                <ArrowLeft size={15} /> All case studies
-              </Link>
             </div>
           </section>
         )}
 
-        <TickerCta page={`/case-study/${id}`} />
-      </main>
+        {/* Outcome */}
+        <section className="sec" id="outcome" aria-labelledby={hasOutcome ? 'h-outc' : undefined}>
+          <div className="wrap">
+            {hasOutcome && (
+              <>
+                <div className="row">
+                  <h2 className="sec-name side" id="h-outc">Outcome</h2>
+                  <div className="main"><Statement lead="The" pay="result" /></div>
+                </div>
+                {outcome.prose.length > 0 && (
+                  <div className="cs-prose">
+                    {outcome.prose.map((p, i) => <p key={i}>{p}</p>)}
+                  </div>
+                )}
+                {outcome.bullets.length > 0 && (
+                  <ul className="bul">
+                    {outcome.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                  </ul>
+                )}
+                {study.content && (
+                  <article className="prose cs-body" dangerouslySetInnerHTML={{ __html: study.content }} />
+                )}
+              </>
+            )}
+            <p className="back">
+              <Link className="link" to="/case-studies"><ArrowLeft /> All case studies</Link>
+            </p>
+          </div>
+        </section>
+
+        <CtaSection page={page} />
+      </PrintPage>
     </>
   );
 }
