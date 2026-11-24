@@ -4,6 +4,7 @@ import SEO from '@/components/SEO';
 import { PrintPage, Crumb, SecHead, CtaSection, ArrowRight } from '@/components/print';
 import { metricLabel, splitMetrics, headlineOf } from '@/components/print/company/caseStudy';
 import { BACKEND_URL } from '@/lib/constants';
+import { STATIC_CASE_STUDIES } from '@/data/caseStudiesData';
 import '@/components/print/company/cases.css';
 
 const FALLBACK_DESCRIPTION =
@@ -60,14 +61,14 @@ function CaseStudyCard({ study }) {
 }
 
 export default function CaseStudiesPage() {
-  const [caseStudies, setCaseStudies] = useState([]);
+  const [cmsCaseStudies, setCmsCaseStudies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchCaseStudies = useCallback(async () => {
     try {
       const response = await fetch(`${BACKEND_URL}/admin/public/case-studies`);
       const data = await response.json();
-      setCaseStudies(Array.isArray(data) ? data : []);
+      setCmsCaseStudies(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('[CaseStudiesPage] Failed to fetch case studies:', error);
     } finally {
@@ -78,6 +79,11 @@ export default function CaseStudiesPage() {
   useEffect(() => {
     fetchCaseStudies();
   }, [fetchCaseStudies]);
+
+  // Bundled case studies render immediately (and in the prerendered HTML);
+  // CMS entries join them once the fetch lands.
+  const staticIds = new Set(STATIC_CASE_STUDIES.map((cs) => cs.id));
+  const caseStudies = [...STATIC_CASE_STUDIES, ...cmsCaseStudies.filter((cs) => !staticIds.has(String(cs.id)))];
 
   return (
     <>
@@ -101,7 +107,7 @@ export default function CaseStudiesPage() {
         <section className="sec paper-white" id="work" aria-labelledby="h-work">
           <div className="wrap">
             <SecHead id="h-work" name="Client work" lead="Results we can" pay="show you." />
-            {loading ? (
+            {loading && caseStudies.length === 0 ? (
               <p className="empty" role="status">Loading case studies&hellip;</p>
             ) : caseStudies.length === 0 ? (
               <p className="empty">No case studies available yet</p>

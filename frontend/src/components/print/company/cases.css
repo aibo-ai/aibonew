@@ -69,3 +69,8 @@
   .pr.pg-case .steps{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:600px){.pr.pg-case .insight{padding:var(--pr-s4) var(--pr-s3)}}
+.pr.pg-case .client-line{margin-top:var(--pr-s1);font-size:16px;font-weight:500;color:var(--pr-accent)}
+.pr.pg-case .stack{margin-top:var(--pr-s6)}
+.pr.pg-case .stack h4{font-size:13px;font-weight:500;color:var(--pr-ink-muted)}
+.pr.pg-case .stack ul{margin-top:var(--pr-s2);display:flex;flex-wrap:wrap;gap:var(--pr-s1)}
+.pr.pg-case .stack li{padding:8px 14px;border:1px solid var(--pr-line);border-radius:var(--pr-r-pill);background:var(--pr-white);font-size:14px}

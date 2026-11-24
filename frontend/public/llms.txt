@@ -18,6 +18,13 @@
 - [Blog](https://www.myaibo.in/blogs): Insights on GEO, AEO, SEO, and AI marketing.
 - [Contact](https://www.myaibo.in/contact): Get in touch.
 
+## Case Studies
+
+- [Transport Management System Software: Domain Authority Doubled in 9 Months](https://www.myaibo.in/case-study/tms-software-seo-domain-authority): SEO and digital PR took Domain Authority from 7 to 14 and produced 74 organic leads and 10 SQLs in one quarter.
+- [Consumer Healthcare: A Gamified Kids' App Without an 18-Month ML Build](https://www.myaibo.in/case-study/consumer-healthcare-gamified-wound-care-app): A paediatric wound-care app rebuilt to ship with zero live AI calls, which took 12 to 18 months of ML work off the plan.
+- [FMCG: Real-Time Sentiment on 500K+ Daily Mentions](https://www.myaibo.in/case-study/fmcg-nlp-social-listening-sentiment): An NLP social listening tool with 89% classification accuracy that cut insight-to-decision time from weeks to hours.
+- [Payroll Technology: A Community Map for the Move Upmarket](https://www.myaibo.in/case-study/payroll-technology-eor-community-strategy): 100+ LinkedIn groups and Reddit communities scored to reach enterprise EOR buyers in North America.
+
 ## Optional
 
 - [Sitemap](https://www.myaibo.in/sitemap.xml): Full list of indexable pages.
